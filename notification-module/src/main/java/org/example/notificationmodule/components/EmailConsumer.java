@@ -5,9 +5,9 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class KafkaConsumerComponent {
+public class EmailConsumer {
 
-    @KafkaListener(topics = "initialTopic", groupId = "aaa")
+    @KafkaListener(topics = "send-email", groupId = "aaa")
     public void listenGroupAaa(String message) {
         System.out.println("Received Message in group aaa: " + message);
     }
