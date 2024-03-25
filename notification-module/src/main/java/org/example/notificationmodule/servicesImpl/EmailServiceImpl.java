@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -27,7 +29,18 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public void sendHtmlEmail() throws MessagingException {
+    public void sendEmailToMany(List<String> to, String subject, String body) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to.toArray(new String[0]));
+        message.setSubject(subject);
+        message.setText(body);
+
+        mailSender.send(message);
+    }
+
+
+    @Override
+    public void sendHtmlEmail(String receiverMail, String Subject, String htmlTemplate) throws MessagingException {
         MimeMessage message = mailSender.createMimeMessage();
 
         try {
@@ -36,24 +49,24 @@ public class EmailServiceImpl implements EmailService {
             throw new RuntimeException(e);
         }
         try {
-            message.setRecipients(MimeMessage.RecipientType.TO, "ahmedamine.romdnani@esprit.tn");
+            message.setRecipients(MimeMessage.RecipientType.TO, receiverMail);
         } catch (jakarta.mail.MessagingException e) {
             throw new RuntimeException(e);
         }
         try {
-            message.setSubject("Test email from Spring");
+            message.setSubject(Subject);
         } catch (jakarta.mail.MessagingException e) {
             throw new RuntimeException(e);
         }
 
-        String htmlContent = "<h1>This is a test Spring Boot email</h1>" +
-                "<p>It can contain <strong>HTML</strong> content.</p>";
+
         try {
-            message.setContent(htmlContent, "text/html; charset=utf-8");
+            message.setContent(htmlTemplate, "text/html; charset=utf-8");
         } catch (jakarta.mail.MessagingException e) {
             throw new RuntimeException(e);
         }
 
         mailSender.send(message);
     }
+
 }
