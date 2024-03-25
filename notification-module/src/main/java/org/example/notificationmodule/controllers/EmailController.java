@@ -11,6 +11,9 @@ public class EmailController {
 
     @Autowired
     private EmailService emailService;
+
+    public String htmlTemplate = "<h1>This is a test Spring Boot email</h1>" +
+            "<p>It can contain <strong>HTML</strong> content.</p>";
     @PostMapping("/email")
     public String publishMessage(@RequestParam String receiverMail)
     {
@@ -21,7 +24,7 @@ public class EmailController {
     @PostMapping("/emailhtml")
     public String publishMessageHtml(@RequestParam String receiverMail)
     {
-        emailService.sendHtmlEmail();
+        emailService.sendHtmlEmail(receiverMail, "html test mail", htmlTemplate);
         return String.format("Message sent successfully to %s", receiverMail);
     }
 
