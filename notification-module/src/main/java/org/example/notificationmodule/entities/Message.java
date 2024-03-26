@@ -1,0 +1,23 @@
+package org.example.notificationmodule.entities;
+
+
+import jakarta.persistence.Id;
+import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Data // Lombok annotation to get rid of most boilerplate code like : getters, setters, equals, toString ....
+@Document
+public class Message implements Serializable {
+
+    @Id
+    private Long messageId;
+
+    private String content;
+    private LocalDateTime sentDate;
+    private String receiverId;
+
+}
