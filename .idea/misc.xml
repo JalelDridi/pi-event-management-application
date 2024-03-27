@@ -9,4 +9,7 @@
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />
   </component>
+  <component name="ProjectType">
+    <option name="id" value="jpab" />
+  </component>
 </project>
