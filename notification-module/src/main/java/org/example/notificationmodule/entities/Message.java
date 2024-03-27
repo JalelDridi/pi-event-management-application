@@ -18,6 +18,5 @@ public class Message implements Serializable {
 
     private String content;
     private LocalDateTime sentDate;
-    private String receiverId;
 
 }
