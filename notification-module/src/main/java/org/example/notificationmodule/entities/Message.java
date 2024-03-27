@@ -1,7 +1,7 @@
 package org.example.notificationmodule.entities;
 
 
-import jakarta.persistence.Id;
+
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,7 +13,6 @@ import java.util.List;
 @Document
 public class Message implements Serializable {
 
-    @Id
     private Long messageId;
 
     private String content;

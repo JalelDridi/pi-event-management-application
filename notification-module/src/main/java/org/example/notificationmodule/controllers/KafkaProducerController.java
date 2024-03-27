@@ -12,7 +12,7 @@ public class KafkaProducerController {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    private static final String TOPIC = "initialTopic";
+    private static final String TOPIC = "send-email";
 
     @PostMapping("/publish")
     public String publishMessage(@RequestBody Person person)
