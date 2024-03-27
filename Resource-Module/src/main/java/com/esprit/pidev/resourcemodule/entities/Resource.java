@@ -15,13 +15,13 @@ public class Resource implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long resourceID;
+    private Long resourceID;
 
-    String resourceName;
+    private String resourceName;
 
-    boolean isAvailable;
-
-    Date date;
+    private Boolean isAvailable;
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "resource_type_id")
