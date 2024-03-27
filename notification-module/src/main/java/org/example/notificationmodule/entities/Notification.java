@@ -13,7 +13,7 @@ import java.io.Serializable;
 
 @Data // Lombok annotation to get rid of most boilerplate code like : getters, setters, equals, toString ....
 @AllArgsConstructor
-@Document
+@Document(collection = "notifications")
 public class Notification implements Serializable {
 
     @Transient

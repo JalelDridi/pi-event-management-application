@@ -14,4 +14,8 @@ public interface NotificationRepository extends MongoRepository<Notification, St
 
     List<Notification> findNotificationByUserIdAndIsRead(Long userId, boolean isRead);
 
+
+    // Save method to save or update Notification entity
+    @Override
+    <S extends Notification> S save(S entity);
 }

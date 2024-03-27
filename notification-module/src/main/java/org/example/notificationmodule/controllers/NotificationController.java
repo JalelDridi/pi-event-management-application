@@ -1,6 +1,7 @@
 package org.example.notificationmodule.controllers;
 
 
+import org.example.notificationmodule.dtos.NotificationDto;
 import org.example.notificationmodule.entities.Person;
 import org.example.notificationmodule.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +16,14 @@ public class NotificationController {
     @Autowired
     public NotificationService notificationService;
 
+
+
     @PostMapping("/send-notification")
-    public String publishMessage(@RequestBody Person person)
+    public String saveNotification(@RequestBody NotificationDto notificationDto)
     {
 
-        // notificationService.addNotification();
-        return "Message published successfully by the producer !";
+        notificationService.addNotification(notificationDto.getNotification(),notificationDto.getMessage());
+        return "Message saved successfully !";
     }
 
 }
