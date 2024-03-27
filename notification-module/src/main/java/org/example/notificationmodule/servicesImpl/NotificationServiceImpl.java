@@ -6,9 +6,12 @@ import org.example.notificationmodule.entities.Person;
 import org.example.notificationmodule.repositories.MessageRepository;
 import org.example.notificationmodule.repositories.NotificationRepository;
 import org.example.notificationmodule.services.NotificationService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+@Service
 public class NotificationServiceImpl implements NotificationService {
 
     private NotificationRepository notificationRepository;
