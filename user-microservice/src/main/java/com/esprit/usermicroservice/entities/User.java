@@ -1,12 +1,13 @@
 package com.esprit.usermicroservice.entities;
 
 import com.esprit.usermicroservice.enums.Role;
-import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
-@Entity
+@Document(collection = "users")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,7 +15,6 @@ import java.time.LocalDate;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String userID;
 
     private String firstName;
@@ -22,15 +22,8 @@ public class User {
     private String email;
     private String password;
 
-    @Temporal(TemporalType.DATE)
     private LocalDate dateOfBirth;
 
     private Role role;
-
-
-
-
-
-
 
 }
