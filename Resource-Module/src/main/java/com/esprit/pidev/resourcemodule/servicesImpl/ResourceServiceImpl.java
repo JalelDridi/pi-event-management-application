@@ -17,6 +17,7 @@ public class ResourceServiceImpl implements ResourceService{
     private static final Logger LOG = LoggerFactory.getLogger(ResourceServiceImpl.class);
     private static final String ERROR_NON_PRESENT_ID = "Cannot find a university with id : %s";
     private static final String ERROR_NULL_ID = "Posted ID is NULL";
+    private static final String ERROR_UPDATE = "Error occured while updating";
     @Autowired
     private ResourceDao resourceDao;
 
@@ -46,6 +47,32 @@ public class ResourceServiceImpl implements ResourceService{
         }
         return resource;
         }
-        }
+    @Override
+    public Resource addResource(Resource resource) {
+        //Calls the save Method: It calls a method named save on an object called resourceDao.
+        // This object is responsible for handling interactions with the database or data store.
+        //It passes a resource object (likely some data you want to save or store) as an argument to the save method.
+        return this.resourceDao.save(resource);
+    }
+
+    @Override
+    public Resource updateResource(Resource resource) {
+       Resource updateResource=null;
+       if(resource!=null){
+           updateResource=this.resourceDao.save(resource);
+       }else {
+           LOG.error(ERROR_UPDATE);
+       }
+       return updateResource;
+       }
+
+
+    @Override
+    public void deleteById(Long resourceID) {
+        this.resourceDao.deleteById(resourceID);
+
+    }
+
+}
 
 
