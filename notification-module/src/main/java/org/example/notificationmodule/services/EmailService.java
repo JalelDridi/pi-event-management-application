@@ -1,5 +1,7 @@
 package org.example.notificationmodule.services;
 
+import org.example.notificationmodule.entities.Message;
+import org.example.notificationmodule.entities.Notification;
 import org.springframework.messaging.MessagingException;
 
 import java.util.List;
