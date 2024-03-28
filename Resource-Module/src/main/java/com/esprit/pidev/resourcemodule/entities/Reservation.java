@@ -12,25 +12,22 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "resource")
-public class Resource implements Serializable {
+@Table(name = "reservations")
+public class Reservation implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long resourceID;
+    private Long reservationID;
 
-    private String resourceName;
-
-    private Boolean isAvailable;
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date startDate;
+    private Date endDate;
+
+    private Boolean isValid;
 
     @ManyToOne
+    @JoinColumn(name = "resourceID")
     @JsonIgnore
-    @JoinColumn(name = "resource_type_id")
-    private ResourceType resourceType;
+    private Resource resource;
 
-    @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Reservation> reservations;
 }

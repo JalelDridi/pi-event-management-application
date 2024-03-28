@@ -1,5 +1,6 @@
 package com.esprit.pidev.resourcemodule.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,5 +22,6 @@ public class ResourceType implements Serializable {
     private String resouceTypeName;
 
     @OneToMany(mappedBy = "resourceType", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Resource> resources;
 }
