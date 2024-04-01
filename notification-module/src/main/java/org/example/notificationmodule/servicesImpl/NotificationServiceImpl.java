@@ -18,10 +18,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
-
     @Resource
     private NotificationRepository notificationRepository;
-
     @Resource
     private MessageRepository messageRepository;
 
@@ -36,6 +34,11 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    public Long countUnreadNotifications(Long userId) {
+        return notificationRepository.countByUserIdAndIsRead(userId, false);
+    }
+
+    @Override
     public void addNotification(Notification notification, Message message) {
         message.setMessageId(sequenceGeneratorService.generateSequence(Message.SEQUENCE_NAME));
         messageRepository.save(message);
@@ -44,4 +47,8 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setIsRead(false);
         notificationRepository.save(notification);
     }
+
+
+
+
 }
