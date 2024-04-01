@@ -7,6 +7,8 @@ import org.example.notificationmodule.entities.Notification;
 import org.example.notificationmodule.enums.DeliveryChannel;
 import org.example.notificationmodule.services.EmailService;
 import org.example.notificationmodule.services.NotificationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
@@ -18,6 +20,9 @@ public class EmailConsumer {
     private EmailService emailService;
     @Autowired
     private NotificationService notificationService;
+
+    private static final Logger LOG = LoggerFactory.getLogger(EmailConsumer.class);
+    private static final String ERR_MSG_NOT_SENT = "Message not sent, please try again !";
 
 
     @KafkaListener(topics = "send-email", groupId = "aaa")
@@ -33,12 +38,10 @@ public class EmailConsumer {
                 emailService.sendEmail(TO, SUBJECT, BODY);
             }
 
-            if (notification != null) {
-                notification.setDeliveryChannel(DeliveryChannel.email);
-                notificationService.addNotification(notification, message);
-            }
+            notification.setDeliveryChannel(DeliveryChannel.email);
+            notificationService.addNotification(notificationDto.getNotification(), message);
         } else {
-            return;
+            LOG.error(ERR_MSG_NOT_SENT);
         }
     }
 
