@@ -22,18 +22,24 @@ public class EmailConsumer {
 
     @KafkaListener(topics = "send-email", groupId = "aaa")
     public void listenGroupAaa(NotificationDto notificationDto) {
-        final String TO = notificationDto.getEmail();
-        final String SUBJECT = notificationDto.getMessage().getSubject();
-        final String BODY = notificationDto.getMessage().getContent();
-        emailService.sendEmail(TO, SUBJECT, BODY);
+        if (notificationDto != null && notificationDto.getEmail() != null && notificationDto.getMessage() != null) {
+            final String TO = notificationDto.getEmail();
+            final Message message = notificationDto.getMessage();
+            final Notification notification = notificationDto.getNotification();
 
-        final Notification notification = notificationDto.getNotification();
-        final Message message = notificationDto.getMessage();
+            if (message != null) {
+                final String SUBJECT = message.getSubject();
+                final String BODY = message.getContent();
+                emailService.sendEmail(TO, SUBJECT, BODY);
+            }
 
-
-        notification.setDeliveryChannel(DeliveryChannel.email);
-        notificationService.addNotification(notification, message);
-
+            if (notification != null) {
+                notification.setDeliveryChannel(DeliveryChannel.email);
+                notificationService.addNotification(notification, message);
+            }
+        } else {
+            return;
+        }
     }
 
 

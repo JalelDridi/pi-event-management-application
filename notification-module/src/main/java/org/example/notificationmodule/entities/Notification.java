@@ -2,7 +2,6 @@ package org.example.notificationmodule.entities;
 
 
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.example.notificationmodule.enums.DeliveryChannel;
 import org.springframework.data.annotation.Id;
@@ -12,7 +11,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.io.Serializable;
 
 @Data // Lombok annotation to get rid of most boilerplate code like : getters, setters, equals, toString ....
-@AllArgsConstructor
 @Document(collection = "notifications")
 public class Notification implements Serializable {
 

@@ -25,7 +25,7 @@ public class Controller {
 
     @PostMapping("/send-notification")
     @ResponseBody
-    public void sendNotification(NotificationDto notificationDto) {
+    public void sendNotification(@RequestBody NotificationDto notificationDto) {
         kafkaTemplate.send(SEND_EMAIL_TOPIC, notificationDto);
     }
 
