@@ -79,6 +79,8 @@ public class UserServiceImpl implements UserService {
             System.out.println("First Name: " + user.getFirstName());
             System.out.println("Last Name: " + user.getLastName());
             System.out.println("Email address: " + user.getEmail());
+            System.out.println("Date of brith: " + user.getDateOfBirth());
+            System.out.println("Role: " + user.getRole());
         }
 
     }
