@@ -3,16 +3,22 @@ package com.esprit.usermicroservice.controllers;
 import com.esprit.usermicroservice.entities.User;
 import com.esprit.usermicroservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> sayHello() {
+        return ResponseEntity.ok("Hello from secured endpoint");
+    }
 
     @GetMapping("/all")
     public List<User> getAllUsers() {
