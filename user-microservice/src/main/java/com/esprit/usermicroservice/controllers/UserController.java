@@ -37,7 +37,6 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public User updateUser(@PathVariable String userId, @RequestBody User user) {
-        // Ensure the user ID in the request path matches the one in the request body
         user.setUserID(userId);
         return userService.updateUser(user);
     }
