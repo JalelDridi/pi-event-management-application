@@ -1,0 +1,18 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/notification_system
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: "aaa"
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ramdhaniahmedamine@gmail.com
+    password: eozp nmwb ktlx yivu
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
