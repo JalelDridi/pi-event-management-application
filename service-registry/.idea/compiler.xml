@@ -6,20 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Event_Pi" />
-        <module name="notification-module" />
-        <module name="user-microservice" />
+        <module name="service-registry" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Review_Module" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Event_Pi" options="-parameters" />
-      <module name="notification-module" options="-parameters" />
-      <module name="user-microservice" options="-parameters" />
+      <module name="service-registry" options="-parameters" />
     </option>
   </component>
 </project>
