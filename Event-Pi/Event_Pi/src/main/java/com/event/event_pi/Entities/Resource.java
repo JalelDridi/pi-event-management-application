@@ -7,26 +7,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Event {
+public class Resource {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long eventId ;
-    private String  Name ;
-    private Date startDate ;
-    private Date endDate ;
-    @Enumerated ( EnumType.STRING)
-    private EventType Type ;
-    private String Club ;
-    private StatusType status;
-    private String Rating  ;
+    private Long resourceID;
 
+    private String resourceName;
 
+    private Boolean isAvailable;
+    @Temporal(TemporalType.DATE)
+    private Date date;
+
+    @ManyToOne
+    @JoinColumn(name = "resource_type_id")
+    private ResourceType resourceType;
 }

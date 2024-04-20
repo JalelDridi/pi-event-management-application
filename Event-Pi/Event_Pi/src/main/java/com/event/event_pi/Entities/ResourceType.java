@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -14,19 +13,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class Event {
+public class ResourceType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long eventId ;
-    private String  Name ;
-    private Date startDate ;
-    private Date endDate ;
-    @Enumerated ( EnumType.STRING)
-    private EventType Type ;
-    private String Club ;
-    private StatusType status;
-    private String Rating  ;
+    private Long id;
 
+    private String resouceTypeName;
 
+    @OneToMany(mappedBy = "resourceType", cascade = CascadeType.ALL)
+    private List<Resource> resources;
 }
+

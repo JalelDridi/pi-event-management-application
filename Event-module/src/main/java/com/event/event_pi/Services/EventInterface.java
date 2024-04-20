@@ -12,10 +12,11 @@ public interface EventInterface {
     public Long getEventId();
     public Event editEvent( Long eventId , Event event) ;
     public void deleteEvent (Long eventId)    ;
+    public void updateEventStatusAutomatiquement();
     /********************************** User *************************************/
     //public User addUser (User user );
     public List<UserDto> findByEvent(Long eventId);
-    public void affectUserToEvent (String userID , Long eventId);
+    public void affectUserToEvent(String userID, long eventId);
     public void sendEmail(String toEmail, String subject, String body);
     public void envoyerEmailParticipant(Participation participant, Event event) ;
     /********************************** Resource

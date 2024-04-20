@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.sf.jsqlparser.util.validation.metadata.DatabaseException;
 
 import java.util.Date;
 import java.util.List;
@@ -20,13 +21,15 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId ;
     private String  Name ;
-    private Date startDate ;
-    private Date endDate ;
+    private Date StartDate ;
+    private Date EndDate ;
     @Enumerated ( EnumType.STRING)
     private EventType Type ;
     private String Club ;
-    private StatusType status;
+    private boolean Status;
     private String Rating  ;
+    @OneToMany(mappedBy = "Event", cascade = CascadeType.ALL)
+    private List<Participant> participants;
 
 
 }

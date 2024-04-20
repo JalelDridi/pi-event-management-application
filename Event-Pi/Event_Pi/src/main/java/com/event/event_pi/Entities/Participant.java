@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -15,18 +14,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class Event {
+public class Participant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long eventId ;
-    private String  Name ;
-    private Date startDate ;
-    private Date endDate ;
-    @Enumerated ( EnumType.STRING)
-    private EventType Type ;
-    private String Club ;
-    private StatusType status;
-    private String Rating  ;
+    private Long id;
+    @ManyToOne
+    private User User;
+    @ManyToOne
+    private Event Event ;
 
-
+    public Participant(com.event.event_pi.Entities.User user, com.event.event_pi.Entities.Event event) {
+        User = user;
+        Event = event;
+    }
 }

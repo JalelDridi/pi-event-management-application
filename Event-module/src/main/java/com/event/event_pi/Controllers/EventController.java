@@ -1,22 +1,28 @@
 package com.event.event_pi.Controllers;
 
+import com.event.event_pi.Daos.EventDao;
 import com.event.event_pi.Entities.*;
 import com.event.event_pi.Services.EventImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 public class EventController {
     @Autowired
     EventImpl eventimpl;
+    @Autowired
+    EventDao eventDao;
     @PostMapping("/addevent")
     public Event addEvent ( @RequestBody Event event) {
         return eventimpl.addEvent(event) ;
     }
     @GetMapping ("/getall")
-    public List<Event> getAllEvenet () {
+    public List<Event> getAllEvent () {
         return eventimpl.getallEvent();
     }
     @GetMapping("getAnEvent/{eventId}")
@@ -28,6 +34,24 @@ public class EventController {
     @DeleteMapping("/deleteevent/{eventId}")
     public void deleteEvent (@PathVariable Long eventId){
         eventimpl.deleteEvent(eventId);
+    }
+    @GetMapping("/todaysEvents")
+    public List<Event> getTodaysEvents() {
+        // Get today's date
+        LocalDate today = LocalDate.now();
+
+        // Get events with start date equals to today's date
+        return eventDao.findByStartDate(today);
+    }
+    @GetMapping("/completedevent")
+    public List<Event> completedEvent (@RequestParam StatusType status){
+        return eventDao.findByStatus(status);
+    }
+    @GetMapping("/upcomingevents")
+    public List<Event> upcomingEvents() {
+        LocalDate today = LocalDate.now();
+        Timestamp timestamp = java.sql.Timestamp.valueOf(today.atStartOfDay());
+        return eventDao.findByStartDateAfterOrderByStartDate(timestamp);
     }
 
     @PostMapping("/add-participation")
