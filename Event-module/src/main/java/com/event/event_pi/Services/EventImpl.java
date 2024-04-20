@@ -1,29 +1,37 @@
 package com.event.event_pi.Services;
 
 import com.event.event_pi.Daos.*;
+import com.event.event_pi.Dtos.UserDto;
 import com.event.event_pi.Entities.*;
+import jakarta.annotation.Resource;
+import jdk.jshell.spi.ExecutionControl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EventImpl implements EventInterface {
     @Autowired
     private JavaMailSender emailSender;
-    @Autowired
+    @Resource
     EventDao eventDao;
-    @Autowired
-    UserDao userDao;
-    @Autowired
-    ParticipantDao participantDao;
-    @Autowired
+    @Resource
+    ParticipationDao participationDao;
+
+   /* @Autowired
     ResourceDao resourceDao;
     @Autowired
     ResourceTypeDao resourceTypeDao;
+
+    */
     @Override
     public Event addEvent(Event event) {
         return eventDao.save(event);
@@ -33,6 +41,21 @@ public class EventImpl implements EventInterface {
     public List<Event> getallEvent() {
         return eventDao.findAll();
     }
+
+    @Override
+    public Event getAnEvent(Long eventId) {
+        return eventDao.findById(eventId).get();
+    }
+
+    @Override
+    public Long getEventId() {
+        return null;
+    }
+
+    /*@Override
+    public Long getEventId() {
+        return eventId;
+    }*/
 
     @Override
     public Event editEvent(Long eventId, Event event) {
@@ -52,21 +75,90 @@ public class EventImpl implements EventInterface {
     public void deleteEvent(Long eventId) {
          eventDao.deleteById(eventId);
     }
-    /************************************* User ****************************************/
+
     @Override
-    public User addUser(User user) {
-    return userDao.save(user);
+    public List<UserDto> findByEvent(Long eventId) {
+//         List<UserDto> users = new ArrayList<>();
+//        return users.stream()
+//                .filter(user -> user.getEventId().equals(eventId)) // Replace getEventId with the actual method to retrieve the event ID of the user
+//                .collect(Collectors.toList());
+        return null;
     }
 
     @Override
+    public void affectUserToEvent(String userID, Long eventId) {
+
+    }
+
+    /************************************* User
+    @Override
+    public User addUser(User user) {
+    return userDao.save(user);
+    }****************************************/
+
+   /* @Override
     public void affectUserToEvent(Long userID, Long eventId) {
         User user= userDao.findById(userID).get();
         Event event = eventDao.findById(eventId).get();
         Participant participant = new Participant(user , event) ;
         event.getParticipants().add(participant);
+
         participantDao.save(participant);
         envoyerEmailParticipant(participant,event);
+    }*/
+
+    public void affectUserToEvent(String userID, long eventId) {
+        // Make an HTTP request to the User Microservice to get user information
+        // UserDto user = makeHttpRequestToUserMicroservice(userID);
+
+        // Retrieve event information from the Event Microservice
+        Event event = eventDao.findById(eventId).orElse(null);
+
+        // Create a participation
+        Participation participation = new Participation();
+        participation.setUserID(userID);
+        participation.setEventId(eventId);
+
+
+        // Save participation
+        participationDao.save(participation);
     }
+    public void displayUserOfEvent(Long eventId) {
+        // Retrieve participations for the specified event ID
+        List<Participation> participations = participationDao.findByEventId(eventId);
+
+        // Iterate over the participations
+        for (Participation participation : participations) {
+            // Retrieve user information for the current participation
+            UserDto user = getUserById(participation.getUserID());
+
+            // Print or process user information as needed
+            System.out.println("User ID: " + user.getUserID());
+            System.out.println("User Name: " + user.getFirstName());
+            // Add more properties as needed
+
+            // Do other processing with user information
+        }
+    }
+
+    private UserDto getUserById(String userId) {
+        // Replace "user-service-url" with the actual URL of the User Microservice
+        String userMicroserviceUrl = "http://localhost:8080/api/users" + userId;
+
+        // Make a GET request to the User Microservice
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<UserDto> responseEntity = restTemplate.getForEntity(userMicroserviceUrl, UserDto.class);
+
+        // Check if the request was successful (HTTP status code 200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            return responseEntity.getBody();
+        } else {
+            // Handle the case where the request was not successful
+            // You may throw an exception or handle it based on your application's requirements
+            throw new RuntimeException("Failed to fetch user from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
+        }
+    }
+
     public void sendEmail(String toEmail, String subject, String body) {
         if (toEmail != null) {
             SimpleMailMessage message = new SimpleMailMessage();
@@ -81,8 +173,8 @@ public class EventImpl implements EventInterface {
             System.out.println("Erreur: L'adresse e-mail est non valide.");
         }
     }
-    public void envoyerEmailParticipant(Participant participant, Event event ) {
-        String toEmail = participant.getUser().getEmail();
+    public void envoyerEmailParticipant(Participation participant, Event event ) {
+        String toEmail = "";//participant.getUserID().getEmail();
         String subject = "Détails de l'événement";
         String body = "Bonjour,\n\nVous êtes inscrit à l'événement suivant :\n\n" +
                 "Nom de l'événement : " + event.getName() + "\n" +
@@ -92,7 +184,8 @@ public class EventImpl implements EventInterface {
 
         sendEmail(toEmail, subject, body);
     }
-    /************************************* Resource ****************************************/
+
+    /************************************* Resource
 
     @Override
     public Resource addResource(Resource resource) {
@@ -116,8 +209,9 @@ public class EventImpl implements EventInterface {
     public void deleteResource(Long resourceID) {resourceDao.deleteById(resourceID);
 
     }
+     ****************************************/
 
-    /************************************* ResourceType ****************************************/
+    /************************************* ResourceType
 
 
     @Override
@@ -141,6 +235,6 @@ public class EventImpl implements EventInterface {
     public void deleteResourceType(Long id) { resourceTypeDao.deleteById(id);
 
     }
-
+     ****************************************/
 
 }

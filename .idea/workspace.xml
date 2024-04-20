@@ -5,7 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d373a478-6f3c-4fa0-ab74-5e029ea25543" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Event-module/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Controllers/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Controllers/EventController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Daos/ParticipantDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Daos/ParticipationDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Daos/ResourceDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Daos/ResourceTypeDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Daos/UserDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Entities/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Entities/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Entities/Participant.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Entities/Participation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Entities/Resource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Entities/ResourceType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Entities/Role.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Entities/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Services/EventImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Services/EventImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Services/EventInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/Event-module/src/main/java/com/event/event_pi/Services/EventInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Event-module/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,6 +40,9 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -41,21 +64,53 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.EventPiApplication.executor": "Run",
+    "Spring Boot.UserMicroserviceApplication.executor": "Run",
     "git-widget-placeholder": "main",
     "jdk.selected.JAVA_MODULE": "21",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/USER/Documents/GitHub/pi-event-management-application",
+    "last_opened_file_path": "C:/Users/USER/Documents/GitHub/pi-event-management-application/user-microservice",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "run.configurations.included.in.services": "true",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.TestApplication">
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.EventPiApplication">
+    <configuration name="EventPiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="Event_Pi" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.event.event_pi.EventPiApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NotificationModuleApplication (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="notification-module" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.notificationmodule.NotificationModuleApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="NotificationModuleApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="notification-module" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.notificationmodule.NotificationModuleApplication" />
@@ -63,13 +118,20 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="test" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="org.example.test.TestApplication" />
+    <configuration name="UserMicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="user-microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.esprit.usermicroservice.UserMicroserviceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-f644763e9732-c0c073db" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -86,7 +148,14 @@
       <workItem from="1711229145053" duration="75000" />
       <workItem from="1711229264058" duration="336000" />
       <workItem from="1711559668763" duration="855000" />
-      <workItem from="1713344676681" duration="903000" />
+      <workItem from="1713344676681" duration="1333000" />
+      <workItem from="1713346128321" duration="24000" />
+      <workItem from="1713346356988" duration="232000" />
+      <workItem from="1713435864622" duration="11000" />
+      <workItem from="1713437318273" duration="1869000" />
+      <workItem from="1713545305170" duration="632000" />
+      <workItem from="1713550239329" duration="4451000" />
+      <workItem from="1713624797516" duration="8562000" />
     </task>
     <servers />
   </component>

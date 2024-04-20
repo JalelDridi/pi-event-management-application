@@ -19,6 +19,8 @@ public class EventController {
     public List<Event> getAllEvenet () {
         return eventimpl.getallEvent();
     }
+    @GetMapping("getAnEvent/{eventId}")
+    public Event getAnEvent(@PathVariable Long eventId){return eventimpl.getAnEvent(eventId);}
     @PutMapping("/edited/{eventId}")
     public Event editedEvent (@PathVariable Long eventId, @RequestBody Event event){
         return eventimpl.editEvent(eventId, event) ;
@@ -27,24 +29,30 @@ public class EventController {
     public void deleteEvent (@PathVariable Long eventId){
         eventimpl.deleteEvent(eventId);
     }
+
+    @PostMapping("/add-participation")
+    @ResponseBody
+    public void addParticipation(@RequestParam String userId,  @RequestParam long eventId) {
+        eventimpl.affectUserToEvent(userId, eventId);
+    }
     /***************************************
                                               user
-                                                    *********************************************/
+
     @PostMapping ("/adduser")
     public User addUser (@RequestBody User user ) {
         return eventimpl.addUser(user);
-    }
+    } *********************************************/
     /***************************************
                                             Participant
                                                         *****************************************/
-    @PostMapping ("/addparticipant")
+   /* @PostMapping ("/addparticipant")
     public void addParticipantToEvent ( @RequestParam Long userID   , @RequestParam Long eventId){
-        eventimpl.affectUserToEvent(userID,eventId);
+        eventimpl.affectUserToEvent(userID,eventId);*/
 
     }
     /***************************************
                                             Resource
-                                                    *****************************************/
+
     @PostMapping("/addResource")
     public Resource addResource ( @RequestBody Resource resource){return eventimpl.addResource(resource);}
     @GetMapping("/getResource")
@@ -56,10 +64,10 @@ public class EventController {
     @DeleteMapping("/deleteResource/{resourceID}")
     public void deleteResource (@PathVariable Long resourceID){
         eventimpl.deleteResource(resourceID);
-    }
+    }*****************************************/
     /***************************************
                                             Resource
-                                                     *****************************************/
+
     @PostMapping("/addResourcetype")
     public ResourceType addResourcetype ( @RequestBody ResourceType resourceType){return eventimpl.addResourceType(resourceType);}
     @GetMapping("/getResourcetype")
@@ -71,8 +79,7 @@ public class EventController {
     @DeleteMapping("/deleteResourcetype/{id}")
     public void deleteResourcetype (@PathVariable Long id){
         eventimpl.deleteResource(id);
-    }
+    } *****************************************/
 
 
 
-}
