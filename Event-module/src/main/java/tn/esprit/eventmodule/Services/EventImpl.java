@@ -6,8 +6,6 @@ import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
 import tn.esprit.eventmodule.Entities.Participation;
 import tn.esprit.eventmodule.Entities.StatusType;
-import com.event.eventmodule.Daos.*;
-import com.event.eventmodule.Entities.*;
 import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

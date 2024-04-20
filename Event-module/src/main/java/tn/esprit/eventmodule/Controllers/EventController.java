@@ -3,7 +3,6 @@ package tn.esprit.eventmodule.Controllers;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Entities.Event;
 import tn.esprit.eventmodule.Entities.StatusType;
-import com.event.eventmodule.Entities.*;
 import tn.esprit.eventmodule.Services.EventImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
