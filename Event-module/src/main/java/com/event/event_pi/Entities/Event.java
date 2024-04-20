@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.sf.jsqlparser.util.validation.metadata.DatabaseException;
 
 import java.util.Date;
 import java.util.List;
@@ -28,8 +27,6 @@ public class Event {
     private String Club ;
     private boolean Status;
     private String Rating  ;
-    @OneToMany(mappedBy = "Event", cascade = CascadeType.ALL)
-    private List<Participant> participants;
 
 
 }
