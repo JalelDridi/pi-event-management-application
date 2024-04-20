@@ -1,12 +1,14 @@
-package com.event.event_pi.Services;
+package tn.esprit.eventmodule.Services;
 
-import com.event.event_pi.Dtos.UserDto;
-import com.event.event_pi.Entities.*;
+import tn.esprit.eventmodule.Dtos.UserDto;
+import tn.esprit.eventmodule.Entities.Event;
+import tn.esprit.eventmodule.Entities.Participation;
+import com.event.eventmodule.Entities.*;
 
 import java.util.List;
 
 public interface EventInterface {
-    public Event addEvent ( Event event) ;
+    public Event addEvent (Event event) ;
     public List<Event> getallEvent ();
     public Event getAnEvent(Long eventId);
     public Long getEventId();

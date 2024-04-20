@@ -1,6 +1,6 @@
-package com.event.event_pi.Daos;
+package tn.esprit.eventmodule.Daos;
 
-import com.event.event_pi.Entities.Participation;
+import tn.esprit.eventmodule.Entities.Participation;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

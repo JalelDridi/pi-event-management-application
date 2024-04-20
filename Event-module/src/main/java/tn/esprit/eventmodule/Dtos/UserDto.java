@@ -1,4 +1,4 @@
-package com.event.event_pi.Dtos;
+package tn.esprit.eventmodule.Dtos;
 
 import jakarta.persistence.Id;
 import lombok.*;

@@ -1,13 +1,14 @@
-package com.event.event_pi.Controllers;
+package tn.esprit.eventmodule.Controllers;
 
-import com.event.event_pi.Daos.EventDao;
-import com.event.event_pi.Entities.*;
-import com.event.event_pi.Services.EventImpl;
+import tn.esprit.eventmodule.Daos.EventDao;
+import tn.esprit.eventmodule.Entities.Event;
+import tn.esprit.eventmodule.Entities.StatusType;
+import com.event.eventmodule.Entities.*;
+import tn.esprit.eventmodule.Services.EventImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class EventController {
     @Autowired
     EventDao eventDao;
     @PostMapping("/addevent")
-    public Event addEvent ( @RequestBody Event event) {
+    public Event addEvent (@RequestBody Event event) {
         return eventimpl.addEvent(event) ;
     }
     @GetMapping ("/getall")

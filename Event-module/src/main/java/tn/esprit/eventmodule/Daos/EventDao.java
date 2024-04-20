@@ -1,7 +1,7 @@
-package com.event.event_pi.Daos;
+package tn.esprit.eventmodule.Daos;
 
-import com.event.event_pi.Entities.Event;
-import com.event.event_pi.Entities.StatusType;
+import tn.esprit.eventmodule.Entities.Event;
+import tn.esprit.eventmodule.Entities.StatusType;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

@@ -1,6 +1,5 @@
-package com.event.event_pi.Entities;
+package tn.esprit.eventmodule.Entities;
 
-import com.event.event_pi.Dtos.UserDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

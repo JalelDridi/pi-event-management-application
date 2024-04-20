@@ -1,4 +1,4 @@
-package com.event.event_pi.Entities;
+package tn.esprit.eventmodule.Entities;
 
 public enum EventType {
     Sportif ,
