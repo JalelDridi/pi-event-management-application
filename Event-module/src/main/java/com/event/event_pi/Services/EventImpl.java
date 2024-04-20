@@ -10,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -66,7 +69,7 @@ public class EventImpl implements EventInterface {
             ExistingEvent.setEndDate(event.getEndDate());
             ExistingEvent.setStartDate(event.getStartDate());
             ExistingEvent.setRating(event.getRating());
-            ExistingEvent.setStatus(event.isStatus());
+            ExistingEvent.setStatus(event.getStatus());
             ExistingEvent.setType(event.getType());
             return eventDao.save(ExistingEvent);
     }
@@ -85,10 +88,14 @@ public class EventImpl implements EventInterface {
         return null;
     }
 
-    @Override
-    public void affectUserToEvent(String userID, Long eventId) {
 
+
+    @Override
+    @Scheduled(fixedRate = 60000) // 60000 milliseconds = 1 minute
+    public void updateEventStatusAutomatiquement() {
+        eventDao.updateEventStatus(StatusType.Planifié, StatusType.En_Cours, StatusType.Terminé);
     }
+
 
     /************************************* User
     @Override

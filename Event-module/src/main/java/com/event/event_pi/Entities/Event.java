@@ -20,12 +20,12 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId ;
     private String  Name ;
-    private Date StartDate ;
-    private Date EndDate ;
+    private Date startDate ;
+    private Date endDate ;
     @Enumerated ( EnumType.STRING)
     private EventType Type ;
     private String Club ;
-    private boolean Status;
+    private StatusType status;
     private String Rating  ;
 
 

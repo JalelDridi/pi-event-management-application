@@ -1,12 +1,17 @@
 package com.event.event_pi.Dtos;
 
 import jakarta.persistence.Id;
-import lombok.Data;
+import lombok.*;
 
 import javax.management.relation.Role;
 import java.time.LocalDate;
 
 @Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class UserDto {
 
     @Id
