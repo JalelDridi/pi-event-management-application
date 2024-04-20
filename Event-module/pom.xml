@@ -8,13 +8,13 @@
         <version>3.2.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.Event</groupId>
-    <artifactId>Event_Pi</artifactId>
+    <groupId>tn.esprit</groupId>
+    <artifactId>event-module</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Event_Pi</name>
-    <description>Event_Pi</description>
+    <name>event-module</name>
+    <description>event-module</description>
     <properties>
-        <java.version>21</java.version>
+        <java.version>17</java.version>
     </properties>
     <dependencies>
         <dependency>
