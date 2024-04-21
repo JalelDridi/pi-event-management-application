@@ -14,7 +14,15 @@ import jakarta.validation.constraints.Size;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
+public class RegistrationRequest {
+
+    @NotEmpty(message = "Firstname is mandatory")
+    @NotNull(message = "Firstname is mandatory")
+    private String firstName;
+
+    @NotEmpty(message = "Lastname is mandatory")
+    @NotNull(message = "Lastname is mandatory")
+    private String lastName;
 
     @Email(message = "Email is not well formatted")
     @NotEmpty(message = "Email is mandatory")
