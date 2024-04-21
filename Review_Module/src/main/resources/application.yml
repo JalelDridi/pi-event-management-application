@@ -1,5 +1,5 @@
 spring:
   application:
-    name: Event-module
+    name: Review_Module
   config:
     import: "optional:configserver:http://localhost:8088"
