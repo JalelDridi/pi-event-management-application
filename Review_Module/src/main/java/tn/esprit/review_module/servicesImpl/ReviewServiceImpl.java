@@ -1,21 +1,17 @@
-package com.example.review_module.servicesImpl;
+package tn.esprit.review_module.servicesImpl;
 
-import com.example.review_module.entities.Review;
-import com.example.review_module.repositories.ReviewRepository;
-import com.example.review_module.services.ReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
+import tn.esprit.review_module.entities.Review;
+import tn.esprit.review_module.repositories.ReviewRepository;
+import tn.esprit.review_module.services.ReviewService;
+import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-
 public class ReviewServiceImpl implements ReviewService {
-    private final ReviewRepository reviewRepository;
-    @Autowired
-    public ReviewServiceImpl(ReviewRepository reviewDao){
-        this.reviewRepository=reviewDao;
-    }
+    @Resource
+    private ReviewRepository reviewRepository;
 
     @Override
     public Review addReview(Review review) {

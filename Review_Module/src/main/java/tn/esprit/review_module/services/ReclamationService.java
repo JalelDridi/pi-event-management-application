@@ -1,7 +1,6 @@
-package com.example.review_module.services;
+package tn.esprit.review_module.services;
 
-import com.example.review_module.entities.Reclamation;
-import com.example.review_module.entities.Review;
+import tn.esprit.review_module.entities.Reclamation;
 
 import java.util.List;
 

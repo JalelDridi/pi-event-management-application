@@ -1,4 +1,4 @@
-package com.example.review_module.entities;
+package tn.esprit.review_module.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
