@@ -1,9 +1,8 @@
-package com.example.review_module.servicesImpl;
+package tn.esprit.review_module.servicesImpl;
 
-import com.example.review_module.entities.Reclamation;
-import com.example.review_module.repositories.ReclamationRepository;
-import com.example.review_module.repositories.ReviewRepository;
-import com.example.review_module.services.ReclamationService;
+import tn.esprit.review_module.entities.Reclamation;
+import tn.esprit.review_module.repositories.ReclamationRepository;
+import tn.esprit.review_module.services.ReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.review_module;
+package tn.esprit.review_module;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
