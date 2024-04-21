@@ -1,7 +1,7 @@
-package com.example.review_module.controllers;
+package tn.esprit.review_module.controllers;
 
-import com.example.review_module.entities.Review;
-import com.example.review_module.services.ReviewService;
+import tn.esprit.review_module.entities.Review;
+import tn.esprit.review_module.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
@@ -11,16 +11,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/review")
 public class ReviewController {
-    private final ReviewService reviewService;
-    @Autowired
-    public ReviewController( ReviewService reviewService){
 
-        this.reviewService = reviewService;
-    }
+    @Autowired
+    private ReviewService reviewService;
+
+
     @PostMapping("/addreview")
+    @ResponseBody
     public Review addReview(@DateTimeFormat(pattern = "yyyy-MM-dd")
                                      @RequestBody Review review ){
-        return reviewService.addReview((review));
+        return reviewService.addReview(review);
     }
 
     @GetMapping("/findreview/{id}")

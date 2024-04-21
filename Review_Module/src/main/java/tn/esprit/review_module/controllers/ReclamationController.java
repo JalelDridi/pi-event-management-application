@@ -1,9 +1,7 @@
-package com.example.review_module.controllers;
+package tn.esprit.review_module.controllers;
 
-import com.example.review_module.entities.Reclamation;
-import com.example.review_module.entities.Review;
-import com.example.review_module.services.ReclamationService;
-import com.example.review_module.services.ReviewService;
+import tn.esprit.review_module.entities.Reclamation;
+import tn.esprit.review_module.services.ReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
