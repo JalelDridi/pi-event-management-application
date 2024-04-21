@@ -1,11 +1,13 @@
 package com.esprit.pidev.resourcemodule.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,17 +17,20 @@ public class Resource implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long resourceID;
+    private Long resourceID;
 
-    String resourceName;
+    private String resourceName;
 
-    boolean isAvailable;
-
-    Date date;
+    private Boolean isAvailable;
+    @Temporal(TemporalType.DATE)
+    private Date date;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "resource_type_id")
     private ResourceType resourceType;
 
-
+    @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Reservation> reservations;
 }
