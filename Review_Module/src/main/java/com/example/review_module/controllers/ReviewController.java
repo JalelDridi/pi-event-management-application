@@ -18,7 +18,7 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
     @PostMapping("/addreview")
-    public Review addReview(     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    public Review addReview(@DateTimeFormat(pattern = "yyyy-MM-dd")
                                      @RequestBody Review review ){
         return reviewService.addReview((review));
     }
