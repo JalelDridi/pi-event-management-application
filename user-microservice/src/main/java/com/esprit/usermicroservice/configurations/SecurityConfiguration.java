@@ -1,5 +1,6 @@
 package com.esprit.usermicroservice.configurations;
 
+import com.esprit.usermicroservice.servicesImpl.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration {
 
     final private JwtAuthenticationFilter jwtAuthFilter;
@@ -29,7 +30,7 @@ public class SecurityConfiguration {
                 .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("api/v1/auth/**")
+                        .requestMatchers("/auth/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

@@ -1,4 +1,4 @@
-package com.esprit.usermicroservice.configurations;
+package com.esprit.usermicroservice.servicesImpl;
 
 import com.esprit.usermicroservice.services.JwtService;
 import jakarta.servlet.FilterChain;
@@ -17,6 +17,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -34,7 +36,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-        final String authHeader = request.getHeader("Authorization");
+        final String authHeader = request.getHeader(AUTHORIZATION);
         final String jwt;
         final String userEmail;
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

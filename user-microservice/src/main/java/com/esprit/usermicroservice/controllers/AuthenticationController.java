@@ -1,19 +1,19 @@
-package com.esprit.usermicroservice.authentication;
+package com.esprit.usermicroservice.controllers;
 
+import com.esprit.usermicroservice.dtos.AuthenticationRequest;
+import com.esprit.usermicroservice.dtos.AuthenticationResponse;
+import com.esprit.usermicroservice.servicesImpl.AuthenticationService;
+import com.esprit.usermicroservice.dtos.RegistrationRequest;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-
 @RestController
-@RequestMapping("api/v1/auth")
+@RequestMapping("auth")
 @RequiredArgsConstructor
 public class AuthenticationController {
 

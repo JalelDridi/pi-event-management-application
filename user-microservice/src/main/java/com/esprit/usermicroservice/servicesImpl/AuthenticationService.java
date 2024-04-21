@@ -1,7 +1,9 @@
-package com.esprit.usermicroservice.authentication;
+package com.esprit.usermicroservice.servicesImpl;
 
+import com.esprit.usermicroservice.dtos.AuthenticationRequest;
+import com.esprit.usermicroservice.dtos.AuthenticationResponse;
+import com.esprit.usermicroservice.dtos.RegistrationRequest;
 import com.esprit.usermicroservice.entities.Token;
-import com.esprit.usermicroservice.entities.TokenType;
 import com.esprit.usermicroservice.entities.User;
 import com.esprit.usermicroservice.enums.EmailTemplateName;
 import com.esprit.usermicroservice.repositories.RoleRepository;
@@ -9,21 +11,15 @@ import com.esprit.usermicroservice.repositories.TokenRepository;
 import com.esprit.usermicroservice.repositories.UserRepository;
 import com.esprit.usermicroservice.services.EmailService;
 import com.esprit.usermicroservice.services.JwtService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -80,9 +76,16 @@ public class AuthenticationService {
 
     //@Transactional
     public void activateAccount(String token) throws MessagingException {
+        // Log the token value received as input
+        System.out.println("Received activation token: " + token);
+
         Token savedToken = tokenRepository.findByToken(token)
                 // todo exception has to be defined
                 .orElseThrow(() -> new RuntimeException("Invalid token"));
+
+        // Log the token retrieved from the repository
+        System.out.println("Token retrieved from repository: " + savedToken.getToken());
+
         if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
             sendValidationEmail(savedToken.getUser());
             throw new RuntimeException("Activation token has expired. A new token has been send to the same email address");
@@ -134,6 +137,8 @@ public class AuthenticationService {
             int randomIndex = secureRandom.nextInt(characters.length());
             codeBuilder.append(characters.charAt(randomIndex));
         }
+        // Log the generated token
+        System.out.println("Generated activation token: " + codeBuilder.toString());
 
         return codeBuilder.toString();
     }

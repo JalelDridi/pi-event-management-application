@@ -1,4 +1,4 @@
-package com.esprit.usermicroservice.authentication;
+package com.esprit.usermicroservice.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
