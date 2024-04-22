@@ -1,10 +1,12 @@
 package com.esprit.usermicroservice.servicesImpl;
 
+import com.esprit.usermicroservice.dtos.EventUserDto;
 import com.esprit.usermicroservice.entities.User;
 import com.esprit.usermicroservice.repositories.UserRepository;
 import com.esprit.usermicroservice.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,19 +32,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(String userId) {
-        User user = null;
+    public EventUserDto findUserById(String userId) {
+        EventUserDto userDto = null;
         if (userId != null) {
             Optional<User> optionalUser = userRepository.findById(userId);
             if (optionalUser.isPresent()) {
-                user = optionalUser.get();
+                User user = optionalUser.get();
+                userDto = new EventUserDto();
+                // Copy user properties to userDto
+                BeanUtils.copyProperties(user, userDto);
             } else {
                 LOG.info(String.format(ERROR_NON_PRESENT_ID, userId));
             }
         } else {
             LOG.error(ERROR_NULL_ID);
         }
-        return user;
+        return userDto;
     }
 
     @Override
