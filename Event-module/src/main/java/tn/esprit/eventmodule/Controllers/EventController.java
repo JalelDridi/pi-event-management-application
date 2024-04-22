@@ -1,5 +1,7 @@
 package tn.esprit.eventmodule.Controllers;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Entities.Event;
 import tn.esprit.eventmodule.Entities.StatusType;
@@ -13,12 +15,15 @@ import java.util.List;
 
 @RestController
 public class EventController {
+    private  final Logger LOGGER = LoggerFactory.getLogger(EventController.class);
     @Autowired
     EventImpl eventimpl;
     @Autowired
     EventDao eventDao;
+
     @PostMapping("/addevent")
     public Event addEvent (@RequestBody Event event) {
+        //Logger.info("addEvent:{}",event);
         return eventimpl.addEvent(event) ;
     }
     @GetMapping ("/getall")
