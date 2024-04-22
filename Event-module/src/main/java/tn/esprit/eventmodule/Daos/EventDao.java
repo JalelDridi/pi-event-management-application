@@ -30,8 +30,8 @@ public interface EventDao extends JpaRepository<Event, Long> {
 
     List<Event> findByStartDate(Date startDate);
     List<Event> findByStartDateAfterOrderByStartDate(Date startDate);
-   // List<Event> findByType(EventType eventType);
+    List<Event> findByType(EventType eventType);
 
-    //List<Event> findByTypeAndStatus(EventType eventType, StatusType statusType);
+    List<Event> findByTypeAndStatus(EventType eventType, StatusType statusType);
 
 }

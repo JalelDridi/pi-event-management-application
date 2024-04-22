@@ -18,10 +18,10 @@ public interface EventInterface {
     /********************************** User *************************************/
     //public User addUser (User user );
     void affectUserToEvent(String userID, long eventId);
+
 //    void sendEmail(String toEmail, String subject, String body);
 //    void envoyerEmailParticipant(Participation participant, Event event) ;
 
-   // Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus();
     /********************************** Resource
     public Resource addResource (Resource resource);
     public List<Resource> getResource();
@@ -36,8 +36,12 @@ public interface EventInterface {
      ****************************************/
     /****************************************
      *                                  Reclamation
-     *                                              ******************************/////////
+     *                                              ************************************/
     //public void displayReclamationsForEvent(long eventId);
+    /****************************************
+     *                                  Statistiques
+     *                                              ************************************/
+    Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus();
 
 
 }

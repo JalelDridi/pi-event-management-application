@@ -11,12 +11,12 @@ import tn.esprit.eventmodule.Entities.StatusType;
 import jakarta.annotation.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -115,26 +115,28 @@ public class EventImpl implements EventInterface {
         participationDao.save(participation);
     }
 
-    public void displayUserOfEvent(Long eventId) {
+    public List<UserDto> displayUserOfEvent(Long eventId) {
+        List<UserDto> users = new ArrayList<>();
+
+        // Retrieve participations for the specified event ID
         List<Participation> participations = participationDao.findByEventId(eventId);
 
         // Iterate over the participations
         for (Participation participation : participations) {
-            // Retrieve user IDs for the current participation
+            // Retrieve user IDs associated with the current participation
             List<String> userIDs = findUserIdsByEventId(participation.getEventId());
 
             // Iterate over the user IDs
             for (String userID : userIDs) {
                 // Retrieve user information for the current user ID
                 UserDto user = getUserById(userID);
-
-                // Print user information
-                System.out.println("User ID: " + user.getUserID());
-                System.out.println("User Name: " + user.getFirstName() + " " + user.getLastName());
-                // Add more properties as needed
+                users.add(user);
             }
         }
+
+        return users;
     }
+
 
     private UserDto getUserById(String userId) {
         // Replace "user-service-url" with the actual URL of the User Microservice
@@ -254,52 +256,52 @@ public class EventImpl implements EventInterface {
     /****************************
      *                              Statistiques
      *                                          **********************************/
-//    @Override
-//    public Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus() {
-//        Map<String, Map<String, Double>> percentages = new HashMap<>();
-//
-//        // Récupérer tous les types d'événements
-//        for (EventType eventType : EventType.values()) {
-//            // Initialiser le sous-map pour ce type d'événement
-//            Map<String, Double> typePercentage = new HashMap<>();
-//
-//            // Récupérer le nombre total d'événements pour ce type
-//            List<Event> eventsByType = eventDao.findByType(eventType);
-//            int totalEventsOfType = eventsByType.size();
-//
-//            // Calculer le pourcentage pour chaque statut
-//            for (StatusType statusType : StatusType.values()) {
-//                // Récupérer le nombre d'événements pour ce statut
-//                List<Event> eventsByTypeAndStatus = eventDao.findByTypeAndStatus(eventType, statusType);
-//                int totalEventsOfTypeAndStatus = eventsByTypeAndStatus.size();
-//
-//                // Calculer le pourcentage
-//                double percentage = (totalEventsOfTypeAndStatus / (double) totalEventsOfType) * 100;
-//
-//                // Ajouter le pourcentage au sous-map
-//                typePercentage.put(statusType.toString(), percentage);
-//            }
-//
-//            // Ajouter le sous-map au map principal
-//            percentages.put(eventType.toString(), typePercentage);
-//        }
-//
-//        return percentages;
-//    }
-//    public void displayEventPercentages() {
-//        Map<String, Map<String, Double>> percentages = calculateEventPercentageByTypeAndStatus();
-//
-//        // Affichage des pourcentages
-//        for (Map.Entry<String, Map<String, Double>> entry : percentages.entrySet()) {
-//            String eventType = entry.getKey();
-//            System.out.println(eventType + ":");
-//
-//            Map<String, Double> typePercentages = entry.getValue();
-//            System.out.println("  Planifié: " + typePercentages.getOrDefault("Planifié", 0.0) + "%");
-//            System.out.println("  En cours: " + typePercentages.getOrDefault("En_Cours", 0.0) + "%");
-//            System.out.println("  Terminé: " + typePercentages.getOrDefault("Terminé", 0.0) + "%");
-//        }
-//    }
+    @Override
+    public Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus() {
+        Map<String, Map<String, Double>> percentages = new HashMap<>();
+
+        // Récupérer tous les types d'événements
+        for (EventType eventType : EventType.values()) {
+            // Initialiser le sous-map pour ce type d'événement
+            Map<String, Double> typePercentage = new HashMap<>();
+
+            // Récupérer le nombre total d'événements pour ce type
+            List<Event> eventsByType = eventDao.findByType(eventType);
+            int totalEventsOfType = eventsByType.size();
+
+            // Calculer le pourcentage pour chaque statut
+            for (StatusType statusType : StatusType.values()) {
+                // Récupérer le nombre d'événements pour ce statut
+                List<Event> eventsByTypeAndStatus = eventDao.findByTypeAndStatus(eventType, statusType);
+                int totalEventsOfTypeAndStatus = eventsByTypeAndStatus.size();
+
+                // Calculer le pourcentage
+                double percentage = (totalEventsOfTypeAndStatus / (double) totalEventsOfType) * 100;
+
+                // Ajouter le pourcentage au sous-map
+                typePercentage.put(statusType.toString(), percentage);
+            }
+
+            // Ajouter le sous-map au map principal
+            percentages.put(eventType.toString(), typePercentage);
+        }
+
+        return percentages;
+    }
+    public void displayEventPercentages() {
+        Map<String, Map<String, Double>> percentages = calculateEventPercentageByTypeAndStatus();
+
+        // Affichage des pourcentages
+        for (Map.Entry<String, Map<String, Double>> entry : percentages.entrySet()) {
+            String eventType = entry.getKey();
+            System.out.println(eventType + ":");
+
+            Map<String, Double> typePercentages = entry.getValue();
+            System.out.println("  Planifié: " + typePercentages.getOrDefault("Planifié", 0.0) + "%");
+            System.out.println("  En cours: " + typePercentages.getOrDefault("En_Cours", 0.0) + "%");
+            System.out.println("  Terminé: " + typePercentages.getOrDefault("Terminé", 0.0) + "%");
+        }
+    }
 }
 
 
