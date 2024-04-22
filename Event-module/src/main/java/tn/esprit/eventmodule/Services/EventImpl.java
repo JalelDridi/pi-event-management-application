@@ -3,11 +3,10 @@ package tn.esprit.eventmodule.Services;
 import org.springframework.web.util.UriComponentsBuilder;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.ParticipationDao;
+import tn.esprit.eventmodule.Daos.ResourceReservationDao;
+import tn.esprit.eventmodule.Dtos.ResourceDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
-import tn.esprit.eventmodule.Entities.Event;
-import tn.esprit.eventmodule.Entities.EventType;
-import tn.esprit.eventmodule.Entities.Participation;
-import tn.esprit.eventmodule.Entities.StatusType;
+import tn.esprit.eventmodule.Entities.*;
 import jakarta.annotation.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +28,8 @@ public class EventImpl implements EventInterface {
     EventDao eventDao;
     @Resource
     ParticipationDao participationDao;
+    @Resource
+    ResourceReservationDao resourceReservationDao;
 
     /* @Autowired
      ResourceDao resourceDao;
@@ -81,23 +82,6 @@ public class EventImpl implements EventInterface {
     public void updateEventStatusAutomatiquement() {
         eventDao.updateEventStatus(StatusType.Planifié, StatusType.En_Cours, StatusType.Terminé);
     }
-
-
-    /************************************* User
-     @Override public User addUser(User user) {
-     return userDao.save(user);
-     }****************************************/
-
-   /* @Override
-    public void affectUserToEvent(Long userID, Long eventId) {
-        User user= userDao.findById(userID).get();
-        Event event = eventDao.findById(eventId).get();
-        Participant participant = new Participant(user , event) ;
-        event.getParticipants().add(participant);
-
-        participantDao.save(participant);
-        envoyerEmailParticipant(participant,event);
-    }*/
     public void affectUserToEvent(String userID, long eventId) {
         // Make an HTTP request to the User Microservice to get user information
         // UserDto user = makeHttpRequestToUserMicroservice(userID);
@@ -163,6 +147,65 @@ public class EventImpl implements EventInterface {
 
         return participationDao.findUserIdsByEventId(eventId);
     }
+    /**************************************
+     *                                    Resource
+     *                                          ***********************************************/
+    public void assignResourceToEvent(Long resourceId, Long eventId) {
+        // Create a resource reservation
+        ResourceReservation reservation = new ResourceReservation();
+        reservation.setResourceID(resourceId);
+        reservation.setEventId(eventId);
+
+        // Save resource reservation
+        resourceReservationDao.save(reservation);
+    }
+
+    public Map<String, List<ResourceDto>> displayResourcesOfEvent(Long eventId) {
+        Map<String, List<ResourceDto>> resourcesByType = new HashMap<>();
+
+        // Retrieve resource reservations for the specified event ID
+        List<ResourceReservation> reservations = resourceReservationDao.findByEventId(eventId);
+
+        // Iterate over the resource reservations
+        for (ResourceReservation reservation : reservations) {
+            // Retrieve resource information for the current reservation
+            ResourceDto resource = getResourceById(reservation.getResourceID());
+
+            // Retrieve resource type information for the current resource
+            String resourceType = reservation.getResouceTypeName();
+
+            // Remove resourceId from the resource object
+            resource.setResourceID(null);
+
+            // Add the resource to the corresponding list based on resource type
+            List<ResourceDto> resources = resourcesByType.getOrDefault(resourceType, new ArrayList<>());
+            resources.add(resource);
+            resourcesByType.put(resourceType, resources);
+        }
+
+        return resourcesByType;
+    }
+
+    private ResourceDto getResourceById(Long resourceId) {
+        // Replace "resource-service-url" with the actual URL of the Resource Microservice
+        // Construct the URL with placeholders
+        String resourceMicroserviceUrl = UriComponentsBuilder
+                .fromUriString("http://localhost:8093/api/resources/{id}")
+                .buildAndExpand(resourceId)
+                .toUriString();
+
+        // Make a GET request to the Resource Microservice
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<ResourceDto> responseEntity = restTemplate.getForEntity(resourceMicroserviceUrl, ResourceDto.class);
+
+        // Check if the request was successful (HTTP status code 200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            return responseEntity.getBody();
+        } else {
+            // Handle the case where the request was not successful
+            throw new RuntimeException("Failed to fetch resource from Resource Microservice. Status code: " + responseEntity.getStatusCodeValue());
+        }
+    }
 
 //    public void sendEmail(String toEmail, String subject, String body) {
 //        if (toEmail != null) {
@@ -204,55 +247,6 @@ public class EventImpl implements EventInterface {
 //            System.out.println("Event not found!");
 //        }
 //    }
-
-    /****************************************
-     *                                  Reclamation
-     *                                              ******************************/////////
-
-
-    /************************************* Resource
-
-     @Override public Resource addResource(Resource resource) {
-     return resourceDao.save(resource);
-     }
-
-     @Override public List<Resource> getResource() {
-     return resourceDao.findAll();
-     }
-
-     @Override public Resource editResource(Long resourceID, Resource resource) {
-     Resource ExistingResource = resourceDao.findById(resourceID).get();
-     ExistingResource.setResourceName(resource.getResourceName());
-     ExistingResource.setResourceType(resource.getResourceType());
-     return resourceDao.save(ExistingResource);
-     }
-
-     @Override public void deleteResource(Long resourceID) {resourceDao.deleteById(resourceID);
-
-     }
-     ****************************************/
-
-    /************************************* ResourceType
-
-
-     @Override public ResourceType addResourceType(ResourceType resourceType) {
-     return resourceTypeDao.save(resourceType);
-     }
-
-     @Override public List<ResourceType> getResourceType() {
-     return resourceTypeDao.findAll();
-     }
-
-     @Override public ResourceType editResourceType(Long id, ResourceType resourceType) {
-     ResourceType ExistingResourceType = resourceTypeDao.findById(id).get();
-     ExistingResourceType.setResouceTypeName(resourceType.getResouceTypeName());
-     return ExistingResourceType;
-     }
-
-     @Override public void deleteResourceType(Long id) { resourceTypeDao.deleteById(id);
-
-     }
-     ****************************************/
     /****************************
      *                              Statistiques
      *                                          **********************************/
