@@ -1,5 +1,6 @@
 package com.esprit.usermicroservice.controllers;
 
+import com.esprit.usermicroservice.dtos.EventUserDto;
 import com.esprit.usermicroservice.entities.User;
 import com.esprit.usermicroservice.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public User getUserById(@PathVariable String userId) {
+    public EventUserDto getUserById(@PathVariable String userId) {
         return userService.findUserById(userId);
     }
 
