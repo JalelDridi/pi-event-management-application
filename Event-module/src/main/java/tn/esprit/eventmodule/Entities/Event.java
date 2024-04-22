@@ -22,8 +22,10 @@ public class Event {
     private Date startDate ;
     private Date endDate ;
     @Enumerated ( EnumType.STRING)
-    private EventType Type ;
+    @Column
+    private EventType type;
     private String Club ;
+    @Column
     private StatusType status;
     private String Rating  ;
 

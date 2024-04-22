@@ -2,7 +2,10 @@ package tn.esprit.eventmodule.Controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import tn.esprit.eventmodule.Daos.EventDao;
+import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
 import tn.esprit.eventmodule.Entities.StatusType;
 import tn.esprit.eventmodule.Services.EventImpl;
@@ -66,9 +69,24 @@ public class EventController {
         eventimpl.affectUserToEvent(userId, eventId);
     }
     @GetMapping("/{eventId}/users")
-    public void displayUsersOfEvent(@PathVariable Long eventId) {
-        eventimpl.displayUserOfEvent(eventId);
-    }    /***************************************
+    public ResponseEntity<List<UserDto>> displayUsersOfEvent(@PathVariable Long eventId) {
+        try {
+            // Call the method to display user information for the given event ID
+            List<UserDto> users = eventimpl.displayUserOfEvent(eventId);
+
+            // Return the list of UserDto objects
+            return ResponseEntity.ok(users);
+        } catch (Exception e) {
+            // Handle exceptions
+            // Log the error for debugging
+            e.printStackTrace();
+
+            // Return an appropriate error response
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+}    /***************************************
                                               user
 
     @PostMapping ("/adduser")
@@ -80,9 +98,9 @@ public class EventController {
                                                         *****************************************/
    /* @PostMapping ("/addparticipant")
     public void addParticipantToEvent ( @RequestParam Long userID   , @RequestParam Long eventId){
-        eventimpl.affectUserToEvent(userID,eventId);*/
+        eventimpl.affectUserToEvent(userID,eventId);}*/
 
-    }
+
     /***************************************
                                             Resource
 
