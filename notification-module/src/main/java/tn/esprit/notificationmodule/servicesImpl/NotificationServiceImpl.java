@@ -10,6 +10,8 @@ import tn.esprit.notificationmodule.services.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 
@@ -42,6 +44,7 @@ public class NotificationServiceImpl implements NotificationService {
     public void addNotification(Notification notification, Message message) {
         message.setMessageId(sequenceGeneratorService.generateSequence(Message.SEQUENCE_NAME));
         messageRepository.save(message);
+
         notification.setMessageId(message.getMessageId());
         notification.setNotificationId(sequenceGeneratorService.generateSequence(Notification.SEQUENCE_NAME));
         notification.setIsRead(false);
