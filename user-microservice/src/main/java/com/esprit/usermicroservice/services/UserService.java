@@ -1,5 +1,6 @@
 package com.esprit.usermicroservice.services;
 
+import com.esprit.usermicroservice.dtos.EventUserDto;
 import com.esprit.usermicroservice.entities.User;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface UserService {
      * @param userId
      * @return User
      */
-    User findUserById(String userId);
+    EventUserDto findUserById(String userId);
 
     /**
      * Updates a given user fields.
