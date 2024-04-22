@@ -1,5 +1,6 @@
 package tn.esprit.eventmodule.Services;
 
+import org.springframework.web.util.UriComponentsBuilder;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.ParticipationDao;
 import tn.esprit.eventmodule.Dtos.UserDto;
@@ -29,12 +30,12 @@ public class EventImpl implements EventInterface {
     @Resource
     ParticipationDao participationDao;
 
-   /* @Autowired
-    ResourceDao resourceDao;
-    @Autowired
-    ResourceTypeDao resourceTypeDao;
+    /* @Autowired
+     ResourceDao resourceDao;
+     @Autowired
+     ResourceTypeDao resourceTypeDao;
 
-    */
+     */
     @Override
     public Event addEvent(Event event) {
         return eventDao.save(event);
@@ -56,24 +57,23 @@ public class EventImpl implements EventInterface {
     }
 
 
-
     @Override
     public Event editEvent(Long eventId, Event event) {
 
-            Event ExistingEvent = eventDao.findById(eventId).get();
-            ExistingEvent.setName(event.getName());
-            ExistingEvent.setClub(event.getClub());
-            ExistingEvent.setEndDate(event.getEndDate());
-            ExistingEvent.setStartDate(event.getStartDate());
-            ExistingEvent.setRating(event.getRating());
-            ExistingEvent.setStatus(event.getStatus());
-            ExistingEvent.setType(event.getType());
-            return eventDao.save(ExistingEvent);
+        Event ExistingEvent = eventDao.findById(eventId).get();
+        ExistingEvent.setName(event.getName());
+        ExistingEvent.setClub(event.getClub());
+        ExistingEvent.setEndDate(event.getEndDate());
+        ExistingEvent.setStartDate(event.getStartDate());
+        ExistingEvent.setRating(event.getRating());
+        ExistingEvent.setStatus(event.getStatus());
+        ExistingEvent.setType(event.getType());
+        return eventDao.save(ExistingEvent);
     }
 
     @Override
     public void deleteEvent(Long eventId) {
-         eventDao.deleteById(eventId);
+        eventDao.deleteById(eventId);
     }
 
     @Override
@@ -84,10 +84,9 @@ public class EventImpl implements EventInterface {
 
 
     /************************************* User
-    @Override
-    public User addUser(User user) {
-    return userDao.save(user);
-    }****************************************/
+     @Override public User addUser(User user) {
+     return userDao.save(user);
+     }****************************************/
 
    /* @Override
     public void affectUserToEvent(Long userID, Long eventId) {
@@ -99,7 +98,6 @@ public class EventImpl implements EventInterface {
         participantDao.save(participant);
         envoyerEmailParticipant(participant,event);
     }*/
-
     public void affectUserToEvent(String userID, long eventId) {
         // Make an HTTP request to the User Microservice to get user information
         // UserDto user = makeHttpRequestToUserMicroservice(userID);
@@ -116,6 +114,7 @@ public class EventImpl implements EventInterface {
         // Save participation
         participationDao.save(participation);
     }
+
     public void displayUserOfEvent(Long eventId) {
         List<Participation> participations = participationDao.findByEventId(eventId);
 
@@ -139,8 +138,11 @@ public class EventImpl implements EventInterface {
 
     private UserDto getUserById(String userId) {
         // Replace "user-service-url" with the actual URL of the User Microservice
-        String userMicroserviceUrl = "http://localhost:8080/api/users/{userId}" + userId;
-
+// Construct the URL with placeholders
+        String userMicroserviceUrl = UriComponentsBuilder
+                .fromUriString("http://localhost:8091/api/v1/users/{userId}")
+                .buildAndExpand(userId)
+                .toUriString();
         // Make a GET request to the User Microservice
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<UserDto> responseEntity = restTemplate.getForEntity(userMicroserviceUrl, UserDto.class);
@@ -154,9 +156,11 @@ public class EventImpl implements EventInterface {
             throw new RuntimeException("Failed to fetch user from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
         }
     }
+
     public List<String> findUserIdsByEventId(Long eventId) {
+
         return participationDao.findUserIdsByEventId(eventId);
-}
+    }
 
 //    public void sendEmail(String toEmail, String subject, String body) {
 //        if (toEmail != null) {
@@ -204,108 +208,98 @@ public class EventImpl implements EventInterface {
      *                                              ******************************/////////
 
 
-
-
     /************************************* Resource
 
-    @Override
-    public Resource addResource(Resource resource) {
-        return resourceDao.save(resource);
-    }
+     @Override public Resource addResource(Resource resource) {
+     return resourceDao.save(resource);
+     }
 
-    @Override
-    public List<Resource> getResource() {
-        return resourceDao.findAll();
-    }
+     @Override public List<Resource> getResource() {
+     return resourceDao.findAll();
+     }
 
-    @Override
-    public Resource editResource(Long resourceID, Resource resource) {
-        Resource ExistingResource = resourceDao.findById(resourceID).get();
-        ExistingResource.setResourceName(resource.getResourceName());
-        ExistingResource.setResourceType(resource.getResourceType());
-        return resourceDao.save(ExistingResource);
-    }
+     @Override public Resource editResource(Long resourceID, Resource resource) {
+     Resource ExistingResource = resourceDao.findById(resourceID).get();
+     ExistingResource.setResourceName(resource.getResourceName());
+     ExistingResource.setResourceType(resource.getResourceType());
+     return resourceDao.save(ExistingResource);
+     }
 
-    @Override
-    public void deleteResource(Long resourceID) {resourceDao.deleteById(resourceID);
+     @Override public void deleteResource(Long resourceID) {resourceDao.deleteById(resourceID);
 
-    }
+     }
      ****************************************/
 
     /************************************* ResourceType
 
 
-    @Override
-    public ResourceType addResourceType(ResourceType resourceType) {
-        return resourceTypeDao.save(resourceType);
-    }
+     @Override public ResourceType addResourceType(ResourceType resourceType) {
+     return resourceTypeDao.save(resourceType);
+     }
 
-    @Override
-    public List<ResourceType> getResourceType() {
-        return resourceTypeDao.findAll();
-    }
+     @Override public List<ResourceType> getResourceType() {
+     return resourceTypeDao.findAll();
+     }
 
-    @Override
-    public ResourceType editResourceType(Long id, ResourceType resourceType) {
-        ResourceType ExistingResourceType = resourceTypeDao.findById(id).get();
-        ExistingResourceType.setResouceTypeName(resourceType.getResouceTypeName());
-        return ExistingResourceType;
-    }
+     @Override public ResourceType editResourceType(Long id, ResourceType resourceType) {
+     ResourceType ExistingResourceType = resourceTypeDao.findById(id).get();
+     ExistingResourceType.setResouceTypeName(resourceType.getResouceTypeName());
+     return ExistingResourceType;
+     }
 
-    @Override
-    public void deleteResourceType(Long id) { resourceTypeDao.deleteById(id);
+     @Override public void deleteResourceType(Long id) { resourceTypeDao.deleteById(id);
 
-    }
+     }
      ****************************************/
     /****************************
      *                              Statistiques
      *                                          **********************************/
-    @Override
-    public Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus() {
-        Map<String, Map<String, Double>> percentages = new HashMap<>();
-
-        // Récupérer tous les types d'événements
-        for (EventType eventType : EventType.values()) {
-            // Initialiser le sous-map pour ce type d'événement
-            Map<String, Double> typePercentage = new HashMap<>();
-
-            // Récupérer le nombre total d'événements pour ce type
-            List<Event> eventsByType = eventDao.findByType(eventType);
-            int totalEventsOfType = eventsByType.size();
-
-            // Calculer le pourcentage pour chaque statut
-            for (StatusType statusType : StatusType.values()) {
-                // Récupérer le nombre d'événements pour ce statut
-                List<Event> eventsByTypeAndStatus = eventDao.findByTypeAndStatus(eventType, statusType);
-                int totalEventsOfTypeAndStatus = eventsByTypeAndStatus.size();
-
-                // Calculer le pourcentage
-                double percentage = (totalEventsOfTypeAndStatus / (double) totalEventsOfType) * 100;
-
-                // Ajouter le pourcentage au sous-map
-                typePercentage.put(statusType.toString(), percentage);
-            }
-
-            // Ajouter le sous-map au map principal
-            percentages.put(eventType.toString(), typePercentage);
-        }
-
-        return percentages;
-    }
-    public void displayEventPercentages() {
-        Map<String, Map<String, Double>> percentages = calculateEventPercentageByTypeAndStatus();
-
-        // Affichage des pourcentages
-        for (Map.Entry<String, Map<String, Double>> entry : percentages.entrySet()) {
-            String eventType = entry.getKey();
-            System.out.println(eventType + ":");
-
-            Map<String, Double> typePercentages = entry.getValue();
-            System.out.println("  Planifié: " + typePercentages.getOrDefault("Planifié", 0.0) + "%");
-            System.out.println("  En cours: " + typePercentages.getOrDefault("En_Cours", 0.0) + "%");
-            System.out.println("  Terminé: " + typePercentages.getOrDefault("Terminé", 0.0) + "%");
-        }
-    }
+//    @Override
+//    public Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus() {
+//        Map<String, Map<String, Double>> percentages = new HashMap<>();
+//
+//        // Récupérer tous les types d'événements
+//        for (EventType eventType : EventType.values()) {
+//            // Initialiser le sous-map pour ce type d'événement
+//            Map<String, Double> typePercentage = new HashMap<>();
+//
+//            // Récupérer le nombre total d'événements pour ce type
+//            List<Event> eventsByType = eventDao.findByType(eventType);
+//            int totalEventsOfType = eventsByType.size();
+//
+//            // Calculer le pourcentage pour chaque statut
+//            for (StatusType statusType : StatusType.values()) {
+//                // Récupérer le nombre d'événements pour ce statut
+//                List<Event> eventsByTypeAndStatus = eventDao.findByTypeAndStatus(eventType, statusType);
+//                int totalEventsOfTypeAndStatus = eventsByTypeAndStatus.size();
+//
+//                // Calculer le pourcentage
+//                double percentage = (totalEventsOfTypeAndStatus / (double) totalEventsOfType) * 100;
+//
+//                // Ajouter le pourcentage au sous-map
+//                typePercentage.put(statusType.toString(), percentage);
+//            }
+//
+//            // Ajouter le sous-map au map principal
+//            percentages.put(eventType.toString(), typePercentage);
+//        }
+//
+//        return percentages;
+//    }
+//    public void displayEventPercentages() {
+//        Map<String, Map<String, Double>> percentages = calculateEventPercentageByTypeAndStatus();
+//
+//        // Affichage des pourcentages
+//        for (Map.Entry<String, Map<String, Double>> entry : percentages.entrySet()) {
+//            String eventType = entry.getKey();
+//            System.out.println(eventType + ":");
+//
+//            Map<String, Double> typePercentages = entry.getValue();
+//            System.out.println("  Planifié: " + typePercentages.getOrDefault("Planifié", 0.0) + "%");
+//            System.out.println("  En cours: " + typePercentages.getOrDefault("En_Cours", 0.0) + "%");
+//            System.out.println("  Terminé: " + typePercentages.getOrDefault("Terminé", 0.0) + "%");
+//        }
+//    }
 }
 
 

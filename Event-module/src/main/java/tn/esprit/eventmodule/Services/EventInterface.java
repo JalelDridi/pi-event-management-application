@@ -21,7 +21,7 @@ public interface EventInterface {
 //    void sendEmail(String toEmail, String subject, String body);
 //    void envoyerEmailParticipant(Participation participant, Event event) ;
 
-    Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus();
+   // Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus();
     /********************************** Resource
     public Resource addResource (Resource resource);
     public List<Resource> getResource();

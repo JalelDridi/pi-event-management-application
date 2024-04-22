@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -43,7 +44,7 @@ public class EventController {
     @GetMapping("/todaysEvents")
     public List<Event> getTodaysEvents() {
         // Get today's date
-        LocalDate today = LocalDate.now();
+        Date today = new Date();
 
         // Get events with start date equals to today's date
         return eventDao.findByStartDate(today);
@@ -64,7 +65,10 @@ public class EventController {
     public void addParticipation(@RequestParam String userId,  @RequestParam long eventId) {
         eventimpl.affectUserToEvent(userId, eventId);
     }
-    /***************************************
+    @GetMapping("/{eventId}/users")
+    public void displayUsersOfEvent(@PathVariable Long eventId) {
+        eventimpl.displayUserOfEvent(eventId);
+    }    /***************************************
                                               user
 
     @PostMapping ("/adduser")
