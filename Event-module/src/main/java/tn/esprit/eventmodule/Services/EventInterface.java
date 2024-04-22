@@ -5,6 +5,7 @@ import tn.esprit.eventmodule.Entities.Event;
 import tn.esprit.eventmodule.Entities.Participation;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EventInterface {
     Event addEvent (Event event) ;
@@ -16,10 +17,11 @@ public interface EventInterface {
     void updateEventStatusAutomatiquement();
     /********************************** User *************************************/
     //public User addUser (User user );
-    List<UserDto> findByEvent(Long eventId);
     void affectUserToEvent(String userID, long eventId);
     void sendEmail(String toEmail, String subject, String body);
     void envoyerEmailParticipant(Participation participant, Event event) ;
+
+    Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus();
     /********************************** Resource
     public Resource addResource (Resource resource);
     public List<Resource> getResource();
@@ -32,5 +34,10 @@ public interface EventInterface {
     public ResourceType editResourceType (Long id , ResourceType resourceType);
     public void deleteResourceType ( Long id);
      ****************************************/
+    /****************************************
+     *                                  Reclamation
+     *                                              ******************************/////////
+    //public void displayReclamationsForEvent(long eventId);
+
 
 }

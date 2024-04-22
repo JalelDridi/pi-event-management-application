@@ -1,6 +1,7 @@
 package tn.esprit.eventmodule.Daos;
 
 import tn.esprit.eventmodule.Entities.Event;
+import tn.esprit.eventmodule.Entities.EventType;
 import tn.esprit.eventmodule.Entities.StatusType;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,4 +29,8 @@ public interface EventDao extends JpaRepository<Event, Long> {
 
     List<Event> findByStartDate(LocalDate today);
     List<Event> findByStartDateAfterOrderByStartDate(Timestamp startDate);
+    List<Event> findByType(EventType eventType);
+
+    List<Event> findByTypeAndStatus(EventType eventType, StatusType statusType);
+
 }

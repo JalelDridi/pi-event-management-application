@@ -4,10 +4,10 @@ import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.ParticipationDao;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
+import tn.esprit.eventmodule.Entities.EventType;
 import tn.esprit.eventmodule.Entities.Participation;
 import tn.esprit.eventmodule.Entities.StatusType;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -16,12 +16,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EventImpl implements EventInterface {
-    @Autowired
-    private JavaMailSender emailSender;
+
+    JavaMailSender emailSender;
     @Resource
     EventDao eventDao;
     @Resource
@@ -53,10 +55,7 @@ public class EventImpl implements EventInterface {
         return null;
     }
 
-    /*@Override
-    public Long getEventId() {
-        return eventId;
-    }*/
+
 
     @Override
     public Event editEvent(Long eventId, Event event) {
@@ -76,17 +75,6 @@ public class EventImpl implements EventInterface {
     public void deleteEvent(Long eventId) {
          eventDao.deleteById(eventId);
     }
-
-    @Override
-    public List<UserDto> findByEvent(Long eventId) {
-//         List<UserDto> users = new ArrayList<>();
-//        return users.stream()
-//                .filter(user -> user.getEventId().equals(eventId)) // Replace getEventId with the actual method to retrieve the event ID of the user
-//                .collect(Collectors.toList());
-        return null;
-    }
-
-
 
     @Override
     @Scheduled(fixedRate = 60000) // 60000 milliseconds = 1 minute
@@ -129,26 +117,29 @@ public class EventImpl implements EventInterface {
         participationDao.save(participation);
     }
     public void displayUserOfEvent(Long eventId) {
-        // Retrieve participations for the specified event ID
         List<Participation> participations = participationDao.findByEventId(eventId);
 
         // Iterate over the participations
         for (Participation participation : participations) {
-            // Retrieve user information for the current participation
-            UserDto user = getUserById(participation.getUserID());
+            // Retrieve user IDs for the current participation
+            List<String> userIDs = findUserIdsByEventId(participation.getEventId());
 
-            // Print or process user information as needed
-            System.out.println("User ID: " + user.getUserID());
-            System.out.println("User Name: " + user.getFirstName());
-            // Add more properties as needed
+            // Iterate over the user IDs
+            for (String userID : userIDs) {
+                // Retrieve user information for the current user ID
+                UserDto user = getUserById(userID);
 
-            // Do other processing with user information
+                // Print user information
+                System.out.println("User ID: " + user.getUserID());
+                System.out.println("User Name: " + user.getFirstName() + " " + user.getLastName());
+                // Add more properties as needed
+            }
         }
     }
 
     private UserDto getUserById(String userId) {
         // Replace "user-service-url" with the actual URL of the User Microservice
-        String userMicroserviceUrl = "http://localhost:8080/api/users" + userId;
+        String userMicroserviceUrl = "http://localhost:8080/api/users/{userId}" + userId;
 
         // Make a GET request to the User Microservice
         RestTemplate restTemplate = new RestTemplate();
@@ -163,32 +154,57 @@ public class EventImpl implements EventInterface {
             throw new RuntimeException("Failed to fetch user from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
         }
     }
+    public List<String> findUserIdsByEventId(Long eventId) {
+        return participationDao.findUserIdsByEventId(eventId);
+}
 
-    public void sendEmail(String toEmail, String subject, String body) {
-        if (toEmail != null) {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("medmohamed.maalej@gmail.com");
-            message.setTo(toEmail);
-            message.setSubject(subject);
-            message.setText(body);
+//    public void sendEmail(String toEmail, String subject, String body) {
+//        if (toEmail != null) {
+//            SimpleMailMessage message = new SimpleMailMessage();
+//            message.setFrom("medmohamed.maalej@gmail.com");
+//            message.setTo(toEmail);
+//            message.setSubject(subject);
+//            message.setText(body);
+//
+//            emailSender.send(message);
+//            System.out.println("Mail Sent successfully...");
+//        } else {
+//            System.out.println("Erreur: L'adresse e-mail est non valide.");
+//        }
+//    }
+//    public void envoyerEmailParticipant(Participation participant, Event event ) {
+//        String toEmail = "";//participant.getUserID().getEmail();
+//        String subject = "Détails de l'événement";
+//        String body = "Bonjour,\n\nVous êtes inscrit à l'événement suivant :\n\n" +
+//                "Nom de l'événement : " + event.getName() + "\n" +
+//                "Date de l'événement : " + event.getStartDate() + "\n" +
+//                "Type de l'événement : " + event.getType() + "\n\n" +
+//                "Merci et à bientôt!" ;
+//
+//        sendEmail(toEmail, subject, body);
+//    }
+//    public void displayReclamationsForEvent(long eventId) {
+//        Event event = eventDao.findById(eventId).orElse(null);
+//        if (event != null) {
+//            // Assuming you have a method to get all reclamations for an event from the event object
+//            List<ReclamationDto> allReclamations = event.getReclamations();
+//
+//            // Display reclamations with user ID
+//            for (ReclamationDto reclamation : allReclamations) {
+//                System.out.println("Reclamation: " + reclamation.getId() + ", User ID: " + reclamation.getUserId());
+//            }
+//        } else {
+//            // Handle case where event is not found
+//            System.out.println("Event not found!");
+//        }
+//    }
 
-            emailSender.send(message);
-            System.out.println("Mail Sent successfully...");
-        } else {
-            System.out.println("Erreur: L'adresse e-mail est non valide.");
-        }
-    }
-    public void envoyerEmailParticipant(Participation participant, Event event ) {
-        String toEmail = "";//participant.getUserID().getEmail();
-        String subject = "Détails de l'événement";
-        String body = "Bonjour,\n\nVous êtes inscrit à l'événement suivant :\n\n" +
-                "Nom de l'événement : " + event.getName() + "\n" +
-                "Date de l'événement : " + event.getStartDate() + "\n" +
-                "Type de l'événement : " + event.getType() + "\n\n" +
-                "Merci et à bientôt!" ;
+    /****************************************
+     *                                  Reclamation
+     *                                              ******************************/////////
 
-        sendEmail(toEmail, subject, body);
-    }
+
+
 
     /************************************* Resource
 
@@ -241,5 +257,58 @@ public class EventImpl implements EventInterface {
 
     }
      ****************************************/
+    /****************************
+     *                              Statistiques
+     *                                          **********************************/
+    @Override
+    public Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus() {
+        Map<String, Map<String, Double>> percentages = new HashMap<>();
 
+        // Récupérer tous les types d'événements
+        for (EventType eventType : EventType.values()) {
+            // Initialiser le sous-map pour ce type d'événement
+            Map<String, Double> typePercentage = new HashMap<>();
+
+            // Récupérer le nombre total d'événements pour ce type
+            List<Event> eventsByType = eventDao.findByType(eventType);
+            int totalEventsOfType = eventsByType.size();
+
+            // Calculer le pourcentage pour chaque statut
+            for (StatusType statusType : StatusType.values()) {
+                // Récupérer le nombre d'événements pour ce statut
+                List<Event> eventsByTypeAndStatus = eventDao.findByTypeAndStatus(eventType, statusType);
+                int totalEventsOfTypeAndStatus = eventsByTypeAndStatus.size();
+
+                // Calculer le pourcentage
+                double percentage = (totalEventsOfTypeAndStatus / (double) totalEventsOfType) * 100;
+
+                // Ajouter le pourcentage au sous-map
+                typePercentage.put(statusType.toString(), percentage);
+            }
+
+            // Ajouter le sous-map au map principal
+            percentages.put(eventType.toString(), typePercentage);
+        }
+
+        return percentages;
+    }
+    public void displayEventPercentages() {
+        Map<String, Map<String, Double>> percentages = calculateEventPercentageByTypeAndStatus();
+
+        // Affichage des pourcentages
+        for (Map.Entry<String, Map<String, Double>> entry : percentages.entrySet()) {
+            String eventType = entry.getKey();
+            System.out.println(eventType + ":");
+
+            Map<String, Double> typePercentages = entry.getValue();
+            System.out.println("  Planifié: " + typePercentages.getOrDefault("Planifié", 0.0) + "%");
+            System.out.println("  En cours: " + typePercentages.getOrDefault("En_Cours", 0.0) + "%");
+            System.out.println("  Terminé: " + typePercentages.getOrDefault("Terminé", 0.0) + "%");
+        }
+    }
 }
+
+
+
+
+
