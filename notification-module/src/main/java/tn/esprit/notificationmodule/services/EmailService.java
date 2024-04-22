@@ -2,6 +2,7 @@ package tn.esprit.notificationmodule.services;
 
 import org.springframework.messaging.MessagingException;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface EmailService {
@@ -10,4 +11,5 @@ public interface EmailService {
 
     void sendEmailToMany(List<String> to, String subject, String body);
     void sendHtmlEmail(String receiverMail, String Subject, String htmlTemplate) throws MessagingException;
+    String loadEmailConfirmationTemplate(String username, String activationCode) throws IOException;
 }
