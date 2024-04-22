@@ -22,6 +22,7 @@ public class Notification implements Serializable {
 
 
     private String eventType;
+    private Boolean isSent;
     private Boolean isRead;
     private DeliveryChannel deliveryChannel ;
     private Long messageId;

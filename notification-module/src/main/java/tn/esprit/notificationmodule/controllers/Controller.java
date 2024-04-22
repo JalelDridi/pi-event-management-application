@@ -19,14 +19,15 @@ public class Controller {
     @Autowired
     private NotificationService notificationService;
 
+    private static final String CONFIRM_USER_TOPIC = "confirm-user-registration";
     private static final String SEND_EMAIL_TOPIC = "send-email";
     private static final String SEND_HTML_EMAIL_TOPIC = "send-html-email";
 
 
-    @PostMapping("/send-notification")
+    @PostMapping("/confirm-user")
     @ResponseBody
     public void sendNotification(@RequestBody NotificationDto notificationDto) {
-        kafkaTemplate.send(SEND_EMAIL_TOPIC, notificationDto);
+        kafkaTemplate.send(CONFIRM_USER_TOPIC, notificationDto);
     }
 
     @PostMapping("/send-notification-html")
