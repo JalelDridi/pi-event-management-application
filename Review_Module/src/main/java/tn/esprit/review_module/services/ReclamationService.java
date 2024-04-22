@@ -9,4 +9,9 @@ public interface ReclamationService {
     public Reclamation addReclamation(Reclamation reclamation);
 
     public List<Reclamation> getAllReclamations();
+
+
+    public List<Reclamation> findByeventId(Long eventId);
+
+    public List<Reclamation> findByUserId(Long eventId);
 }
