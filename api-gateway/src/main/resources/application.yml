@@ -14,16 +14,17 @@ spring:
     import: "optional:configserver:http://localhost:8088"
   cloud:
     gateway:
-      routes:
-        - id: Event-service
-          uri: lb://Event-module
-          predicates:
-            - Path=/event/**
-        - id: user-microservice
-          uri: lb://user-microservice
-          predicates:
-            - Path=/user/**
-        - id: notification-module
-          uri: lb://notification-module
-          predicates:
-            - Path=/notification/**
+      mvc:
+        routes:
+          - id: Event-service
+            uri: lb://Event-module
+            predicates:
+              - Path=/event/**
+          - id: user-microservice
+            uri: lb://user-microservice
+            predicates:
+              - Path=/user/**
+          - id: notification-module
+            uri: lb://notification-module
+            predicates:
+              - Path=/notification/**
