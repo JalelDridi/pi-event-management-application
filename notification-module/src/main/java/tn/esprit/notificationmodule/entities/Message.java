@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data // Lombok annotation to get rid of most boilerplate code like : getters, setters, equals, toString ....
 @Document(collection = "messages")
@@ -22,6 +23,6 @@ public class Message implements Serializable {
 
     private String subject;
     private String content;
-    private LocalDateTime sentDate;
+    private Date sentDate;
 
 }
