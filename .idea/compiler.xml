@@ -12,8 +12,8 @@
         <module name="config-server" />
         <module name="Review_Module" />
         <module name="notification-module" />
-        <module name="service-registry" />
         <module name="user-microservice" />
+        <module name="service-registry" />
       </profile>
     </annotationProcessing>
   </component>
