@@ -1,7 +1,7 @@
-package org.example.microservicenadine.Controller;
+package tn.esprit.adminmicroservice.Controller;
 
-import org.example.microservicenadine.Dto.UserDto;
-import org.example.microservicenadine.Service.ServiceUser;
+import tn.esprit.adminmicroservice.Dto.UserDto;
+import tn.esprit.adminmicroservice.Service.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package org.example.microservicenadine.Ennum;
+package tn.esprit.adminmicroservice.Ennum;
 
 public enum Role {
     SimpleUser,

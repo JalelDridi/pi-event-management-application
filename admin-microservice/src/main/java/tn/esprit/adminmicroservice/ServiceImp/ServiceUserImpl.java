@@ -1,8 +1,8 @@
-package org.example.microservicenadine.ServiceImp;
+package tn.esprit.adminmicroservice.ServiceImp;
 
-import org.example.microservicenadine.Dto.UserDto;
-import org.example.microservicenadine.Entities.StatusUser;
-import org.example.microservicenadine.Service.ServiceUser;
+import tn.esprit.adminmicroservice.Dto.UserDto;
+import tn.esprit.adminmicroservice.Entities.StatusUser;
+import tn.esprit.adminmicroservice.Service.ServiceUser;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

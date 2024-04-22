@@ -1,4 +1,4 @@
-package org.example.microservicenadine.Dto;
+package tn.esprit.adminmicroservice.Dto;
 
 
 import lombok.*;

@@ -1,4 +1,4 @@
-package org.example.microservicenadine.Entities;
+package tn.esprit.adminmicroservice.Entities;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

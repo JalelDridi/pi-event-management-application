@@ -1,4 +1,4 @@
-package org.example.microservicenadine.Entities;
+package tn.esprit.adminmicroservice.Entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -6,14 +6,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-
-public class StatusEvent {
+public class StatusRessources {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    private Long id_event;
-    private int status;
-
-
-
+    private  Long id_Ressource;
+    private  String type;
+    private int statusReservation;
 }
