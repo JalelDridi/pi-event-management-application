@@ -41,7 +41,7 @@ public class ReclamationController {
 
     @GetMapping("/getreclamationsbyuserid/{userid}")
     @ResponseBody
-    public List<Reclamation> findByUserId(@PathVariable Long userId) {
+    public List<Reclamation> findByUserId(@PathVariable String userId) {
         return reclamationService.findByUserId(userId);
 
     }

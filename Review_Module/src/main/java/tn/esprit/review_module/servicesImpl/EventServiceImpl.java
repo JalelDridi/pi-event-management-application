@@ -1,6 +1,6 @@
 package tn.esprit.review_module.servicesImpl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+/*import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.review_module.dtos.EventDto;
 import tn.esprit.review_module.entities.Reclamation;
@@ -20,7 +20,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public EventDto getEventDtoById(Long eventId) {
-        return eventRepository.findEventDtoById(eventId);
+    public EventDto getEventDtoById(Long id) {
+        EventDto eventDto = eventRepository.findEventDtoById(id);
+        return eventDto;
     }
-}
+
+}*/
