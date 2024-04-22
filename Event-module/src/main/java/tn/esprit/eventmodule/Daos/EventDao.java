@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 public interface EventDao extends JpaRepository<Event, Long> {
@@ -27,10 +28,10 @@ public interface EventDao extends JpaRepository<Event, Long> {
                            @Param("termine") StatusType termine);
     List<Event> findByStatus(StatusType status);
 
-    List<Event> findByStartDate(LocalDate today);
-    List<Event> findByStartDateAfterOrderByStartDate(Timestamp startDate);
-    List<Event> findByType(EventType eventType);
+    List<Event> findByStartDate(Date startDate);
+    List<Event> findByStartDateAfterOrderByStartDate(Date startDate);
+   // List<Event> findByType(EventType eventType);
 
-    List<Event> findByTypeAndStatus(EventType eventType, StatusType statusType);
+    //List<Event> findByTypeAndStatus(EventType eventType, StatusType statusType);
 
 }

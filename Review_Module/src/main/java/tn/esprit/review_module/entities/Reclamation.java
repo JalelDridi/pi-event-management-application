@@ -19,7 +19,10 @@ public class Reclamation implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long IdRec;
-    private Long eventId ;
+    private Long eventId;
+    private String userId;
     private TypeReclamation TypeRec;
     private LocalDateTime DateReclamation;
+
+
 }

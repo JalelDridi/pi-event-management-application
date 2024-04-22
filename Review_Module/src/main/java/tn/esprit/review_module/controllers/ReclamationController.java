@@ -1,5 +1,6 @@
 package tn.esprit.review_module.controllers;
 
+import jakarta.ws.rs.PathParam;
 import tn.esprit.review_module.entities.Reclamation;
 import tn.esprit.review_module.services.ReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,20 @@ public class ReclamationController {
     @ResponseBody
     public List<Reclamation> getAllReclamations(){
         return reclamationService.getAllReclamations();
+    }
+
+    @GetMapping("/getreclamationsbyeventid/{eventid}")
+    @ResponseBody
+    public List<Reclamation> findByeventId(@PathVariable Long eventId){
+        return reclamationService.findByeventId(eventId);
+
+    }
+
+    @GetMapping("/getreclamationsbyuserid/{userid}")
+    @ResponseBody
+    public List<Reclamation> findByUserId(@PathVariable Long userId) {
+        return reclamationService.findByUserId(userId);
+
     }
 
 
