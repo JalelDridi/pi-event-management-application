@@ -4,7 +4,6 @@ package tn.esprit.notificationmodule.servicesImpl;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import tn.esprit.notificationmodule.services.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessagingException;
@@ -20,7 +19,7 @@ import java.util.List;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    @Autowired
+    @jakarta.annotation.Resource
     private JavaMailSender mailSender;
 
     @Override
