@@ -1,0 +1,26 @@
+eureka:
+  client:
+    register-with-eureka: false
+server:
+  port: 8060
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: Event-service
+          uri: http://localhost:8089
+          predicates:
+            - Path=/api/v1/event/**
+        - id: user-microservice
+          uri: http://localhost:8091
+          predicates:
+            - Path=/api/v1/user/**
+        - id: notification-module
+          uri: http://localhost:8080
+          predicates:
+            - Path=/api/v1/notification/**
