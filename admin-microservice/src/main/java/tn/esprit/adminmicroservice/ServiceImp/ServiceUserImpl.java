@@ -31,7 +31,7 @@ public class ServiceUserImpl implements ServiceUser {
     public List<UserDto> getALLUser() {
         // Remplacer "user-service-url" par l'URL réelle du microservice utilisateur
         // Construire l'URL sans paramètres
-        String userMicroserviceUrl = "http://localhost:8091/api/v1/users";
+        String userMicroserviceUrl = "http://localhost:8091/api/v1/users/all";
 
         // Faire une requête GET au microservice utilisateur pour récupérer la liste des utilisateurs
         RestTemplate restTemplate = new RestTemplate();
