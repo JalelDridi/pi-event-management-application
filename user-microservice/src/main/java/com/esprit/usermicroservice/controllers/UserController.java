@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public List<User> getAllUsers() {
+    public List<EventUserDto> getAllUsers() {
         return userService.getAllUsers();
     }
 

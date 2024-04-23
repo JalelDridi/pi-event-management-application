@@ -11,7 +11,7 @@ public interface UserService {
      *
      * @return list of User.
      */
-    List<User> getAllUsers();
+    List<EventUserDto> getAllUsers();
 
     /**
      * Fetch User by a given Id.
