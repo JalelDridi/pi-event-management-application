@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface MessageService {
 
+    Message getMessageById(Long messageId);
     long countUnreadMessages(String userId);
 
     List<Message> getAllMessages();

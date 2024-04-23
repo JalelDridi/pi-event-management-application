@@ -16,6 +16,11 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
+    public Message getMessageById(Long messageId) {
+        return messageRepository.getByMessageId(messageId);
+    }
+
+    @Override
     public long countUnreadMessages(String userId) {
         return messageRepository.countByUserIdAndRead(userId, false);
     }

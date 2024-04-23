@@ -13,6 +13,18 @@ eureka:
 spring:
   cloud:
     gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders: "*"  # Allow all headers
+            allowCredentials: true
+            maxAge: 3600
       routes:
         - id: notification-module
           uri: lb://notification-module

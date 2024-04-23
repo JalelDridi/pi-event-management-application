@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MessageRepository extends MongoRepository<Message, String> {
 
+    Message getByMessageId(Long messageId);
     long countByUserIdAndRead(String userId, boolean isRead);
 }

@@ -59,6 +59,7 @@ public class Controller {
         notificationService.addNotification(notification, message);
     }
 
+
     @GetMapping("get-all-notif")
     @ResponseBody
     public List<Notification> getAllNotifications() {
@@ -87,6 +88,13 @@ public class Controller {
     }
 
     // GET WEB NOTIFICATIONS FOR UI :
+
+    @GetMapping("/get-message-by-id/{messageId}")
+    @ResponseBody
+    public Message getMessageById(@PathVariable Long messageId) {
+        return messageService.getMessageById(messageId);
+    }
+
     @GetMapping("/get-user-notif")
     @ResponseBody
     public List<Notification> getUserNotifications(@RequestParam String userId) {
