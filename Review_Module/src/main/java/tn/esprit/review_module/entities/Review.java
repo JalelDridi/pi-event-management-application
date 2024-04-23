@@ -6,7 +6,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -23,6 +25,6 @@ public class Review implements Serializable {
     private Integer rating;
     private String content;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDateTime dateSubmitted;
+    private LocalDate dateSubmitted;
 
 }

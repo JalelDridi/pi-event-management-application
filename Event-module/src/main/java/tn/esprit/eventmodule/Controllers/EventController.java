@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import tn.esprit.eventmodule.Daos.EventDao;
+import tn.esprit.eventmodule.Dtos.EventAdminDto;
 import tn.esprit.eventmodule.Dtos.ResourceDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
@@ -21,7 +22,7 @@ import java.util.Map;
 
 @RestController
 public class EventController {
-    private  final Logger LOGGER = LoggerFactory.getLogger(EventController.class);
+
     @Autowired
     EventImpl eventimpl;
     @Autowired
@@ -29,7 +30,7 @@ public class EventController {
 
     @PostMapping("/addevent")
     public Event addEvent (@RequestBody Event event) {
-        //Logger.info("addEvent:{}",event);
+
         return eventimpl.addEvent(event) ;
     }
     @GetMapping ("/getall")
@@ -37,7 +38,7 @@ public class EventController {
         return eventimpl.getallEvent();
     }
     @GetMapping("getAnEvent/{eventId}")
-    public Event getAnEvent(@PathVariable Long eventId){return eventimpl.getAnEvent(eventId);}
+    public EventAdminDto getAnEvent(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
     @PutMapping("/edited/{eventId}")
     public Event editedEvent (@PathVariable Long eventId, @RequestBody Event event){
         return eventimpl.editEvent(eventId, event) ;

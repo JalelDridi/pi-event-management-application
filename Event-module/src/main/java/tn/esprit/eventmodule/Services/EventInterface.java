@@ -1,5 +1,6 @@
 package tn.esprit.eventmodule.Services;
 
+import tn.esprit.eventmodule.Dtos.EventAdminDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
 import tn.esprit.eventmodule.Entities.Participation;
@@ -10,8 +11,7 @@ import java.util.Map;
 public interface EventInterface {
     Event addEvent (Event event) ;
     List<Event> getallEvent ();
-    Event getAnEvent(Long eventId);
-    Long getEventId();
+    EventAdminDto findEventById(Long eventId);
     Event editEvent( Long eventId , Event event) ;
     void deleteEvent (Long eventId)    ;
     void updateEventStatusAutomatiquement();
