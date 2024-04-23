@@ -10,6 +10,6 @@ public interface ReviewService {
     public Review findreviewByreviewid(Long id);
     public List<Review> getAllReviews();
 
-    public Review UpdateReview (Review review);
+     public Review UpdateReview(Review review,long id);
 
 }

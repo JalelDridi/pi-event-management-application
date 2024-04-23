@@ -34,10 +34,10 @@ public class ReviewController {
         return reviewService.getAllReviews();
     }
 
-    @PutMapping("/updatereview")
+    @PutMapping("/updatereview/{id}")
     @ResponseBody
-    public Review UpdateReview(@RequestBody Review review){
-        return this.reviewService.UpdateReview(review);
+    public Review UpdateReview(@RequestBody Review review, @PathVariable Long id){
+        return this.reviewService.UpdateReview(review, id);
     }
 
 

@@ -17,9 +17,8 @@ public class ReclamationServiceImpl implements ReclamationService {
     //private final EventRepository eventRepository;
 
     @Autowired
-    public ReclamationServiceImpl(ReclamationRepository reclamationRepository /*EventRepository eventRepository*/ ) {
+    public ReclamationServiceImpl(ReclamationRepository reclamationRepository ) {
         this.reclamationRepository = reclamationRepository;
-                //this.eventRepository = eventRepository;
 
 
     }

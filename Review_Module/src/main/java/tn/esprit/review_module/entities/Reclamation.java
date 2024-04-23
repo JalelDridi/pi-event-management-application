@@ -2,9 +2,11 @@ package tn.esprit.review_module.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
 
 
 @Entity
@@ -22,7 +24,9 @@ public class Reclamation implements Serializable {
     private Long eventId;
     private String userId;
     private TypeReclamation TypeRec;
-    private LocalDateTime DateReclamation;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate DateReclamation;
+
 
 
 }
