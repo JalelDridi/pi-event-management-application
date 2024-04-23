@@ -1,5 +1,6 @@
 package tn.esprit.eventmodule.Services;
 
+import tn.esprit.eventmodule.Dtos.EventAdminDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
 import tn.esprit.eventmodule.Entities.Participation;
@@ -10,18 +11,17 @@ import java.util.Map;
 public interface EventInterface {
     Event addEvent (Event event) ;
     List<Event> getallEvent ();
-    Event getAnEvent(Long eventId);
-    Long getEventId();
+    EventAdminDto findEventById(Long eventId);
     Event editEvent( Long eventId , Event event) ;
     void deleteEvent (Long eventId)    ;
     void updateEventStatusAutomatiquement();
     /********************************** User *************************************/
     //public User addUser (User user );
     void affectUserToEvent(String userID, long eventId);
+
 //    void sendEmail(String toEmail, String subject, String body);
 //    void envoyerEmailParticipant(Participation participant, Event event) ;
 
-    Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus();
     /********************************** Resource
     public Resource addResource (Resource resource);
     public List<Resource> getResource();
@@ -36,8 +36,12 @@ public interface EventInterface {
      ****************************************/
     /****************************************
      *                                  Reclamation
-     *                                              ******************************/////////
+     *                                              ************************************/
     //public void displayReclamationsForEvent(long eventId);
+    /****************************************
+     *                                  Statistiques
+     *                                              ************************************/
+    Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus();
 
 
 }

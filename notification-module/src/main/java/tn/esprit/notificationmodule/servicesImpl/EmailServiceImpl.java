@@ -4,18 +4,22 @@ package tn.esprit.notificationmodule.servicesImpl;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import tn.esprit.notificationmodule.services.EmailService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.FileCopyUtils;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
 public class EmailServiceImpl implements EmailService {
 
-    @Autowired
+    @jakarta.annotation.Resource
     private JavaMailSender mailSender;
 
     @Override
@@ -67,6 +71,19 @@ public class EmailServiceImpl implements EmailService {
         }
 
         mailSender.send(message);
+    }
+
+    public String loadEmailConfirmationTemplate(String username, String activationCode) throws IOException {
+        // Load the email confirmation template from the resources
+        Resource resource = new ClassPathResource("/templates/mail_confirmation_template.html");
+        byte[] templateBytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
+        String emailTemplate = new String(templateBytes, StandardCharsets.UTF_8);
+
+        // Format the template with the provided variables
+        emailTemplate = emailTemplate.replace("${username}", username);
+        emailTemplate = emailTemplate.replace("${activation_code}", activationCode);
+
+        return emailTemplate;
     }
 
 }

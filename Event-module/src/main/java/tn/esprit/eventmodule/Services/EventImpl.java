@@ -1,105 +1,115 @@
 package tn.esprit.eventmodule.Services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
+import org.springframework.web.util.UriComponentsBuilder;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.ParticipationDao;
+import tn.esprit.eventmodule.Daos.ResourceReservationDao;
+import tn.esprit.eventmodule.Dtos.EventAdminDto;
+import tn.esprit.eventmodule.Dtos.ResourceDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
-import tn.esprit.eventmodule.Entities.Event;
-import tn.esprit.eventmodule.Entities.EventType;
-import tn.esprit.eventmodule.Entities.Participation;
-import tn.esprit.eventmodule.Entities.StatusType;
+import tn.esprit.eventmodule.Entities.*;
 import jakarta.annotation.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class EventImpl implements EventInterface {
+
+    private static final Logger LOG = LogManager.getLogger(EventImpl.class);
+    private static final String ERROR_NON_PRESENT_ID = "Event with ID %s is not found.";
+    private static final String ERROR_NULL_ID = "Event ID cannot be null.";
+
+
 
     JavaMailSender emailSender;
     @Resource
     EventDao eventDao;
     @Resource
     ParticipationDao participationDao;
+    @Resource
+    ResourceReservationDao resourceReservationDao;
 
-   /* @Autowired
-    ResourceDao resourceDao;
-    @Autowired
-    ResourceTypeDao resourceTypeDao;
+    /* @Autowired
+     ResourceDao resourceDao;
+     @Autowired
+     ResourceTypeDao resourceTypeDao;
 
-    */
+     */
     @Override
     public Event addEvent(Event event) {
+        LOG.info("Adding event: {}", event);
         return eventDao.save(event);
     }
 
     @Override
     public List<Event> getallEvent() {
+        LOG.info("Retrieving all events");
         return eventDao.findAll();
     }
 
     @Override
-    public Event getAnEvent(Long eventId) {
-        return eventDao.findById(eventId).get();
-    }
-
-    @Override
-    public Long getEventId() {
-        return null;
+    public EventAdminDto findEventById(Long eventId) {
+        LOG.info("Finding event by ID: {}", eventId);
+        EventAdminDto eventAdminDto = null;
+        if (eventId != null) {
+            Optional<Event> optionalEvent = eventDao.findById(eventId);
+            if (optionalEvent.isPresent()) {
+                Event event = optionalEvent.get();
+                eventAdminDto = new EventAdminDto();
+                // Copy event properties to eventAdminDto
+                BeanUtils.copyProperties(event, eventAdminDto);
+            } else {
+                LOG.info(ERROR_NON_PRESENT_ID, eventId);
+            }
+        } else {
+            LOG.error(ERROR_NULL_ID);
+        }
+        return eventAdminDto;
     }
 
 
 
     @Override
     public Event editEvent(Long eventId, Event event) {
-
-            Event ExistingEvent = eventDao.findById(eventId).get();
-            ExistingEvent.setName(event.getName());
-            ExistingEvent.setClub(event.getClub());
-            ExistingEvent.setEndDate(event.getEndDate());
-            ExistingEvent.setStartDate(event.getStartDate());
-            ExistingEvent.setRating(event.getRating());
-            ExistingEvent.setStatus(event.getStatus());
-            ExistingEvent.setType(event.getType());
-            return eventDao.save(ExistingEvent);
+        LOG.info("Editing event with ID {}: {}", eventId, event);
+        try {
+            Event existingEvent = eventDao.findById(eventId).orElseThrow(() -> new IllegalArgumentException("Event not found with ID: " + eventId));
+            existingEvent.setName(event.getName());
+            existingEvent.setClub(event.getClub());
+            existingEvent.setEndDate(event.getEndDate());
+            existingEvent.setStartDate(event.getStartDate());
+            existingEvent.setRating(event.getRating());
+            existingEvent.setStatus(event.getStatus());
+            existingEvent.setType(event.getType());
+            return eventDao.save(existingEvent);
+        } catch (Exception e) {
+            LOG.error("Error editing event with ID {}: {}", eventId, e.getMessage());
+            throw new RuntimeException("Failed to edit event with ID: " + eventId, e);
+        }
     }
+
 
     @Override
     public void deleteEvent(Long eventId) {
-         eventDao.deleteById(eventId);
+        LOG.info("Deleting event with ID: {}", eventId);
+        eventDao.deleteById(eventId);
     }
 
     @Override
     @Scheduled(fixedRate = 60000) // 60000 milliseconds = 1 minute
     public void updateEventStatusAutomatiquement() {
+        LOG.info("Updating event status automatically");
         eventDao.updateEventStatus(StatusType.Planifié, StatusType.En_Cours, StatusType.Terminé);
     }
-
-
-    /************************************* User
-    @Override
-    public User addUser(User user) {
-    return userDao.save(user);
-    }****************************************/
-
-   /* @Override
-    public void affectUserToEvent(Long userID, Long eventId) {
-        User user= userDao.findById(userID).get();
-        Event event = eventDao.findById(eventId).get();
-        Participant participant = new Participant(user , event) ;
-        event.getParticipants().add(participant);
-
-        participantDao.save(participant);
-        envoyerEmailParticipant(participant,event);
-    }*/
-
     public void affectUserToEvent(String userID, long eventId) {
         // Make an HTTP request to the User Microservice to get user information
         // UserDto user = makeHttpRequestToUserMicroservice(userID);
@@ -116,31 +126,37 @@ public class EventImpl implements EventInterface {
         // Save participation
         participationDao.save(participation);
     }
-    public void displayUserOfEvent(Long eventId) {
+
+    public List<UserDto> displayUserOfEvent(Long eventId) {
+        List<UserDto> users = new ArrayList<>();
+
+        // Retrieve participations for the specified event ID
         List<Participation> participations = participationDao.findByEventId(eventId);
 
         // Iterate over the participations
         for (Participation participation : participations) {
-            // Retrieve user IDs for the current participation
+            // Retrieve user IDs associated with the current participation
             List<String> userIDs = findUserIdsByEventId(participation.getEventId());
 
             // Iterate over the user IDs
             for (String userID : userIDs) {
                 // Retrieve user information for the current user ID
                 UserDto user = getUserById(userID);
-
-                // Print user information
-                System.out.println("User ID: " + user.getUserID());
-                System.out.println("User Name: " + user.getFirstName() + " " + user.getLastName());
-                // Add more properties as needed
+                users.add(user);
             }
         }
+
+        return users;
     }
+
 
     private UserDto getUserById(String userId) {
         // Replace "user-service-url" with the actual URL of the User Microservice
-        String userMicroserviceUrl = "http://localhost:8080/api/users/{userId}" + userId;
-
+// Construct the URL with placeholders
+        String userMicroserviceUrl = UriComponentsBuilder
+                .fromUriString("http://localhost:8091/api/v1/users/{userId}")
+                .buildAndExpand(userId)
+                .toUriString();
         // Make a GET request to the User Microservice
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<UserDto> responseEntity = restTemplate.getForEntity(userMicroserviceUrl, UserDto.class);
@@ -154,9 +170,59 @@ public class EventImpl implements EventInterface {
             throw new RuntimeException("Failed to fetch user from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
         }
     }
+
     public List<String> findUserIdsByEventId(Long eventId) {
+
         return participationDao.findUserIdsByEventId(eventId);
-}
+    }
+    /**************************************
+     *                                    Resource
+     *                                          ***********************************************/
+    public void assignResourceToEvent(Long resourceId, Long eventId) {
+        ResourceReservation reservation = new ResourceReservation();
+        reservation.setResourceID(resourceId);
+        reservation.setEventId(eventId);
+        resourceReservationDao.save(reservation);
+    }
+
+    public Map<String, List<ResourceDto>> displayResourcesOfEvent(Long eventId) {
+        Map<String, List<ResourceDto>> resourcesByType = new HashMap<>();
+        List<ResourceReservation> reservations = resourceReservationDao.findByEventId(eventId);
+
+        for (ResourceReservation reservation : reservations) {
+            ResourceDto resource = getResourceById(reservation.getResourceID());
+            resource.setResourceID(null); // Remove resourceId from the resource object
+
+            String resourceType = reservation.getResouceTypeName();
+            List<ResourceDto> resources = resourcesByType.getOrDefault(resourceType, new ArrayList<>());
+            resources.add(resource);
+            resourcesByType.put(resourceType, resources);
+        }
+
+        return resourcesByType;
+    }
+
+    private ResourceDto getResourceById(Long resourceId) {
+        // Replace "resource-service-url" with the actual URL of the Resource Microservice
+        // Construct the URL with placeholders
+        String resourceMicroserviceUrl = UriComponentsBuilder
+                .fromUriString("http://localhost:8093/api/reservations/filteredResouces")
+                .buildAndExpand(resourceId)
+                .toUriString();
+
+        // Make a GET request to the Resource Microservice
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<ResourceDto> responseEntity = restTemplate.getForEntity(resourceMicroserviceUrl, ResourceDto.class);
+
+        // Check if the request was successful (HTTP status code 200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            return responseEntity.getBody();
+        } else {
+            // Handle the case where the request was not successful
+            throw new RuntimeException("Failed to fetch resource from Resource Microservice. Status code: " + responseEntity.getStatusCodeValue());
+        }
+    }
+
 
 //    public void sendEmail(String toEmail, String subject, String body) {
 //        if (toEmail != null) {
@@ -198,65 +264,6 @@ public class EventImpl implements EventInterface {
 //            System.out.println("Event not found!");
 //        }
 //    }
-
-    /****************************************
-     *                                  Reclamation
-     *                                              ******************************/////////
-
-
-
-
-    /************************************* Resource
-
-    @Override
-    public Resource addResource(Resource resource) {
-        return resourceDao.save(resource);
-    }
-
-    @Override
-    public List<Resource> getResource() {
-        return resourceDao.findAll();
-    }
-
-    @Override
-    public Resource editResource(Long resourceID, Resource resource) {
-        Resource ExistingResource = resourceDao.findById(resourceID).get();
-        ExistingResource.setResourceName(resource.getResourceName());
-        ExistingResource.setResourceType(resource.getResourceType());
-        return resourceDao.save(ExistingResource);
-    }
-
-    @Override
-    public void deleteResource(Long resourceID) {resourceDao.deleteById(resourceID);
-
-    }
-     ****************************************/
-
-    /************************************* ResourceType
-
-
-    @Override
-    public ResourceType addResourceType(ResourceType resourceType) {
-        return resourceTypeDao.save(resourceType);
-    }
-
-    @Override
-    public List<ResourceType> getResourceType() {
-        return resourceTypeDao.findAll();
-    }
-
-    @Override
-    public ResourceType editResourceType(Long id, ResourceType resourceType) {
-        ResourceType ExistingResourceType = resourceTypeDao.findById(id).get();
-        ExistingResourceType.setResouceTypeName(resourceType.getResouceTypeName());
-        return ExistingResourceType;
-    }
-
-    @Override
-    public void deleteResourceType(Long id) { resourceTypeDao.deleteById(id);
-
-    }
-     ****************************************/
     /****************************
      *                              Statistiques
      *                                          **********************************/

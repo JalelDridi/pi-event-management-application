@@ -1,0 +1,6 @@
+# DATABASE
+spring:
+  application:
+    name: admin-microservice
+  config:
+    import: "optional:configserver:http://localhost:8088"
