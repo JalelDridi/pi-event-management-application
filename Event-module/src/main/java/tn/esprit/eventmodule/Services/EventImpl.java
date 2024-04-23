@@ -1,9 +1,13 @@
 package tn.esprit.eventmodule.Services;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.util.UriComponentsBuilder;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.ParticipationDao;
 import tn.esprit.eventmodule.Daos.ResourceReservationDao;
+import tn.esprit.eventmodule.Dtos.EventAdminDto;
 import tn.esprit.eventmodule.Dtos.ResourceDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.*;
@@ -15,13 +19,16 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class EventImpl implements EventInterface {
+
+    private static final Logger LOG = LogManager.getLogger(EventImpl.class);
+    private static final String ERROR_NON_PRESENT_ID = "Event with ID %s is not found.";
+    private static final String ERROR_NULL_ID = "Event ID cannot be null.";
+
+
 
     JavaMailSender emailSender;
     @Resource
@@ -39,47 +46,68 @@ public class EventImpl implements EventInterface {
      */
     @Override
     public Event addEvent(Event event) {
+        LOG.info("Adding event: {}", event);
         return eventDao.save(event);
     }
 
     @Override
     public List<Event> getallEvent() {
+        LOG.info("Retrieving all events");
         return eventDao.findAll();
     }
 
     @Override
-    public Event getAnEvent(Long eventId) {
-        return eventDao.findById(eventId).get();
+    public EventAdminDto findEventById(Long eventId) {
+        LOG.info("Finding event by ID: {}", eventId);
+        EventAdminDto eventAdminDto = null;
+        if (eventId != null) {
+            Optional<Event> optionalEvent = eventDao.findById(eventId);
+            if (optionalEvent.isPresent()) {
+                Event event = optionalEvent.get();
+                eventAdminDto = new EventAdminDto();
+                // Copy event properties to eventAdminDto
+                BeanUtils.copyProperties(event, eventAdminDto);
+            } else {
+                LOG.info(ERROR_NON_PRESENT_ID, eventId);
+            }
+        } else {
+            LOG.error(ERROR_NULL_ID);
+        }
+        return eventAdminDto;
     }
 
-    @Override
-    public Long getEventId() {
-        return null;
-    }
 
 
     @Override
     public Event editEvent(Long eventId, Event event) {
-
-        Event ExistingEvent = eventDao.findById(eventId).get();
-        ExistingEvent.setName(event.getName());
-        ExistingEvent.setClub(event.getClub());
-        ExistingEvent.setEndDate(event.getEndDate());
-        ExistingEvent.setStartDate(event.getStartDate());
-        ExistingEvent.setRating(event.getRating());
-        ExistingEvent.setStatus(event.getStatus());
-        ExistingEvent.setType(event.getType());
-        return eventDao.save(ExistingEvent);
+        LOG.info("Editing event with ID {}: {}", eventId, event);
+        try {
+            Event existingEvent = eventDao.findById(eventId).orElseThrow(() -> new IllegalArgumentException("Event not found with ID: " + eventId));
+            existingEvent.setName(event.getName());
+            existingEvent.setClub(event.getClub());
+            existingEvent.setEndDate(event.getEndDate());
+            existingEvent.setStartDate(event.getStartDate());
+            existingEvent.setRating(event.getRating());
+            existingEvent.setStatus(event.getStatus());
+            existingEvent.setType(event.getType());
+            return eventDao.save(existingEvent);
+        } catch (Exception e) {
+            LOG.error("Error editing event with ID {}: {}", eventId, e.getMessage());
+            throw new RuntimeException("Failed to edit event with ID: " + eventId, e);
+        }
     }
+
 
     @Override
     public void deleteEvent(Long eventId) {
+        LOG.info("Deleting event with ID: {}", eventId);
         eventDao.deleteById(eventId);
     }
 
     @Override
     @Scheduled(fixedRate = 60000) // 60000 milliseconds = 1 minute
     public void updateEventStatusAutomatiquement() {
+        LOG.info("Updating event status automatically");
         eventDao.updateEventStatus(StatusType.Planifié, StatusType.En_Cours, StatusType.Terminé);
     }
     public void affectUserToEvent(String userID, long eventId) {
@@ -151,33 +179,21 @@ public class EventImpl implements EventInterface {
      *                                    Resource
      *                                          ***********************************************/
     public void assignResourceToEvent(Long resourceId, Long eventId) {
-        // Create a resource reservation
         ResourceReservation reservation = new ResourceReservation();
         reservation.setResourceID(resourceId);
         reservation.setEventId(eventId);
-
-        // Save resource reservation
         resourceReservationDao.save(reservation);
     }
 
     public Map<String, List<ResourceDto>> displayResourcesOfEvent(Long eventId) {
         Map<String, List<ResourceDto>> resourcesByType = new HashMap<>();
-
-        // Retrieve resource reservations for the specified event ID
         List<ResourceReservation> reservations = resourceReservationDao.findByEventId(eventId);
 
-        // Iterate over the resource reservations
         for (ResourceReservation reservation : reservations) {
-            // Retrieve resource information for the current reservation
             ResourceDto resource = getResourceById(reservation.getResourceID());
+            resource.setResourceID(null); // Remove resourceId from the resource object
 
-            // Retrieve resource type information for the current resource
             String resourceType = reservation.getResouceTypeName();
-
-            // Remove resourceId from the resource object
-            resource.setResourceID(null);
-
-            // Add the resource to the corresponding list based on resource type
             List<ResourceDto> resources = resourcesByType.getOrDefault(resourceType, new ArrayList<>());
             resources.add(resource);
             resourcesByType.put(resourceType, resources);
@@ -190,7 +206,7 @@ public class EventImpl implements EventInterface {
         // Replace "resource-service-url" with the actual URL of the Resource Microservice
         // Construct the URL with placeholders
         String resourceMicroserviceUrl = UriComponentsBuilder
-                .fromUriString("http://localhost:8093/api/resources/{id}")
+                .fromUriString("http://localhost:8093/api/reservations/filteredResouces")
                 .buildAndExpand(resourceId)
                 .toUriString();
 
@@ -206,6 +222,7 @@ public class EventImpl implements EventInterface {
             throw new RuntimeException("Failed to fetch resource from Resource Microservice. Status code: " + responseEntity.getStatusCodeValue());
         }
     }
+
 
 //    public void sendEmail(String toEmail, String subject, String body) {
 //        if (toEmail != null) {
