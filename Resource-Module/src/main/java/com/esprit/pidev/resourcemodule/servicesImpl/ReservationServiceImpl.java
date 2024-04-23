@@ -7,7 +7,6 @@ import com.esprit.pidev.resourcemodule.services.ReservationService;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -95,6 +94,18 @@ public class ReservationServiceImpl implements ReservationService {
         }
         return true;//the resource is now available on specified dates
     }
+//    private List<Resource> filterAvailableResources(List<Resource> resources, Date startDate, Date endDate, Reservation reservation) {
+//        List<Resource> availableResources = new ArrayList<>();
+//
+//        for (Resource resource : resources) {
+//            // Check the availability of each resource for the given reservation
+//            if (checkResourceAvailability(resource, startDate, endDate)) {
+//                availableResources.add(resource);
+//            }
+//        }
+//
+//        return availableResources;
+//    }
 
 
 }
