@@ -9,5 +9,5 @@ public interface ReclamationRepository extends JpaRepository<Reclamation, Long> 
 
 List<Reclamation> getReclamationByEventId(Long eventId);
 
-List<Reclamation> getReclamationByUserId(Long userId);
+List<Reclamation> getReclamationsByUserId(String userId);
 }
