@@ -29,8 +29,15 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review UpdateReview(Review review) {
-        return reviewRepository.save(review);
+    public Review UpdateReview(Review review,long id) {
+        Review existingReview = reviewRepository.findReviewByReviewID(id);
+        if (existingReview != null){
+            existingReview.setRating(review.getRating());
+            existingReview.setContent(review.getContent());
+            existingReview.setDateSubmitted(review.getDateSubmitted());
+            return reviewRepository.save(existingReview);
+        }
+        return null;
     }
 
 
