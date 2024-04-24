@@ -8,7 +8,6 @@ import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data // Lombok annotation to get rid of most boilerplate code like : getters, setters, equals, toString ....
@@ -21,8 +20,10 @@ public class Message implements Serializable {
     @Id
     private Long messageId;
 
+    private boolean isRead;
     private String subject;
     private String content;
     private Date sentDate;
+    private String userId;
 
 }
