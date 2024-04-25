@@ -36,11 +36,11 @@ public class ServiceUserImpl implements ServiceUser {
     //ajouter l'utilisateur dans la base de donnee
 
     @Override
-    public StatusUser AcceptUserCnx(Long id) {
+    public StatusUser AcceptUserCnx(String id) {
         List<UserDto> users = getALLUser();
 
         for (UserDto user : users) {
-            StatusUser userSaved = null;
+            StatusUser userSaved=new StatusUser();
             if (user.getUserID().equals(id)) {
                 userSaved.setFirstName(user.getFirstName());
                 userSaved.setLastName(user.getLastName());
@@ -62,12 +62,12 @@ public class ServiceUserImpl implements ServiceUser {
     
     public void RefusUserCnx(Long userId){
         List<UserDto> users=getALLUser();
-
         // Liste des adresses e-mail bloquées
          List<String> adressesBloquees = new ArrayList<>();
 
         System.out.println("User Reject");
     }
+
 
     @Override
     public List<UserDto> getALLUser() {

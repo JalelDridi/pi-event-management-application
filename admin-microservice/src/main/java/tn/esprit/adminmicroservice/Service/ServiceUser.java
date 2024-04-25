@@ -10,6 +10,6 @@ public interface ServiceUser  {
 
    List<UserDto> getALLUser();
    List<ConfUserDto> getAllConfirmedUsers();
-   StatusUser AcceptUserCnx(Long id);
+   StatusUser AcceptUserCnx(String id);
    void sendEmail(String toEmail, String subject, String body);
 }
