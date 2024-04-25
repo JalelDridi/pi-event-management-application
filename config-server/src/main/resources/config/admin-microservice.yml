@@ -5,6 +5,8 @@ spring:
     username: root
     password:
 
+
+
   # JPA / HIBERNATE
   jpa:
     show-sql: true
@@ -17,3 +19,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+
+  #mail sender

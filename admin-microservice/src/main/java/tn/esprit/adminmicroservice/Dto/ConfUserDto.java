@@ -8,11 +8,10 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
-
+public class ConfUserDto {
     private String userID;
     private String firstName;
     private String lastName;
     private String email;
-
+    private Boolean statusUser;
 }
