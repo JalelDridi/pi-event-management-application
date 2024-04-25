@@ -5,13 +5,29 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
+import {RegisterComponent} from "./pages/register/register.component";
+import {LoginComponent} from "./pages/login/login.component";
 
 const routes: Routes =[
+  {
+    path : "login",
+    component: LoginComponent
+  },
+  {
+    path : "register",
+    component: RegisterComponent
+  },
+  {
+    path: 'activate-account',
+    component: ActivateAccountComponent
+  },
   {
     path: '',
     redirectTo: 'dashboard',
     pathMatch: 'full',
-  }, {
+  },
+  {
     path: '',
     component: AdminLayoutComponent,
     children: [
