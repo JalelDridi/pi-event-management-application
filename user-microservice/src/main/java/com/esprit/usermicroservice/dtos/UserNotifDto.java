@@ -1,11 +1,11 @@
-package tn.esprit.notificationmodule.dtos;
+package com.esprit.usermicroservice.dtos;
 
 import lombok.Data;
 
 @Data
-public class NotificationDto {
+public class UserNotifDto {
     private String email;
     private String subject;
     private String content;
-    private String userId;
+    private String fullName;
 }

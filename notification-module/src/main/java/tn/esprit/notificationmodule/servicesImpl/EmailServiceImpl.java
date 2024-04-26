@@ -22,6 +22,7 @@ public class EmailServiceImpl implements EmailService {
     @jakarta.annotation.Resource
     private JavaMailSender mailSender;
 
+
     @Override
     public void sendEmail(String to, String subject, String body) {
         SimpleMailMessage message = new SimpleMailMessage();
