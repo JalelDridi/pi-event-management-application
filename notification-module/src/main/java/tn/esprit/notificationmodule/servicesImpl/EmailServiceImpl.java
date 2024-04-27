@@ -5,8 +5,11 @@ import jakarta.annotation.Resource;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import tn.esprit.notificationmodule.dtos.UserNotifDto;
 import tn.esprit.notificationmodule.services.EmailService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,6 +27,11 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender mailSender;
 
     private final TemplateEngine templateEngine;
+
+    @Autowired
+    private KafkaTemplate<String, UserNotifDto> kafkaTemplate;
+
+    private static final String UPCOMING_EVENTS_TOPIC = "upcoming-events";
 
 
     @Override
@@ -86,5 +94,11 @@ public class EmailServiceImpl implements EmailService {
 
         return templateEngine.process("mail_confirmation_template", context);
     }
+
+    @Override
+    public void emailUpcomingEvents() {
+
+    }
+
 
 }

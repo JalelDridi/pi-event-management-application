@@ -12,4 +12,6 @@ public interface EmailService {
     void sendEmailToMany(List<String> to, String subject, String body);
     void sendHtmlEmail(String receiverMail, String Subject, String htmlTemplate) throws MessagingException;
     String loadEmailConfirmationTemplate(String username, String activationCode) throws IOException;
+
+    void emailUpcomingEvents();
 }
