@@ -2,6 +2,7 @@ package tn.esprit.notificationmodule.controllers;
 
 
 import tn.esprit.notificationmodule.dtos.NotificationDto;
+import tn.esprit.notificationmodule.dtos.UserNotifDto;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
 import tn.esprit.notificationmodule.services.EmailService;
@@ -19,7 +20,7 @@ import java.util.List;
 public class Controller {
 
     @Autowired
-    private KafkaTemplate<String, NotificationDto> kafkaTemplate;
+    private KafkaTemplate<String, UserNotifDto> kafkaTemplate;
 
     @Autowired
     private NotificationService notificationService;
@@ -77,14 +78,14 @@ public class Controller {
     // SEND EMAILS USING KAFKA :
     @PostMapping("/confirm-user")
     @ResponseBody
-    public void sendNotification(@RequestBody NotificationDto notificationDto) {
-        kafkaTemplate.send(CONFIRM_USER_TOPIC, notificationDto);
+    public void sendNotification(@RequestBody UserNotifDto userNotifDto) {
+        kafkaTemplate.send(CONFIRM_USER_TOPIC, userNotifDto);
     }
 
     @PostMapping("/send-notification-html")
     @ResponseBody
-    public void sendNotificationHtml(NotificationDto notificationDto) {
-        kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, notificationDto);
+    public void sendNotificationHtml(UserNotifDto userNotifDto) {
+        kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, userNotifDto);
     }
 
     // GET WEB NOTIFICATIONS FOR UI :
@@ -128,7 +129,6 @@ public class Controller {
         emailService.sendHtmlEmail(receiverMail, "html test mail", htmlTemplate);
         return String.format("Message sent successfully to %s", receiverMail);
     }
-
 
 
 

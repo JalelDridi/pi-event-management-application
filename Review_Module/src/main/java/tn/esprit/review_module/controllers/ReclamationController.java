@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/reclamations")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ReclamationController {
 
     private final ReclamationService reclamationService;
@@ -23,7 +24,7 @@ public class ReclamationController {
 
     @PostMapping("/addreclamation")
     public Reclamation addReclamation(@DateTimeFormat(pattern = "yyyy-MM-dd")
-                            @RequestBody Reclamation reclamation ){
+                                      @RequestBody Reclamation reclamation ){
         return reclamationService.addReclamation(reclamation);
     }
     @GetMapping("/getreclamations")
@@ -34,15 +35,15 @@ public class ReclamationController {
 
     @GetMapping("/getreclamationsbyeventid/{eventid}")
     @ResponseBody
-    public List<Reclamation> findByeventId(@PathVariable Long eventId){
-        return reclamationService.findByeventId(eventId);
+    public List<Reclamation> findByeventId(@PathVariable Long eventid){
+        return reclamationService.findByeventId(eventid);
 
     }
 
     @GetMapping("/getreclamationsbyuserid/{userid}")
     @ResponseBody
-    public List<Reclamation> findByUserId(@PathVariable String userId) {
-        return reclamationService.findByUserId(userId);
+    public List<Reclamation> findByUserId(@PathVariable String userid) {
+        return reclamationService.findByUserId(userid);
 
     }
 
