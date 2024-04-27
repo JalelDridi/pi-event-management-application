@@ -1,26 +1,29 @@
 package tn.esprit.notificationmodule.servicesImpl;
 
 
+import jakarta.annotation.Resource;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 import tn.esprit.notificationmodule.services.EmailService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.FileCopyUtils;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-    @jakarta.annotation.Resource
+    @Resource
     private JavaMailSender mailSender;
+
+    private final TemplateEngine templateEngine;
 
 
     @Override
@@ -75,16 +78,13 @@ public class EmailServiceImpl implements EmailService {
     }
 
     public String loadEmailConfirmationTemplate(String username, String activationCode) throws IOException {
-        // Load the email confirmation template from the resources
-        Resource resource = new ClassPathResource("/templates/mail_confirmation_template.html");
-        byte[] templateBytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
-        String emailTemplate = new String(templateBytes, StandardCharsets.UTF_8);
 
-        // Format the template with the provided variables
-        emailTemplate = emailTemplate.replace("${username}", username);
-        emailTemplate = emailTemplate.replace("${activation_code}", activationCode);
+        Context context = new Context();
 
-        return emailTemplate;
+        context.setVariable("username", username);
+        context.setVariable("activation_code",activationCode );
+
+        return templateEngine.process("mail_confirmation_template", context);
     }
 
 }
