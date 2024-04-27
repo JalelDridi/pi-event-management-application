@@ -20,6 +20,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpMethod;
 @Service
@@ -41,6 +42,7 @@ public class ServiceUserImpl implements ServiceUser {
 
         for (UserDto user : users) {
             StatusUser userSaved=new StatusUser();
+
             if (user.getUserID().equals(id)) {
                 userSaved.setFirstName(user.getFirstName());
                 userSaved.setLastName(user.getLastName());
@@ -59,14 +61,45 @@ public class ServiceUserImpl implements ServiceUser {
     }
 
 //mazelet
-    
-    public void RefusUserCnx(Long userId){
-        List<UserDto> users=getALLUser();
-        // Liste des adresses e-mail bloquées
-         List<String> adressesBloquees = new ArrayList<>();
+@Override
+public StatusUser RefusUserCnx(String id) {
+    List<UserDto> users = getALLUser();
 
-        System.out.println("User Reject");
+    for (UserDto user : users) {
+        StatusUser userSaved=new StatusUser();
+
+        if (user.getUserID().equals(id)) {
+            userSaved.setFirstName(user.getFirstName());
+            userSaved.setLastName(user.getLastName());
+            userSaved.setEmail(user.getEmail());
+            userSaved.setId(user.getUserID());
+            userSaved.setRole(Role.SimpleUser);
+            userSaved.setStatusUser(false);
+            repositoryUser.save(userSaved);
+            return userSaved;
+        }
+
     }
+    return null;
+}
+    @Override
+    public List<UserDto> getUsers() {
+        // Retrieve all users and statuses
+        List<UserDto> users = getALLUser();
+        List<UserDto> test = new ArrayList<>();
+
+        // Retrieve all statuses
+        List<StatusUser> statuses = repositoryUser.findAll();
+
+        // Filter out users whose ID exists in the statuses list
+        test = users.stream()
+                .filter(user -> statuses.stream().noneMatch(status -> status.getId().equals(user.getUserID())))
+                .collect(Collectors.toList());
+
+        return test;
+    }
+
+
 
 
     @Override
@@ -91,6 +124,22 @@ public class ServiceUserImpl implements ServiceUser {
             // Vous pouvez lancer une exception ou le gérer en fonction des besoins de votre application
             throw new RuntimeException("Failed to fetch users from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
         }
+    }
+
+    @Override
+    public List<StatusUser> findAllconfUsers() {
+
+        List<StatusUser> listaff = new ArrayList<>();
+
+        // Retrieve all statuses
+        List<StatusUser> users = repositoryUser.findAll();
+        for (StatusUser user : users) {
+            if (user.getStatusUser().equals(true)) {
+                listaff.add(user);
+            }
+
+        }
+        return listaff;
     }
 
     ///post to jalel
@@ -123,6 +172,31 @@ public class ServiceUserImpl implements ServiceUser {
         System.out.println("Mail Sent successfully...");
     }
 
+    @Override
+ public void deletUser(String id ){
+     List<StatusUser> users = repositoryUser.findAll();
+     for (StatusUser user : users) {
+         if (user.getId().equals(id)) {
+            repositoryUser.delete(user);
+         }
+
+     }
+ }
+
+
+ /////fonction de statistique
+@Override
+public double pourcentageUsersAuth() {
+    List<StatusUser> users = repositoryUser.findAll();
+    List<UserDto> usersAuth = getUsers();
+    int totalUsers = users.size();
+    int authenticatedUsers = usersAuth.size();
+    if (authenticatedUsers == 0) {
+        return 0.0;
+    }
+    double percentage = (double) authenticatedUsers / totalUsers * 100;
+    return Math.round(percentage * 100.0) / 100.0;
+}
 
 
 
