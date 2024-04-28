@@ -1,6 +1,7 @@
 package com.esprit.pidev.resourcemodule.servicesImpl;
 
 import com.esprit.pidev.resourcemodule.daos.ReservationDao;
+import com.esprit.pidev.resourcemodule.daos.ResourceDao;
 import com.esprit.pidev.resourcemodule.entities.Reservation;
 import com.esprit.pidev.resourcemodule.entities.Resource;
 import com.esprit.pidev.resourcemodule.services.ReservationService;
@@ -18,6 +19,9 @@ public class ReservationServiceImpl implements ReservationService {
     @Autowired
     private ReservationDao reservationDao;
 
+    @jakarta.annotation.Resource
+    private ResourceDao resourceDao;
+
 //    @Autowired
 //    ReservationService reservationService;
 
@@ -28,6 +32,7 @@ public class ReservationServiceImpl implements ReservationService {
     public List<Reservation> getAllReservations() {
         return this.reservationDao.findAll();
     }
+
 
     @Override
     public Reservation addReservation() {
@@ -78,34 +83,43 @@ public class ReservationServiceImpl implements ReservationService {
         }
         return reservation;
     }
-
     @Override
     public boolean checkResourceAvailability(Resource resource, Date startDate, Date endDate) {
-        //retrieve list of reservations of a resource
+        // Retrieve list of reservations of a resource
         List<Reservation> reservations = resource.getReservations();
         if (reservations != null) {
-            //verify if the resource is available of specified dates
+            // Verify if the resource is available for the specified dates
             for (Reservation reservation : reservations) {
-                if (reservation.getStartDate().before(endDate) && reservation.getEndDate().after(startDate)) {
-                    //if there is a confusion with an existing reservation
-                    return false;
+                Date resStartDate = reservation.getStartDate();
+                Date resEndDate = reservation.getEndDate();
+                if (resStartDate != null && resEndDate != null) {
+                    if (resStartDate.before(endDate) && resEndDate.after(startDate)) {
+                        // If there is a conflict with an existing reservation
+                        return false;
+                    }
                 }
             }
         }
-        return true;//the resource is now available on specified dates
+        return true; // The resource is available for the specified dates
     }
-//    private List<Resource> filterAvailableResources(List<Resource> resources, Date startDate, Date endDate, Reservation reservation) {
-//        List<Resource> availableResources = new ArrayList<>();
-//
-//        for (Resource resource : resources) {
-//            // Check the availability of each resource for the given reservation
-//            if (checkResourceAvailability(resource, startDate, endDate)) {
-//                availableResources.add(resource);
+
+
+//    @Override
+//    public boolean checkResourceAvailability(Resource resource, Date startDate, Date endDate) {
+//        //retrieve list of reservations of a resource
+//        List<Reservation> reservations = resource.getReservations();
+//        if (reservations != null) {
+//            //verify if the resource is available of specified dates
+//            for (Reservation reservation : reservations) {
+//                if (reservation.getStartDate().before(endDate) && reservation.getEndDate().after(startDate)) {
+//                    //if there is a confusion with an existing reservation
+//                    return false;
+//                }
 //            }
 //        }
-//
-//        return availableResources;
+//        return true;//the resource is now available on specified dates
 //    }
+
 
 
 }
