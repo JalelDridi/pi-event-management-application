@@ -130,4 +130,18 @@ public class Controller {
         kafkaTemplate.send(SEND_MESSAGE_TOPIC, notificationDto);
     }
 
+    // get all messages of a specific user:
+    @GetMapping("/get-user-messages")
+    @ResponseBody
+    public List<Message> getUserMessages() {
+        return null;
+    }
+
+    // Set all messages as read for a specefic user:
+
+    @PostMapping("/set-messages-read/{userId}")
+    @ResponseBody
+    public void setUserMessagesAsRead(@PathVariable String userId) {
+        messageService.setUserMessagesAsRead(userId);
+    }
 }
