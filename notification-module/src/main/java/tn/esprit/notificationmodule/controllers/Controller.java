@@ -144,4 +144,7 @@ public class Controller {
     public void setUserMessagesAsRead(@PathVariable String userId) {
         messageService.setUserMessagesAsRead(userId);
     }
+
+
+    //
 }
