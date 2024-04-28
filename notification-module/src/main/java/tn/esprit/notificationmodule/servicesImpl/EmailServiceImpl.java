@@ -5,17 +5,11 @@ import jakarta.annotation.Resource;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.dtos.NotificationEventDto;
 import tn.esprit.notificationmodule.services.EmailService;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,7 +17,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -35,8 +29,6 @@ public class EmailServiceImpl implements EmailService {
 
     private final TemplateEngine templateEngine;
 
-    @Autowired
-    private KafkaTemplate<String, NotificationDto> kafkaTemplate;
 
     private static final String UPCOMING_EVENTS_TOPIC = "upcoming-events";
 
@@ -54,30 +46,29 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public List<NotificationEventDto> sendUpcomingEvents(NotificationEventDto notificationEventDto) {
+    public List<NotificationEventDto> sendUpcomingEvents() {
 
-        // Replace "user-service-url" with the actual URL of the User Microservice
-        // Construct the URL with placeholders (if necessary)
-        String eventMicroserviceUrl = UriComponentsBuilder
-                .fromUriString("http://localhost:8089/Event/getAll")
-                .toUriString();
 
         // Make a GET request to the User Microservice
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<List<NotificationEventDto>> responseEntity = restTemplate.exchange(
-                eventMicroserviceUrl,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<NotificationEventDto>>() {}
+        ResponseEntity<NotificationEventDto[]> responseEntity = restTemplate.getForEntity(
+                "http://localhost:8060/Event/getAll", NotificationEventDto[].class
         );
+
+        NotificationEventDto[] notificationEventDtos = responseEntity.getBody();
+        if (notificationEventDtos != null) {
+            for (NotificationEventDto e : notificationEventDtos) {
+                System.out.println(e);
+            }
+        }
 
         // Check if the request was successful (HTTP status code 200)
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return responseEntity.getBody();
+            return Arrays.stream(responseEntity.getBody()).toList();
         } else {
             // Handle the case where the request was not successful
             // You may throw an exception or handle it based on your application's requirements
-            throw new RuntimeException("Failed to fetch upcoming events. Status code: " + responseEntity.getStatusCodeValue());
+            throw new RuntimeException("Failed to fetch upcoming events. Status code: " + responseEntity.getStatusCode());
         }
     }
 
@@ -121,7 +112,7 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
     }
 
-    public String loadEmailConfirmationTemplate(String username, String activationCode) throws IOException {
+    public String loadEmailConfirmationTemplate(String username, String activationCode)  {
 
         Context context = new Context();
 
@@ -131,10 +122,6 @@ public class EmailServiceImpl implements EmailService {
         return templateEngine.process("mail_confirmation_template", context);
     }
 
-    @Override
-    public void emailUpcomingEvents() {
-
-    }
 
 
 }
