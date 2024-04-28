@@ -6,11 +6,16 @@ import com.esprit.pidev.resourcemodule.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservations")
+@CrossOrigin
 public class ReservationController {
 
     @Autowired
@@ -41,4 +46,5 @@ public class ReservationController {
     public Reservation createReservation(Resource resource, Date startDate, Date endDate){
         return this.reservationService.createReservation(resource,startDate,endDate);
     }
+
 }
