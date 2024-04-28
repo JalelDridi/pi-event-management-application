@@ -7,11 +7,15 @@ import java.util.List;
 
 public interface NotificationService {
 
-    List<Notification> getNotificationsByUserId(Long userId);
+    List<Message> getWebNotifications(String userId);
 
-    List<Notification> getReadNotificationsByUserId(Long userId);
+    List<Notification> getNotificationsByUserId(String userId);
 
-    Long countUnreadNotifications(Long userId);
+    List<Notification> getAllNotifications();
+
+    List<Notification> getReadNotificationsByUserId(String userId);
+
+    long countUnreadNotifications(String userId);
 
     void addNotification(Notification notification, Message message);
 }

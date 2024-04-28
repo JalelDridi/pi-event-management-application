@@ -3,6 +3,7 @@ package com.esprit.usermicroservice.servicesImpl;
 import com.esprit.usermicroservice.dtos.AuthenticationRequest;
 import com.esprit.usermicroservice.dtos.AuthenticationResponse;
 import com.esprit.usermicroservice.dtos.RegistrationRequest;
+import com.esprit.usermicroservice.dtos.UserNotifDto;
 import com.esprit.usermicroservice.entities.Token;
 import com.esprit.usermicroservice.entities.User;
 import com.esprit.usermicroservice.enums.EmailTemplateName;
@@ -14,11 +15,16 @@ import com.esprit.usermicroservice.services.JwtService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -116,15 +122,40 @@ public class AuthenticationService {
 
     private void sendValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
+        String notificationServiceUrl = "http://localhost:8060/notification/confirm-user";
+        UserNotifDto userNotifDto = new UserNotifDto();
+        // Set:
+        userNotifDto.setContent(newToken);
+        userNotifDto.setSubject("Acccount activation code");
+        userNotifDto.setFullName(user.getFullName());
+        userNotifDto.setEmail(user.getEmail());
+        // Set headers for the request (if needed)
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<UserNotifDto> requestEntity = new HttpEntity<>(userNotifDto, headers);
 
-        emailService.sendEmail(
-                user.getEmail(),
-                user.getFullName(),
-                EmailTemplateName.ACTIVATE_ACCOUNT,
-                activationUrl,
-                newToken,
-                "Account activation"
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(
+                notificationServiceUrl,
+                requestEntity,
+                String.class
         );
+
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            // Email sent successfully
+            System.out.println("Confirmation email sent successfully.");
+        } else {
+            // Failed to send email
+            throw new RuntimeException("Failed to send confirmation email. Status code: " + responseEntity.getStatusCode());
+        }
+//        emailService.sendEmail(
+//                user.getEmail(),
+//                user.getFullName(),
+//                EmailTemplateName.ACTIVATE_ACCOUNT,
+//                activationUrl,
+//                newToken,
+//                "Account activation"
+//        );
     }
 
     private String generateActivationCode(int length) {

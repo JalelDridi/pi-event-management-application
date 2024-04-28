@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import tn.esprit.eventmodule.Daos.EventDao;
+import tn.esprit.eventmodule.Dtos.EventAdminDto;
+import tn.esprit.eventmodule.Dtos.EventReviewDto;
 import tn.esprit.eventmodule.Dtos.ResourceDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
@@ -20,8 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/Event")
 public class EventController {
-    private  final Logger LOGGER = LoggerFactory.getLogger(EventController.class);
+
     @Autowired
     EventImpl eventimpl;
     @Autowired
@@ -29,7 +32,7 @@ public class EventController {
 
     @PostMapping("/addevent")
     public Event addEvent (@RequestBody Event event) {
-        //Logger.info("addEvent:{}",event);
+
         return eventimpl.addEvent(event) ;
     }
     @GetMapping ("/getall")
@@ -37,7 +40,7 @@ public class EventController {
         return eventimpl.getallEvent();
     }
     @GetMapping("getAnEvent/{eventId}")
-    public Event getAnEvent(@PathVariable Long eventId){return eventimpl.getAnEvent(eventId);}
+    public EventAdminDto getAnEvent(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
     @PutMapping("/edited/{eventId}")
     public Event editedEvent (@PathVariable Long eventId, @RequestBody Event event){
         return eventimpl.editEvent(eventId, event) ;
@@ -90,15 +93,20 @@ public class EventController {
     /***************************************
                                              Resource
                                                         *************************************************/
-    @PostMapping("/{eventId}/resources/{resourceId}")
-    public ResponseEntity<String> assignResourceToEvent(@PathVariable Long eventId, @PathVariable Long resourceId) {
-        eventimpl.assignResourceToEvent(resourceId, eventId);
-        return ResponseEntity.ok("Resource assigned to event successfully.");
-    }
 
+    @PostMapping("/assign-resource")
+    public ResponseEntity<String> assignResourceToEvent(@RequestParam Long resourceId, @RequestParam Long eventId) {
+        try {
+            eventimpl.assignResourceToEvent(resourceId, eventId);
+            return ResponseEntity.ok("Resource assigned to event successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to assign resource to event.");
+        }
+    }
     @GetMapping("/{eventId}/resources")
     public ResponseEntity<Map<String, List<ResourceDto>>> displayResourcesOfEvent(@PathVariable Long eventId) {
-        Map<String, List<ResourceDto>> resourcesByType = eventimpl.displayResourcesOfEvent(eventId);
+        Map<String, List<ResourceDto>> resourcesByType = eventimpl.displayResourceOfEvent(eventId);
         return ResponseEntity.ok(resourcesByType);
     }
 

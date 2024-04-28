@@ -20,12 +20,10 @@ public class Notification implements Serializable {
     @Id
     private Long notificationId;
 
-
-    private String eventType;
     private Boolean isSent;
     private Boolean isRead;
     private DeliveryChannel deliveryChannel ;
     private Long messageId;
-    private Long userId;
+    private String userId;
 
 }
