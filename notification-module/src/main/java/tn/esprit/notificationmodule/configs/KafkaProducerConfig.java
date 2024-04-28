@@ -2,7 +2,7 @@ package tn.esprit.notificationmodule.configs;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import tn.esprit.notificationmodule.dtos.UserNotifDto;
+import tn.esprit.notificationmodule.dtos.NotificationDto;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
@@ -17,7 +17,7 @@ import java.util.Map;
 public class KafkaProducerConfig {
 
     @Bean
-    public ProducerFactory<String, UserNotifDto> producerFactory() {
+    public ProducerFactory<String, NotificationDto> producerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
@@ -32,7 +32,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, UserNotifDto> kafkaTemplate() {
+    public KafkaTemplate<String, NotificationDto> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 

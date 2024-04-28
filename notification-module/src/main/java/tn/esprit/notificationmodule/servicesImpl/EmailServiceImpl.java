@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import tn.esprit.notificationmodule.dtos.UserNotifDto;
+import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.services.EmailService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -29,7 +29,7 @@ public class EmailServiceImpl implements EmailService {
     private final TemplateEngine templateEngine;
 
     @Autowired
-    private KafkaTemplate<String, UserNotifDto> kafkaTemplate;
+    private KafkaTemplate<String, NotificationDto> kafkaTemplate;
 
     private static final String UPCOMING_EVENTS_TOPIC = "upcoming-events";
 
