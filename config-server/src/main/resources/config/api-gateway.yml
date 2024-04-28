@@ -34,3 +34,7 @@ spring:
           uri: lb://user-microservice
           predicates:
             - Path=/api/v1/**
+        - id: admin-microservice
+          uri: lb://admin-microservice
+          predicates:
+            - Path=/admin/**

@@ -5,8 +5,8 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
-import java.time.LocalDate;
-
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 
 @Entity
@@ -23,10 +23,10 @@ public class Reclamation implements Serializable {
     private Long IdRec;
     private Long eventId;
     private String userId;
+    private String content;
     @Enumerated(EnumType.STRING)
     private TypeReclamation TypeRec;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate DateReclamation;
+    private OffsetDateTime dateReclamation;
 
 
 

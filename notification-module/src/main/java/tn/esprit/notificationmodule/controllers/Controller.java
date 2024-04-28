@@ -2,6 +2,7 @@ package tn.esprit.notificationmodule.controllers;
 
 
 import tn.esprit.notificationmodule.dtos.NotificationDto;
+import tn.esprit.notificationmodule.dtos.UserNotifDto;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
 import tn.esprit.notificationmodule.services.EmailService;
@@ -19,7 +20,7 @@ import java.util.List;
 public class Controller {
 
     @Autowired
-    private KafkaTemplate<String, NotificationDto> kafkaTemplate;
+    private KafkaTemplate<String, UserNotifDto> kafkaTemplate;
 
     @Autowired
     private NotificationService notificationService;
@@ -48,8 +49,10 @@ public class Controller {
 
         Notification notification = new Notification();
         Message message = new Message();
+        message.setRead(false);
         // set notification properties:
         notification.setUserId(notificationDto.getUserId());
+        notification.setDeliveryChannel(notificationDto.getDeliveryChannel());
         // set message properties:
         message.setSubject(notificationDto.getSubject());
         message.setContent(notificationDto.getContent());
@@ -60,13 +63,21 @@ public class Controller {
     }
 
 
-    @GetMapping("get-all-notif")
+    @GetMapping("/get-all-notif")
     @ResponseBody
     public List<Notification> getAllNotifications() {
         return notificationService.getAllNotifications();
     }
 
-    @GetMapping("get-all-msgs")
+
+    @GetMapping("/get-web-notifications/{userId}")
+    @ResponseBody
+    public List<Message> getWebNotifs(@PathVariable String userId) {
+
+        return notificationService.getWebNotifications(userId);
+    }
+
+    @GetMapping("/get-all-msgs")
     @ResponseBody
     public List<Message> getAllMessages() {
         return messageService.getAllMessages();
@@ -77,14 +88,14 @@ public class Controller {
     // SEND EMAILS USING KAFKA :
     @PostMapping("/confirm-user")
     @ResponseBody
-    public void sendNotification(@RequestBody NotificationDto notificationDto) {
-        kafkaTemplate.send(CONFIRM_USER_TOPIC, notificationDto);
+    public void sendNotification(@RequestBody UserNotifDto userNotifDto) {
+        kafkaTemplate.send(CONFIRM_USER_TOPIC, userNotifDto);
     }
 
     @PostMapping("/send-notification-html")
     @ResponseBody
-    public void sendNotificationHtml(NotificationDto notificationDto) {
-        kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, notificationDto);
+    public void sendNotificationHtml(UserNotifDto userNotifDto) {
+        kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, userNotifDto);
     }
 
     // GET WEB NOTIFICATIONS FOR UI :
@@ -128,7 +139,6 @@ public class Controller {
         emailService.sendHtmlEmail(receiverMail, "html test mail", htmlTemplate);
         return String.format("Message sent successfully to %s", receiverMail);
     }
-
 
 
 

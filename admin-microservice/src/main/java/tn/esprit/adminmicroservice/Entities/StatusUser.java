@@ -1,19 +1,21 @@
 package tn.esprit.adminmicroservice.Entities;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import tn.esprit.adminmicroservice.Ennum.Role;
 
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class StatusUser {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-    private Long id;
+    private String id;
+    private String firstName;
+    private String lastName;
+    private String email;
     private Boolean statusUser;
+    private Role role ;
 }

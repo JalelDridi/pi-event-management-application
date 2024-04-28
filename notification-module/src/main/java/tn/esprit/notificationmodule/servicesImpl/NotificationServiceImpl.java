@@ -11,6 +11,7 @@ import tn.esprit.notificationmodule.services.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,6 +24,17 @@ public class NotificationServiceImpl implements NotificationService {
     private NotificationRepository notificationRepository;
     @Resource
     private MessageRepository messageRepository;
+
+    @Override
+    public List<Message> getWebNotifications(String userId) {
+        List<Notification> notifications = notificationRepository.findNotificationByUserIdAndAndDeliveryChannel(userId, DeliveryChannel.webNotification);
+        List<Message> messages = new ArrayList<>();
+        for (Notification notification : notifications) {
+            messages.add(messageRepository.findByMessageId(notification.getMessageId()));
+        }
+
+        return messages;
+    }
 
     @Override
     public List<Notification> getNotificationsByUserId(String userId) {
