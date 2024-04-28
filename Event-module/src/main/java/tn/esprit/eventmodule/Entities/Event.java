@@ -20,6 +20,7 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId ;
     private String  Name ;
+    private String description;
     private String Image;
     private Date startDate ;
     private Date endDate ;
@@ -30,7 +31,7 @@ public class Event {
     @Column
     @Enumerated ( EnumType.STRING)
     private StatusType status;
-    private String Rating  ;
+
 
 
 }

@@ -88,7 +88,7 @@ public class EventImpl implements EventInterface {
             existingEvent.setClub(event.getClub());
             existingEvent.setEndDate(event.getEndDate());
             existingEvent.setStartDate(event.getStartDate());
-            existingEvent.setRating(event.getRating());
+            existingEvent.setDescription(event.getDescription());
             existingEvent.setStatus(event.getStatus());
             existingEvent.setType(event.getType());
             return eventDao.save(existingEvent);
