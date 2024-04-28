@@ -94,6 +94,16 @@ public class EventController {
                                              Resource
                                                         *************************************************/
 
+    @PostMapping("/assign-resource")
+    public ResponseEntity<String> assignResourceToEvent(@RequestParam Long resourceId, @RequestParam Long eventId) {
+        try {
+            eventimpl.assignResourceToEvent(resourceId, eventId);
+            return ResponseEntity.ok("Resource assigned to event successfully.");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to assign resource to event.");
+        }
+    }
     @GetMapping("/{eventId}/resources")
     public ResponseEntity<Map<String, List<ResourceDto>>> displayResourcesOfEvent(@PathVariable Long eventId) {
         Map<String, List<ResourceDto>> resourcesByType = eventimpl.displayResourceOfEvent(eventId);
