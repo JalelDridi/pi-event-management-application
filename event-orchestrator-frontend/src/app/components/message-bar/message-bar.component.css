@@ -1,4 +1,4 @@
-.notification-count {
+.message-count {
   background-color: #ff0000;
   color: #fff;
   padding: 2px 5px;
@@ -6,4 +6,9 @@
   position: absolute;
   top: -5px;
   right: -5px;
+}
+
+
+.wider-message-bar {
+  width: 500px;
 }

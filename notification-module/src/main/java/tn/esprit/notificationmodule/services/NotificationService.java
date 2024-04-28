@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface NotificationService {
 
+    List<Message> getWebNotifications(String userId);
+
     List<Notification> getNotificationsByUserId(String userId);
 
     List<Notification> getAllNotifications();

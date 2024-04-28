@@ -49,8 +49,10 @@ public class Controller {
 
         Notification notification = new Notification();
         Message message = new Message();
+        message.setRead(false);
         // set notification properties:
         notification.setUserId(notificationDto.getUserId());
+        notification.setDeliveryChannel(notificationDto.getDeliveryChannel());
         // set message properties:
         message.setSubject(notificationDto.getSubject());
         message.setContent(notificationDto.getContent());
@@ -61,13 +63,21 @@ public class Controller {
     }
 
 
-    @GetMapping("get-all-notif")
+    @GetMapping("/get-all-notif")
     @ResponseBody
     public List<Notification> getAllNotifications() {
         return notificationService.getAllNotifications();
     }
 
-    @GetMapping("get-all-msgs")
+
+    @GetMapping("/get-web-notifications/{userId}")
+    @ResponseBody
+    public List<Message> getWebNotifs(@PathVariable String userId) {
+
+        return notificationService.getWebNotifications(userId);
+    }
+
+    @GetMapping("/get-all-msgs")
     @ResponseBody
     public List<Message> getAllMessages() {
         return messageService.getAllMessages();
