@@ -1,3 +1,4 @@
+
 package tn.esprit.eventmodule.Services;
 
 import org.apache.logging.log4j.LogManager;
@@ -185,15 +186,14 @@ public class EventImpl implements EventInterface {
         resourceReservationDao.save(reservation);
     }
 
-    public Map<String, List<ResourceDto>> displayResourcesOfEvent(Long eventId) {
+    public Map<String, List<ResourceDto>> displayResourceOfEvent(Long eventId) {
         Map<String, List<ResourceDto>> resourcesByType = new HashMap<>();
-        List<ResourceReservation> reservations = resourceReservationDao.findByEventId(eventId);
 
-        for (ResourceReservation reservation : reservations) {
+        List<ResourceReservation> resourceReservations = resourceReservationDao.findByEventId(eventId);
+        for (ResourceReservation reservation : resourceReservations) {
+            String resourceType = reservation.getResourceName();
             ResourceDto resource = getResourceById(reservation.getResourceID());
-            resource.setResourceID(null); // Remove resourceId from the resource object
 
-            String resourceType = reservation.getResouceTypeName();
             List<ResourceDto> resources = resourcesByType.getOrDefault(resourceType, new ArrayList<>());
             resources.add(resource);
             resourcesByType.put(resourceType, resources);
@@ -203,22 +203,14 @@ public class EventImpl implements EventInterface {
     }
 
     private ResourceDto getResourceById(Long resourceId) {
-        // Replace "resource-service-url" with the actual URL of the Resource Microservice
-        // Construct the URL with placeholders
-        String resourceMicroserviceUrl = UriComponentsBuilder
-                .fromUriString("http://localhost:8093/api/reservations/filteredResouces")
-                .buildAndExpand(resourceId)
-                .toUriString();
-
-        // Make a GET request to the Resource Microservice
         RestTemplate restTemplate = new RestTemplate();
+        String resourceMicroserviceUrl = "http://localhost:8093/api/reservations/filteredResources/" + resourceId;
+
         ResponseEntity<ResourceDto> responseEntity = restTemplate.getForEntity(resourceMicroserviceUrl, ResourceDto.class);
 
-        // Check if the request was successful (HTTP status code 200)
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             return responseEntity.getBody();
         } else {
-            // Handle the case where the request was not successful
             throw new RuntimeException("Failed to fetch resource from Resource Microservice. Status code: " + responseEntity.getStatusCodeValue());
         }
     }
@@ -314,8 +306,3 @@ public class EventImpl implements EventInterface {
         }
     }
 }
-
-
-
-
-
