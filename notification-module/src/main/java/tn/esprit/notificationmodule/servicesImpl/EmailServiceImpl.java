@@ -9,7 +9,6 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.dtos.NotificationEventDto;
 import tn.esprit.notificationmodule.dtos.NotificationUserDto;
 import tn.esprit.notificationmodule.services.EmailService;
