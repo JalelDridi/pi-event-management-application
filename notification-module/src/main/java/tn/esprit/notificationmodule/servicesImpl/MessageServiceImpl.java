@@ -40,4 +40,9 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> getAllMessages() {
         return messageRepository.findAll();
     }
+
+    @Override
+    public void setUserMessagesAsRead(String userId) {
+        messageRepository.updateMessagesSetIsReadToTrue(userId);
+    }
 }

@@ -5,18 +5,19 @@ import jakarta.annotation.Resource;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import tn.esprit.notificationmodule.dtos.NotificationDto;
+import tn.esprit.notificationmodule.dtos.NotificationEventDto;
 import tn.esprit.notificationmodule.services.EmailService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -28,10 +29,10 @@ public class EmailServiceImpl implements EmailService {
 
     private final TemplateEngine templateEngine;
 
-    @Autowired
-    private KafkaTemplate<String, NotificationDto> kafkaTemplate;
 
     private static final String UPCOMING_EVENTS_TOPIC = "upcoming-events";
+
+
 
 
     @Override
@@ -42,6 +43,33 @@ public class EmailServiceImpl implements EmailService {
         message.setText(body);
 
         mailSender.send(message);
+    }
+
+    @Override
+    public List<NotificationEventDto> sendUpcomingEvents() {
+
+
+        // Make a GET request to the User Microservice
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<NotificationEventDto[]> responseEntity = restTemplate.getForEntity(
+                "http://localhost:8060/Event/getAll", NotificationEventDto[].class
+        );
+
+        NotificationEventDto[] notificationEventDtos = responseEntity.getBody();
+        if (notificationEventDtos != null) {
+            for (NotificationEventDto e : notificationEventDtos) {
+                System.out.println(e);
+            }
+        }
+
+        // Check if the request was successful (HTTP status code 200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            return Arrays.stream(responseEntity.getBody()).toList();
+        } else {
+            // Handle the case where the request was not successful
+            // You may throw an exception or handle it based on your application's requirements
+            throw new RuntimeException("Failed to fetch upcoming events. Status code: " + responseEntity.getStatusCode());
+        }
     }
 
     @Override
@@ -75,7 +103,6 @@ public class EmailServiceImpl implements EmailService {
             throw new RuntimeException(e);
         }
 
-
         try {
             message.setContent(htmlTemplate, "text/html; charset=utf-8");
         } catch (jakarta.mail.MessagingException e) {
@@ -85,7 +112,7 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
     }
 
-    public String loadEmailConfirmationTemplate(String username, String activationCode) throws IOException {
+    public String loadEmailConfirmationTemplate(String username, String activationCode)  {
 
         Context context = new Context();
 
@@ -95,10 +122,6 @@ public class EmailServiceImpl implements EmailService {
         return templateEngine.process("mail_confirmation_template", context);
     }
 
-    @Override
-    public void emailUpcomingEvents() {
-
-    }
 
 
 }

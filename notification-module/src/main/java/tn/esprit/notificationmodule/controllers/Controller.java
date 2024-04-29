@@ -2,8 +2,10 @@ package tn.esprit.notificationmodule.controllers;
 
 
 import tn.esprit.notificationmodule.dtos.NotificationDto;
+import tn.esprit.notificationmodule.dtos.NotificationEventDto;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
+import tn.esprit.notificationmodule.services.EmailService;
 import tn.esprit.notificationmodule.services.MessageService;
 import tn.esprit.notificationmodule.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,8 @@ public class Controller {
     @Autowired
     private MessageService messageService;
 
-
+    @Autowired
+    private EmailService emailService;
 
     // KAFKA TOPICS :
     private static final String CONFIRM_USER_TOPIC = "confirm-user-registration";
@@ -121,7 +124,7 @@ public class Controller {
 
 
 
-    // Chat messaging :
+    //////////////////////////////////////////// Chat messaging :
 
     // Send a message to one:
     @PostMapping("/send-message")
@@ -130,4 +133,27 @@ public class Controller {
         kafkaTemplate.send(SEND_MESSAGE_TOPIC, notificationDto);
     }
 
+    // get all messages of a specific user:
+    @GetMapping("/get-user-messages")
+    @ResponseBody
+    public List<Message> getUserMessages() {
+        return null;
+    }
+
+    // Set all messages as read for a specefic user:
+
+    @PostMapping("/set-messages-read/{userId}")
+    @ResponseBody
+    public void setUserMessagesAsRead(@PathVariable String userId) {
+        messageService.setUserMessagesAsRead(userId);
+    }
+
+
+    ////////////////////////////////////////// Send upcoming events to users:
+
+    @GetMapping("/testt")
+    @ResponseBody
+    public List<NotificationEventDto> testt() {
+        return emailService.sendUpcomingEvents();
+    }
 }
