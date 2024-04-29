@@ -1,26 +1,39 @@
 package tn.esprit.notificationmodule.servicesImpl;
 
 
+import jakarta.annotation.Resource;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import tn.esprit.notificationmodule.dtos.NotificationEventDto;
 import tn.esprit.notificationmodule.services.EmailService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.FileCopyUtils;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EmailServiceImpl implements EmailService {
 
-    @jakarta.annotation.Resource
+    @Resource
     private JavaMailSender mailSender;
+
+    private final TemplateEngine templateEngine;
+
+
+    private static final String UPCOMING_EVENTS_TOPIC = "upcoming-events";
+
+
+
 
     @Override
     public void sendEmail(String to, String subject, String body) {
@@ -30,6 +43,33 @@ public class EmailServiceImpl implements EmailService {
         message.setText(body);
 
         mailSender.send(message);
+    }
+
+    @Override
+    public List<NotificationEventDto> sendUpcomingEvents() {
+
+
+        // Make a GET request to the User Microservice
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<NotificationEventDto[]> responseEntity = restTemplate.getForEntity(
+                "http://localhost:8060/Event/getAll", NotificationEventDto[].class
+        );
+
+        NotificationEventDto[] notificationEventDtos = responseEntity.getBody();
+        if (notificationEventDtos != null) {
+            for (NotificationEventDto e : notificationEventDtos) {
+                System.out.println(e);
+            }
+        }
+
+        // Check if the request was successful (HTTP status code 200)
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            return Arrays.stream(responseEntity.getBody()).toList();
+        } else {
+            // Handle the case where the request was not successful
+            // You may throw an exception or handle it based on your application's requirements
+            throw new RuntimeException("Failed to fetch upcoming events. Status code: " + responseEntity.getStatusCode());
+        }
     }
 
     @Override
@@ -63,7 +103,6 @@ public class EmailServiceImpl implements EmailService {
             throw new RuntimeException(e);
         }
 
-
         try {
             message.setContent(htmlTemplate, "text/html; charset=utf-8");
         } catch (jakarta.mail.MessagingException e) {
@@ -73,17 +112,16 @@ public class EmailServiceImpl implements EmailService {
         mailSender.send(message);
     }
 
-    public String loadEmailConfirmationTemplate(String username, String activationCode) throws IOException {
-        // Load the email confirmation template from the resources
-        Resource resource = new ClassPathResource("/templates/mail_confirmation_template.html");
-        byte[] templateBytes = FileCopyUtils.copyToByteArray(resource.getInputStream());
-        String emailTemplate = new String(templateBytes, StandardCharsets.UTF_8);
+    public String loadEmailConfirmationTemplate(String username, String activationCode)  {
 
-        // Format the template with the provided variables
-        emailTemplate = emailTemplate.replace("${username}", username);
-        emailTemplate = emailTemplate.replace("${activation_code}", activationCode);
+        Context context = new Context();
 
-        return emailTemplate;
+        context.setVariable("username", username);
+        context.setVariable("activation_code",activationCode );
+
+        return templateEngine.process("mail_confirmation_template", context);
     }
+
+
 
 }

@@ -17,8 +17,10 @@ import lombok.Setter;
 public class ResourceReservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private long eventId;
     private Long resourceID;
-    private String resouceTypeName;
+
+    private String resourceName;
+
+    private Boolean isAvailable;
+    private long eventId;
 }

@@ -1,4 +1,4 @@
-package tn.esprit.notificationmodule.components;
+package tn.esprit.notificationmodule.kafkaServices;
 
 
 import tn.esprit.notificationmodule.dtos.NotificationDto;
@@ -36,8 +36,8 @@ public class ConfirmUserRegistration {
             Notification notification = new Notification();
 
             // Send Confirmation message:
-            String htmlBody = emailService.loadEmailConfirmationTemplate("Foulen", notificationDto.getContent());
-            emailService.sendHtmlEmail(notificationDto.getEmail(),notificationDto.getSubject(), htmlBody);
+            String htmlBody = emailService.loadEmailConfirmationTemplate(notificationDto.getFullName(), notificationDto.getContent());
+            emailService.sendHtmlEmail(notificationDto.getEmail(), notificationDto.getSubject(), htmlBody);
             // Set notification properties:
             notification.setDeliveryChannel(DeliveryChannel.email);
             notification.setIsRead(true);

@@ -21,8 +21,9 @@ public class EventAdminDto {
     @Enumerated( EnumType.STRING)
     @Column
     private EventType type;
-    private String Club ;
+    private String club ;
     @Column
     private StatusType status;
+    private String Image;
 
 }

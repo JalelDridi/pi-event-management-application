@@ -16,5 +16,7 @@ public interface ResourceService {
 
     void deleteById(Long resourceID);
 
+    List<Resource> getAllAvailableResources();
+
 //    Resource findById(Long id);
 }

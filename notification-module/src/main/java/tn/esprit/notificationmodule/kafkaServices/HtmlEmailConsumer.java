@@ -1,4 +1,4 @@
-package tn.esprit.notificationmodule.components;
+package tn.esprit.notificationmodule.kafkaServices;
 
 import tn.esprit.notificationmodule.dtos.NotificationDto;
 import org.springframework.kafka.annotation.KafkaListener;

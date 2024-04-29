@@ -40,5 +40,18 @@ public class ReviewServiceImpl implements ReviewService {
         return null;
     }
 
+    @Override
+    public List<Review> findReviewsbyEventID(Long eventid) {
+        return reviewRepository.findReviewsByEventID(eventid);
+    }
+
+    @Override
+    public void deleteReview(Long id) {
+        Review review = reviewRepository.findReviewByReviewID(id);
+        if (review != null) {
+            reviewRepository.delete(review);
+        }
+    }
+
 
 }

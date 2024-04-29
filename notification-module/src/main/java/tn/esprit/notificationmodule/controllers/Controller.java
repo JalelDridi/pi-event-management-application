@@ -2,6 +2,7 @@ package tn.esprit.notificationmodule.controllers;
 
 
 import tn.esprit.notificationmodule.dtos.NotificationDto;
+import tn.esprit.notificationmodule.dtos.NotificationEventDto;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
 import tn.esprit.notificationmodule.services.EmailService;
@@ -30,12 +31,10 @@ public class Controller {
     @Autowired
     private EmailService emailService;
 
-    public String htmlTemplate = "<h1>This is a test Spring Boot email</h1>" +
-            "<p>It can contain <strong>HTML</strong> content.</p>";
-
-
     // KAFKA TOPICS :
     private static final String CONFIRM_USER_TOPIC = "confirm-user-registration";
+
+    private static final String SEND_MESSAGE_TOPIC = "send-message";
     private static final String SEND_EMAIL_TOPIC = "send-email";
     private static final String SEND_HTML_EMAIL_TOPIC = "send-html-email";
 
@@ -48,8 +47,10 @@ public class Controller {
 
         Notification notification = new Notification();
         Message message = new Message();
+        message.setRead(false);
         // set notification properties:
         notification.setUserId(notificationDto.getUserId());
+        notification.setDeliveryChannel(notificationDto.getDeliveryChannel());
         // set message properties:
         message.setSubject(notificationDto.getSubject());
         message.setContent(notificationDto.getContent());
@@ -60,13 +61,21 @@ public class Controller {
     }
 
 
-    @GetMapping("get-all-notif")
+    @GetMapping("/get-all-notif")
     @ResponseBody
     public List<Notification> getAllNotifications() {
         return notificationService.getAllNotifications();
     }
 
-    @GetMapping("get-all-msgs")
+
+    @GetMapping("/get-web-notifications/{userId}")
+    @ResponseBody
+    public List<Message> getWebNotifs(@PathVariable String userId) {
+
+        return notificationService.getWebNotifications(userId);
+    }
+
+    @GetMapping("/get-all-msgs")
     @ResponseBody
     public List<Message> getAllMessages() {
         return messageService.getAllMessages();
@@ -87,7 +96,7 @@ public class Controller {
         kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, notificationDto);
     }
 
-    // GET WEB NOTIFICATIONS FOR UI :
+    // WEB NOTIFICATIONS FOR UI :
 
     @GetMapping("/get-message-by-id/{messageId}")
     @ResponseBody
@@ -115,21 +124,36 @@ public class Controller {
 
 
 
-    @PostMapping("/email")
-    public String publishMessage(@RequestParam String receiverMail)
-    {
-        emailService.sendEmail(receiverMail, "test", "This is a test message ");
-        return String.format("Message sent successfully to %s", receiverMail);
+    //////////////////////////////////////////// Chat messaging :
+
+    // Send a message to one:
+    @PostMapping("/send-message")
+    @ResponseBody
+    public void sendMessage(@RequestBody NotificationDto notificationDto) {
+        kafkaTemplate.send(SEND_MESSAGE_TOPIC, notificationDto);
     }
 
-    @PostMapping("/emailhtml")
-    public String publishMessageHtml(@RequestParam String receiverMail)
-    {
-        emailService.sendHtmlEmail(receiverMail, "html test mail", htmlTemplate);
-        return String.format("Message sent successfully to %s", receiverMail);
+    // get all messages of a specific user:
+    @GetMapping("/get-user-messages")
+    @ResponseBody
+    public List<Message> getUserMessages() {
+        return null;
+    }
+
+    // Set all messages as read for a specefic user:
+
+    @PostMapping("/set-messages-read/{userId}")
+    @ResponseBody
+    public void setUserMessagesAsRead(@PathVariable String userId) {
+        messageService.setUserMessagesAsRead(userId);
     }
 
 
+    ////////////////////////////////////////// Send upcoming events to users:
 
-
+    @GetMapping("/testt")
+    @ResponseBody
+    public List<NotificationEventDto> testt() {
+        return emailService.sendUpcomingEvents();
+    }
 }
