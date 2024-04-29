@@ -3,6 +3,7 @@ package tn.esprit.notificationmodule.controllers;
 
 import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.dtos.NotificationEventDto;
+import tn.esprit.notificationmodule.dtos.NotificationUserDto;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
 import tn.esprit.notificationmodule.services.EmailService;
@@ -153,7 +154,7 @@ public class Controller {
 
     @GetMapping("/testt")
     @ResponseBody
-    public List<NotificationEventDto> testt() {
+    public List<NotificationUserDto> testt() {
         return emailService.sendUpcomingEvents();
     }
 }

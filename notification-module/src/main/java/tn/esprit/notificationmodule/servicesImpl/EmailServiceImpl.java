@@ -5,19 +5,20 @@ import jakarta.annotation.Resource;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.dtos.NotificationEventDto;
+import tn.esprit.notificationmodule.dtos.NotificationUserDto;
 import tn.esprit.notificationmodule.services.EmailService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -46,30 +47,26 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public List<NotificationEventDto> sendUpcomingEvents() {
-
+    public List<NotificationUserDto> sendUpcomingEvents() {
 
         // Make a GET request to the User Microservice
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<NotificationEventDto[]> responseEntity = restTemplate.getForEntity(
-                "http://localhost:8060/Event/getAll", NotificationEventDto[].class
-        );
+        try {
+            // Change the return type to List<NotificationEventDto>
+            List<NotificationEventDto> eventsList = restTemplate.getForObject(
+                    "http://localhost:8060/Event/getall",
+                    List.class); // This expects a List
 
-        NotificationEventDto[] notificationEventDtos = responseEntity.getBody();
-        if (notificationEventDtos != null) {
-            for (NotificationEventDto e : notificationEventDtos) {
-                System.out.println(e);
-            }
+            List<NotificationUserDto> usersList = restTemplate.getForObject(
+                    "http://localhost:8060/api/v1/users/all",
+                    List.class);
+            return usersList;
+        } catch (RestClientResponseException e) {
+            // Handle the exception here
+            System.out.println("Failed to fetch upcoming events: " + e.getMessage());
+            return Collections.emptyList();
         }
 
-        // Check if the request was successful (HTTP status code 200)
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return Arrays.stream(responseEntity.getBody()).toList();
-        } else {
-            // Handle the case where the request was not successful
-            // You may throw an exception or handle it based on your application's requirements
-            throw new RuntimeException("Failed to fetch upcoming events. Status code: " + responseEntity.getStatusCode());
-        }
     }
 
     @Override
