@@ -2,12 +2,12 @@ import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {skipUntil} from 'rxjs';
 import {AuthenticationService} from "../../userservices/services/authentication.service";
+import {CodeInputModule} from "angular-code-input";
 
 
 @Component({
   selector: 'app-activate-account',
   templateUrl: './activate-account.component.html',
-  standalone: true,
   styleUrls: ['./activate-account.component.scss']
 })
 export class ActivateAccountComponent {
