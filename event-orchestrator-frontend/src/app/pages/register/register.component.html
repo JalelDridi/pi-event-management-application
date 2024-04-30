@@ -38,6 +38,9 @@
           <div class="text-center text-muted mb-4">
             <small>Or sign up with credentials</small>
           </div>
+          <div class="alert alert-danger" role="alert" *ngIf="errorMsg.length">
+            <p *ngFor="let msg of errorMsg">{{msg}}</p>
+          </div>
           <form role="form">
             <div class="form-group">
               <div class="input-group input-group-alternative mb-3">
@@ -86,6 +89,12 @@
               <button  (click)="register()" type="button" class="btn btn-primary mt-4">Create account</button>
             </div>
           </form>
+          <div>
+            Already have an account?&nbsp;
+            <button (click)="login()" type="button" class="btn btn-link">
+              Login
+            </button>
+          </div>
         </div>
       </div>
     </div>

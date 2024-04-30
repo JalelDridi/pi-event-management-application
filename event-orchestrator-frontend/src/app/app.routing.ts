@@ -8,11 +8,16 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {RegisterComponent} from "./pages/register/register.component";
 import {LoginComponent} from "./pages/login/login.component";
+import {UserProfileComponent} from "./pages/user-profile/user-profile.component";
 
 const routes: Routes =[
   {
     path : "login",
     component: LoginComponent
+  },
+  {
+    path : "user-profile",
+    component: UserProfileComponent
   },
   {
     path : "register",
