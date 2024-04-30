@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }).subscribe({
       next: (res) => {
         this.tokenService.token = res.token as string;
-        this.router.navigate(['users/all']);
+        this.router.navigate(['user-profile']);
       },
       error: (err) => {
         console.log(err);
