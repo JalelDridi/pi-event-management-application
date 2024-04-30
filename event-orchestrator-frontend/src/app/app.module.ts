@@ -15,6 +15,8 @@ import { ComponentsModule } from './components/components.module';
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {CodeInputModule} from 'angular-code-input';
 import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interceptor";
+import { CustomDatePipe } from './custom-date.pipe';
+
 
 
 @NgModule({
@@ -32,7 +34,8 @@ import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interc
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    ActivateAccountComponent
+    ActivateAccountComponent,
+    CustomDatePipe,
   ],
   providers: [
     HttpClient,
