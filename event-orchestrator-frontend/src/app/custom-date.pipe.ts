@@ -7,19 +7,28 @@ import { formatDistance, format, parseISO } from 'date-fns';
 export class CustomDatePipe implements PipeTransform {
 
  transform(value: string): string {
-    const date = parseISO(value);
-    const now = new Date();
-
-    if (date.toDateString() === now.toDateString()) {
-      return formatDistance(date, now, { addSuffix: true });
+    if (!value) {
+      return '';
     }
 
-    const startOfWeek = now.getDate() - now.getDay();
-    const endOfWeek = startOfWeek + 6;
-    if (date >= new Date(now.setDate(startOfWeek)) && date <= new Date(now.setDate(endOfWeek))) {
-      return formatDistance(date, now, { addSuffix: true });
-    }
+    try {
+      const date = parseISO(value);
+      const now = new Date();
 
-    return format(date, 'dd-MM-yy \'at\' HH:mm');
+      if (date.toDateString() === now.toDateString()) {
+        return formatDistance(date, now, { addSuffix: true });
+      }
+
+      const startOfWeek = now.getDate() - now.getDay();
+      const endOfWeek = startOfWeek + 6;
+      if (date >= new Date(now.setDate(startOfWeek)) && date <= new Date(now.setDate(endOfWeek))) {
+        return formatDistance(date, now, { addSuffix: true });
+      }
+
+      return format(date, 'dd-MM-yy \'at\' HH:mm');
+    } catch (error) {
+      console.error('Error parsing or formatting date:', error);
+      return '';
+    }
  }
 }

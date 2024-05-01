@@ -26,7 +26,7 @@ export class ReviewService {
   }
 
   deleteReview(reviewID: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/deletereview/${reviewID}, { responseType: 'text' }`);
+    return this.http.delete(`${this.baseUrl}/deletereview/${reviewID}`, { responseType: 'text' });
   }
 
   getReviewsList(): Observable<Review[]> {
