@@ -15,10 +15,6 @@ import { UpdateResourceComponent } from './pages/update-resource/update-resource
 
 const routes: Routes =[
   {
-    path:'/resource-list',
-    component:ResourceListComponent
-  },
-  {
     path : "login",
     component: LoginComponent
   },

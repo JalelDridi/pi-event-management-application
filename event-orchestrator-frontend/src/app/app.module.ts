@@ -36,7 +36,6 @@ import {RouterModule} from "@angular/router";
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    ResourceListComponent,
     ResourceTypeComponent,
     AddResourceComponent,
     UpdateResourceComponent,

@@ -24,6 +24,8 @@ import { ReviewService } from 'src/app/reviewservices/review.service';
 import { BadWordsFilterService } from 'src/app/reviewservices/badwordsfilter.service';
 import { ReviewlistComponent } from 'src/app/pages/reviewlist/reviewlist.component';
 import { CustomDatePipe } from 'src/app/custom-date.pipe';
+import {ResourceListComponent} from "../../pages/resource-list/resource-list.component";
+import {ResourceService} from "../../pages/resource-list/resource.service";
 
 
 
@@ -52,14 +54,16 @@ import { CustomDatePipe } from 'src/app/custom-date.pipe';
     AddReviewComponent,
     ReviewpagetestComponent,
     ReviewlistComponent,
+    ResourceListComponent,
     TablesComponent,
     IconsComponent,
     MapsComponent,
     CustomDatePipe
-    
+
   ],
   providers: [
     ReviewService,
+    ResourceService,
     BadWordsFilterService,
     DatePipe,
   ]

@@ -19,6 +19,4 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'reviewtest', component:ReviewpagetestComponent},
     { path: 'maps',           component: MapsComponent },
     {path:'/resource-list',component:ResourceListComponent},
-    {path:'/addResource',component:AddResourceComponent},
-    {path:'/updateResource',component:UpdateResourceComponent},
 ];
