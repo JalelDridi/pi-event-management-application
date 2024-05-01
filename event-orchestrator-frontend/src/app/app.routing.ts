@@ -5,18 +5,26 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+<<<<<<< HEAD
 
 import { ResourceListComponent } from './pages/resource-list/resource-list.component';
 import { AddResourceComponent } from './pages/add-resource/add-resource.component';
 import { UpdateResourceComponent } from './pages/update-resource/update-resource.component';
+=======
+>>>>>>> d6ac6270762f6bfdc65512c387a04c92ec2e7e27
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {RegisterComponent} from "./pages/register/register.component";
 import {LoginComponent} from "./pages/login/login.component";
 import {UserProfileComponent} from "./pages/user-profile/user-profile.component";
+<<<<<<< HEAD
 
+=======
+import { ResourceListComponent } from './pages/resource-list/resource-list.component';
+import { AddResourceComponent } from './pages/add-resource/add-resource.component';
+import { UpdateResourceComponent } from './pages/update-resource/update-resource.component';
+>>>>>>> d6ac6270762f6bfdc65512c387a04c92ec2e7e27
 
 const routes: Routes =[
-  {path:'/resource-list', component:ResourceListComponent},
   {
     path : "login",
     component: LoginComponent
