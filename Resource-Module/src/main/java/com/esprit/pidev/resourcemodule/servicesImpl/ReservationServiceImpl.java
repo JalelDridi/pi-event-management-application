@@ -104,6 +104,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+
 //    @Override
 //    public boolean checkResourceAvailability(Resource resource, Date startDate, Date endDate) {
 //        //retrieve list of reservations of a resource
@@ -119,6 +120,20 @@ public class ReservationServiceImpl implements ReservationService {
 //        }
 //        return true;//the resource is now available on specified dates
 //    }
+
+    private List<Resource> filterAvailableResources(List<Resource> resources, Date startDate, Date endDate, Reservation reservation) {
+        List<Resource> availableResources = new ArrayList<>();
+
+        for (Resource resource : resources) {
+            // Check the availability of each resource for the given reservation
+            if (checkResourceAvailability(resource, startDate, endDate)) {
+                availableResources.add(resource);
+            }
+        }
+
+        return availableResources;
+    }
+
 
 
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -27,8 +28,19 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<EventUserDto> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<EventUserDto> userDtos = new ArrayList<>();
+        //EventUserDto userDto = null;
+
+        for (User user: users) {
+            EventUserDto userDto = new EventUserDto();
+            // Copy user properties to userDto
+            BeanUtils.copyProperties(user, userDto);
+            userDtos.add(userDto);
+        }
+
+        return userDtos;
     }
 
     @Override

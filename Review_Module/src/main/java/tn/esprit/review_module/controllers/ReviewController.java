@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/review")
+@CrossOrigin(origins = "http://localhost:4200")
 public class ReviewController {
 
     @Autowired
@@ -18,8 +19,7 @@ public class ReviewController {
 
     @PostMapping("/addreview")
     @ResponseBody
-    public Review addReview(@DateTimeFormat(pattern = "yyyy-MM-dd")
-                                     @RequestBody Review review ){
+    public Review addReview(@RequestBody Review review ){
         return reviewService.addReview(review);
     }
 
@@ -34,11 +34,25 @@ public class ReviewController {
         return reviewService.getAllReviews();
     }
 
-    @PutMapping("/updatereview")
+
+    @PutMapping("/updatereview/{id}")
     @ResponseBody
-    public Review UpdateReview(@RequestBody Review review){
-        return this.reviewService.UpdateReview(review);
+    public Review UpdateReview(@RequestBody Review review, @PathVariable Long id){
+        return this.reviewService.UpdateReview(review, id);
     }
+    @DeleteMapping("/deletereview/{id}")
+    @ResponseBody
+    public void DeleteReview(@PathVariable Long id){
+        this.reviewService.deleteReview(id);
+    }
+
+    @GetMapping("/getreviewsbyevent/{id}")
+    @ResponseBody
+    public  List<Review>findreviewsbyeventid( @PathVariable Long id){
+        return reviewService.findReviewsbyEventID(id);
+    }
+
+
 
 
 }

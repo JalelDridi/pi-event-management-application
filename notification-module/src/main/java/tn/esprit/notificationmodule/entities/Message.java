@@ -6,9 +6,9 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
+import tn.esprit.notificationmodule.enums.MessageType;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data // Lombok annotation to get rid of most boilerplate code like : getters, setters, equals, toString ....
@@ -21,8 +21,14 @@ public class Message implements Serializable {
     @Id
     private Long messageId;
 
+
+    private MessageType messageType;
+    private boolean isRead;
     private String subject;
     private String content;
     private Date sentDate;
+    private String userId;
+    private String userIdFrom; // who sent this message
+    private String groupId;
 
 }

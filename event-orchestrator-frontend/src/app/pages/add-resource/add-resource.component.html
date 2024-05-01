@@ -1,0 +1,18 @@
+<div [hidden]="submitted" style="width: 400px;">
+ <form [formGroup]="resourceForm" (ngSubmit)="addResource()"> 
+    <div>
+      <label for="resourceName">Resource Name:</label>
+      <input type="text" id="resourceName" name="resourceName" [(ngModel)]="resource.resourceName" required>
+    </div>
+    <div>
+      <label for="isAvailable">Is Available:</label>
+      <input type="checkbox" id="isAvailable" name="isAvailable" [(ngModel)]="resource.isAvailable">
+    </div>
+    <div>
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" [(ngModel)]="resource.date" required>
+    </div>
+    
+    <button type="submit" class="btn btn-success">Submit</button>
+  </form>
+</div>
