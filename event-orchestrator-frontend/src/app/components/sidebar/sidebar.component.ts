@@ -16,11 +16,15 @@ export const ROUTES: RouteInfo[] = [
     { path: '/tables', title: 'Tables',  icon:'ni-bullet-list-67 text-red', class: '' },
     { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
     { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' },
+<<<<<<< HEAD
     {path:'/resource-list',title:'ResourceList',icon:'ni-circle-08 text-pink', class: '' },
     {path:'/addResource',title:'ResourceList',icon:'ni-circle-08 text-pink', class: ''},
     {path:'/updateResource',title:'ResourceList',icon:'ni-circle-08 text-pink', class: ''},
 
    
+=======
+    { path: '/reviewtest', title: 'Reclamation',  icon:'ni-circle-08 text-pink', class: '' }
+>>>>>>> main
 ];
 
 @Component({

@@ -14,3 +14,12 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
+# Hibernate Search
+  jpa:
+    properties:
+      hibernate:
+        search:
+          default:
+            directory_provider: filesystem
+            indexBase: ./src/test/resources/index

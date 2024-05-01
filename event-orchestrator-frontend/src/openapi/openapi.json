@@ -1,0 +1,485 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpenApi specification - Jalel",
+    "description": "OpenApi documentation for Spring Security",
+    "termsOfService": "Terms of service",
+    "contact": {
+      "name": "Jalel",
+      "email": "med.jalel.dridi@gmail.com"
+    },
+    "license": {
+      "name": "Licence name",
+      "url": "https://some-url.com"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8091/api/v1",
+      "description": "Local ENV"
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/users/{userId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EventUserDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "updateUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/add": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "addUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/authenticate": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "authenticate",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthenticationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/hello": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "sayHello",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/all": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "getAllUsers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EventUserDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/activate-account": {
+      "get": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "confirm",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "GrantedAuthority": {
+        "type": "object",
+        "properties": {
+          "authority": {
+            "type": "string"
+          }
+        }
+      },
+      "Role": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "token": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "validatedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/User"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "userID": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "accountLocked": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Token"
+            }
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Role"
+            }
+          },
+          "createdDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "lastModifiedDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "name": {
+            "type": "string"
+          },
+          "fullName": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          }
+        }
+      },
+      "RegistrationRequest": {
+        "required": [
+          "email",
+          "firstName",
+          "lastName",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 2147483647,
+            "minLength": 8,
+            "type": "string"
+          }
+        }
+      },
+      "AuthenticationRequest": {
+        "required": [
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "maxLength": 2147483647,
+            "minLength": 8,
+            "type": "string"
+          }
+        }
+      },
+      "AuthenticationResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "EventUserDto": {
+        "type": "object",
+        "properties": {
+          "userID": {
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "description": "JWT auth description",
+        "in": "header",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

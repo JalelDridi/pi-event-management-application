@@ -74,7 +74,10 @@ public class ResourceServiceImpl implements ResourceService{
     }
 //    @Override
 //    public Resource findById(Long id){return this.resourceDao.findById(id).get();}
-
+   public List<Resource> getAllAvailableResources() {
+    // Utilisation d'une requête personnalisée pour récupérer les ressources disponibles
+    return resourceDao.findByIsAvailableTrue();
+}
 }
 
 

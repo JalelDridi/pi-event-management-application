@@ -11,7 +11,11 @@ import { RegisterComponent } from '../../pages/register/register.component';
   imports: [
     CommonModule,
     RouterModule.forChild(AuthLayoutRoutes),
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    ReactiveFormsModule,
+    ReactiveFormsModule,
+    ReactiveFormsModule,
     // NgbModule
   ],
   declarations: [
