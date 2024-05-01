@@ -1,4 +1,11 @@
-<section style="max-width: 500px; max-height: 500px;">
+<!-- Import Material Icons font -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- Import Angular Material CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+<!-- Angular Material components -->
+<section style="max-width: 700px; max-height: 500px;">
     <div class="container my-3 py-3 text-body">
         <div style="display: flex; justify-content: center;">
             <div style="flex: 1; max-width: 80%;">
@@ -10,15 +17,16 @@
                                 <img class="rounded-circle shadow-1-strong" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(21).webp" alt="avatar" width="50" height="50" style="border: 2px solid #0077ff; border-radius: 50%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 60px; height: 60px;">
                                 <div style="flex: 1;">
                                     <div style="text-align: right;">
+                                        <!-- Ensure correct usage of Angular Material components -->
                                         <ngx-star-rating name="rating" ngModel required></ngx-star-rating>
                                     </div>
                                     <mat-form-field style="width: 100%;">
                                         <textarea matInput id="textAreaExample" rows="3" name="content" ngModel required style="resize: none;"></textarea>
-                                        <mat-label style="font-family: Mat-label;">What is your review?</mat-label>
+                                        <mat-label>What is your review?</mat-label>
                                     </mat-form-field>
                                     <div style="display: flex; justify-content: space-between; margin-top: 10px;">
-                                        <button mat-raised-button style="background-color:red;" color="warn" type="button" (click)="cancelForm(reviewForm)" style="justify-content: space-between;">Cancel</button>
-                                        <button mat-raised-button color="primary" type="submit" [disabled]="reviewForm.invalid" style="justify-content: space-between;">Send</button>
+                                        <button mat-raised-button color="warn" type="button" (click)="cancelForm(reviewForm)">Cancel</button>
+                                        <button mat-raised-button color="primary" type="submit" [disabled]="reviewForm.invalid">Send</button>
                                     </div>
                                 </div>
                             </div>
@@ -28,4 +36,4 @@
             </div>
         </div>
     </div>
-  </section>
+</section>

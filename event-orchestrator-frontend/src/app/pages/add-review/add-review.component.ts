@@ -1,8 +1,8 @@
 import { Component , ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Review } from '../ReviewModels/Review.Model';
-import { ReviewService } from '../reviewservices/review.service';
-import { BadWordsFilterService } from '../reviewservices/badwordsfilter.service';
+import { Review } from '../../ReviewModels/Review.Model';
+import { ReviewService } from '../../reviewservices/review.service';
+import { BadWordsFilterService } from '../../reviewservices/badwordsfilter.service';
 import Swal from 'sweetalert2';
 import { HttpErrorResponse } from '@angular/common/http';
 import { DatePipe } from '@angular/common';

@@ -10,7 +10,7 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AddReviewComponent } from 'src/app/add-review/add-review.component';
+import { AddReviewComponent } from 'src/app/pages/add-review/add-review.component';
 import { ReviewpagetestComponent } from 'src/app/pages/reviewpagetest/reviewpagetest.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -23,6 +23,7 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { ReviewService } from 'src/app/reviewservices/review.service';
 import { BadWordsFilterService } from 'src/app/reviewservices/badwordsfilter.service';
 import { ReviewlistComponent } from 'src/app/pages/reviewlist/reviewlist.component';
+import { CustomDatePipe } from 'src/app/custom-date.pipe';
 
 
 
@@ -35,6 +36,7 @@ import { ReviewlistComponent } from 'src/app/pages/reviewlist/reviewlist.compone
     NgbModule,
     ClipboardModule,
     MatButtonModule,
+    ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
     MatIconModule,
@@ -53,11 +55,13 @@ import { ReviewlistComponent } from 'src/app/pages/reviewlist/reviewlist.compone
     TablesComponent,
     IconsComponent,
     MapsComponent,
+    CustomDatePipe
+    
   ],
   providers: [
     ReviewService,
     BadWordsFilterService,
-    DatePipe
+    DatePipe,
   ]
 })
 
