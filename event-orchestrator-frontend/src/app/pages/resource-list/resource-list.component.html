@@ -1,0 +1,33 @@
+<!-- <p *ngFor="let item of resources">
+    {{item.resourceID}}: {{item.resourceName}} | {{item.date}} | {{item.isAvailable}}
+
+</p>
+<p> hi </p>
+<p>bonjour</p> -->
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h2>Product List</h2>
+  </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Resource Name</th>
+          <th>IsAvailable</th>
+          <th>date</th>
+          <th>delete</th>
+          <th>update</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of resources">
+          <td>{{item.resourceName}}</td>
+          <td>{{item.isAvailable}}</td>
+          <td>{{item.Date | date: 'yyyy-MM-dd' }}</td>
+          <td><button (click)="deleteResource(item.resourceID)" class="btn btn-danger">Delete</button></td>
+          <td><button class="btn btn-danger"> update</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
