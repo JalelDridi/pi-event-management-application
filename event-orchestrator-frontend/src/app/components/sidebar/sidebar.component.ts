@@ -19,8 +19,8 @@ export const ROUTES: RouteInfo[] = [
     {path:'/resource-list',title:'ResourceList',icon:'ni-circle-08 text-pink', class: '' },
     {path:'/addResource',title:'ResourceList',icon:'ni-circle-08 text-pink', class: ''},
     {path:'/updateResource',title:'ResourceList',icon:'ni-circle-08 text-pink', class: ''},
-
-   
+    { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' },
+    { path: '/reviewtest', title: 'Reclamation',  icon:'ni-circle-08 text-pink', class: '' }
 ];
 
 @Component({

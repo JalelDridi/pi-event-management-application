@@ -12,4 +12,12 @@ public interface ServiceUser  {
    List<ConfUserDto> getAllConfirmedUsers();
    StatusUser AcceptUserCnx(String id);
    void sendEmail(String toEmail, String subject, String body);
+
+   StatusUser RefusUserCnx(String userId);
+   List<UserDto> getUsers();
+   List<StatusUser> findAllconfUsers();
+
+   void deletUser(String id );
+
+   double pourcentageUsersAuth();
 }

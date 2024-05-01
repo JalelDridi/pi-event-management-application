@@ -8,12 +8,15 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { ResourceListComponent } from 'src/app/pages/resource-list/resource-list.component';
 import { AddResourceComponent } from 'src/app/pages/add-resource/add-resource.component';
 import { UpdateResourceComponent } from 'src/app/pages/update-resource/update-resource.component';
+import { ReviewpagetestComponent } from 'src/app/pages/reviewpagetest/reviewpagetest.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
     { path: 'user-profile',   component: UserProfileComponent },
     { path: 'tables',         component: TablesComponent },
     { path: 'icons',          component: IconsComponent },
+    { path: 'maps',           component: MapsComponent },
+    { path: 'reviewtest', component:ReviewpagetestComponent}
     { path: 'maps',           component: MapsComponent },
     {path:'/resource-list',component:ResourceListComponent},
     {path:'/addResource',component:AddResourceComponent},
