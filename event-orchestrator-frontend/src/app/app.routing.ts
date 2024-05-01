@@ -14,7 +14,10 @@ import { AddResourceComponent } from './pages/add-resource/add-resource.componen
 import { UpdateResourceComponent } from './pages/update-resource/update-resource.component';
 
 const routes: Routes =[
-  {path:'/resource-list', component:ResourceListComponent},
+  {
+    path:'/resource-list',
+    component:ResourceListComponent
+  },
   {
     path : "login",
     component: LoginComponent
