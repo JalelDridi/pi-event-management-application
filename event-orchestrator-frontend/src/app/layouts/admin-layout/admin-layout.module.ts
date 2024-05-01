@@ -54,7 +54,6 @@ import {ResourceService} from "../../pages/resource-list/resource.service";
     AddReviewComponent,
     ReviewpagetestComponent,
     ReviewlistComponent,
-    ResourceListComponent,
     TablesComponent,
     IconsComponent,
     MapsComponent,
