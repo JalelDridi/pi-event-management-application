@@ -15,6 +15,7 @@ import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interc
 
 
 
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -31,7 +32,7 @@ import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interc
     AdminLayoutComponent,
     AuthLayoutComponent,
     ActivateAccountComponent,
-  
+   
   ],
   providers: [
     HttpClient,

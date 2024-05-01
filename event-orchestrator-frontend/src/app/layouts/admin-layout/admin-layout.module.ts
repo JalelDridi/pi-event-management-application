@@ -24,6 +24,8 @@ import { ReviewService } from 'src/app/reviewservices/review.service';
 import { BadWordsFilterService } from 'src/app/reviewservices/badwordsfilter.service';
 import { ReviewlistComponent } from 'src/app/pages/reviewlist/reviewlist.component';
 import { CustomDatePipe } from 'src/app/custom-date.pipe';
+import { AddReclamationsComponent } from 'src/app/pages/add-reclamation/add-reclamation.component'; 
+import { ReclamationpagetestComponent } from 'src/app/pages/reclamationpagetest/reclamationpagetest.component';
 
 
 
@@ -55,7 +57,9 @@ import { CustomDatePipe } from 'src/app/custom-date.pipe';
     TablesComponent,
     IconsComponent,
     MapsComponent,
-    CustomDatePipe
+    CustomDatePipe,
+    AddReclamationsComponent,
+    ReclamationpagetestComponent
     
   ],
   providers: [
