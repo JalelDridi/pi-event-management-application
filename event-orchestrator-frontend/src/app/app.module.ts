@@ -19,6 +19,14 @@ import {ActivateAccountComponent} from "./pages/activate-account/activate-accoun
 import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interceptor";
 import {CodeInputModule} from "angular-code-input";
 import { TestComponent } from './test/test.component';
+import { HomeComponent } from './pages/home/home.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import { AllEventsComponent } from './pages/all-events/all-events.component';
+import { MyParticipationsComponent } from './pages/my-participations/my-participations.component';
+import { MyEventsComponent } from './pages/my-events/my-events.component';
+import { CreateEventRequestComponent } from './pages/create-event-request/create-event-request.component';
+import { SubmitAFeedbackComponent } from './pages/submit-a-feedback/submit-a-feedback.component';
+import { RessourcesComponent } from './pages/ressources/ressources.component';
 
 
 
@@ -45,7 +53,15 @@ import { TestComponent } from './test/test.component';
     ResourceTypeComponent,
     AddResourceComponent,
     UpdateResourceComponent,
-    TestComponent
+    TestComponent,
+    HomeComponent,
+    AdminDashboardComponent,
+    AllEventsComponent,
+    MyParticipationsComponent,
+    MyEventsComponent,
+    CreateEventRequestComponent,
+    SubmitAFeedbackComponent,
+    RessourcesComponent
   ],
   providers: [
     ResourceService,
