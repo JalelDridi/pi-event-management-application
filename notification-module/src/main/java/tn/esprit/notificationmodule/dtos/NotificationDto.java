@@ -3,9 +3,11 @@ package tn.esprit.notificationmodule.dtos;
 import lombok.Data;
 import tn.esprit.notificationmodule.enums.DeliveryChannel;
 
+import java.io.Serializable;
+
 
 @Data
-public class NotificationDto {
+public class NotificationDto implements Serializable {
     private String fullName;
     private String email;
     private String subject; // can take many forms : mail subject, event description .....

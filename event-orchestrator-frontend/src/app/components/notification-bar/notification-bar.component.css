@@ -11,3 +11,9 @@
 
 .wider-notification-bar {
   width: 500px;  }
+
+
+.notification-scroll {
+  max-height: 200px;
+  overflow-y: auto;
+}

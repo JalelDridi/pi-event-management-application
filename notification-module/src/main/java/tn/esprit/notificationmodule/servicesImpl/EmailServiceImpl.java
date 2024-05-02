@@ -29,7 +29,6 @@ public class EmailServiceImpl implements EmailService {
 
     private final TemplateEngine templateEngine;
 
-
     private static final String UPCOMING_EVENTS_TOPIC = "upcoming-events";
 
 
