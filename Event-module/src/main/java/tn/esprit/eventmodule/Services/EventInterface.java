@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface EventInterface {
-    Event addEvent (Event event) ;
+    public Event addEvent(Event event,String userid);
     List<Event> getallEvent ();
     EventAdminDto findEventById(Long eventId);
     Event editEvent( Long eventId , Event event) ;
@@ -17,8 +17,9 @@ public interface EventInterface {
     void updateEventStatusAutomatiquement();
     /********************************** User *************************************/
     //public User addUser (User user );
+     UserDto getUserById(String userId);
     void affectUserToEvent(String userID, long eventId);
-
+    public void assignEventToUser(String userId, Long eventId);
 //    void sendEmail(String toEmail, String subject, String body);
 //    void envoyerEmailParticipant(Participation participant, Event event) ;
 

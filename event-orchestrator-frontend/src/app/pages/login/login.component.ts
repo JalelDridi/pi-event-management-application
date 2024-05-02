@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }).subscribe({
       next: (res) => {
         this.tokenService.token = res.token as string;
+        localStorage.setItem('userId', res.userId); // Store user ID in local storage
         this.router.navigate(['user-profile']);
       },
       error: (err) => {

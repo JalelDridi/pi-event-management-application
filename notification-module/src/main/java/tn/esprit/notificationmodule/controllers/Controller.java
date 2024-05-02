@@ -149,11 +149,12 @@ public class Controller {
     }
 
 
-    ////////////////////////////////////////// Send upcoming events to users:
-
-    @GetMapping("/testt")
+    ////////////////////////////////////////// Send upcoming events to users (THIS IS A TEST METHOD THAT IS GOING TO BE A SCHEDULED ONE LATER ON):
+    @GetMapping("/send-upcoming-events")
     @ResponseBody
     public List<NotificationUserDto> testt() {
         return emailService.sendUpcomingEvents();
     }
+
+
 }

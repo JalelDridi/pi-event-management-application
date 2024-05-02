@@ -1,4 +1,4 @@
-import { Component , ViewEncapsulation } from '@angular/core';
+import { Component  } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Review } from '../../ReviewModels/Review.Model';
 import { ReviewService } from '../../reviewservices/review.service';
