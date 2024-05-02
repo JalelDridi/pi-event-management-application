@@ -24,8 +24,11 @@ import { ReviewService } from 'src/app/reviewservices/review.service';
 import { BadWordsFilterService } from 'src/app/reviewservices/badwordsfilter.service';
 import { ReviewlistComponent } from 'src/app/pages/reviewlist/reviewlist.component';
 import { CustomDatePipe } from 'src/app/custom-date.pipe';
+import { AddReclamationsComponent } from 'src/app/pages/add-reclamation/add-reclamation.component'; 
+import { ReclamationpagetestComponent } from 'src/app/pages/reclamationpagetest/reclamationpagetest.component';
 import {ResourceListComponent} from "../../pages/resource-list/resource-list.component";
 import {ResourceService} from "../../pages/resource-list/resource.service";
+
 
 
 
@@ -45,7 +48,7 @@ import {ResourceService} from "../../pages/resource-list/resource.service";
     MatInputModule,
     MatListModule,
     MatSelectModule,
-    NgxStarRatingModule,
+    NgxStarRatingModule
 
   ],
   declarations: [
@@ -57,14 +60,16 @@ import {ResourceService} from "../../pages/resource-list/resource.service";
     TablesComponent,
     IconsComponent,
     MapsComponent,
+    CustomDatePipe,
+    AddReclamationsComponent,
+    ReclamationpagetestComponent,
     CustomDatePipe
-
   ],
   providers: [
     ReviewService,
     ResourceService,
     BadWordsFilterService,
-    DatePipe,
+    DatePipe
   ]
 })
 
