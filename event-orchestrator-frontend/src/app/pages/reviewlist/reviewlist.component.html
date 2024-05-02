@@ -1,0 +1,48 @@
+<!-- Star Rating -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="star-rating" style="unicode-bidi: bidi-override; font-size: 1.5em; height: 1.2em; width: 6em; margin: 0 auto; position: relative; padding: 0; text-shadow: 0 1px 0 #a2a2a2; margin-top: 5px;">
+  <p>Average Rating: <span>{{ getStarRating() }}</span> {{ averageRating.toFixed(2) }}/5 ({{ totalReviews }}) Reviews</p>
+</div>
+
+<!-- Review Section -->
+<div class="d-flex flex-start" *ngFor="let review of reviews">
+  <mat-card class="w-100" style="width: 100%; border-radius: 20px; border: 2px solid #a2a2a2;">
+      <div fxLayout="row" class="hoho" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 1rem; margin-left: 1rem;">
+          <div fxLayout="column" class="nameavaatar" style="display: flex; flex-direction: column;">
+              <h2 style="padding:1rem;">Mock user</h2><br/>
+              <p style="color: #0077ff; padding:1rem;">{{ review?.dateSubmitted ?? '' | customDate }}</p>
+          </div>
+          <div class="date" style="color: #0077ff; display: flex; flex-direction: column; align-items: flex-end; text-align: right; margin-left: auto; margin-right: 1rem;">
+              <div class="editing" *ngIf="editingReviewId === review?.reviewID && updatedReview" style="display: flex; flex-direction: row;" >
+                <ngx-star-rating   [(ngModel)]="updatedReview.rating" name="rating"></ngx-star-rating>
+                <button mat-icon-button color="primary" (click)="saveUpdatedReview(review?.reviewID ?? 0)" style="background-color: transparent; border: none; margin-right: 0.5rem;" [disabled]="!isReviewChanged()">
+                    <mat-icon style="font-family: 'Material Icons';">save</mat-icon>
+                </button>                                
+                <button mat-icon-button color="warn" (click)="cancelEdit()" style="background-color: transparent; border: none;">
+                    <mat-icon style="font-family: 'Material Icons';">cancel</mat-icon>
+                </button>
+            </div>
+                   
+              <div class="buttons" style="display: flex; flex-direction: row;">
+                  <button *ngIf="userId === review?.userID && !editingReviewId" mat-icon-button color="warn"  (click)="deleteReview(review?.reviewID ?? 0)" style="background-color: transparent; border: none; color: red; ">
+                      <mat-icon style="font-family:Material Icons;">delete</mat-icon>
+                  </button>
+                  <button *ngIf="userId === review?.userID && !editingReviewId" mat-icon-button class="custom-color" (click)="editReview(review)" style="background-color: transparent; border: none; color: #0077ff; font-family:Material Icons;">
+                      <mat-icon style="font-family:Material Icons;">edit</mat-icon>
+                  </button>
+              </div>
+          </div>
+      </div>
+      <mat-card-content class="p-4" style="padding: 1rem;">
+          <div fxLayout="row" class="rating" style="background-color: #0077ff; color: white; border-radius: 50px; max-width: 3rem; text-align: center; font-weight: bold;">
+              <p>★ {{review?.rating}}</p>
+          </div>
+          <div>
+              <p class="reviewcontent" *ngIf="!editingReviewId || editingReviewId !== review?.reviewID">{{ review?.content }}</p>
+              <textarea *ngIf="editingReviewId === review?.reviewID && updatedReview" [(ngModel)]="updatedReview.content" rows="4" style="width: 100%; resize: none;"></textarea>
+          </div>
+      </mat-card-content>
+  </mat-card>
+</div>

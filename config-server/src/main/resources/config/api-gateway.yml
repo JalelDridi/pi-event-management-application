@@ -37,7 +37,7 @@ spring:
         - id: admin-microservice
           uri: lb://admin-microservice
           predicates:
-            - Path=/Event/**
+            - Path=/admin/**
         - id: Event-module
           uri: lb://Event-module
           predicates:
