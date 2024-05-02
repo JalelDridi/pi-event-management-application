@@ -3,4 +3,3 @@ export enum TypeReclamation {
     EVENT = 'EVENT',
     RESOURCES = 'RESOURCES'
   }
- 

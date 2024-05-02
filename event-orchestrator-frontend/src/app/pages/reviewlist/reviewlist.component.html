@@ -3,7 +3,7 @@
 <!-- Replace 'cdn-link' with the actual CDN link for ngx-star-rating CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-<div class="star-rating" style="unicode-bidi: bidi-override; font-size: 1.5em; height: 1.2em; width: 6em; margin: 0 auto; position: relative; padding: 0; text-shadow: 0 1px 0 #a2a2a2; margin-top: 10px;">
+<div class="star-rating" style="unicode-bidi: bidi-override; font-size: 1.5em; height: 1.2em; width: 6em; margin: 0 auto; position: relative; padding: 0; text-shadow: 0 1px 0 #a2a2a2; margin-top: 5px;">
   <p>Average Rating: <span>{{ getStarRating() }}</span> {{ averageRating.toFixed(2) }}/5 ({{ totalReviews }}) Reviews</p>
 </div>
 
@@ -11,12 +11,11 @@
 <div class="d-flex flex-start" *ngFor="let review of reviews">
   <mat-card class="w-100" style="width: 100%; border-radius: 20px; border: 2px solid #a2a2a2;">
       <div fxLayout="row" class="hoho" style="display: flex; flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 1rem; margin-left: 1rem;">
-          <div fxLayout="row" class="nameavatar" style="display: flex; align-items: center;">
-              <img src="../../assets/avatar.jpg" class="rounded-circle shadow-1-strong me-3" style="border: 2px solid #0077ff; border-radius: 50%; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 60px; height: 60px;">
-              <h5 style="margin-left: 10px;">Mock user</h5>
+          <div fxLayout="column" class="nameavaatar" style="display: flex; flex-direction: column;">
+              <h2 style="margin-left: 10px;">Mock user</h2><br  />
+              <p style="color: #0077ff;">{{ review?.dateSubmitted ?? '' |customDate}}</p>
           </div>
           <div class="date" style="color: #0077ff; display: flex; flex-direction: column; align-items: flex-end; text-align: right; margin-left: auto; margin-right: 1rem;">
-              <p>{{ review?.dateSubmitted ?? ''}}</p>
               <div class="editing" *ngIf="editingReviewId === review?.reviewID && updatedReview" style="display: flex; flex-direction: row;">
                 <ngx-star-rating [(ngModel)]="updatedReview.rating"></ngx-star-rating>
                 <button mat-icon-button color="primary" (click)="saveUpdatedReview(review?.reviewID ?? 0)" style="background-color: transparent; border: none; margin-right: 0.5rem;">

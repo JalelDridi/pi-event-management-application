@@ -22,12 +22,11 @@ public class Reclamation implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long IdRec;
     private Long eventId;
+    private Long resourceId;
     private String userId;
     private String content;
     @Enumerated(EnumType.STRING)
     private TypeReclamation TypeRec;
     private OffsetDateTime dateReclamation;
-
-
 
 }
