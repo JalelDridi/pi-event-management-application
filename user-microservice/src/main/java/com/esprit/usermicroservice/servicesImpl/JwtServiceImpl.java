@@ -5,10 +5,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.security.Key;
 
-import org.springframework.security.core.GrantedAuthority;;
+import org.springframework.security.core.GrantedAuthority;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +19,10 @@ import java.util.function.Function;
 @Service
 public class JwtServiceImpl implements JwtService {
 
-    @Value("${application.security.jwt.secret-key}")
-    private String secretKey;
-    @Value("${application.security.jwt.expiration}")
-    private long jwtExpiration;
+    //@Value("${spring.application.security.jwt.secret-key}")
+    private final String secretKey = "404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970";
+    //@Value("${spring.application.security.jwt.expiration}")
+    private final long jwtExpiration = 172800000;
 
     @Override
     public String extractUsername(String token) {
@@ -73,7 +72,24 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
+        // Check if the token is expired
+        if (isTokenExpired(token)) {
+            // Refresh the token
+            token = refreshToken(token);
+        }
+        // Check if the refreshed token is valid for the user
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
+
+    private String refreshToken(String expiredToken) {
+        final Claims claims = extractAllClaims(expiredToken);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
+                .signWith(getSignInKey())
+                .compact();
     }
 
     @Override

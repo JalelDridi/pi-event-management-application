@@ -16,7 +16,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8091/api/v1",
+      "url": "http://localhost:8060/api/v1",
       "description": "Local ENV"
     }
   ],
@@ -393,13 +393,13 @@
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
           "credentialsNonExpired": {
             "type": "boolean"
           },
           "accountNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           }
         }
@@ -450,6 +450,9 @@
         "type": "object",
         "properties": {
           "token": {
+            "type": "string"
+          },
+          "userId": {
             "type": "string"
           }
         }

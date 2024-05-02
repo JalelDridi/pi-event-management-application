@@ -2,4 +2,5 @@
 /* eslint-disable */
 export interface AuthenticationResponse {
   token?: string;
+  userId?: string;
 }
