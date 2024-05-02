@@ -4,6 +4,7 @@ import { ReviewService } from '../../reviewservices/review.service';
 import { BadWordsFilterService } from '../../reviewservices/badwordsfilter.service';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
+import { CustomDatePipe } from 'src/app/custom-date.pipe';
 
 @Component({
     selector: 'app-review-list',
