@@ -10,6 +10,7 @@ import { AddResourceComponent } from 'src/app/pages/add-resource/add-resource.co
 import { UpdateResourceComponent } from 'src/app/pages/update-resource/update-resource.component';
 
 import { ReviewpagetestComponent } from 'src/app/pages/reviewpagetest/reviewpagetest.component';
+import { ReclamationpagetestComponent } from 'src/app/pages/reclamationpagetest/reclamationpagetest.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -17,11 +18,11 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'tables',         component: TablesComponent },
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
+    { path: 'reviewtest', component:ReviewpagetestComponent},
+    { path: 'reclamationtest', component:ReclamationpagetestComponent},
     {path:'/resource-list',component:ResourceListComponent},
     {path:'/addResource',component:AddResourceComponent},
     {path:'/updateResource',component:UpdateResourceComponent},
-    { path: 'reviewtest', component:ReviewpagetestComponent},
-    { path: 'reviewtest', component:ReviewpagetestComponent},
     { path: 'maps',           component: MapsComponent },
-    {path:'/resource-list',component:ResourceListComponent},
+    {path:'/resource-list',component:ResourceListComponent}
 ];

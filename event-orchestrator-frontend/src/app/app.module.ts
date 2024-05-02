@@ -20,6 +20,7 @@ import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interc
 import {CodeInputModule} from "angular-code-input";
 
 
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -38,6 +39,7 @@ import {CodeInputModule} from "angular-code-input";
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    ActivateAccountComponent,
     ResourceListComponent,
     ResourceTypeComponent,
     AddResourceComponent,
