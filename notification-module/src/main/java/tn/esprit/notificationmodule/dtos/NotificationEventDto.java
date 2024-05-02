@@ -3,10 +3,11 @@ package tn.esprit.notificationmodule.dtos;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class NotificationEventDto {
+public class NotificationEventDto implements Serializable {
 
     private Long eventId ;
     private String  Name ;

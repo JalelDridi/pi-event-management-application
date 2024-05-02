@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {UserService} from "../../userservices/services";
+import {getWebNotifs} from "../../services/notificationservices/fn/controller/get-web-notifs";
+import {Message} from "../../services/notificationservices/models/message";
 
-interface Notification {
-  subject: string; // Use "subject" property from backend
-  content: string; // Use "content" property from backend
-  isRead: boolean; // Keep as-is
-  sentDate?: Date; // Optional property for sent date (if needed)
-}
+
 
 @Component({
   selector: 'app-notification-bar',
@@ -14,20 +12,18 @@ interface Notification {
   styleUrls: ['./notification-bar.component.css']
 })
 export class NotificationBarComponent implements OnInit {
-  notifications: Notification[] = [];
-  unreadNotifications: Notification[] = [];
+  notifications: Message[] = [];
+  unreadNotifications: Message[] = [];
 
   constructor(private http: HttpClient) {} // Inject HttpClient for API calls
 
   ngOnInit() {
-    this.fetchNotifications();
-  }
-
-  fetchNotifications() {
-    this.http.get<Notification[]>('http://localhost:8060/notification/get-web-notifications/666')
+    const userId = "666";
+    getWebNotifs(this.http, getWebNotifs.PATH, {userId} )
       .subscribe(notifications => {
-        this.notifications = notifications;
-        this.unreadNotifications = this.notifications.filter(notification => !notification.isRead);
+        this.notifications = notifications.body!;
+        this.unreadNotifications = this.notifications.filter(notification => !notification.read);
       });
   }
+
 }

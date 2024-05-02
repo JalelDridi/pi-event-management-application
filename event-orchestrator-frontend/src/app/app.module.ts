@@ -18,6 +18,7 @@ import { UpdateResourceComponent } from './pages/update-resource/update-resource
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interceptor";
 import {CodeInputModule} from "angular-code-input";
+import { TestComponent } from './test/test.component';
 
 
 
@@ -43,7 +44,8 @@ import {CodeInputModule} from "angular-code-input";
     ResourceListComponent,
     ResourceTypeComponent,
     AddResourceComponent,
-    UpdateResourceComponent
+    UpdateResourceComponent,
+    TestComponent
   ],
   providers: [
     ResourceService,

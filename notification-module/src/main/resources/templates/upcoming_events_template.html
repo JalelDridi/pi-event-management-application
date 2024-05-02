@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upcoming Events This Week</title>
+    <style>
+        .event-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .event-image {
+            width: 200px; /* Adjust width as needed */
+            height: auto; /* Image height will be adjusted dynamically */
+        }
+
+        .event-details {
+            padding-left: 20px;
+            flex: 1; /* Allow content to fill remaining space */
+        }
+
+        .event-title {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .event-description {
+            line-height: 1.5; /* Adjust line height for better readability */
+        }
+    </style>
+</head>
+<body>
+<h1>Check out the upcoming events this week:</h1>
+
+<th:block th:each="event : ${events}">
+    <div class="event-container">
+        <img th:src="@{/images/}(**{event.imageUrl}**)" class="event-image" alt="Event Image" th:style="'height: ' + ${event.imageHeight} + 'px'">
+        <div class="event-details">
+            <h2 class="event-title" th:text="${event.title}"></h2>
+            <p class="event-description" th:text="${event.description}"></p>
+        </div>
+    </div>
+</th:block>
+
+<p>Don't miss out! Register for the events that interest you.</p>
+<a href="#">Register Now</a>
+
+</body>
+</html>
