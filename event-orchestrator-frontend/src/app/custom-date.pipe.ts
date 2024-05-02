@@ -25,7 +25,7 @@ export class CustomDatePipe implements PipeTransform {
         return formatDistance(date, now, { addSuffix: true });
       }
 
-      return format(date, 'dd-MM-yy \'at\' HH:mm');
+      return format(date, 'dd-MM-yyyy \'at\' HH:mm');
     } catch (error) {
       console.error('Error parsing or formatting date:', error);
       return '';

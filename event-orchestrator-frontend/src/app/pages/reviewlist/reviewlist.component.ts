@@ -105,10 +105,22 @@ export class ReviewlistComponent implements OnInit {
     saveUpdatedReview(reviewId: number): void {
         if (this._updatedReview) {
             if (this.filterService.containsBadWords(this._updatedReview.content)) {
+                Swal.fire({
+                    title: 'Bad Words Detected!',
+                    text: 'Please remove the bad words from your review.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
                 return;
             }
             this.reviewService.updateReview(reviewId, this._updatedReview).subscribe(
                 () => {
+                    Swal.fire({
+                        title: 'Review Updated!',
+                        text: 'Your review has been successfully updated.',
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
                     this.editingReviewId = null;
                     this.loadReviews();
                 },
@@ -119,6 +131,7 @@ export class ReviewlistComponent implements OnInit {
         }
     }
 
+
     get updatedReview(): Review | null {
         return this._updatedReview;
     }
@@ -126,4 +139,10 @@ export class ReviewlistComponent implements OnInit {
     set updatedReview(value: Review | null) {
         this._updatedReview = value;
     }
+    isReviewChanged(): boolean {
+        const originalReview = this.reviews.find(r => r.reviewID === this._updatedReview?.reviewID);
+        return this._updatedReview && (this._updatedReview.content!== originalReview?.content || this._updatedReview.rating!== originalReview?.rating);
+    }
+    
+    
 }

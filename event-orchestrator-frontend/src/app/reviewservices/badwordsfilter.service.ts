@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as words from 'profane-words';
+import * as profaneWordsModule from 'profane-words';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,9 @@ export class BadWordsFilterService {
 
   containsBadWords(content: string): boolean {
     const lowerContent = content.toLowerCase();
-    for (const word of Object.keys(words)) {
+    const profaneWords: string[] = profaneWordsModule;
+    for (let i = 0; i < profaneWords.length; i++) {
+      const word = profaneWords[i];
       if (lowerContent.includes(word.toLowerCase())) {
         return true;
       }

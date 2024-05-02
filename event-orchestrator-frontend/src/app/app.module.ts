@@ -21,6 +21,7 @@ import {CodeInputModule} from "angular-code-input";
 import { TestComponent } from './test/test.component';
 
 
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -39,6 +40,7 @@ import { TestComponent } from './test/test.component';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    ActivateAccountComponent,
     ResourceListComponent,
     ResourceTypeComponent,
     AddResourceComponent,
