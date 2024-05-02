@@ -18,6 +18,7 @@ import { UpdateResourceComponent } from './pages/update-resource/update-resource
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interceptor";
 import {CodeInputModule} from "angular-code-input";
+import { ResourceTypeListComponent } from './pages/resource-type-list/resource-type-list.component';
 
 
 @NgModule({
@@ -38,13 +39,12 @@ import {CodeInputModule} from "angular-code-input";
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    ResourceListComponent,
     ResourceTypeComponent,
     AddResourceComponent,
-    UpdateResourceComponent
+    UpdateResourceComponent,
+    ResourceTypeListComponent
   ],
   providers: [
-    ResourceService,
     HttpClient,
     {
       provide: HTTP_INTERCEPTORS,

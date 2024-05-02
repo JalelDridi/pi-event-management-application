@@ -18,10 +18,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'icons',          component: IconsComponent },
     { path: 'maps',           component: MapsComponent },
     {path:'/resource-list',component:ResourceListComponent},
-    {path:'/addResource',component:AddResourceComponent},
-    {path:'/updateResource',component:UpdateResourceComponent},
     { path: 'reviewtest', component:ReviewpagetestComponent},
     { path: 'reviewtest', component:ReviewpagetestComponent},
     { path: 'maps',           component: MapsComponent },
-    {path:'/resource-list',component:ResourceListComponent},
+  
 ];

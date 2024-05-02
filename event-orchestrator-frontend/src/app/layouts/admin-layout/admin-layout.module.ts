@@ -57,7 +57,8 @@ import {ResourceService} from "../../pages/resource-list/resource.service";
     TablesComponent,
     IconsComponent,
     MapsComponent,
-    CustomDatePipe
+    CustomDatePipe,
+    ResourceListComponent,
 
   ],
   providers: [
