@@ -1,5 +1,11 @@
 spring:
   jpa:
+    properties:
+      hibernate:
+        search:
+          default:
+            directory_provider: filesystem
+            indexBase: ./src/test/resources/index
     hibernate:
       ddl-auto: update
   datasource:
@@ -14,3 +20,4 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+

@@ -27,12 +27,4 @@ public class Resource implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name = "resource_type_id")
-    private ResourceType resourceType;
-
-    @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Reservation> reservations;
 }
