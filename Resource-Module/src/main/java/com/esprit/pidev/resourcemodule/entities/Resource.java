@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "resource")
-@Indexed
+
 public class Resource implements Serializable {
 
     @Id

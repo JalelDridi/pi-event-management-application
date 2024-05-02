@@ -11,4 +11,5 @@ public interface ParticipationDao extends JpaRepository<Participation,Long> {
     List<Participation> findByEventId(long eventId);
     @Query("SELECT p.userID FROM Participation p WHERE p.eventId = :eventId")
     List<String> findUserIdsByEventId(@Param("eventId") Long eventId);
+
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.security.PrivateKey;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -31,7 +32,6 @@ public class Event {
     @Column
     @Enumerated ( EnumType.STRING)
     private StatusType status;
-
 
 
 }
