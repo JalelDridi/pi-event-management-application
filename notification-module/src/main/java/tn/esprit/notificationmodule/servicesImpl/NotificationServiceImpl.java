@@ -28,17 +28,21 @@ import java.util.List;
 @Service
 public class NotificationServiceImpl implements NotificationService {
 
+    // A sequence generator that generates entity ids with increment option
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
 
+    // Kafka template that takes a NotificationDto
     @Autowired
     private KafkaTemplate<String, NotificationDto> kafkaTemplate;
 
+    // Inject mongo repositories:
     @Resource
     private NotificationRepository notificationRepository;
     @Resource
     private MessageRepository messageRepository;
 
+    // Kafka topics to send participation mail:
     private static final String PARTICIPATION_TOPIC = "participation";
 
 
@@ -86,10 +90,6 @@ public class NotificationServiceImpl implements NotificationService {
         notificationRepository.save(notification);
     }
 
-    @Override
-    public void setNotificationAsRead(String userId) {
-        messageRepository.updateMessagesSetIsReadToTrue(userId, MessageType.webNotification);
-    }
 
 
 
@@ -155,8 +155,28 @@ public class NotificationServiceImpl implements NotificationService {
         addNotification(reminderNotification, message); // this will be scheduled for later
     }
 
+    @Override
+    public void setUserNotificationsAsRead(Long[] messageIds) {
+        for (Long id : messageIds) {
+            Message message = messageRepository.findByMessageId(id);
+            if (message != null) {
+                message.setRead(true);
+                messageRepository.save(message);
 
-    // Scheduled me
+                List<Notification> notifications = notificationRepository.findNotificationByMessageId(id);
+                for (Notification notification : notifications) {
+                    notification.setIsRead(true);
+                }
+                notificationRepository.saveAll(notifications);
+            } else {
+                // TO DO : Replace it later with a Logger
+                System.out.println("Message with ID " + id + " not found.");
+            }
+        }
+    }
+
+
+    // Scheduled method to remind users of their participations.
     @Scheduled(cron = "0 0 8 * * ?") // Will be executed every day at 8 AM
     public void remindUsersOfParticipations() {
         List<Notification> notifications = notificationRepository.findNotificationByIsSent(false);

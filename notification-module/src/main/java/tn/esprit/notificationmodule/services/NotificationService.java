@@ -22,7 +22,8 @@ public interface NotificationService {
 
     void addNotification(Notification notification, Message message);
 
-    void setNotificationAsRead(String userId);
 
     void confirmEventParticipation(String userId, Long eventId, HttpHeaders headers);
+
+    void setUserNotificationsAsRead(Long[] messageIds);
 }

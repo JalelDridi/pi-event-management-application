@@ -16,7 +16,7 @@ export function setUserNotificationsAsRead(http: HttpClient, rootUrl: string, pa
   if (params) {
     rb.body(params.body, 'application/json');
   }
-
+  console.log("WORKS 2");
   return http.request(
     rb.build({ responseType: 'text', accept: '*/*', context })
   ).pipe(

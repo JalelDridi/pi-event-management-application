@@ -84,11 +84,11 @@ public class Controller {
 
 
     // This sets the list of notifications along with their messages to true
-    // TTODO
+    // TO DO
     @PatchMapping("/set-notifications-read")
     @ResponseBody
     public void setUserNotificationsAsRead(@RequestBody Long[] messageIds) {
-
+        notificationService.setUserNotificationsAsRead(messageIds);
     }
 
     @GetMapping("/count-unread-notif")

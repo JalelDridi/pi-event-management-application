@@ -17,3 +17,9 @@
   max-height: 200px;
   overflow-y: auto;
 }
+
+
+.red-bell {
+  color: red;
+  font-size: 24px;
+}

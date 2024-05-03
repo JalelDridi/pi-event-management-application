@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {getWebNotifs} from "../../services/notificationservices/fn/controller/get-web-notifs";
-import {Message} from "../../services/notificationservices/models/message";
+import { Component } from '@angular/core';
 import {
-  setUserNotificationsAsRead, SetUserNotificationsAsRead$Params
+  setUserNotificationsAsRead,
+  SetUserNotificationsAsRead$Params
 } from "../../services/notificationservices/fn/controller/set-user-notifications-as-read";
-import {Router} from "@angular/router";
-
-
+import {getWebNotifs} from "../../services/notificationservices/fn/controller/get-web-notifs";
+import {HttpClient} from "@angular/common/http";
+import {Message} from "../../services/notificationservices/models/message";
 
 @Component({
-  selector: 'app-notification-bar',
-  templateUrl: './notification-bar.component.html',
-  styleUrls: ['./notification-bar.component.css']
+  selector: 'app-notification-popup',
+  templateUrl: './notification-popup.component.html',
+  styleUrls: ['./notification-popup.component.css']
 })
-export class NotificationBarComponent implements OnInit {
+export class NotificationPopupComponent {
+
   // Notifications are of type message because we need their content.
   notifications: Message[] = [];
   // Unread notifications array, So tht we want count them
@@ -23,7 +22,7 @@ export class NotificationBarComponent implements OnInit {
   unreadMessageIds: number[] = [];
 
   // Inject HttpClient for API calls AND a Router that will be used to open the notification list popup
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient) {}
 
   // When the component is initialized, we'll get the web notifications of a specific user from the database
   ngOnInit() {
@@ -89,14 +88,4 @@ export class NotificationBarComponent implements OnInit {
       return `${hours}:${minutes} ${day}-${month}-${year}`;
     }
   }
-
-
-  // navigate
-  navigateToNotificationPopup() {
-    this.router.navigate(['/notification-popup']);
-  }
-
-
-
-
 }
