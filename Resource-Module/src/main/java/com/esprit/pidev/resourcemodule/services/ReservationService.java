@@ -18,7 +18,7 @@ public interface ReservationService {
 //    Reservation createReservation(Resource resource);
 
 
-    Reservation createReservation(Resource resource, Date startDate, Date endDate);
+    Reservation createReservation(Resource resource, Date startDate, Date endDate , Long resourceTypeId);
 
     boolean checkResourceAvailability(Resource resource, Date startDate, Date endDate);
 

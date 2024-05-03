@@ -9,8 +9,8 @@ public interface ResourceService {
     List<Resource> getAllResources();
 
     Resource findResourceById(Long id);
-
-    Resource addResource(Resource resource);
+    
+    Resource addResource(Resource resource, Long resourceTypeID);
 
     Resource updateResource(Long resourceID, Resource resource);
 
