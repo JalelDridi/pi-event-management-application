@@ -27,7 +27,7 @@ public class AuthenticationController {
         service.register(request);
         return ResponseEntity.accepted().build();
     }
-
+//hedhi zeda
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest request
