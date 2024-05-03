@@ -4,6 +4,8 @@ import { Resource } from '../resource-list/resource';
 import { ResourceService } from '../resource-list/resource.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { ResourceType } from '../resource-type/resource-type';
+import { ResourceTypeService } from '../resource-type/resource-type.service';
 
 @Component({
   selector: 'app-add-resource',
@@ -13,25 +15,41 @@ import Swal from 'sweetalert2';
 export class AddResourceComponent {
 
   submitted = false;
-  constructor(private resourceService : ResourceService , private router : Router , private fb: FormBuilder) { 
+  resourceTypes: ResourceType[];
+  resource: Resource= new Resource();
+ resourceForm : FormGroup;
+  
+
+
+  constructor(private resourceService : ResourceService , private router : Router , private fb: FormBuilder , private resourceTypeService: ResourceTypeService) { 
     this.resourceForm = this.fb.group({
       resourceName: ['', Validators.required],
       date: [null, Validators.required],
-      isAvailable:[false] // Vous pouvez ajouter d'autres validations selon vos besoins
+      isAvailable:[false] ,
+      resourceTypeID:[''],
+   
+      // Vous pouvez ajouter d'autres validations selon vos besoins
     });
 
   }
- 
-  resource: Resource= new Resource();
- resourceForm : FormGroup;
-  ngOnInit() {
+
+ ngOnInit() {
+  this.getResourceTypes();
   }
-  // saveProduct() {
-  //   this.resourceService.addResource(this.resource)
-  //     .subscribe(data => console.log(data), error => console.log(error));
-  //   this.resource = new Resource();
-  //   //this.gotoProductList();
-  // }
+  getResourceTypes(){
+    this.resourceTypeService.getResourceTypes().subscribe(
+      res => {
+        console.log(res); // Log the response to the console
+        this.resourceTypes = res as ResourceType[]; // Assign the response to your posts array
+      },
+      error => {
+        console.error(error);
+        // Log any errors to the console
+      }
+    );
+  }
+  
+
   addResource() {
     if (this.resourceForm.valid) {
       const newResource = this.resourceForm.value;
