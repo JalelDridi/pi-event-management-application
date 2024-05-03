@@ -1,0 +1,25 @@
+<div class="notification-popup">
+  <div class="popup-header">
+    <h6 class="popup-title">Notifications</h6>
+  </div>
+  <div class="popup-content">
+    <ng-container *ngIf="notifications?.length > 0; else noNotifications">
+      <div class="notification-item" *ngFor="let message of notifications">
+        <div class="notification-icon">
+          <i class="ni ni-bell-55 red-bell"></i>
+        </div>
+        <div class="notification-details">
+          <div class="notification-subject">{{ message.subject }}</div>
+          <div class="notification-content">{{ message.content }}</div>
+          <div class="notification-date">{{ formatNotificationDate(message.sentDate) }}</div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #noNotifications>
+      <div class="no-notifications">No notifications yet.</div>
+    </ng-template>
+  </div>
+  <div class="popup-footer">
+    <a href="#!" class="see-all-notifications" *ngIf="notifications?.length > 0">See All Notifications</a>
+  </div>
+</div>

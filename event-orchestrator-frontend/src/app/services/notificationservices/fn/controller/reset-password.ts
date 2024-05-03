@@ -8,12 +8,12 @@ import { RequestBuilder } from '../../request-builder';
 
 import { NotificationDto } from '../../models/notification-dto';
 
-export interface SendNotification$Params {
+export interface ResetPassword$Params {
       body: NotificationDto
 }
 
-export function sendNotification(http: HttpClient, rootUrl: string, params: SendNotification$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, sendNotification.PATH, 'post');
+export function resetPassword(http: HttpClient, rootUrl: string, params: ResetPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, resetPassword.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -28,4 +28,4 @@ export function sendNotification(http: HttpClient, rootUrl: string, params: Send
   );
 }
 
-sendNotification.PATH = '/notification/confirm-user';
+resetPassword.PATH = '/notification/reset-password';
