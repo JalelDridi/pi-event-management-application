@@ -4,6 +4,7 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 import { Router } from '@angular/router';
 import {EventUserDto} from "../../userservices/models/event-user-dto";
 import {UserService} from "../../userservices/services/user.service";
+import {SearchService} from "../../services/searchservice";
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,7 @@ import {UserService} from "../../userservices/services/user.service";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  keyword: string = '';
   user : EventUserDto;
   public focus;
   public listTitles: any[];
@@ -63,5 +65,6 @@ export class NavbarComponent implements OnInit {
     // Redirect to login page
     this.router.navigate(['/login']);
   }
+
 
 }
