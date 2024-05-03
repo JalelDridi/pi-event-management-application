@@ -33,9 +33,14 @@ public class ResourceTypeServiceImpl implements ResourceTypeService{
     @Override
     public ResourceType updateResourceType(Long resourceTypeID, ResourceType resourceType) {
         return resourceTypeDao.findById(resourceTypeID).map(existinResource -> {
-            existinResource.setResouceTypeName(resourceType.getResouceTypeName());
+            existinResource.setResourceTypeName(resourceType.getResourceTypeName());
             return resourceTypeDao.save(existinResource);
         }).orElseThrow(() -> new ResourceNotFoundException("resource not found with id " + resourceTypeID));
+    }
+
+    @Override
+    public ResourceType getResourceTypeById(Long resourceTypeID) {
+        return null;
     }
 
 }
