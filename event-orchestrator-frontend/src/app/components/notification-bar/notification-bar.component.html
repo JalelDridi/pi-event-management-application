@@ -14,13 +14,13 @@
         <h6 class="text-overflow m-0">Notifications</h6>
       </div>
       <div class="list-group notification-scroll" *ngIf="notifications?.length > 0">
-          <a href="#!" class="list-group-item list-group-item-action d-flex align-items-center" *ngFor="let notification of notifications">
+          <a href="#!" class="list-group-item list-group-item-action d-flex align-items-center" *ngFor="let message of notifications">
             <div class="mr-3">
-              <i [ngClass]="{'ni ni-bell-55': notification.isRead, 'ni ni-sound-wave': !notification.isRead}"></i>
+              <i [ngClass]="{'ni ni-bell-55': message.read, 'ni ni-sound-wave': !message.read}"></i>
             </div>
             <div class="flex-grow-1">
-              <div class="font-weight-bold">{{ notification.subject }}</div>
-              <div class="text-muted">{{ notification.content }}</div>
+              <div class="font-weight-bold">{{ message.subject }}</div>
+              <div class="text-muted">{{ message.content }}</div>
             </div>
           </a>
       </div>

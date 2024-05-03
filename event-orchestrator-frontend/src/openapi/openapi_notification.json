@@ -40,6 +40,29 @@
         }
       }
     },
+    "/notification/send-upcoming-events": {
+      "post": {
+        "tags": [
+          "controller"
+        ],
+        "operationId": "sendUpcomingEvents",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/NotificationUserDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/notification/send-notification-html": {
       "post": {
         "tags": [
@@ -86,12 +109,12 @@
         }
       }
     },
-    "/notification/confirm-user": {
+    "/notification/reset-password": {
       "post": {
         "tags": [
           "controller"
         ],
-        "operationId": "sendNotification",
+        "operationId": "resetPassword",
         "requestBody": {
           "content": {
             "application/json": {
@@ -102,6 +125,69 @@
           },
           "required": true
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/notification/confirm-user": {
+      "post": {
+        "tags": [
+          "controller"
+        ],
+        "operationId": "confirmUserRegistration",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/notification/confirm-participation": {
+      "post": {
+        "tags": [
+          "controller"
+        ],
+        "operationId": "confirmParticipation",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "eventId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -132,25 +218,29 @@
         }
       }
     },
-    "/notification/send-upcoming-events": {
-      "get": {
+    "/notification/set-notifications-read": {
+      "patch": {
         "tags": [
           "controller"
         ],
-        "operationId": "testt",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotificationUserDto"
-                  }
+        "operationId": "setUserNotificationsAsRead",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
                 }
               }
             }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -188,40 +278,7 @@
         }
       }
     },
-    "/notification/get-user-notif": {
-      "get": {
-        "tags": [
-          "controller"
-        ],
-        "operationId": "getUserNotifications",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Notification"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notification/get-user-messages": {
+    "/notification/get-user-chat-messages": {
       "get": {
         "tags": [
           "controller"
@@ -237,37 +294,6 @@
                   "items": {
                     "$ref": "#/components/schemas/Message"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notification/get-message-by-id/{messageId}": {
-      "get": {
-        "tags": [
-          "controller"
-        ],
-        "operationId": "getMessageById",
-        "parameters": [
-          {
-            "name": "messageId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
                 }
               }
             }
@@ -376,6 +402,20 @@
   },
   "components": {
     "schemas": {
+      "NotificationUserDto": {
+        "type": "object",
+        "properties": {
+          "fullName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          }
+        }
+      },
       "NotificationDto": {
         "type": "object",
         "properties": {
@@ -410,20 +450,6 @@
           }
         }
       },
-      "NotificationUserDto": {
-        "type": "object",
-        "properties": {
-          "fullName": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          }
-        }
-      },
       "Message": {
         "type": "object",
         "properties": {
@@ -436,7 +462,8 @@
             "enum": [
               "chatMessage",
               "groupMessage",
-              "notification"
+              "webNotification",
+              "email"
             ]
           },
           "subject": {

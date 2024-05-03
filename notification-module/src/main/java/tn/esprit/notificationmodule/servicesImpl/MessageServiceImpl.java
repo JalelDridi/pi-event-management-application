@@ -4,6 +4,7 @@ import jakarta.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.notificationmodule.entities.Message;
+import tn.esprit.notificationmodule.enums.MessageType;
 import tn.esprit.notificationmodule.repositories.MessageRepository;
 import tn.esprit.notificationmodule.services.MessageService;
 import tn.esprit.notificationmodule.services.SequenceGeneratorService;
@@ -42,7 +43,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public void setUserMessagesAsRead(String userId) {
-        messageRepository.updateMessagesSetIsReadToTrue(userId);
+    public void setUserChatMessagesAsRead(String userId) {
+        messageRepository.updateMessagesSetIsReadToTrue(userId, MessageType.webNotification);
     }
 }

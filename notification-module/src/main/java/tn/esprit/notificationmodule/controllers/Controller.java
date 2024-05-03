@@ -1,6 +1,7 @@
 package tn.esprit.notificationmodule.controllers;
 
 
+import org.springframework.http.HttpHeaders;
 import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.dtos.NotificationUserDto;
 import tn.esprit.notificationmodule.entities.Message;
@@ -33,10 +34,109 @@ public class Controller {
 
     // KAFKA TOPICS :
     private static final String CONFIRM_USER_TOPIC = "confirm-user-registration";
-
     private static final String SEND_MESSAGE_TOPIC = "send-message";
-    private static final String SEND_EMAIL_TOPIC = "send-email";
     private static final String SEND_HTML_EMAIL_TOPIC = "send-html-email";
+
+
+    // SEND EMAILS USING KAFKA :
+
+    // Send the user a confirmation for their participation in an event AND Schedule a reminder at 00:00 the day the event starts
+    // This will send both an email and a web notification
+    @PostMapping("/confirm-participation")
+    @ResponseBody
+    public void confirmParticipation(@RequestParam String userId,
+                                     @RequestParam Long eventId,
+                                     @RequestHeader("Authorization") String authorizationHeader) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", authorizationHeader);
+        notificationService.confirmEventParticipation(userId, eventId, headers);
+    }
+
+    // Confirm user after registration:
+    @PostMapping("/confirm-user")
+    @ResponseBody
+    public void confirmUserRegistration(@RequestBody NotificationDto notificationDto) {
+        kafkaTemplate.send(CONFIRM_USER_TOPIC, notificationDto);
+    }
+
+    // This will send a code to reset the password:
+    @PostMapping("/reset-password")
+    @ResponseBody
+    public void resetPassword(@RequestBody NotificationDto notificationDto) {
+        kafkaTemplate.send(CONFIRM_USER_TOPIC, notificationDto);
+    }
+
+    // this will send notification in HTML format (for general purpose)
+    @PostMapping("/send-notification-html")
+    @ResponseBody
+    public void sendNotificationHtml(NotificationDto notificationDto) {
+        kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, notificationDto);
+    }
+
+    // WEB NOTIFICATIONS FOR UI :
+
+    // This gets the content (Messages) of the web notifications of a specific user
+    @GetMapping("/get-web-notifications/{userId}")
+    @ResponseBody
+    public List<Message> getWebNotifs(@PathVariable String userId) {
+
+        return notificationService.getWebNotifications(userId);
+    }
+
+
+    // This sets the list of notifications along with their messages to true
+    // TTODO
+    @PatchMapping("/set-notifications-read")
+    @ResponseBody
+    public void setUserNotificationsAsRead(@RequestBody Long[] messageIds) {
+
+    }
+
+    @GetMapping("/count-unread-notif")
+    @ResponseBody
+    public long countUnreadNotifications(@RequestParam String userId) {
+        return notificationService.countUnreadNotifications(userId);
+    }
+
+    @GetMapping("/count-unread-messages")
+    @ResponseBody
+    public long countUnreadMessages() {
+        return 0;
+    }
+
+
+
+    // Chat messaging :
+
+    // Send a message to one:
+    @PostMapping("/send-message")
+    @ResponseBody
+    public void sendMessage(@RequestBody NotificationDto notificationDto) {
+        kafkaTemplate.send(SEND_MESSAGE_TOPIC, notificationDto);
+    }
+
+    // get all messages of a specific user:
+    @GetMapping("/get-user-chat-messages")
+    @ResponseBody
+    public List<Message> getUserMessages() {
+        return null;
+    }
+
+    // Set all messages as read for a specific user:
+    @PostMapping("/set-messages-read/{userId}")
+    @ResponseBody
+    public void setUserMessagesAsRead(@PathVariable String userId) {
+        messageService.setUserChatMessagesAsRead(userId);
+    }
+
+
+    ////////////////////////////////////////// Send upcoming events to users (THIS IS A TEST METHOD THAT IS GOING TO BE A SCHEDULED ONE LATER ON):
+    @PostMapping("/send-upcoming-events")
+    @ResponseBody
+    public List<NotificationUserDto> sendUpcomingEvents() {
+
+        return emailService.sendUpcomingEvents();
+    }
 
 
     // A simple Notification/Msg CRUD for testing puposes :
@@ -60,7 +160,6 @@ public class Controller {
         notificationService.addNotification(notification, message);
     }
 
-
     @GetMapping("/get-all-notif")
     @ResponseBody
     public List<Notification> getAllNotifications() {
@@ -68,92 +167,10 @@ public class Controller {
     }
 
 
-    @GetMapping("/get-web-notifications/{userId}")
-    @ResponseBody
-    public List<Message> getWebNotifs(@PathVariable String userId) {
-
-        return notificationService.getWebNotifications(userId);
-    }
-
     @GetMapping("/get-all-msgs")
     @ResponseBody
     public List<Message> getAllMessages() {
         return messageService.getAllMessages();
-    }
-
-
-
-    // SEND EMAILS USING KAFKA :
-    @PostMapping("/confirm-user")
-    @ResponseBody
-    public void sendNotification(@RequestBody NotificationDto notificationDto) {
-        kafkaTemplate.send(CONFIRM_USER_TOPIC, notificationDto);
-    }
-
-    @PostMapping("/send-notification-html")
-    @ResponseBody
-    public void sendNotificationHtml(NotificationDto notificationDto) {
-        kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, notificationDto);
-    }
-
-    // WEB NOTIFICATIONS FOR UI :
-
-    @GetMapping("/get-message-by-id/{messageId}")
-    @ResponseBody
-    public Message getMessageById(@PathVariable Long messageId) {
-        return messageService.getMessageById(messageId);
-    }
-
-    @GetMapping("/get-user-notif")
-    @ResponseBody
-    public List<Notification> getUserNotifications(@RequestParam String userId) {
-        return notificationService.getNotificationsByUserId(userId);
-    }
-
-    @GetMapping("/count-unread-notif")
-    @ResponseBody
-    public long countUnreadNotifications(@RequestParam String userId) {
-        return notificationService.countUnreadNotifications(userId);
-    }
-
-    @GetMapping("/count-unread-messages")
-    @ResponseBody
-    public long countUnreadMessages() {
-        return 0;
-    }
-
-
-
-    //////////////////////////////////////////// Chat messaging :
-
-    // Send a message to one:
-    @PostMapping("/send-message")
-    @ResponseBody
-    public void sendMessage(@RequestBody NotificationDto notificationDto) {
-        kafkaTemplate.send(SEND_MESSAGE_TOPIC, notificationDto);
-    }
-
-    // get all messages of a specific user:
-    @GetMapping("/get-user-messages")
-    @ResponseBody
-    public List<Message> getUserMessages() {
-        return null;
-    }
-
-    // Set all messages as read for a specefic user:
-
-    @PostMapping("/set-messages-read/{userId}")
-    @ResponseBody
-    public void setUserMessagesAsRead(@PathVariable String userId) {
-        messageService.setUserMessagesAsRead(userId);
-    }
-
-
-    ////////////////////////////////////////// Send upcoming events to users (THIS IS A TEST METHOD THAT IS GOING TO BE A SCHEDULED ONE LATER ON):
-    @GetMapping("/send-upcoming-events")
-    @ResponseBody
-    public List<NotificationUserDto> testt() {
-        return emailService.sendUpcomingEvents();
     }
 
 

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {UserService} from "../../userservices/services";
 import {getWebNotifs} from "../../services/notificationservices/fn/controller/get-web-notifs";
 import {Message} from "../../services/notificationservices/models/message";
 
@@ -19,11 +18,24 @@ export class NotificationBarComponent implements OnInit {
 
   ngOnInit() {
     const userId = "666";
-    getWebNotifs(this.http, getWebNotifs.PATH, {userId} )
+    getWebNotifs(this.http, "http://localhost:8060", {userId} )
       .subscribe(notifications => {
-        this.notifications = notifications.body!;
-        this.unreadNotifications = this.notifications.filter(notification => !notification.read);
+        console.log('Response data:', notifications);
+        if (notifications && notifications.body && Array.isArray(notifications.body)) {
+          this.notifications = notifications.body;
+          this.unreadNotifications = this.notifications.filter(message => !message.read);
+        } else {
+          console.error('Invalid notifications data received:', notifications);
+        }
       });
   }
+
+  setUnreadNotificationsToRead() {
+    for (const notification of this.unreadNotifications) {
+
+    }
+  }
+
+
 
 }
