@@ -24,4 +24,6 @@ public class ResourceType implements Serializable {
     @OneToMany(mappedBy = "resourceType", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Resource> resources;
+
+
 }

@@ -34,9 +34,9 @@ public class ResourceController {
     return this.resourceService.addResource(resource);
   }
 
-  @PostMapping("/updateResource")
-  public Resource updateResource(@RequestBody Resource resource){
-    return resource != null ? this.resourceService.updateResource(resource) : null;
+  @PutMapping("/updateResource/{resourceID}")
+  public Resource updateResource(@PathVariable Long resourceID ,@RequestBody Resource resource){
+    return resource != null ? this.resourceService.updateResource(resourceID,resource) : null;
   }
 
  @DeleteMapping("/deleteResource/{resourceID}")

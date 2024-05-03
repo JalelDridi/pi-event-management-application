@@ -12,7 +12,7 @@ public interface ResourceService {
 
     Resource addResource(Resource resource);
 
-    Resource updateResource(Resource resource);
+    Resource updateResource(Long resourceID, Resource resource);
 
     void deleteById(Long resourceID);
 
