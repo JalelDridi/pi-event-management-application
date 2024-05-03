@@ -1,15 +1,18 @@
 package tn.esprit.adminmicroservice.ServiceImp;
 
+import com.google.gson.Gson;
 import com.thoughtworks.xstream.mapper.Mapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.mail.SimpleMailMessage;
 import tn.esprit.adminmicroservice.Dto.ConfUserDto;
 import tn.esprit.adminmicroservice.Ennum.Role;
+import tn.esprit.adminmicroservice.Repository.RepositoryRessource;
 import tn.esprit.adminmicroservice.Repository.RepositoryUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import tn.esprit.adminmicroservice.Dto.UserDto;
 import tn.esprit.adminmicroservice.Entities.StatusUser;
+import tn.esprit.adminmicroservice.Entities.StatusRessources;
 import tn.esprit.adminmicroservice.Service.ServiceUser;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
@@ -17,6 +20,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.mail.javamail.JavaMailSender;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,6 +38,8 @@ public class ServiceUserImpl implements ServiceUser {
 
     @Autowired
     RepositoryUser repositoryUser;
+
+
 
 
     @Autowired
@@ -51,7 +62,7 @@ public class ServiceUserImpl implements ServiceUser {
                 userSaved.setRole(Role.SimpleUser);
                 userSaved.setStatusUser(true);
                 repositoryUser.save(userSaved);
-                String emailBody = "marhbe ";
+                String emailBody = "bienvenu dans notre application ";
                 sendEmail(user.getEmail(), "email d acceptation", emailBody);
                 return userSaved;
             }
@@ -142,7 +153,7 @@ public StatusUser RefusUserCnx(String id) {
         return listaff;
     }
 
-    ///post to jalel
+    ///post to Jalel-UserAccepter
 
     @Override
     public List<ConfUserDto> getAllConfirmedUsers() {
@@ -167,7 +178,6 @@ public StatusUser RefusUserCnx(String id) {
         message.setTo(toEmail);
         message.setSubject(subject);
         message.setText(body);
-
         emailSender.send(message);
         System.out.println("Mail Sent successfully...");
     }
@@ -197,6 +207,73 @@ public double pourcentageUsersAuth() {
     double percentage = (double) authenticatedUsers / totalUsers * 100;
     return Math.round(percentage * 100.0) / 100.0;
 }
+/*******************google maps Api********************/
+
+
+class DirectionsResponse {
+    public List<Route> routes;
+}
+
+    class Route {
+        public List<Leg> legs;
+    }
+
+    class Leg {
+        public List<Step> steps;
+    }
+
+    class Step {
+        public String htmlInstructions;
+    }
+
+private static final String API_KEY="AIzaSyDhYovKH9L-4572jB09MH00LcOWOR02FCA";
+
+    public String getDirection(String destination) throws IOException, InterruptedException {
+        String encodedDestination = URLEncoder.encode(destination, "UTF-8");
+
+        String url = "https://maps.googleapis.com/maps/api/directions/json?origin=tunis&destination="
+                + encodedDestination + "&key=" + API_KEY;
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(java.net.URI.create(url))
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        Gson gson = new Gson();
+        DirectionsResponse directionsResponse = gson.fromJson(response.body(), DirectionsResponse.class);
+
+        if (directionsResponse.routes != null && !directionsResponse.routes.isEmpty()) {
+            Route route = directionsResponse.routes.get(0);
+            if (route.legs != null && !route.legs.isEmpty()) {
+                Leg leg = route.legs.get(0);
+                if (leg.steps != null && !leg.steps.isEmpty()) {
+                    String routeInstructions = leg.steps.stream()
+                            .map(step -> step.htmlInstructions)
+                            .collect(Collectors.joining("\n"));
+                    return routeInstructions;
+                } else {
+                    return "Aucune étape trouvée pour cette destination.";
+                }
+            } else {
+                return "Aucune jambe trouvée pour cette destination.";
+            }
+        } else {
+            return "Aucune route trouvée pour cette destination.";
+        }
+    }
+
+
+
+    @Override
+    public List<StatusUser> rechercheByfonction(String fonction){
+         return repositoryUser.findByFonction(fonction);
+    }
+
+@Override
+    public void sendUpdateEmail(String recipientEmail,String text) {
+        sendEmail(recipientEmail, "email for update", text);
+    }
+
 
 
 

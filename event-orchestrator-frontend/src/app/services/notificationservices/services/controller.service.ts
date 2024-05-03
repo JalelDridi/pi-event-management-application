@@ -11,6 +11,10 @@ import { StrictHttpResponse } from '../strict-http-response';
 
 import { addNotification } from '../fn/controller/add-notification';
 import { AddNotification$Params } from '../fn/controller/add-notification';
+import { confirmParticipation } from '../fn/controller/confirm-participation';
+import { ConfirmParticipation$Params } from '../fn/controller/confirm-participation';
+import { confirmUserRegistration } from '../fn/controller/confirm-user-registration';
+import { ConfirmUserRegistration$Params } from '../fn/controller/confirm-user-registration';
 import { countUnreadMessages } from '../fn/controller/count-unread-messages';
 import { CountUnreadMessages$Params } from '../fn/controller/count-unread-messages';
 import { countUnreadNotifications } from '../fn/controller/count-unread-notifications';
@@ -19,27 +23,25 @@ import { getAllMessages } from '../fn/controller/get-all-messages';
 import { GetAllMessages$Params } from '../fn/controller/get-all-messages';
 import { getAllNotifications } from '../fn/controller/get-all-notifications';
 import { GetAllNotifications$Params } from '../fn/controller/get-all-notifications';
-import { getMessageById } from '../fn/controller/get-message-by-id';
-import { GetMessageById$Params } from '../fn/controller/get-message-by-id';
 import { getUserMessages } from '../fn/controller/get-user-messages';
 import { GetUserMessages$Params } from '../fn/controller/get-user-messages';
-import { getUserNotifications } from '../fn/controller/get-user-notifications';
-import { GetUserNotifications$Params } from '../fn/controller/get-user-notifications';
 import { getWebNotifs } from '../fn/controller/get-web-notifs';
 import { GetWebNotifs$Params } from '../fn/controller/get-web-notifs';
 import { Message } from '../models/message';
 import { Notification } from '../models/notification';
 import { NotificationUserDto } from '../models/notification-user-dto';
+import { resetPassword } from '../fn/controller/reset-password';
+import { ResetPassword$Params } from '../fn/controller/reset-password';
 import { sendMessage } from '../fn/controller/send-message';
 import { SendMessage$Params } from '../fn/controller/send-message';
-import { sendNotification } from '../fn/controller/send-notification';
-import { SendNotification$Params } from '../fn/controller/send-notification';
 import { sendNotificationHtml } from '../fn/controller/send-notification-html';
 import { SendNotificationHtml$Params } from '../fn/controller/send-notification-html';
+import { sendUpcomingEvents } from '../fn/controller/send-upcoming-events';
+import { SendUpcomingEvents$Params } from '../fn/controller/send-upcoming-events';
 import { setUserMessagesAsRead } from '../fn/controller/set-user-messages-as-read';
 import { SetUserMessagesAsRead$Params } from '../fn/controller/set-user-messages-as-read';
-import { testt } from '../fn/controller/testt';
-import { Testt$Params } from '../fn/controller/testt';
+import { setUserNotificationsAsRead } from '../fn/controller/set-user-notifications-as-read';
+import { SetUserNotificationsAsRead$Params } from '../fn/controller/set-user-notifications-as-read';
 
 @Injectable({ providedIn: 'root' })
 export class ControllerService extends BaseService {
@@ -69,6 +71,31 @@ export class ControllerService extends BaseService {
   setUserMessagesAsRead(params: SetUserMessagesAsRead$Params, context?: HttpContext): Observable<void> {
     return this.setUserMessagesAsRead$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
+  /** Path part for operation `sendUpcomingEvents()` */
+  static readonly SendUpcomingEventsPath = '/notification/send-upcoming-events';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `sendUpcomingEvents()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  sendUpcomingEvents$Response(params?: SendUpcomingEvents$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationUserDto>>> {
+    return sendUpcomingEvents(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `sendUpcomingEvents$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  sendUpcomingEvents(params?: SendUpcomingEvents$Params, context?: HttpContext): Observable<Array<NotificationUserDto>> {
+    return this.sendUpcomingEvents$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<NotificationUserDto>>): Array<NotificationUserDto> => r.body)
     );
   }
 
@@ -122,27 +149,77 @@ export class ControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `sendNotification()` */
-  static readonly SendNotificationPath = '/notification/confirm-user';
+  /** Path part for operation `resetPassword()` */
+  static readonly ResetPasswordPath = '/notification/reset-password';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `sendNotification()` instead.
+   * To access only the response body, use `resetPassword()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  sendNotification$Response(params: SendNotification$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return sendNotification(this.http, this.rootUrl, params, context);
+  resetPassword$Response(params: ResetPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return resetPassword(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `sendNotification$Response()` instead.
+   * To access the full response (for headers, for example), `resetPassword$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  sendNotification(params: SendNotification$Params, context?: HttpContext): Observable<void> {
-    return this.sendNotification$Response(params, context).pipe(
+  resetPassword(params: ResetPassword$Params, context?: HttpContext): Observable<void> {
+    return this.resetPassword$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
+  /** Path part for operation `confirmUserRegistration()` */
+  static readonly ConfirmUserRegistrationPath = '/notification/confirm-user';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `confirmUserRegistration()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  confirmUserRegistration$Response(params: ConfirmUserRegistration$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return confirmUserRegistration(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `confirmUserRegistration$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  confirmUserRegistration(params: ConfirmUserRegistration$Params, context?: HttpContext): Observable<void> {
+    return this.confirmUserRegistration$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
+    );
+  }
+
+  /** Path part for operation `confirmParticipation()` */
+  static readonly ConfirmParticipationPath = '/notification/confirm-participation';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `confirmParticipation()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  confirmParticipation$Response(params: ConfirmParticipation$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return confirmParticipation(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `confirmParticipation$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  confirmParticipation(params: ConfirmParticipation$Params, context?: HttpContext): Observable<void> {
+    return this.confirmParticipation$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
@@ -172,28 +249,28 @@ export class ControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `testt()` */
-  static readonly TesttPath = '/notification/send-upcoming-events';
+  /** Path part for operation `setUserNotificationsAsRead()` */
+  static readonly SetUserNotificationsAsReadPath = '/notification/set-notifications-read';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `testt()` instead.
+   * To access only the response body, use `setUserNotificationsAsRead()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  testt$Response(params?: Testt$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationUserDto>>> {
-    return testt(this.http, this.rootUrl, params, context);
+  setUserNotificationsAsRead$Response(params: SetUserNotificationsAsRead$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return setUserNotificationsAsRead(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `testt$Response()` instead.
+   * To access the full response (for headers, for example), `setUserNotificationsAsRead$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  testt(params?: Testt$Params, context?: HttpContext): Observable<Array<NotificationUserDto>> {
-    return this.testt$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<NotificationUserDto>>): Array<NotificationUserDto> => r.body)
+  setUserNotificationsAsRead(params: SetUserNotificationsAsRead$Params, context?: HttpContext): Observable<void> {
+    return this.setUserNotificationsAsRead$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
@@ -222,33 +299,8 @@ export class ControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `getUserNotifications()` */
-  static readonly GetUserNotificationsPath = '/notification/get-user-notif';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getUserNotifications()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getUserNotifications$Response(params: GetUserNotifications$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Notification>>> {
-    return getUserNotifications(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getUserNotifications$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getUserNotifications(params: GetUserNotifications$Params, context?: HttpContext): Observable<Array<Notification>> {
-    return this.getUserNotifications$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<Notification>>): Array<Notification> => r.body)
-    );
-  }
-
   /** Path part for operation `getUserMessages()` */
-  static readonly GetUserMessagesPath = '/notification/get-user-messages';
+  static readonly GetUserMessagesPath = '/notification/get-user-chat-messages';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -269,31 +321,6 @@ export class ControllerService extends BaseService {
   getUserMessages(params?: GetUserMessages$Params, context?: HttpContext): Observable<Array<Message>> {
     return this.getUserMessages$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<Message>>): Array<Message> => r.body)
-    );
-  }
-
-  /** Path part for operation `getMessageById()` */
-  static readonly GetMessageByIdPath = '/notification/get-message-by-id/{messageId}';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getMessageById()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getMessageById$Response(params: GetMessageById$Params, context?: HttpContext): Observable<StrictHttpResponse<Message>> {
-    return getMessageById(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getMessageById$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  getMessageById(params: GetMessageById$Params, context?: HttpContext): Observable<Message> {
-    return this.getMessageById$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Message>): Message => r.body)
     );
   }
 

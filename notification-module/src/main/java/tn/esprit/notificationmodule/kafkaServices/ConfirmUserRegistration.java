@@ -1,7 +1,6 @@
 package tn.esprit.notificationmodule.kafkaServices;
 
 
-import org.springframework.lang.NonNull;
 import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
@@ -37,7 +36,7 @@ public class ConfirmUserRegistration {
             Notification notification = new Notification();
 
             // Send Confirmation message:
-            String htmlBody = emailService.loadEmailConfirmationTemplate(notificationDto.getFullName(), notificationDto.getContent());
+            String htmlBody = emailService.loadActivateAccountTemplate(notificationDto.getFullName(), notificationDto.getContent());
             emailService.sendHtmlEmail(notificationDto.getEmail(), notificationDto.getSubject(), htmlBody);
             // Set notification properties:
             notification.setDeliveryChannel(DeliveryChannel.email);
