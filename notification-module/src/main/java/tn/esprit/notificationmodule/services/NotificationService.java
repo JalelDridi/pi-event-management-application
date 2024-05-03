@@ -1,11 +1,16 @@
 package tn.esprit.notificationmodule.services;
 
+import org.springframework.http.HttpHeaders;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
 
 import java.util.List;
 
 public interface NotificationService {
+
+
+
+    List<Message> getWebNotifications(String userId);
 
     List<Notification> getNotificationsByUserId(String userId);
 
@@ -16,4 +21,9 @@ public interface NotificationService {
     long countUnreadNotifications(String userId);
 
     void addNotification(Notification notification, Message message);
+
+
+    void confirmEventParticipation(String userId, Long eventId, HttpHeaders headers);
+
+    void setUserNotificationsAsRead(Long[] messageIds);
 }

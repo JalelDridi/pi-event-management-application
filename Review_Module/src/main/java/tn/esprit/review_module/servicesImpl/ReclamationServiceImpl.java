@@ -1,8 +1,6 @@
 package tn.esprit.review_module.servicesImpl;
-
-//import tn.esprit.review_module.dtos.EventDto;
+import tn.esprit.review_module.entities.TypeReclamation;
 import tn.esprit.review_module.entities.Reclamation;
-//import tn.esprit.review_module.repositories.EventRepository;
 import tn.esprit.review_module.repositories.ReclamationRepository;
 import tn.esprit.review_module.services.ReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +23,19 @@ public class ReclamationServiceImpl implements ReclamationService {
     List<Reclamation> reclamations;
     @Override
     public Reclamation addReclamation(Reclamation reclamation) {
+        if (reclamation.getTypeRec() == TypeReclamation.EVENT) {
+            reclamation.setEventId(reclamation.getEventId());
+            reclamation.setResourceId(null);
+        } else if (reclamation.getTypeRec() == TypeReclamation.RESOURCE) {
+                    reclamation.setEventId(null);
+                    reclamation.setResourceId(reclamation.getResourceId());
+        } else if (reclamation.getTypeRec()== TypeReclamation.SITE) {
+            reclamation.setResourceId(null);
+            reclamation.setEventId(null);
+        }
         return reclamationRepository.save(reclamation);
     }
+
 
     @Override
     public List<Reclamation> getAllReclamations() {
@@ -36,7 +45,6 @@ public class ReclamationServiceImpl implements ReclamationService {
 
     @Override
     public List<Reclamation> findByeventId(Long eventId) {
-
         return reclamationRepository.getReclamationByEventId(eventId);
     }
 

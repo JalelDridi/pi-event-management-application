@@ -4,6 +4,7 @@ import com.esprit.usermicroservice.dtos.AuthenticationRequest;
 import com.esprit.usermicroservice.dtos.AuthenticationResponse;
 import com.esprit.usermicroservice.servicesImpl.AuthenticationService;
 import com.esprit.usermicroservice.dtos.RegistrationRequest;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication")
 public class AuthenticationController {
 
     private final AuthenticationService service;

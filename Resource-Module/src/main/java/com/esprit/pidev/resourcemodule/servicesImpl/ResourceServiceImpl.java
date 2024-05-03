@@ -3,6 +3,7 @@ package com.esprit.pidev.resourcemodule.servicesImpl;
 import com.esprit.pidev.resourcemodule.daos.ResourceDao;
 import com.esprit.pidev.resourcemodule.entities.Resource;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
+import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,22 +50,36 @@ public class ResourceServiceImpl implements ResourceService{
         }
     @Override
     public Resource addResource(Resource resource) {
-        //Calls the save Method: It calls a method named save on an object called resourceDao.
-        // This object is responsible for handling interactions with the database or data store.
-        //It passes a resource object (likely some data you want to save or store) as an argument to the save method.
         return this.resourceDao.save(resource);
     }
 
+//@Override
+//public Resource updateResource(Long  resourceID, Resource resource) {
+//    LOG.info("Editing resource with ID {}: {}", resourceID, resource);
+//    try {
+//        Optional<Resource> existingResource = this.resourceDao.findById(resourceID);
+//        existingResource.setResourceName(resource.getResourceName());
+//        existingResource.setIsAvailable(resource.getIsAvailable());
+//        existingResource.setDate(resource.getDate());
+//        return resourceDao.save(existingResource);
+//    } catch (Exception e) {
+//        LOG.error("Error editing resource with ID {}: {}", resourceID, e.getMessage());
+//        throw new RuntimeException("Failed to edit resource with ID: " + resourceID, e);
+//    }
+//}
     @Override
-    public Resource updateResource(Resource resource) {
-       Resource updateResource=null;
-       if(resource!=null){
-           updateResource=this.resourceDao.save(resource);
-       }else {
-           LOG.error(ERROR_UPDATE);
-       }
-       return updateResource;
-       }
+public Resource updateResource(Long resourceID, Resource resource) {
+    return resourceDao.findById(resourceID).map(existinResource -> {
+        existinResource.setResourceName(resource.getResourceName());
+        existinResource.setIsAvailable(resource.getIsAvailable());
+        existinResource.setDate(resource.getDate());
+        // Set other properties as needed
+
+        return resourceDao.save(existinResource);
+    }).orElseThrow(() -> new ResourceNotFoundException("resource not found with id " + resourceID));
+}
+
+
 
 
     @Override
@@ -73,11 +88,11 @@ public class ResourceServiceImpl implements ResourceService{
 
     }
 
-
-
-//    @Override
-//    public Resource findById(Long id){return this.resourceDao.findById(id).get();}
-
+    @Override
+   public List<Resource> getAllAvailableResources() {
+    // Utilisation d'une requête personnalisée pour récupérer les ressources disponibles
+    return resourceDao.findByIsAvailableTrue();
+}
 }
 
 

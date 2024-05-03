@@ -8,4 +8,8 @@ public interface ResourceTypeService {
     List<ResourceType> getAllResourceTypes();
 
     ResourceType addResourceType(ResourceType resourceType);
+
+    void deleteById(Long resourceTypeID);
+
+    ResourceType updateResourceType(Long resourceTypeID, ResourceType resourceType);
 }

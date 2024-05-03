@@ -1,0 +1,25 @@
+.notification-count {
+  background-color: #ff0000;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+}
+
+
+.wider-notification-bar {
+  width: 500px;  }
+
+
+.notification-scroll {
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+
+.red-bell {
+  color: red;
+  font-size: 24px;
+}

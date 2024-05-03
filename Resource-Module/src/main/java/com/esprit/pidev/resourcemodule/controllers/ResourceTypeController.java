@@ -1,18 +1,17 @@
 package com.esprit.pidev.resourcemodule.controllers;
 
+import com.esprit.pidev.resourcemodule.entities.Resource;
 import com.esprit.pidev.resourcemodule.entities.ResourceType;
 import com.esprit.pidev.resourcemodule.services.ResourceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/ResourceTypes")
+@CrossOrigin
 public class ResourceTypeController {
 
 
@@ -28,4 +27,14 @@ public class ResourceTypeController {
     public ResourceType addResourceType(ResourceType resourceType){
         return this.resourceTypeService.addResourceType(resourceType);
     }
+    @PutMapping("/updateResourceType/{resourceTypeID}")
+    public ResourceType updateResourceType(@PathVariable Long resourceTypeID , @RequestBody ResourceType resourceType){
+        return resourceType != null ? this.resourceTypeService.updateResourceType(resourceTypeID,resourceType) : null;
+    }
+    @DeleteMapping("/deleteResourceType/{resourceTypeID}")
+    public void deleteResource(@PathVariable Long resourceTypeID){
+
+        resourceTypeService.deleteById(resourceTypeID);
+    }
+
 }

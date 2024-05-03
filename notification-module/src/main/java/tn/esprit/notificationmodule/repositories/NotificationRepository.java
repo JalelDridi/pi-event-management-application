@@ -13,8 +13,13 @@ public interface NotificationRepository extends MongoRepository<Notification, St
 
     List<Notification> findNotificationByUserId(String userId);
 
+    List<Notification> findNotificationByMessageId(Long messageId);
+    List<Notification> findNotificationByIsSent(boolean isSent);
     List<Notification> findNotificationByUserIdAndIsRead(String userId, boolean isRead);
 
     Long countByUserIdAndIsReadAndDeliveryChannel(String userId, boolean isRead, DeliveryChannel deliveryChannel);
+
+    List<Notification> findNotificationByUserIdAndDeliveryChannel(String userId, DeliveryChannel deliveryChannel);
+
 
 }

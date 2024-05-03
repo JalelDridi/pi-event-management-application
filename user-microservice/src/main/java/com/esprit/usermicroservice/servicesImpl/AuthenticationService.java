@@ -6,11 +6,9 @@ import com.esprit.usermicroservice.dtos.RegistrationRequest;
 import com.esprit.usermicroservice.dtos.UserNotifDto;
 import com.esprit.usermicroservice.entities.Token;
 import com.esprit.usermicroservice.entities.User;
-import com.esprit.usermicroservice.enums.EmailTemplateName;
 import com.esprit.usermicroservice.repositories.RoleRepository;
 import com.esprit.usermicroservice.repositories.TokenRepository;
 import com.esprit.usermicroservice.repositories.UserRepository;
-import com.esprit.usermicroservice.services.EmailService;
 import com.esprit.usermicroservice.services.JwtService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,7 @@ import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -39,7 +40,6 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final RoleRepository roleRepository;
-    private final EmailService emailService;
     private final TokenRepository tokenRepository;
 
     @Value("${application.mailing.frontend.activation-url}")
@@ -63,20 +63,26 @@ public class AuthenticationService {
     }
 ////hedhiiii
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        var auth = authenticationManager.authenticate(
+        Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
                         request.getPassword()
                 )
         );
 
-        var claims = new HashMap<String, Object>();
-        var user = ((User) auth.getPrincipal());
-        claims.put("fullName", user.getFullName());
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
-        var jwtToken = jwtService.generateToken(claims, (User) auth.getPrincipal());
+        User user = (User) auth.getPrincipal();
+        String userId = user.getUserID(); // Assuming user ID is a field in the User entity
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("userId", userId); // Add the user ID to the claims
+
+        String token = jwtService.generateToken(claims, user);
+
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .token(token)
+                .userId(userId)
                 .build();
     }
 

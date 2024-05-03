@@ -3,6 +3,7 @@ package com.esprit.usermicroservice.controllers;
 import com.esprit.usermicroservice.dtos.EventUserDto;
 import com.esprit.usermicroservice.entities.User;
 import com.esprit.usermicroservice.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
+@Tag(name = "User")
 public class UserController {
 
     @Autowired

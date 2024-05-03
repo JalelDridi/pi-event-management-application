@@ -1,7 +1,7 @@
 package tn.esprit.notificationmodule.kafkaServices;
 
 
-import tn.esprit.notificationmodule.dtos.UserNotifDto;
+import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
 import tn.esprit.notificationmodule.enums.DeliveryChannel;
@@ -29,23 +29,23 @@ public class ConfirmUserRegistration {
 
 
     @KafkaListener(topics = "confirm-user-registration", groupId = "aaa")
-    public void listenGroupAaa(UserNotifDto userNotifDto) throws IOException {
-        if (userNotifDto.getEmail() != null && userNotifDto.getSubject() != null && userNotifDto.getContent() != null) {
+    public void listenGroupAaa(NotificationDto notificationDto) throws IOException {
+        if (notificationDto.getEmail() != null && notificationDto.getSubject() != null && notificationDto.getContent() != null) {
             // Instantiate objects:
             Message message = new Message();
             Notification notification = new Notification();
 
             // Send Confirmation message:
-            String htmlBody = emailService.loadEmailConfirmationTemplate(userNotifDto.getFullName(), userNotifDto.getContent());
-            emailService.sendHtmlEmail(userNotifDto.getEmail(), userNotifDto.getSubject(), htmlBody);
+            String htmlBody = emailService.loadActivateAccountTemplate(notificationDto.getFullName(), notificationDto.getContent());
+            emailService.sendHtmlEmail(notificationDto.getEmail(), notificationDto.getSubject(), htmlBody);
             // Set notification properties:
             notification.setDeliveryChannel(DeliveryChannel.email);
             notification.setIsRead(true);
             notification.setIsSent(true);
             // Set message properties:
             message.setSentDate(new Date());
-            message.setContent(userNotifDto.getContent());
-            message.setSubject(userNotifDto.getSubject());
+            message.setContent(notificationDto.getContent());
+            message.setSubject(notificationDto.getSubject());
 
             // Store the notification and the message in the database ( for 2 purposes : 1. data collection | 2. Schedule unsent mails for later ...
             notificationService.addNotification(notification, message);

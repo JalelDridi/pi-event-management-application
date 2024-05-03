@@ -2,18 +2,24 @@ package com.esprit.pidev.resourcemodule.controllers;
 
 import com.esprit.pidev.resourcemodule.entities.Resource;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
+//import com.esprit.pidev.resourcemodule.services.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/resources")
+@CrossOrigin
 public class ResourceController {
 
   @Autowired
   private ResourceService resourceService;
+
+//  @Autowired
+//  private SearchService searchService;
 
   @GetMapping("/all-resources")
   public List<Resource> getAll(){return this.resourceService.getAllResources();}
@@ -28,9 +34,9 @@ public class ResourceController {
     return this.resourceService.addResource(resource);
   }
 
-  @PostMapping("/updateResource")
-  public Resource updateResource(@RequestBody Resource resource){
-    return resource != null ? this.resourceService.updateResource(resource) : null;
+  @PutMapping("/updateResource/{resourceID}")
+  public Resource updateResource(@PathVariable Long resourceID ,@RequestBody Resource resource){
+    return resource != null ? this.resourceService.updateResource(resourceID,resource) : null;
   }
 
  @DeleteMapping("/deleteResource/{resourceID}")
@@ -39,4 +45,13 @@ public class ResourceController {
       resourceService.deleteById(resourceID);
   }
 
+  @GetMapping("/getAllAvailableResources")
+    public List<Resource> getAllAvailableResources(){
+      return this.resourceService.getAllAvailableResources();
+    }
+
+//    @GetMapping("/recherche/{date}")
+//    public List<Resource>findResourcesByAvailabilityAndDate(@PathVariable Date date){
+//      return this.searchService.findResourcesByAvailabilityAndDate(date);
+//    }
 }
