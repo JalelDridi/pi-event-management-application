@@ -3,7 +3,6 @@ package tn.esprit.notificationmodule.controllers;
 
 import org.springframework.http.HttpHeaders;
 import tn.esprit.notificationmodule.dtos.NotificationDto;
-import tn.esprit.notificationmodule.dtos.NotificationUserDto;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
 import tn.esprit.notificationmodule.services.EmailService;
@@ -133,9 +132,8 @@ public class Controller {
     ////////////////////////////////////////// Send upcoming events to users (THIS IS A TEST METHOD THAT IS GOING TO BE A SCHEDULED ONE LATER ON):
     @PostMapping("/send-upcoming-events")
     @ResponseBody
-    public List<NotificationUserDto> sendUpcomingEvents() {
-
-        return emailService.sendUpcomingEvents();
+    public void sendUpcomingEvents() {
+        emailService.sendUpcomingEvents();
     }
 
 

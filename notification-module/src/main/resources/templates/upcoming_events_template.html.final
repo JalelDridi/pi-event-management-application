@@ -36,9 +36,9 @@
 
 <th:block th:each="event : ${events}">
     <div class="event-container">
-        <img src="https://i.ibb.co/nL2yNRz/440409608-952640906302653-1203458961744324046-n.jpg" class="event-image" alt="Event Image">
+        <img th:src="@{/images/}(**{event.imageUrl}**)" class="event-image" alt="Event Image" th:style="'height: ' + ${event.imageHeight} + 'px'">
         <div class="event-details">
-            <h2 class="event-title" th:text="${event.name}"></h2>
+            <h2 class="event-title" th:text="${event.title}"></h2>
             <p class="event-description" th:text="${event.description}"></p>
         </div>
     </div>
