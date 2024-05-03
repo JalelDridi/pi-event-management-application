@@ -29,23 +29,34 @@
         .event-description {
             line-height: 1.5; /* Adjust line height for better readability */
         }
+
+        .container {
+            max-width: 700px;
+            margin: 10px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body>
-<h1>Check out the upcoming events this week:</h1>
+<div class="container">
+    <h1 style="font-family: 'Times New Roman', serif;">Check out the upcoming events this week</h1>
 
-<th:block th:each="event : ${events}">
-    <div class="event-container">
-        <img src="https://i.ibb.co/nL2yNRz/440409608-952640906302653-1203458961744324046-n.jpg" class="event-image" alt="Event Image">
-        <div class="event-details">
-            <h2 class="event-title" th:text="${event.name}"></h2>
-            <p class="event-description" th:text="${event.description}"></p>
+    <th:block th:each="event : ${events}">
+        <div class="event-container">
+            <img src="https://i.ibb.co/nL2yNRz/440409608-952640906302653-1203458961744324046-n.jpg" class="event-image" alt="Event Image">
+            <div class="event-details">
+                <h2 class="event-title" th:text="${event.name}"></h2>
+                <p class="event-description" th:text="${event.description}"></p>
+            </div>
         </div>
-    </div>
-</th:block>
+    </th:block>
 
-<p>Don't miss out! Register for the events that interest you.</p>
-<a href="#">Register Now</a>
+    <p>Don't miss out! Register for the events that interest you.</p>
+    <a href="#">Register Now</a>
+</div>
 
 </body>
 </html>
