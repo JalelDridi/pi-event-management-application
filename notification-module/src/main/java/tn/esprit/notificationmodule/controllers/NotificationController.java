@@ -5,7 +5,6 @@ import org.springframework.http.HttpHeaders;
 import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
-import tn.esprit.notificationmodule.services.EmailService;
 import tn.esprit.notificationmodule.services.MessageService;
 import tn.esprit.notificationmodule.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/notification")
-public class Controller {
+public class NotificationController {
 
     @Autowired
     private KafkaTemplate<String, NotificationDto> kafkaTemplate;
@@ -28,13 +26,9 @@ public class Controller {
     @Autowired
     private MessageService messageService;
 
-    @Autowired
-    private EmailService emailService;
 
     // KAFKA TOPICS :
-    private static final String CONFIRM_USER_TOPIC = "confirm-user-registration";
     private static final String SEND_MESSAGE_TOPIC = "send-message";
-    private static final String SEND_HTML_EMAIL_TOPIC = "send-html-email";
 
 
     // SEND EMAILS USING KAFKA :
@@ -51,26 +45,7 @@ public class Controller {
         notificationService.confirmEventParticipation(userId, eventId, headers);
     }
 
-    // Confirm user after registration:
-    @PostMapping("/confirm-user")
-    @ResponseBody
-    public void confirmUserRegistration(@RequestBody NotificationDto notificationDto) {
-        kafkaTemplate.send(CONFIRM_USER_TOPIC, notificationDto);
-    }
 
-    // This will send a code to reset the password:
-    @PostMapping("/reset-password")
-    @ResponseBody
-    public void resetPassword(@RequestBody NotificationDto notificationDto) {
-        kafkaTemplate.send(CONFIRM_USER_TOPIC, notificationDto);
-    }
-
-    // this will send notification in HTML format (for general purpose)
-    @PostMapping("/send-notification-html")
-    @ResponseBody
-    public void sendNotificationHtml(NotificationDto notificationDto) {
-        kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, notificationDto);
-    }
 
     // WEB NOTIFICATIONS FOR UI :
 
@@ -83,8 +58,23 @@ public class Controller {
     }
 
 
+    // Send web notification
+
+    @PostMapping("/send-web-notification")
+    @ResponseBody
+    public void sendWebNotification(@RequestBody NotificationDto notificationDto) {
+        notificationService.sendWebNotifications(notificationDto);
+    }
+
+    // Delete a notification along with its content (message)
+
+    @DeleteMapping("/delete-notification/{id}")
+    @ResponseBody
+    public void deleteNotification(@PathVariable Long id) {
+        notificationService.deleteNotification(id);
+    }
+
     // This sets the list of notifications along with their messages to true
-    // TO DO
     @PatchMapping("/set-notifications-read")
     @ResponseBody
     public void setUserNotificationsAsRead(@RequestBody Long[] messageIds) {
@@ -97,10 +87,10 @@ public class Controller {
         return notificationService.countUnreadNotifications(userId);
     }
 
-    @GetMapping("/count-unread-messages")
+    @GetMapping("/count-unread-messages/{userId}")
     @ResponseBody
-    public long countUnreadMessages() {
-        return 0;
+    public long countUnreadMessages(@PathVariable String userId) {
+        return messageService.countUnreadMessages(userId);
     }
 
 
@@ -129,15 +119,8 @@ public class Controller {
     }
 
 
-    ////////////////////////////////////////// Send upcoming events to users (THIS IS A TEST METHOD THAT IS GOING TO BE A SCHEDULED ONE LATER ON):
-    @PostMapping("/send-upcoming-events")
-    @ResponseBody
-    public void sendUpcomingEvents() {
-        emailService.sendUpcomingEvents();
-    }
 
-
-    // A simple Notification/Msg CRUD for testing puposes :
+    // A simple Notification/Msg CRUD for testing purposes :
 
     @PostMapping("/add-notif")
     @ResponseBody

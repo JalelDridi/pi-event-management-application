@@ -4,7 +4,8 @@ import { NgModule, ModuleWithProviders, SkipSelf, Optional } from '@angular/core
 import { HttpClient } from '@angular/common/http';
 import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
-import { ControllerService } from './services/controller.service';
+import { NotificationControllerService } from './services/notification-controller.service';
+import { SpringMailControllerService } from './services/spring-mail-controller.service';
 
 /**
  * Module that provides all services and configuration.
@@ -14,7 +15,8 @@ import { ControllerService } from './services/controller.service';
   exports: [],
   declarations: [],
   providers: [
-    ControllerService,
+    NotificationControllerService,
+    SpringMailControllerService,
     ApiConfiguration
   ],
 })

@@ -28,4 +28,4 @@ export function sendMessage(http: HttpClient, rootUrl: string, params: SendMessa
   );
 }
 
-sendMessage.PATH = '/notification/send-message';
+sendMessage.PATH = '/send-message';

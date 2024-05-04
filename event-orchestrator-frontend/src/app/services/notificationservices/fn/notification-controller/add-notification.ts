@@ -28,4 +28,4 @@ export function addNotification(http: HttpClient, rootUrl: string, params: AddNo
   );
 }
 
-addNotification.PATH = '/notification/add-notif';
+addNotification.PATH = '/add-notif';

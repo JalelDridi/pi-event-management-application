@@ -6,17 +6,18 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { NotificationDto } from '../../models/notification-dto';
 
-export interface SetUserNotificationsAsRead$Params {
-      body: Array<number>
+export interface SetNotifyClubRepresentative$Params {
+      body: NotificationDto
 }
 
-export function setUserNotificationsAsRead(http: HttpClient, rootUrl: string, params: SetUserNotificationsAsRead$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, setUserNotificationsAsRead.PATH, 'patch');
+export function setNotifyClubRepresentative(http: HttpClient, rootUrl: string, params: SetNotifyClubRepresentative$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, setNotifyClubRepresentative.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
-  console.log("WORKS 2");
+
   return http.request(
     rb.build({ responseType: 'text', accept: '*/*', context })
   ).pipe(
@@ -27,4 +28,4 @@ export function setUserNotificationsAsRead(http: HttpClient, rootUrl: string, pa
   );
 }
 
-setUserNotificationsAsRead.PATH = '/notification/set-notifications-read';
+setNotifyClubRepresentative.PATH = '/event-request-response';

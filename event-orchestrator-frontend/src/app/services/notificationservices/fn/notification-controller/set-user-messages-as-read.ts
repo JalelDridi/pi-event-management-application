@@ -6,26 +6,25 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { Message } from '../../models/message';
 
-export interface GetWebNotifs$Params {
+export interface SetUserMessagesAsRead$Params {
   userId: string;
 }
 
-export function getWebNotifs(http: HttpClient, rootUrl: string, params: GetWebNotifs$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Message>>> {
-  const rb = new RequestBuilder(rootUrl, getWebNotifs.PATH, 'get');
+export function setUserMessagesAsRead(http: HttpClient, rootUrl: string, params: SetUserMessagesAsRead$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, setUserMessagesAsRead.PATH, 'post');
   if (params) {
     rb.path('userId', params.userId, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'text', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<Message>>;
+      return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
     })
   );
 }
 
-getWebNotifs.PATH = '/notification/get-web-notifications/{userId}';
+setUserMessagesAsRead.PATH = '/set-messages-read/{userId}';

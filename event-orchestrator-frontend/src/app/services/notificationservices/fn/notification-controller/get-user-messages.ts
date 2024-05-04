@@ -6,13 +6,13 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { NotificationUserDto } from '../../models/notification-user-dto';
+import { Message } from '../../models/message';
 
-export interface SendUpcomingEvents$Params {
+export interface GetUserMessages$Params {
 }
 
-export function sendUpcomingEvents(http: HttpClient, rootUrl: string, params?: SendUpcomingEvents$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationUserDto>>> {
-  const rb = new RequestBuilder(rootUrl, sendUpcomingEvents.PATH, 'post');
+export function getUserMessages(http: HttpClient, rootUrl: string, params?: GetUserMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Message>>> {
+  const rb = new RequestBuilder(rootUrl, getUserMessages.PATH, 'get');
   if (params) {
   }
 
@@ -21,9 +21,9 @@ export function sendUpcomingEvents(http: HttpClient, rootUrl: string, params?: S
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<NotificationUserDto>>;
+      return r as StrictHttpResponse<Array<Message>>;
     })
   );
 }
 
-sendUpcomingEvents.PATH = '/notification/send-upcoming-events';
+getUserMessages.PATH = '/get-user-chat-messages';

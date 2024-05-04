@@ -6,16 +6,19 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { NotificationDto } from '../../models/notification-dto';
 
-export interface ConfirmUserRegistration$Params {
-      body: NotificationDto
+export interface ConfirmParticipation$Params {
+  userId: string;
+  eventId: number;
+  Authorization: string;
 }
 
-export function confirmUserRegistration(http: HttpClient, rootUrl: string, params: ConfirmUserRegistration$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, confirmUserRegistration.PATH, 'post');
+export function confirmParticipation(http: HttpClient, rootUrl: string, params: ConfirmParticipation$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, confirmParticipation.PATH, 'post');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.query('userId', params.userId, {});
+    rb.query('eventId', params.eventId, {});
+    rb.header('Authorization', params.Authorization, {});
   }
 
   return http.request(
@@ -28,4 +31,4 @@ export function confirmUserRegistration(http: HttpClient, rootUrl: string, param
   );
 }
 
-confirmUserRegistration.PATH = '/notification/confirm-user';
+confirmParticipation.PATH = '/confirm-participation';

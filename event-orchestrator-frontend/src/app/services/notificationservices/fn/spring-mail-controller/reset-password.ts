@@ -6,19 +6,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { NotificationDto } from '../../models/notification-dto';
 
-export interface ConfirmParticipation$Params {
-  userId: string;
-  eventId: number;
-  Authorization: string;
+export interface ResetPassword$Params {
+      body: NotificationDto
 }
 
-export function confirmParticipation(http: HttpClient, rootUrl: string, params: ConfirmParticipation$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, confirmParticipation.PATH, 'post');
+export function resetPassword(http: HttpClient, rootUrl: string, params: ResetPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, resetPassword.PATH, 'post');
   if (params) {
-    rb.query('userId', params.userId, {});
-    rb.query('eventId', params.eventId, {});
-    rb.header('Authorization', params.Authorization, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -31,4 +28,4 @@ export function confirmParticipation(http: HttpClient, rootUrl: string, params: 
   );
 }
 
-confirmParticipation.PATH = '/notification/confirm-participation';
+resetPassword.PATH = '/reset-password';

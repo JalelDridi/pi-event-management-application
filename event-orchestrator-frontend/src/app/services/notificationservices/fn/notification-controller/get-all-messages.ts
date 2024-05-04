@@ -17,7 +17,7 @@ export function getAllMessages(http: HttpClient, rootUrl: string, params?: GetAl
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: '*/*', context })
+    rb.build({ responseType: 'blob', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
@@ -26,4 +26,4 @@ export function getAllMessages(http: HttpClient, rootUrl: string, params?: GetAl
   );
 }
 
-getAllMessages.PATH = '/notification/get-all-msgs';
+getAllMessages.PATH = '/get-all-msgs';

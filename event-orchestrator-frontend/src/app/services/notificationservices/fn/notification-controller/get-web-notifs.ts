@@ -8,12 +8,14 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Message } from '../../models/message';
 
-export interface GetUserMessages$Params {
+export interface GetWebNotifs$Params {
+  userId: string;
 }
 
-export function getUserMessages(http: HttpClient, rootUrl: string, params?: GetUserMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Message>>> {
-  const rb = new RequestBuilder(rootUrl, getUserMessages.PATH, 'get');
+export function getWebNotifs(http: HttpClient, rootUrl: string, params: GetWebNotifs$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Message>>> {
+  const rb = new RequestBuilder(rootUrl, getWebNotifs.PATH, 'get');
   if (params) {
+    rb.path('userId', params.userId, {});
   }
 
   return http.request(
@@ -26,4 +28,4 @@ export function getUserMessages(http: HttpClient, rootUrl: string, params?: GetU
   );
 }
 
-getUserMessages.PATH = '/notification/get-user-chat-messages';
+getWebNotifs.PATH = '/get-web-notifications/{userId}';

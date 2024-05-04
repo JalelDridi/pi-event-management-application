@@ -16,7 +16,10 @@ export class NavbarComponent implements OnInit {
   public focus;
   public listTitles: any[];
   public location: Location;
-  constructor(location: Location,  private element: ElementRef, private router: Router, private userService: UserService) {
+  constructor(location: Location,
+              private element: ElementRef,
+              private router: Router,
+              private userService: UserService) {
     this.location = location;
   }
 
