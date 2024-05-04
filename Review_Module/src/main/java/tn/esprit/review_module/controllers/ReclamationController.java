@@ -46,6 +46,20 @@ public class ReclamationController {
         return reclamationService.findByUserId(userid);
 
     }
+    @GetMapping("/getreclamationsbyuseridandeventid/{userid}/{eventid}")
+    @ResponseBody
+    public List<Reclamation> findreclamationbyuseridandeventid(@PathVariable String userid, @PathVariable Long eventid){
+        return reclamationService.findreclamationbyeventidanduserid(userid, eventid);
+
+    }
+
+    @DeleteMapping("/deletereclamation/{idrec}")
+    @ResponseBody
+    public void deletereclamation(@PathVariable Long idrec){
+        reclamationService.deletereclamation(idrec);
+    }
+
+
 
 
 }
