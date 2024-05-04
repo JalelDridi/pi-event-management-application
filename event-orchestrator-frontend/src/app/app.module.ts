@@ -28,6 +28,9 @@ import { CreateEventRequestComponent } from './pages/create-event-request/create
 import { SubmitAFeedbackComponent } from './pages/submit-a-feedback/submit-a-feedback.component';
 import { RessourcesComponent } from './pages/ressources/ressources.component';
 import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource-type.component';
+import { RessourceListComponent } from './pages/admin-pages/ressource-list/ressource-list.component';
+import { UserListFinalComponent } from './pages/admin-pages/user-list-final/user-list-final.component';
+import { UserListComponent } from './pages/admin-pages/user-list/user-list.component';
 
 
 
@@ -63,7 +66,10 @@ import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource
     CreateEventRequestComponent,
     SubmitAFeedbackComponent,
     RessourcesComponent,
-    AddResourceTypeComponent
+    AddResourceTypeComponent,
+    RessourceListComponent,
+    UserListFinalComponent,
+    UserListComponent
   ],
   providers: [
     ResourceService,
