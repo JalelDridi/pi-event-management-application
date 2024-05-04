@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
+import {Message} from "../../services/notificationservices/models/message";
+import {getWebNotifs} from "../../services/notificationservices/fn/notification-controller/get-web-notifs";
 import {
   setUserNotificationsAsRead,
   SetUserNotificationsAsRead$Params
-} from "../../services/notificationservices/fn/controller/set-user-notifications-as-read";
-import {getWebNotifs} from "../../services/notificationservices/fn/controller/get-web-notifs";
-import {HttpClient} from "@angular/common/http";
-import {Message} from "../../services/notificationservices/models/message";
+} from "../../services/notificationservices/fn/notification-controller/set-user-notifications-as-read";
 
 @Component({
   selector: 'app-notification-popup',
