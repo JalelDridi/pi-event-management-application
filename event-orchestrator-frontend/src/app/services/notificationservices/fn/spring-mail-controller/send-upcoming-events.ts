@@ -7,14 +7,12 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface SetUserMessagesAsRead$Params {
-  userId: string;
+export interface SendUpcomingEvents$Params {
 }
 
-export function setUserMessagesAsRead(http: HttpClient, rootUrl: string, params: SetUserMessagesAsRead$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, setUserMessagesAsRead.PATH, 'post');
+export function sendUpcomingEvents(http: HttpClient, rootUrl: string, params?: SendUpcomingEvents$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, sendUpcomingEvents.PATH, 'post');
   if (params) {
-    rb.path('userId', params.userId, {});
   }
 
   return http.request(
@@ -27,4 +25,4 @@ export function setUserMessagesAsRead(http: HttpClient, rootUrl: string, params:
   );
 }
 
-setUserMessagesAsRead.PATH = '/notification/set-messages-read/{userId}';
+sendUpcomingEvents.PATH = '/send-upcoming-events';

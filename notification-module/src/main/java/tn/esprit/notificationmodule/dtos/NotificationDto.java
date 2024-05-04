@@ -12,6 +12,7 @@ import java.io.Serializable;
 public class NotificationDto implements Serializable {
     private String fullName;
     private String email;
+    private String role;
     private String subject; // can take many forms : mail subject, event description .....
     private String content; // can take many forms : mail content, message content ....
     private String userId; // TO

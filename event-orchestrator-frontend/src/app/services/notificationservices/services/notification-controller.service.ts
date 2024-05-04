@@ -9,48 +9,43 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { addNotification } from '../fn/controller/add-notification';
-import { AddNotification$Params } from '../fn/controller/add-notification';
-import { confirmParticipation } from '../fn/controller/confirm-participation';
-import { ConfirmParticipation$Params } from '../fn/controller/confirm-participation';
-import { confirmUserRegistration } from '../fn/controller/confirm-user-registration';
-import { ConfirmUserRegistration$Params } from '../fn/controller/confirm-user-registration';
-import { countUnreadMessages } from '../fn/controller/count-unread-messages';
-import { CountUnreadMessages$Params } from '../fn/controller/count-unread-messages';
-import { countUnreadNotifications } from '../fn/controller/count-unread-notifications';
-import { CountUnreadNotifications$Params } from '../fn/controller/count-unread-notifications';
-import { getAllMessages } from '../fn/controller/get-all-messages';
-import { GetAllMessages$Params } from '../fn/controller/get-all-messages';
-import { getAllNotifications } from '../fn/controller/get-all-notifications';
-import { GetAllNotifications$Params } from '../fn/controller/get-all-notifications';
-import { getUserMessages } from '../fn/controller/get-user-messages';
-import { GetUserMessages$Params } from '../fn/controller/get-user-messages';
-import { getWebNotifs } from '../fn/controller/get-web-notifs';
-import { GetWebNotifs$Params } from '../fn/controller/get-web-notifs';
+import { addNotification } from '../fn/notification-controller/add-notification';
+import { AddNotification$Params } from '../fn/notification-controller/add-notification';
+import { confirmParticipation } from '../fn/notification-controller/confirm-participation';
+import { ConfirmParticipation$Params } from '../fn/notification-controller/confirm-participation';
+import { countUnreadMessages } from '../fn/notification-controller/count-unread-messages';
+import { CountUnreadMessages$Params } from '../fn/notification-controller/count-unread-messages';
+import { countUnreadNotifications } from '../fn/notification-controller/count-unread-notifications';
+import { CountUnreadNotifications$Params } from '../fn/notification-controller/count-unread-notifications';
+import { deleteNotification } from '../fn/notification-controller/delete-notification';
+import { DeleteNotification$Params } from '../fn/notification-controller/delete-notification';
+import { getAllMessages } from '../fn/notification-controller/get-all-messages';
+import { GetAllMessages$Params } from '../fn/notification-controller/get-all-messages';
+import { getAllNotifications } from '../fn/notification-controller/get-all-notifications';
+import { GetAllNotifications$Params } from '../fn/notification-controller/get-all-notifications';
+import { getUserMessages } from '../fn/notification-controller/get-user-messages';
+import { GetUserMessages$Params } from '../fn/notification-controller/get-user-messages';
+import { getWebNotifs } from '../fn/notification-controller/get-web-notifs';
+import { GetWebNotifs$Params } from '../fn/notification-controller/get-web-notifs';
 import { Message } from '../models/message';
 import { Notification } from '../models/notification';
-import { NotificationUserDto } from '../models/notification-user-dto';
-import { resetPassword } from '../fn/controller/reset-password';
-import { ResetPassword$Params } from '../fn/controller/reset-password';
-import { sendMessage } from '../fn/controller/send-message';
-import { SendMessage$Params } from '../fn/controller/send-message';
-import { sendNotificationHtml } from '../fn/controller/send-notification-html';
-import { SendNotificationHtml$Params } from '../fn/controller/send-notification-html';
-import { sendUpcomingEvents } from '../fn/controller/send-upcoming-events';
-import { SendUpcomingEvents$Params } from '../fn/controller/send-upcoming-events';
-import { setUserMessagesAsRead } from '../fn/controller/set-user-messages-as-read';
-import { SetUserMessagesAsRead$Params } from '../fn/controller/set-user-messages-as-read';
-import { setUserNotificationsAsRead } from '../fn/controller/set-user-notifications-as-read';
-import { SetUserNotificationsAsRead$Params } from '../fn/controller/set-user-notifications-as-read';
+import { sendMessage } from '../fn/notification-controller/send-message';
+import { SendMessage$Params } from '../fn/notification-controller/send-message';
+import { sendWebNotification } from '../fn/notification-controller/send-web-notification';
+import { SendWebNotification$Params } from '../fn/notification-controller/send-web-notification';
+import { setUserMessagesAsRead } from '../fn/notification-controller/set-user-messages-as-read';
+import { SetUserMessagesAsRead$Params } from '../fn/notification-controller/set-user-messages-as-read';
+import { setUserNotificationsAsRead } from '../fn/notification-controller/set-user-notifications-as-read';
+import { SetUserNotificationsAsRead$Params } from '../fn/notification-controller/set-user-notifications-as-read';
 
 @Injectable({ providedIn: 'root' })
-export class ControllerService extends BaseService {
+export class NotificationControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
   }
 
   /** Path part for operation `setUserMessagesAsRead()` */
-  static readonly SetUserMessagesAsReadPath = '/notification/set-messages-read/{userId}';
+  static readonly SetUserMessagesAsReadPath = '/set-messages-read/{userId}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -74,58 +69,33 @@ export class ControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `sendUpcomingEvents()` */
-  static readonly SendUpcomingEventsPath = '/notification/send-upcoming-events';
+  /** Path part for operation `sendWebNotification()` */
+  static readonly SendWebNotificationPath = '/send-web-notification';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `sendUpcomingEvents()` instead.
+   * To access only the response body, use `sendWebNotification()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  sendUpcomingEvents$Response(params?: SendUpcomingEvents$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationUserDto>>> {
-    return sendUpcomingEvents(this.http, this.rootUrl, params, context);
+  sendWebNotification$Response(params: SendWebNotification$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return sendWebNotification(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `sendUpcomingEvents$Response()` instead.
+   * To access the full response (for headers, for example), `sendWebNotification$Response()` instead.
    *
-   * This method doesn't expect any request body.
+   * This method sends `application/json` and handles request body of type `application/json`.
    */
-  sendUpcomingEvents(params?: SendUpcomingEvents$Params, context?: HttpContext): Observable<Array<NotificationUserDto>> {
-    return this.sendUpcomingEvents$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<NotificationUserDto>>): Array<NotificationUserDto> => r.body)
-    );
-  }
-
-  /** Path part for operation `sendNotificationHtml()` */
-  static readonly SendNotificationHtmlPath = '/notification/send-notification-html';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `sendNotificationHtml()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  sendNotificationHtml$Response(params: SendNotificationHtml$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return sendNotificationHtml(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `sendNotificationHtml$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  sendNotificationHtml(params: SendNotificationHtml$Params, context?: HttpContext): Observable<void> {
-    return this.sendNotificationHtml$Response(params, context).pipe(
+  sendWebNotification(params: SendWebNotification$Params, context?: HttpContext): Observable<void> {
+    return this.sendWebNotification$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
   /** Path part for operation `sendMessage()` */
-  static readonly SendMessagePath = '/notification/send-message';
+  static readonly SendMessagePath = '/send-message';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -149,58 +119,8 @@ export class ControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `resetPassword()` */
-  static readonly ResetPasswordPath = '/notification/reset-password';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `resetPassword()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  resetPassword$Response(params: ResetPassword$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return resetPassword(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `resetPassword$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  resetPassword(params: ResetPassword$Params, context?: HttpContext): Observable<void> {
-    return this.resetPassword$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
-  /** Path part for operation `confirmUserRegistration()` */
-  static readonly ConfirmUserRegistrationPath = '/notification/confirm-user';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `confirmUserRegistration()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  confirmUserRegistration$Response(params: ConfirmUserRegistration$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return confirmUserRegistration(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `confirmUserRegistration$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  confirmUserRegistration(params: ConfirmUserRegistration$Params, context?: HttpContext): Observable<void> {
-    return this.confirmUserRegistration$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
   /** Path part for operation `confirmParticipation()` */
-  static readonly ConfirmParticipationPath = '/notification/confirm-participation';
+  static readonly ConfirmParticipationPath = '/confirm-participation';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -225,7 +145,7 @@ export class ControllerService extends BaseService {
   }
 
   /** Path part for operation `addNotification()` */
-  static readonly AddNotificationPath = '/notification/add-notif';
+  static readonly AddNotificationPath = '/add-notif';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -250,7 +170,7 @@ export class ControllerService extends BaseService {
   }
 
   /** Path part for operation `setUserNotificationsAsRead()` */
-  static readonly SetUserNotificationsAsReadPath = '/notification/set-notifications-read';
+  static readonly SetUserNotificationsAsReadPath = '/set-notifications-read';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -275,7 +195,7 @@ export class ControllerService extends BaseService {
   }
 
   /** Path part for operation `getWebNotifs()` */
-  static readonly GetWebNotifsPath = '/notification/get-web-notifications/{userId}';
+  static readonly GetWebNotifsPath = '/get-web-notifications/{userId}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -300,7 +220,7 @@ export class ControllerService extends BaseService {
   }
 
   /** Path part for operation `getUserMessages()` */
-  static readonly GetUserMessagesPath = '/notification/get-user-chat-messages';
+  static readonly GetUserMessagesPath = '/get-user-chat-messages';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -325,7 +245,7 @@ export class ControllerService extends BaseService {
   }
 
   /** Path part for operation `getAllNotifications()` */
-  static readonly GetAllNotificationsPath = '/notification/get-all-notif';
+  static readonly GetAllNotificationsPath = '/get-all-notif';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -350,7 +270,7 @@ export class ControllerService extends BaseService {
   }
 
   /** Path part for operation `getAllMessages()` */
-  static readonly GetAllMessagesPath = '/notification/get-all-msgs';
+  static readonly GetAllMessagesPath = '/get-all-msgs';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -375,7 +295,7 @@ export class ControllerService extends BaseService {
   }
 
   /** Path part for operation `countUnreadNotifications()` */
-  static readonly CountUnreadNotificationsPath = '/notification/count-unread-notif';
+  static readonly CountUnreadNotificationsPath = '/count-unread-notif';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -400,7 +320,7 @@ export class ControllerService extends BaseService {
   }
 
   /** Path part for operation `countUnreadMessages()` */
-  static readonly CountUnreadMessagesPath = '/notification/count-unread-messages';
+  static readonly CountUnreadMessagesPath = '/count-unread-messages/{userId}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -408,7 +328,7 @@ export class ControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  countUnreadMessages$Response(params?: CountUnreadMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+  countUnreadMessages$Response(params: CountUnreadMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
     return countUnreadMessages(this.http, this.rootUrl, params, context);
   }
 
@@ -418,9 +338,34 @@ export class ControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  countUnreadMessages(params?: CountUnreadMessages$Params, context?: HttpContext): Observable<number> {
+  countUnreadMessages(params: CountUnreadMessages$Params, context?: HttpContext): Observable<number> {
     return this.countUnreadMessages$Response(params, context).pipe(
       map((r: StrictHttpResponse<number>): number => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteNotification()` */
+  static readonly DeleteNotificationPath = '/delete-notification/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteNotification()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteNotification$Response(params: DeleteNotification$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteNotification(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteNotification$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteNotification(params: DeleteNotification$Params, context?: HttpContext): Observable<void> {
+    return this.deleteNotification$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

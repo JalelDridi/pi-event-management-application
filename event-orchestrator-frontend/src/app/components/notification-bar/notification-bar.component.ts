@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {getWebNotifs} from "../../services/notificationservices/fn/controller/get-web-notifs";
 import {Message} from "../../services/notificationservices/models/message";
-import {
-  setUserNotificationsAsRead, SetUserNotificationsAsRead$Params
-} from "../../services/notificationservices/fn/controller/set-user-notifications-as-read";
+
 import {Router} from "@angular/router";
+import {getWebNotifs} from "../../services/notificationservices/fn/notification-controller/get-web-notifs";
+import {
+  setUserNotificationsAsRead,
+  SetUserNotificationsAsRead$Params
+} from "../../services/notificationservices/fn/notification-controller/set-user-notifications-as-read";
+import {
+  NotificationControllerService
+} from "../../services/notificationservices/services/notification-controller.service";
 
 
 
@@ -23,7 +28,9 @@ export class NotificationBarComponent implements OnInit {
   unreadMessageIds: number[] = [];
 
   // Inject HttpClient for API calls AND a Router that will be used to open the notification list popup
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient,
+              private router: Router,
+              private notificationService: NotificationControllerService) {}
 
   // When the component is initialized, we'll get the web notifications of a specific user from the database
   ngOnInit() {

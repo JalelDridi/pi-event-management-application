@@ -1,6 +1,8 @@
 package tn.esprit.notificationmodule.services;
 
 import org.springframework.http.HttpHeaders;
+import tn.esprit.notificationmodule.dtos.NotificationDto;
+import tn.esprit.notificationmodule.dtos.NotificationEventDto;
 import tn.esprit.notificationmodule.entities.Message;
 import tn.esprit.notificationmodule.entities.Notification;
 
@@ -26,4 +28,9 @@ public interface NotificationService {
     void confirmEventParticipation(String userId, Long eventId, HttpHeaders headers);
 
     void setUserNotificationsAsRead(Long[] messageIds);
+
+    void deleteNotification(Long id);
+
+    void sendWebNotifications(NotificationDto notificationDto);
+
 }

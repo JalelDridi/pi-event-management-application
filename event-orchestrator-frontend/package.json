@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
     "api-gen": "ng-openapi-gen --input ./src/openapi/openapi.json --output ./src/app/userservices",
-    "notif-api-get": "ng-openapi-gen --input ./src/openapi/openapi_notification.json --output ./src/app/services/notificationservices"
+    "notif-api-gen": "ng-openapi-gen --input ./src/openapi/openapi_notification.json --output ./src/app/services/notificationservices"
   },
   "private": true,
   "dependencies": {

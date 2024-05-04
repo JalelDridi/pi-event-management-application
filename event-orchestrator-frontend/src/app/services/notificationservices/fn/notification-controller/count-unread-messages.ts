@@ -7,14 +7,14 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface CountUnreadNotifications$Params {
+export interface CountUnreadMessages$Params {
   userId: string;
 }
 
-export function countUnreadNotifications(http: HttpClient, rootUrl: string, params: CountUnreadNotifications$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-  const rb = new RequestBuilder(rootUrl, countUnreadNotifications.PATH, 'get');
+export function countUnreadMessages(http: HttpClient, rootUrl: string, params: CountUnreadMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+  const rb = new RequestBuilder(rootUrl, countUnreadMessages.PATH, 'get');
   if (params) {
-    rb.query('userId', params.userId, {});
+    rb.path('userId', params.userId, {});
   }
 
   return http.request(
@@ -27,4 +27,4 @@ export function countUnreadNotifications(http: HttpClient, rootUrl: string, para
   );
 }
 
-countUnreadNotifications.PATH = '/notification/count-unread-notif';
+countUnreadMessages.PATH = '/count-unread-messages/{userId}';

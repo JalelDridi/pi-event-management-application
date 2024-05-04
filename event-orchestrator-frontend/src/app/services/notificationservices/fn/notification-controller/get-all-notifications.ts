@@ -6,12 +6,13 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { Notification } from '../../models/notification';
 
-export interface CountUnreadMessages$Params {
+export interface GetAllNotifications$Params {
 }
 
-export function countUnreadMessages(http: HttpClient, rootUrl: string, params?: CountUnreadMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
-  const rb = new RequestBuilder(rootUrl, countUnreadMessages.PATH, 'get');
+export function getAllNotifications(http: HttpClient, rootUrl: string, params?: GetAllNotifications$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Notification>>> {
+  const rb = new RequestBuilder(rootUrl, getAllNotifications.PATH, 'get');
   if (params) {
   }
 
@@ -20,9 +21,9 @@ export function countUnreadMessages(http: HttpClient, rootUrl: string, params?: 
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return (r as HttpResponse<any>).clone({ body: parseFloat(String((r as HttpResponse<any>).body)) }) as StrictHttpResponse<number>;
+      return r as StrictHttpResponse<Array<Notification>>;
     })
   );
 }
 
-countUnreadMessages.PATH = '/notification/count-unread-messages';
+getAllNotifications.PATH = '/get-all-notif';

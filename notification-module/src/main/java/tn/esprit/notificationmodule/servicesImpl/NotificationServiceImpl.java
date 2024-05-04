@@ -175,6 +175,40 @@ public class NotificationServiceImpl implements NotificationService {
         }
     }
 
+    @Override
+    public void deleteNotification(Long id) {
+
+        Message message = messageRepository.findByMessageId(id);
+        List<Notification> notifications = notificationRepository.findNotificationByMessageId(id);
+        if (message != null) {
+            messageRepository.delete(message);
+            notificationRepository.deleteAll(notifications);
+        }
+
+    }
+
+    @Override
+    public void sendWebNotifications(NotificationDto notificationDto) {
+        Notification notification = new Notification();
+        Message message = new Message();
+
+        if (notificationDto != null) {
+            message.setSubject(notificationDto.getSubject());
+            message.setContent(notificationDto.getContent());
+            message.setUserId(notificationDto.getUserId());
+            message.setSentDate(new Date());
+            message.setMessageType(MessageType.webNotification);
+
+            notification.setIsRead(false);
+            notification.setUserId(notificationDto.getUserId());
+            notification.setDeliveryChannel(DeliveryChannel.webNotification);
+            notification.setIsSent(true);
+
+            addNotification(notification, message);
+
+        }
+    }
+
 
     // Scheduled method to remind users of their participations.
     @Scheduled(cron = "0 0 8 * * ?") // Will be executed every day at 8 AM
