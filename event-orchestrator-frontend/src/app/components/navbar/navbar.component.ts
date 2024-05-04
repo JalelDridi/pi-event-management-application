@@ -1,10 +1,9 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { ROUTES } from '../sidebar/sidebar.component';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import {EventUserDto} from "../../userservices/models/event-user-dto";
 import {UserService} from "../../userservices/services/user.service";
-import {SearchService} from "../../services/searchservice";
 
 @Component({
   selector: 'app-navbar',
@@ -23,10 +22,9 @@ export class NavbarComponent implements OnInit {
 
 
   ngOnInit() {
-    // get user details of the logged in user
+    // get user details of the logged-in user
     // Retrieve the user ID from local storage or a service after login
     const userId = localStorage.getItem('userId'); // Assuming user ID is stored in local storage
-
     if (userId) {
       // If user ID is available, fetch user information
       this.userService.getUserById({ userId }).subscribe(
@@ -34,11 +32,19 @@ export class NavbarComponent implements OnInit {
           this.user = user; // Set the fetched user information
         },
         (error) => {
+          this.user = {
+            firstName: "Marshall",
+            lastName: "Mathers",
+          }
           console.error('Error fetching user information:', error);
         }
       );
     } else {
       console.error('User ID not found');
+      this.user = {
+        firstName: "Marshall",
+        lastName: "Mathers",
+      }
     }
     this.listTitles = ROUTES.filter(listTitle => listTitle);
 
