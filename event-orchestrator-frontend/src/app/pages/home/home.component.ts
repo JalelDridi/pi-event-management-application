@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {SearchService} from "../../services/searchservice";
 
 @Component({
   selector: 'app-home',
@@ -7,4 +8,17 @@ import { Component } from '@angular/core';
 })
 export class HomeComponent {
 
+  content: any[] = [];
+  filteredContent: any[] = [];
+  keyword: string = '';
+
+  constructor(private searchService: SearchService) { }
+
+  ngOnInit(): void {
+
+  }
+
+  filterContent(): void {
+    this.filteredContent = this.content.filter(item => {/* TO DO */});
+  }
 }
