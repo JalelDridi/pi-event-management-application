@@ -1,5 +1,5 @@
 
-<form (ngSubmit)="updateResource()" *ngIf="resource"> 
+ <form (ngSubmit)="updateResource()" *ngIf="resource"> 
     <div>
       <label for="resourceName">Resource Name:</label>
       <input type="text" id="resourceName" name="resourceName" [(ngModel)]="resource.resourceName" required>
@@ -12,6 +12,14 @@
       <label for="date">Date:</label>
       <input type="date" id="date" name="date" [(ngModel)]="resource.date" required>
     </div>
+     <div>
+        <label for="resourceType">Resource Type:</label>
+        <select id="resourceType" name="resourceType" [(ngModel)]="resource.resourceType">
+          <option *ngFor="let type of resourceTypes" [ngValue]="type">{{ type.resourceTypeName }}</option>
+        </select>
+      </div>
     
     <button type="submit" class="btn btn-success">Submit</button>
-  </form>
+  </form> 
+
+  

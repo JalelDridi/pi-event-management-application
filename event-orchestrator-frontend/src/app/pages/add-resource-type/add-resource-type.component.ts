@@ -19,8 +19,7 @@ export class AddResourceTypeComponent {
   constructor(private resourceTypeService: ResourceTypeService, private router: Router, private fb: FormBuilder) { 
     this.resourceTypeForm = this.fb.group({
       resourceTypeName: ['', Validators.required],
-  
-      // Vous pouvez ajouter d'autres validations selon vos besoins
+
     });
 
   }
