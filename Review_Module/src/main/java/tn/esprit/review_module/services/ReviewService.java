@@ -15,4 +15,8 @@ public interface ReviewService {
 
     public  void deleteReview(Long id);
 
+    public List<Review> findReviewbyuseridandeventid(String userId, Long eventId);
+
+   // public void affecterReviewToUser(Long UserId, Long reviewId);
+
 }
