@@ -1,5 +1,5 @@
-<div [hidden]="submitted" style="width: 400px;">
-<form (ngSubmit)="onSubmit()"> 
+
+<form (ngSubmit)="updateResource()" *ngIf="resource"> 
     <div>
       <label for="resourceName">Resource Name:</label>
       <input type="text" id="resourceName" name="resourceName" [(ngModel)]="resource.resourceName" required>
@@ -15,4 +15,3 @@
     
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
-</div>

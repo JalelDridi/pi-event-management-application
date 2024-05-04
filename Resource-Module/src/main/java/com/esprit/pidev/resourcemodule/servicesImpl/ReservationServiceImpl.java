@@ -57,7 +57,7 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public Reservation createReservation(Resource resource, Date startDate, Date endDate) {
+    public Reservation createReservation(Resource resource, Date startDate, Date endDate , Long resourceTypeId) {
         Reservation reservation = null;
         if (resource != null && startDate != null && endDate != null) {
             //verify if the resource is available of specified dates
@@ -78,7 +78,7 @@ public class ReservationServiceImpl implements ReservationService {
                 //update informations of the resource
                 resource.setIsAvailable(false);//mark resource not available in this period of reservation
                 resource.setDate(new Date());//update the date of last reservation
-                this.resourceService.addResource(resource);
+                this.resourceService.addResource(resource,resourceTypeId);
             }
         }
         return reservation;

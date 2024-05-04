@@ -10,20 +10,10 @@ import { Router } from '@angular/router';
 export class ResourceListComponent implements OnInit{
 
   resources: Resource[] =[];
+  
 
   constructor(private resourceService: ResourceService, private router: Router) { }
 
-//   ngOnInit(): void {
-//     this.resourceService.getResources()
-//         .subscribe(
-//             res => {
-//                 this.posts = res as Resource[]; // Cast the response to Question[]
-//             },
-//             error => {
-//                 console.error(error);
-//             }
-//         );
-// }
 ngOnInit() {
 this.getResources();
 }
