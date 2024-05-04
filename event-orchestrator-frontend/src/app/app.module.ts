@@ -27,6 +27,7 @@ import { MyEventsComponent } from './pages/my-events/my-events.component';
 import { CreateEventRequestComponent } from './pages/create-event-request/create-event-request.component';
 import { SubmitAFeedbackComponent } from './pages/submit-a-feedback/submit-a-feedback.component';
 import { RessourcesComponent } from './pages/ressources/ressources.component';
+import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource-type.component';
 
 
 
@@ -61,7 +62,8 @@ import { RessourcesComponent } from './pages/ressources/ressources.component';
     MyEventsComponent,
     CreateEventRequestComponent,
     SubmitAFeedbackComponent,
-    RessourcesComponent
+    RessourcesComponent,
+    AddResourceTypeComponent
   ],
   providers: [
     ResourceService,

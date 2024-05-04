@@ -43,8 +43,8 @@ public class ReservationController {
     }
 
     @PostMapping("/createReservation")
-    public Reservation createReservation(Resource resource, Date startDate, Date endDate){
-        return this.reservationService.createReservation(resource,startDate,endDate);
+    public Reservation createReservation(Resource resource, Date startDate, Date endDate , Long resourceTypeId){
+        return this.reservationService.createReservation(resource,startDate,endDate , resourceTypeId);
     }
 
 

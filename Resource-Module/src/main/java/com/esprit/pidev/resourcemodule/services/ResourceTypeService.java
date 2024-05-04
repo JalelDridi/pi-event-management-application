@@ -12,4 +12,6 @@ public interface ResourceTypeService {
     void deleteById(Long resourceTypeID);
 
     ResourceType updateResourceType(Long resourceTypeID, ResourceType resourceType);
+
+    ResourceType getResourceTypeById(Long resourceTypeID);
 }

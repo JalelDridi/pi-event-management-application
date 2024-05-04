@@ -1,7 +1,9 @@
 package com.esprit.pidev.resourcemodule.servicesImpl;
 
 import com.esprit.pidev.resourcemodule.daos.ResourceDao;
+import com.esprit.pidev.resourcemodule.daos.ResourceTypeDao;
 import com.esprit.pidev.resourcemodule.entities.Resource;
+import com.esprit.pidev.resourcemodule.entities.ResourceType;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
 import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -21,6 +23,9 @@ public class ResourceServiceImpl implements ResourceService{
     private static final String ERROR_UPDATE = "Error occured while updating";
     @Autowired
     private ResourceDao resourceDao;
+
+    @Autowired
+    private ResourceTypeDao resourceTypeDao;
 
     @Override
     public List<Resource> getAllResources() {
@@ -49,24 +54,16 @@ public class ResourceServiceImpl implements ResourceService{
         return resource;
         }
     @Override
-    public Resource addResource(Resource resource) {
-        return this.resourceDao.save(resource);
+    public Resource addResource(Resource resource, Long resourceTypeID) {
+        //return this.resourceDao.save(resource);
+        ResourceType resourceType= resourceTypeDao.findById(resourceTypeID).get();
+        //Resource savedResource=resourceDao.findById(resource.getResourceID()).get();
+
+        resource.setResourceType(resourceType);
+        return resourceDao.save(resource);
     }
 
-//@Override
-//public Resource updateResource(Long  resourceID, Resource resource) {
-//    LOG.info("Editing resource with ID {}: {}", resourceID, resource);
-//    try {
-//        Optional<Resource> existingResource = this.resourceDao.findById(resourceID);
-//        existingResource.setResourceName(resource.getResourceName());
-//        existingResource.setIsAvailable(resource.getIsAvailable());
-//        existingResource.setDate(resource.getDate());
-//        return resourceDao.save(existingResource);
-//    } catch (Exception e) {
-//        LOG.error("Error editing resource with ID {}: {}", resourceID, e.getMessage());
-//        throw new RuntimeException("Failed to edit resource with ID: " + resourceID, e);
-//    }
-//}
+
     @Override
 public Resource updateResource(Long resourceID, Resource resource) {
     return resourceDao.findById(resourceID).map(existinResource -> {
