@@ -18,6 +18,7 @@ spring:
           '[/**]':
             allowedOrigins: "http://localhost:4200"
             allowedMethods:
+              - PATCH
               - GET
               - POST
               - PUT

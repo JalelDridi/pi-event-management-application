@@ -16,5 +16,5 @@ public interface MessageService {
 
     List<Message> getAllMessages();
 
-    void setUserMessagesAsRead(String userId);
+    void setUserChatMessagesAsRead(String userId);
 }

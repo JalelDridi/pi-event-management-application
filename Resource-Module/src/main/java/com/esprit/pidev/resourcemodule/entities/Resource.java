@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "resource")
-@Indexed
+
 public class Resource implements Serializable {
 
     @Id
@@ -28,7 +28,6 @@ public class Resource implements Serializable {
     private Date date;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "resource_type_id")
     private ResourceType resourceType;
 

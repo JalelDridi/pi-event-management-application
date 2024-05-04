@@ -7,9 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
-import { ResourceListComponent } from './pages/resource-list/resource-list.component';
-import { AddResourceComponent } from './pages/add-resource/add-resource.component';
-import { UpdateResourceComponent } from './pages/update-resource/update-resource.component';
+
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {RegisterComponent} from "./pages/register/register.component";
 import {LoginComponent} from "./pages/login/login.component";

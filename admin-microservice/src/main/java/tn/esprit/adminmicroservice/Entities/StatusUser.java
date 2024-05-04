@@ -18,4 +18,6 @@ public class StatusUser {
     private String email;
     private Boolean statusUser;
     private Role role ;
+    private String fonction;
+    private String password;
 }

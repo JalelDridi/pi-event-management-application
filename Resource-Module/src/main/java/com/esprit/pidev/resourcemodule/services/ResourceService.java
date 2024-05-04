@@ -9,10 +9,10 @@ public interface ResourceService {
     List<Resource> getAllResources();
 
     Resource findResourceById(Long id);
+    
+    Resource addResource(Resource resource, Long resourceTypeID);
 
-    Resource addResource(Resource resource);
-
-    Resource updateResource(Resource resource);
+    Resource updateResource(Long resourceID, Resource resource);
 
     void deleteById(Long resourceID);
 
