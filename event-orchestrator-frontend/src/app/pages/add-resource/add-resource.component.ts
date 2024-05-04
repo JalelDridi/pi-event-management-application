@@ -18,6 +18,7 @@ export class AddResourceComponent {
   resourceTypes: ResourceType[];
   resource: Resource= new Resource();
  resourceForm : FormGroup;
+  resourceTypeID: number;
   
 
 
@@ -26,11 +27,11 @@ export class AddResourceComponent {
       resourceName: ['', Validators.required],
       date: [null, Validators.required],
       isAvailable:[false] ,
-      resourceTypeID:[''],
+      resourceTypeID: 1,
    
       // Vous pouvez ajouter d'autres validations selon vos besoins
     });
-
+    this.resourceTypeID = 1;
   }
 
  ngOnInit() {
@@ -52,10 +53,10 @@ export class AddResourceComponent {
 
   addResource() {
     if (this.resourceForm.valid) {
-      const newResource = this.resourceForm.value;
-
+     // const newResource = this.resourceForm.value;
+     const newResource = { ...this.resourceForm.value };
     
-      this.resourceService.addResource(newResource).subscribe(
+      this.resourceService.addResource(newResource,this.resourceTypeID).subscribe(
         (response) => {
           // Afficher une alerte de succès avec SweetAlert
           Swal.fire({

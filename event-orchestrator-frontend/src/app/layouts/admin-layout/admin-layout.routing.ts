@@ -19,6 +19,7 @@ import {RessourcesComponent} from "../../pages/ressources/ressources.component";
 import { AddResourceComponent } from 'src/app/pages/add-resource/add-resource.component';
 import { UpdateResourceComponent } from 'src/app/pages/update-resource/update-resource.component';
 import { ResourceTypeComponent } from 'src/app/pages/resource-type/resource-type.component';
+import { AddResourceTypeComponent } from 'src/app/pages/add-resource-type/add-resource-type.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
@@ -40,4 +41,5 @@ export const AdminLayoutRoutes: Routes = [
     {path:'addResource',component:AddResourceComponent},
     {path:'updateResource',component:UpdateResourceComponent},
     {path:'resourceTypesList',component:ResourceTypeComponent},
+    {path:"addResourceType", component:AddResourceTypeComponent},
 ];

@@ -19,4 +19,7 @@ export class ResourceTypeService {
   
   }
 
+  addResourceType(resourceType: any): Observable<Object> {
+    return this.httpClient.post(`${this.baseUrl}/addResourceType`, resourceType);
+  }
 }

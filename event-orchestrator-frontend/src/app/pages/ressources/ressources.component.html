@@ -26,7 +26,7 @@
                 <td>{{ item.resourceName }}</td>
                 <td>{{ item.isAvailable }}</td>
                 <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
-                <td>{{ item.resourceTypeID}}</td>
+                <td>{{ item.resourceTypeID }}</td>
                 <td><button (click)="deleteResource(item.resourceID)" class="btn btn-danger">Delete</button></td>
                 <td><button class="btn btn-danger"  [routerLink]="['/updateResource']">Update</button></td>
               </tr>

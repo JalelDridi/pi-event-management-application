@@ -12,6 +12,12 @@
       <label for="date">Date:</label>
       <input type="date" id="date" name="date" [(ngModel)]="resource.date" required>
     </div>
+    <div>
+      <label for="resourceType">Resource Type:</label>
+      <select id="resourceType" name="resourceType" formControlName="resourceType">
+        <option *ngFor="let type of resourceTypes" [value]="type.resourceTypeID">{{ type.resourceTypeName }}</option>
+      </select>
+    </div>
     
     <button type="submit" class="btn btn-success">Submit</button>
   </form>

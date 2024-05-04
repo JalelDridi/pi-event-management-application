@@ -22,8 +22,8 @@ export class ResourceService {
   
   }
 
-  addResource(resource: any): Observable<Object> {
-    return this.httpClient.post(`${this.baseUrl}/addResource`, resource);
+  addResource(resource: any, resourceTypeID:number): Observable<Object> {
+    return this.httpClient.post(`${this.baseUrl}/addResource/${resourceTypeID.toString()}`, resource);
   }
   deleteResource(resourceID: number): Observable<any> {
     return this.httpClient.delete(this.baseUrl+'/deleteResource/'+resourceID);
