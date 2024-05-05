@@ -32,10 +32,6 @@ public class ResourceController {
     return this.resourceService.addResource(resource,resourceTypeID);
   }
 
-//  @PutMapping("/updateResource/{resourceID}")
-//  public Resource updateResource(@PathVariable Long resourceID ,@RequestBody Resource resource){
-//    return resource != null ? this.resourceService.updateResource(resourceID,resource) : null;
-//  }
 @PutMapping("/updateResource/{resourceTypeID}")
 public ResponseEntity<Resource> updateResource(@RequestBody Resource updatedResource, @PathVariable Long resourceTypeID) {
     Resource resource = resourceService.updateResource(updatedResource, resourceTypeID);
