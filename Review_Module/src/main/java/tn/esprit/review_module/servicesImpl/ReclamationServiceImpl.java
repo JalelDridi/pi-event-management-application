@@ -53,5 +53,18 @@ public class ReclamationServiceImpl implements ReclamationService {
         return reclamationRepository.getReclamationsByUserId(userId);
     }
 
+    @Override
+    public List<Reclamation> findreclamationbyeventidanduserid(String userId, Long eventId) {
+        return reclamationRepository.findReclamationByUserIdAndEventId(userId, eventId);
+    }
+
+    @Override
+    public void deletereclamation(Long IdRec) {
+        Reclamation rec = reclamationRepository.findReclamationByIdRec(IdRec);
+        if (rec != null){
+           reclamationRepository.delete(rec);
+        }
+    }
+
 
 }

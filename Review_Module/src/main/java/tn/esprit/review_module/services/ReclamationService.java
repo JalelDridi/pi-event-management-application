@@ -14,4 +14,8 @@ public interface ReclamationService {
     public List<Reclamation> findByeventId(Long eventId);
 
     public List<Reclamation> findByUserId(String userId);
+
+    public List<Reclamation> findreclamationbyeventidanduserid(String userid, Long eventid);
+
+    public void deletereclamation(Long IdRec);
 }

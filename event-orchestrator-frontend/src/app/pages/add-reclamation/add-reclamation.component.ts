@@ -45,7 +45,7 @@ export class AddReclamationsComponent {
   fetchEvents() {
     this.http.get<any[]>(`http://localhost:8089/Event/getall`).subscribe(events => {
       this.events = events.map(event => ({ id: event.eventId, name: event.name }));
-    });
+    }); 
   }
   
   fetchResources() {
