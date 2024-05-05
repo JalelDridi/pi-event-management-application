@@ -31,6 +31,7 @@ import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource
 import { RessourceListComponent } from './pages/admin-pages/ressource-list/ressource-list.component';
 import { UserListFinalComponent } from './pages/admin-pages/user-list-final/user-list-final.component';
 import { UserListComponent } from './pages/admin-pages/user-list/user-list.component';
+import { ChatComponent } from './pages/chat/chat.component';
 
 
 
@@ -69,7 +70,8 @@ import { UserListComponent } from './pages/admin-pages/user-list/user-list.compo
     AddResourceTypeComponent,
     RessourceListComponent,
     UserListFinalComponent,
-    UserListComponent
+    UserListComponent,
+    ChatComponent
   ],
   providers: [
     ResourceService,
