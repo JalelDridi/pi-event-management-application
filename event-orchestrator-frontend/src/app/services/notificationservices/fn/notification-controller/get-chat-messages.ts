@@ -8,16 +8,16 @@ import { RequestBuilder } from '../../request-builder';
 
 import { Message } from '../../models/message';
 
-export interface GetUserMessages$Params {
+export interface GetChatMessages$Params {
 }
 
-export function getUserMessages(http: HttpClient, rootUrl: string, params?: GetUserMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Message>>> {
-  const rb = new RequestBuilder(rootUrl, getUserMessages.PATH, 'get');
+export function getChatMessages(http: HttpClient, rootUrl: string, params?: GetChatMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Message>>> {
+  const rb = new RequestBuilder(rootUrl, getChatMessages.PATH, 'get');
   if (params) {
   }
 
   return http.request(
-    rb.build({ responseType: 'blob', accept: '*/*', context })
+    rb.build({ responseType: 'json', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
@@ -26,4 +26,4 @@ export function getUserMessages(http: HttpClient, rootUrl: string, params?: GetU
   );
 }
 
-getUserMessages.PATH = '/get-user-chat-messages';
+getChatMessages.PATH = '/get-user-chat-messages';

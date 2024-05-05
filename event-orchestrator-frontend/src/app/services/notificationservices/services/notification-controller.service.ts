@@ -23,8 +23,8 @@ import { getAllMessages } from '../fn/notification-controller/get-all-messages';
 import { GetAllMessages$Params } from '../fn/notification-controller/get-all-messages';
 import { getAllNotifications } from '../fn/notification-controller/get-all-notifications';
 import { GetAllNotifications$Params } from '../fn/notification-controller/get-all-notifications';
-import { getUserMessages } from '../fn/notification-controller/get-user-messages';
-import { GetUserMessages$Params } from '../fn/notification-controller/get-user-messages';
+import { getChatMessages } from '../fn/notification-controller/get-chat-messages';
+import { GetChatMessages$Params } from '../fn/notification-controller/get-chat-messages';
 import { getWebNotifs } from '../fn/notification-controller/get-web-notifs';
 import { GetWebNotifs$Params } from '../fn/notification-controller/get-web-notifs';
 import { Message } from '../models/message';
@@ -33,8 +33,8 @@ import { sendMessage } from '../fn/notification-controller/send-message';
 import { SendMessage$Params } from '../fn/notification-controller/send-message';
 import { sendWebNotification } from '../fn/notification-controller/send-web-notification';
 import { SendWebNotification$Params } from '../fn/notification-controller/send-web-notification';
-import { setUserMessagesAsRead } from '../fn/notification-controller/set-user-messages-as-read';
-import { SetUserMessagesAsRead$Params } from '../fn/notification-controller/set-user-messages-as-read';
+import { setChatMessagesAsRead } from '../fn/notification-controller/set-chat-messages-as-read';
+import { SetChatMessagesAsRead$Params } from '../fn/notification-controller/set-chat-messages-as-read';
 import { setUserNotificationsAsRead } from '../fn/notification-controller/set-user-notifications-as-read';
 import { SetUserNotificationsAsRead$Params } from '../fn/notification-controller/set-user-notifications-as-read';
 
@@ -44,27 +44,27 @@ export class NotificationControllerService extends BaseService {
     super(config, http);
   }
 
-  /** Path part for operation `setUserMessagesAsRead()` */
-  static readonly SetUserMessagesAsReadPath = '/set-messages-read/{userId}';
+  /** Path part for operation `setChatMessagesAsRead()` */
+  static readonly SetChatMessagesAsReadPath = '/set-messages-read/{userId}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `setUserMessagesAsRead()` instead.
+   * To access only the response body, use `setChatMessagesAsRead()` instead.
    *
    * This method doesn't expect any request body.
    */
-  setUserMessagesAsRead$Response(params: SetUserMessagesAsRead$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return setUserMessagesAsRead(this.http, this.rootUrl, params, context);
+  setChatMessagesAsRead$Response(params: SetChatMessagesAsRead$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return setChatMessagesAsRead(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `setUserMessagesAsRead$Response()` instead.
+   * To access the full response (for headers, for example), `setChatMessagesAsRead$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  setUserMessagesAsRead(params: SetUserMessagesAsRead$Params, context?: HttpContext): Observable<void> {
-    return this.setUserMessagesAsRead$Response(params, context).pipe(
+  setChatMessagesAsRead(params: SetChatMessagesAsRead$Params, context?: HttpContext): Observable<void> {
+    return this.setChatMessagesAsRead$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
@@ -219,27 +219,27 @@ export class NotificationControllerService extends BaseService {
     );
   }
 
-  /** Path part for operation `getUserMessages()` */
-  static readonly GetUserMessagesPath = '/get-user-chat-messages';
+  /** Path part for operation `getChatMessages()` */
+  static readonly GetChatMessagesPath = '/get-user-chat-messages';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `getUserMessages()` instead.
+   * To access only the response body, use `getChatMessages()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getUserMessages$Response(params?: GetUserMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Message>>> {
-    return getUserMessages(this.http, this.rootUrl, params, context);
+  getChatMessages$Response(params?: GetChatMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<Message>>> {
+    return getChatMessages(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `getUserMessages$Response()` instead.
+   * To access the full response (for headers, for example), `getChatMessages$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  getUserMessages(params?: GetUserMessages$Params, context?: HttpContext): Observable<Array<Message>> {
-    return this.getUserMessages$Response(params, context).pipe(
+  getChatMessages(params?: GetChatMessages$Params, context?: HttpContext): Observable<Array<Message>> {
+    return this.getChatMessages$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<Message>>): Array<Message> => r.body)
     );
   }
@@ -320,7 +320,7 @@ export class NotificationControllerService extends BaseService {
   }
 
   /** Path part for operation `countUnreadMessages()` */
-  static readonly CountUnreadMessagesPath = '/count-unread-messages/{userId}';
+  static readonly CountUnreadMessagesPath = '/count-unread-messages';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
@@ -328,7 +328,7 @@ export class NotificationControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  countUnreadMessages$Response(params: CountUnreadMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+  countUnreadMessages$Response(params?: CountUnreadMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
     return countUnreadMessages(this.http, this.rootUrl, params, context);
   }
 
@@ -338,7 +338,7 @@ export class NotificationControllerService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  countUnreadMessages(params: CountUnreadMessages$Params, context?: HttpContext): Observable<number> {
+  countUnreadMessages(params?: CountUnreadMessages$Params, context?: HttpContext): Observable<number> {
     return this.countUnreadMessages$Response(params, context).pipe(
       map((r: StrictHttpResponse<number>): number => r.body)
     );

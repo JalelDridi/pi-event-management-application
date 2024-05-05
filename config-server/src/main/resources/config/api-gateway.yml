@@ -43,3 +43,9 @@ spring:
           uri: lb://Event-module
           predicates:
             - Path=/Event/**
+
+logging:
+  level:
+    root: DEBUG
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.web: DEBUG

@@ -26,6 +26,7 @@ import {RessourceListComponent} from "../../pages/admin-pages/ressource-list/res
 import { ResourceListByTypeComponent } from 'src/app/pages/resource-list-by-type/resource-list-by-type.component';
 import { UpdateResourceTypeComponent } from 'src/app/pages/update-resource-type/update-resource-type.component';
 import {ChatComponent} from "../../pages/chat/chat.component";
+import {EventDetailsComponent} from "../../pages/event-pages/event-details/event-details.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
@@ -53,7 +54,5 @@ export const AdminLayoutRoutes: Routes = [
     {path:"RessourceList", component:RessourceListComponent},
     {path:"resources-by-type/:resourceTypeID",component: ResourceListByTypeComponent},
     {path:"updateResourceType/:resourceTypeID",component:UpdateResourceTypeComponent},
-    {path:"RessourceList", component:RessourceListComponent},
-   
-
+    { path: 'eventdetails/:id', component: EventDetailsComponent },
 ];
