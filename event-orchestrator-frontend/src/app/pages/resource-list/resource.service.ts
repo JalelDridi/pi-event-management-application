@@ -22,15 +22,20 @@ export class ResourceService {
   
   }
 
-  addResource(resource: any): Observable<Object> {
-    return this.httpClient.post(`${this.baseUrl}/addResource`, resource);
+  addResource(resource: any, resourceTypeID:number): Observable<Object> {
+    return this.httpClient.post(`${this.baseUrl}/addResource/${resourceTypeID.toString()}`, resource);
   }
   deleteResource(resourceID: number): Observable<any> {
     return this.httpClient.delete(this.baseUrl+'/deleteResource/'+resourceID);
   }
 
-  updateResource(resourceID: number,resource: any): Observable<any> {
-    return this.httpClient.put(`${this.baseUrl}/updateResource/${resourceID}`, resource);
+
+  updateResource(resource: Resource, resourceTypeID: number): Observable<Resource> {
+    return this.httpClient.put<Resource>(`${this.baseUrl}/updateResource/${resourceTypeID.toString()}`, resource);
+  }
+
+  findResourcesByResourceType(resourceTypeID: number): Observable<Resource[]> {
+    return this.httpClient.get<Resource[]>(`${this.baseUrl}/findByResourceType/${resourceTypeID.toString()}`);
   }
 }
 

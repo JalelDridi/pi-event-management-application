@@ -1,0 +1,38 @@
+<!-- Dark table -->
+<div class="row mt-5">
+    <div class="col">
+        <button class="add-button" type="button" [routerLink]="['/addResource']">Ajouter</button>
+        <button class="add-button" type="button" [routerLink]="['/resourceTypesList']">afficher les types</button>
+        <div class="card bg-default shadow">
+        <!-- <div class="card-header bg-transparent border-0">
+          <h3 class="text-white mb-0">Product List</h3>
+        </div> -->
+
+        <div class="table-responsive">
+          <table class="table align-items-center table-dark table-flush">
+            <thead class="thead-dark">
+
+              <tr>
+                <th scope="col">Resource Name</th>
+                <th scope="col">Is Available</th>
+                <th scope="col">Date</th>
+                <th scope="col">ResourceType</th>
+                <th scope="col">Delete</th>
+                <th scope="col">Update</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of resources">
+                <td>{{ item.resourceName }}</td>
+                <td>{{ item.isAvailable }}</td>
+                <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+                <td>{{ item.resourceTypeID }}</td>
+                <td><button (click)="deleteResource(item.resourceID)" class="btn btn-danger">Delete</button></td>
+                <td><button class="btn btn-danger"  [routerLink]="['/updateResource',item.resourceID]">Update</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

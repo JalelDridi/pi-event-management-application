@@ -61,7 +61,7 @@ public class AuthenticationService {
         userRepository.save(user);
         sendValidationEmail(user);
     }
-
+////hedhiiii
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(

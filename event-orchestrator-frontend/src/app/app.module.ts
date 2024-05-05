@@ -19,6 +19,21 @@ import {ActivateAccountComponent} from "./pages/activate-account/activate-accoun
 import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interceptor";
 import {CodeInputModule} from "angular-code-input";
 import { TestComponent } from './test/test.component';
+import { HomeComponent } from './pages/home/home.component';
+import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
+import { AllEventsComponent } from './pages/all-events/all-events.component';
+import { MyParticipationsComponent } from './pages/my-participations/my-participations.component';
+import { MyEventsComponent } from './pages/my-events/my-events.component';
+import { CreateEventRequestComponent } from './pages/create-event-request/create-event-request.component';
+import { SubmitAFeedbackComponent } from './pages/submit-a-feedback/submit-a-feedback.component';
+import { RessourcesComponent } from './pages/ressources/ressources.component';
+import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource-type.component';
+import { RessourceListComponent } from './pages/admin-pages/ressource-list/ressource-list.component';
+import { UserListFinalComponent } from './pages/admin-pages/user-list-final/user-list-final.component';
+import { UserListComponent } from './pages/admin-pages/user-list/user-list.component';
+import { ChatComponent } from './pages/chat/chat.component';
+import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resource-list-by-type.component';
+import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
 
 
 
@@ -45,7 +60,23 @@ import { TestComponent } from './test/test.component';
     ResourceTypeComponent,
     AddResourceComponent,
     UpdateResourceComponent,
-    TestComponent
+    TestComponent,
+    HomeComponent,
+    AdminDashboardComponent,
+    AllEventsComponent,
+    MyParticipationsComponent,
+    MyEventsComponent,
+    CreateEventRequestComponent,
+    SubmitAFeedbackComponent,
+    RessourcesComponent,
+    AddResourceTypeComponent,
+    RessourceListComponent,
+    UserListFinalComponent,
+    UserListComponent,
+    ChatComponent,
+    UserListComponent,
+    ResourceListByTypeComponent,
+    UpdateResourceTypeComponent
   ],
   providers: [
     ResourceService,

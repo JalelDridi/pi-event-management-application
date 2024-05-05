@@ -17,5 +17,8 @@ public class StatusUser {
     private String lastName;
     private String email;
     private Boolean statusUser;
+    @Enumerated(EnumType.STRING)
     private Role role ;
+    private String fonction;
+    private String password;
 }

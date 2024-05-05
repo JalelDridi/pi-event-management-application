@@ -17,10 +17,10 @@
     }
   ],
   "paths": {
-    "/notification/set-messages-read/{userId}": {
+    "/set-messages-read/{userId}": {
       "post": {
         "tags": [
-          "controller"
+          "notification-controller"
         ],
         "operationId": "setUserMessagesAsRead",
         "parameters": [
@@ -40,10 +40,46 @@
         }
       }
     },
-    "/notification/send-notification-html": {
+    "/send-web-notification": {
       "post": {
         "tags": [
-          "controller"
+          "notification-controller"
+        ],
+        "operationId": "sendWebNotification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/send-upcoming-events": {
+      "post": {
+        "tags": [
+          "spring-mail-controller"
+        ],
+        "operationId": "sendUpcomingEvents",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/send-notification-html": {
+      "post": {
+        "tags": [
+          "spring-mail-controller"
         ],
         "operationId": "sendNotificationHtml",
         "parameters": [
@@ -63,10 +99,10 @@
         }
       }
     },
-    "/notification/send-message": {
+    "/send-message": {
       "post": {
         "tags": [
-          "controller"
+          "notification-controller"
         ],
         "operationId": "sendMessage",
         "requestBody": {
@@ -86,12 +122,12 @@
         }
       }
     },
-    "/notification/confirm-user": {
+    "/reset-password": {
       "post": {
         "tags": [
-          "controller"
+          "spring-mail-controller"
         ],
-        "operationId": "sendNotification",
+        "operationId": "resetPassword",
         "requestBody": {
           "content": {
             "application/json": {
@@ -109,10 +145,119 @@
         }
       }
     },
-    "/notification/add-notif": {
+    "/event-request": {
       "post": {
         "tags": [
-          "controller"
+          "spring-mail-controller"
+        ],
+        "operationId": "notifyAdmin",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/event-request-response": {
+      "post": {
+        "tags": [
+          "spring-mail-controller"
+        ],
+        "operationId": "setNotifyClubRepresentative",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/confirm-user": {
+      "post": {
+        "tags": [
+          "spring-mail-controller"
+        ],
+        "operationId": "confirmUserRegistration",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/confirm-participation": {
+      "post": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "confirmParticipation",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "eventId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/add-notif": {
+      "post": {
+        "tags": [
+          "notification-controller"
         ],
         "operationId": "addNotification",
         "requestBody": {
@@ -132,33 +277,37 @@
         }
       }
     },
-    "/notification/send-upcoming-events": {
-      "get": {
+    "/set-notifications-read": {
+      "patch": {
         "tags": [
-          "controller"
+          "notification-controller"
         ],
-        "operationId": "testt",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/NotificationUserDto"
-                  }
+        "operationId": "setUserNotificationsAsRead",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
                 }
               }
             }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
     },
-    "/notification/get-web-notifications/{userId}": {
+    "/get-web-notifications/{userId}": {
       "get": {
         "tags": [
-          "controller"
+          "notification-controller"
         ],
         "operationId": "getWebNotifs",
         "parameters": [
@@ -188,43 +337,10 @@
         }
       }
     },
-    "/notification/get-user-notif": {
+    "/get-user-chat-messages": {
       "get": {
         "tags": [
-          "controller"
-        ],
-        "operationId": "getUserNotifications",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Notification"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notification/get-user-messages": {
-      "get": {
-        "tags": [
-          "controller"
+          "notification-controller"
         ],
         "operationId": "getUserMessages",
         "responses": {
@@ -244,41 +360,10 @@
         }
       }
     },
-    "/notification/get-message-by-id/{messageId}": {
+    "/get-all-notif": {
       "get": {
         "tags": [
-          "controller"
-        ],
-        "operationId": "getMessageById",
-        "parameters": [
-          {
-            "name": "messageId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/Message"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/notification/get-all-notif": {
-      "get": {
-        "tags": [
-          "controller"
+          "notification-controller"
         ],
         "operationId": "getAllNotifications",
         "responses": {
@@ -298,10 +383,10 @@
         }
       }
     },
-    "/notification/get-all-msgs": {
+    "/get-all-msgs": {
       "get": {
         "tags": [
-          "controller"
+          "notification-controller"
         ],
         "operationId": "getAllMessages",
         "responses": {
@@ -321,10 +406,10 @@
         }
       }
     },
-    "/notification/count-unread-notif": {
+    "/count-unread-notif": {
       "get": {
         "tags": [
-          "controller"
+          "notification-controller"
         ],
         "operationId": "countUnreadNotifications",
         "parameters": [
@@ -352,12 +437,22 @@
         }
       }
     },
-    "/notification/count-unread-messages": {
+    "/count-unread-messages/{userId}": {
       "get": {
         "tags": [
-          "controller"
+          "notification-controller"
         ],
         "operationId": "countUnreadMessages",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -372,6 +467,30 @@
           }
         }
       }
+    },
+    "/delete-notification/{id}": {
+      "delete": {
+        "tags": [
+          "notification-controller"
+        ],
+        "operationId": "deleteNotification",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -383,6 +502,9 @@
             "type": "string"
           },
           "email": {
+            "type": "string"
+          },
+          "role": {
             "type": "string"
           },
           "subject": {
@@ -410,20 +532,6 @@
           }
         }
       },
-      "NotificationUserDto": {
-        "type": "object",
-        "properties": {
-          "fullName": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          }
-        }
-      },
       "Message": {
         "type": "object",
         "properties": {
@@ -436,7 +544,8 @@
             "enum": [
               "chatMessage",
               "groupMessage",
-              "notification"
+              "webNotification",
+              "email"
             ]
           },
           "subject": {

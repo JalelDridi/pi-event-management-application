@@ -1,7 +1,9 @@
 package com.esprit.pidev.resourcemodule.servicesImpl;
 
 import com.esprit.pidev.resourcemodule.daos.ResourceDao;
+import com.esprit.pidev.resourcemodule.daos.ResourceTypeDao;
 import com.esprit.pidev.resourcemodule.entities.Resource;
+import com.esprit.pidev.resourcemodule.entities.ResourceType;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +22,9 @@ public class ResourceServiceImpl implements ResourceService{
     private static final String ERROR_UPDATE = "Error occured while updating";
     @Autowired
     private ResourceDao resourceDao;
+
+    @Autowired
+    private ResourceTypeDao resourceTypeDao;
 
     @Override
     public List<Resource> getAllResources() {
@@ -48,23 +53,39 @@ public class ResourceServiceImpl implements ResourceService{
         return resource;
         }
     @Override
-    public Resource addResource(Resource resource) {
-        //Calls the save Method: It calls a method named save on an object called resourceDao.
-        // This object is responsible for handling interactions with the database or data store.
-        //It passes a resource object (likely some data you want to save or store) as an argument to the save method.
-        return this.resourceDao.save(resource);
+    public Resource addResource(Resource resource, Long resourceTypeID) {
+        //return this.resourceDao.save(resource);
+        ResourceType resourceType= resourceTypeDao.findById(resourceTypeID).get();
+        //Resource savedResource=resourceDao.findById(resource.getResourceID()).get();
+
+        resource.setResourceType(resourceType);
+        return resourceDao.save(resource);
     }
 
+
+
     @Override
-    public Resource updateResource(Resource resource) {
-       Resource updateResource=null;
-       if(resource!=null){
-           updateResource=this.resourceDao.save(resource);
-       }else {
-           LOG.error(ERROR_UPDATE);
-       }
-       return updateResource;
-       }
+    public Resource updateResource(Resource updatedResource, Long resourceTypeID) {
+        // Récupérer la ressource existante à mettre à jour
+        Resource existingResource = resourceDao.findById(updatedResource.getResourceID()).orElse(null);
+        if (existingResource != null) {
+            // Mettre à jour les champs de la ressource existante avec les valeurs de la ressource mise à jour
+            existingResource.setResourceName(updatedResource.getResourceName());
+            existingResource.setIsAvailable(updatedResource.getIsAvailable());
+            existingResource.setDate(updatedResource.getDate());
+
+            // Récupérer et définir le type de ressource
+            ResourceType resourceType = resourceTypeDao.findById(resourceTypeID).orElse(null);
+            if (resourceType != null) {
+                existingResource.setResourceType(resourceType);
+            }
+
+            // Enregistrer la ressource mise à jour
+
+        }
+        return resourceDao.save(existingResource);
+    }
+
 
 
     @Override
@@ -72,12 +93,17 @@ public class ResourceServiceImpl implements ResourceService{
         this.resourceDao.deleteById(resourceID);
 
     }
-//    @Override
-//    public Resource findById(Long id){return this.resourceDao.findById(id).get();}
+
+    @Override
    public List<Resource> getAllAvailableResources() {
     // Utilisation d'une requête personnalisée pour récupérer les ressources disponibles
     return resourceDao.findByIsAvailableTrue();
 }
+
+@Override
+    public List<Resource> findResourcesByResourceType(Long resourceTypeID) {
+        return resourceDao.findResourcesByResourceType(resourceTypeID);
+    }
 }
 
 

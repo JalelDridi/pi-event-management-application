@@ -4,9 +4,11 @@ import tn.esprit.adminmicroservice.Dto.ConfUserDto;
 import tn.esprit.adminmicroservice.Dto.UserDto;
 import tn.esprit.adminmicroservice.Entities.StatusUser;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ServiceUser  {
+   StatusUser addUser(StatusUser user);
 
    List<UserDto> getALLUser();
    List<ConfUserDto> getAllConfirmedUsers();
@@ -20,4 +22,9 @@ public interface ServiceUser  {
    void deletUser(String id );
 
    double pourcentageUsersAuth();
+   String getDirection(String Destination)throws IOException, InterruptedException;
+
+   List<StatusUser> rechercheByfonction(String fonction);
+
+   void sendUpdateEmail(String recipientEmail,String text);
 }

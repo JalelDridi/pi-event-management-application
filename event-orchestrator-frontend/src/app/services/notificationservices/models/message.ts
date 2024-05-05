@@ -4,7 +4,7 @@ export interface Message {
   content?: string;
   groupId?: string;
   messageId?: number;
-  messageType?: 'chatMessage' | 'groupMessage' | 'notification';
+  messageType?: 'chatMessage' | 'groupMessage' | 'webNotification' | 'email';
   read?: boolean;
   sentDate?: string;
   subject?: string;

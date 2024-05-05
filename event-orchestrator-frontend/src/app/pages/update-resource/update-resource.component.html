@@ -1,8 +1,9 @@
-<div [hidden]="submitted" style="width: 400px;">
-<form (ngSubmit)="onSubmit()"> 
+<div *ngIf="resource">
+  <h2>Update Resource</h2>
+  <form (submit)="updateResource()">
     <div>
       <label for="resourceName">Resource Name:</label>
-      <input type="text" id="resourceName" name="resourceName" [(ngModel)]="resource.resourceName" required>
+      <input type="text" id="resourceName" name="resourceName" [(ngModel)]="resource.resourceName">
     </div>
     <div>
       <label for="isAvailable">Is Available:</label>
@@ -10,9 +11,16 @@
     </div>
     <div>
       <label for="date">Date:</label>
-      <input type="date" id="date" name="date" [(ngModel)]="resource.date" required>
+      <input type="date" id="date" name="date" [(ngModel)]="resource.date">
     </div>
-    
-    <button type="submit" class="btn btn-success">Submit</button>
+    <div>
+      <label for="resourceType">Resource Type:</label>
+      <select id="resourceType" name="resourceType" [(ngModel)]="resource.resourceType">
+        <option *ngFor="let type of resourceTypes" [ngValue]="type">{{ type.resourceTypeName }}</option>
+      </select>
+    </div>
+    <button type="submit">Update Resource</button>
   </form>
 </div>
+
+  

@@ -17,11 +17,14 @@ import java.util.List;
 public class ResourceType implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long resourceTypeID;
 
-    private String resouceTypeName;
+    private String resourceTypeName;
 
     @OneToMany(mappedBy = "resourceType", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Resource> resources;
+
+
+
 }

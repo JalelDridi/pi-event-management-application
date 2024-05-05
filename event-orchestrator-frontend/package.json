@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
     "api-gen": "ng-openapi-gen --input ./src/openapi/openapi.json --output ./src/app/userservices",
-    "notif-api-get": "ng-openapi-gen --input ./src/openapi/openapi_notification.json --output ./src/app/services/notificationservices"
+    "notif-api-gen": "ng-openapi-gen --input ./src/openapi/openapi_notification.json --output ./src/app/services/notificationservices"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +37,11 @@
     "ng-openapi-gen": "^0.51.0",
     "ngx-clipboard": "15.0.1",
     "ngx-star-rating": "^2.1.0",
+    "jspdf": "^2.5.1",
+    "sockjs-client": "^1.6.1",
+    "@stomp/stompjs": "^7.0.0",
+    "jspdf-autotable": "^3.8.2",
+    "sweetalert": "^2.1.2",
     "ngx-toastr": "^14.3.0",
     "nouislider": "15.5.1",
     "profane-words": "^1.5.11",

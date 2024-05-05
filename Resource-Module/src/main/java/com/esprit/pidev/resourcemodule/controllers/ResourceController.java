@@ -2,12 +2,13 @@ package com.esprit.pidev.resourcemodule.controllers;
 
 import com.esprit.pidev.resourcemodule.entities.Resource;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
-//import com.esprit.pidev.resourcemodule.services.SearchService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+
 import java.util.List;
 
 @RestController
@@ -18,9 +19,6 @@ public class ResourceController {
   @Autowired
   private ResourceService resourceService;
 
-//  @Autowired
-//  private SearchService searchService;
-
   @GetMapping("/all-resources")
   public List<Resource> getAll(){return this.resourceService.getAllResources();}
 
@@ -29,15 +27,20 @@ public class ResourceController {
     return id != null ? this.resourceService.findResourceById(id) : null;
   }
 
-  @PostMapping("/addResource")
-  public Resource addResource( @RequestBody Resource resource){
-    return this.resourceService.addResource(resource);
+  @PostMapping("/addResource/{resourceTypeID}")
+  public Resource addResource( @RequestBody Resource resource, @PathVariable Long resourceTypeID){
+    return this.resourceService.addResource(resource,resourceTypeID);
   }
 
-  @PostMapping("/updateResource")
-  public Resource updateResource(@RequestBody Resource resource){
-    return resource != null ? this.resourceService.updateResource(resource) : null;
-  }
+@PutMapping("/updateResource/{resourceTypeID}")
+public ResponseEntity<Resource> updateResource(@RequestBody Resource updatedResource, @PathVariable Long resourceTypeID) {
+    Resource resource = resourceService.updateResource(updatedResource, resourceTypeID);
+    if (resource != null) {
+        return ResponseEntity.ok(resource);
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
 
  @DeleteMapping("/deleteResource/{resourceID}")
   public void deleteResource(@PathVariable Long resourceID){
@@ -50,8 +53,9 @@ public class ResourceController {
       return this.resourceService.getAllAvailableResources();
     }
 
-//    @GetMapping("/recherche/{date}")
-//    public List<Resource>findResourcesByAvailabilityAndDate(@PathVariable Date date){
-//      return this.searchService.findResourcesByAvailabilityAndDate(date);
-//    }
+    @GetMapping("/findByResourceType/{resourceTypeID}")
+    public ResponseEntity<List<Resource>> findResourcesByResourceType(@PathVariable Long resourceTypeID) {
+        List<Resource> resources = resourceService.findResourcesByResourceType(resourceTypeID);
+        return ResponseEntity.ok(resources);
+    }
 }
