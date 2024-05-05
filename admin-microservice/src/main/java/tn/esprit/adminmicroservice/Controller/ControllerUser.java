@@ -3,9 +3,7 @@ package tn.esprit.adminmicroservice.Controller;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.adminmicroservice.Dto.ConfUserDto;
 import tn.esprit.adminmicroservice.Dto.UserDto;
-import tn.esprit.adminmicroservice.Entities.StatusRessources;
 import tn.esprit.adminmicroservice.Entities.StatusUser;
-import tn.esprit.adminmicroservice.Service.ServiceRessource;
 import tn.esprit.adminmicroservice.Service.ServiceUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -94,6 +92,12 @@ public class ControllerUser {
    public void sendUpdateEmail(@RequestParam String recipientEmail, @RequestParam String mail){
         serviceUser.sendUpdateEmail(recipientEmail,mail);
     }
+
+    @PostMapping("/addAdmin")
+    public StatusUser addUser(@RequestBody StatusUser user){
+        return serviceUser.addUser(user);
+    }
+
 
 
     ///////////////ressources////////////

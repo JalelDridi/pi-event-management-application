@@ -1,14 +1,13 @@
 package tn.esprit.adminmicroservice.Dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-import tn.esprit.adminmicroservice.Entities.StatusRessources;
+import lombok.*;
 
 import java.util.Date;
-
+@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class RessourceDto {
 
 
