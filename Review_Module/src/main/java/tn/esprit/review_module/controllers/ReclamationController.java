@@ -1,10 +1,15 @@
 package tn.esprit.review_module.controllers;
 
 import jakarta.ws.rs.PathParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.UriComponentsBuilder;
+import tn.esprit.review_module.Dtos.ReviewUserDto;
 import tn.esprit.review_module.entities.Reclamation;
+import tn.esprit.review_module.entities.TypeReclamation;
 import tn.esprit.review_module.services.ReclamationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +28,25 @@ public class ReclamationController {
     }
 
     @PostMapping("/addreclamation")
-    public Reclamation addReclamation(@DateTimeFormat(pattern = "yyyy-MM-dd")
-                                      @RequestBody Reclamation reclamation ){
+    public Reclamation addReclamation( @RequestBody Reclamation reclamation ){
+        /*String userId = reclamation.getUserId() ;
+        String userMicroserviceUrl = UriComponentsBuilder
+                .fromUriString("http://localhost:8091/api/v1/users/{userId}")
+                .buildAndExpand(userId)
+                .toUriString();
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<ReviewUserDto> responseEntity = restTemplate.getForEntity(userMicroserviceUrl, ReviewUserDto.class);
+        if (responseEntity.getStatusCode() == HttpStatus.OK) {
+            ReviewUserDto userDto = responseEntity.getBody();
+            if (userDto != null) {
+                String userEmail = userDto.getEmail();
+                reclamationService.SendReclamationEmail(userEmail);
+            } else {
+                throw new RuntimeException("User DTO is null.");
+            }
+        } else {
+            throw new RuntimeException("Failed to fetch user from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
+        }*/
         return reclamationService.addReclamation(reclamation);
     }
     @GetMapping("/getreclamations")
