@@ -14,11 +14,11 @@ export class AddResourceTypeComponent {
   submitted = false;
   resourceType: ResourceType = new ResourceType();
   resourceTypeForm: FormGroup;
-  
+  resourceTypeName:"";
 
   constructor(private resourceTypeService: ResourceTypeService, private router: Router, private fb: FormBuilder) { 
     this.resourceTypeForm = this.fb.group({
-      resourceTypeName: ['', Validators.required],
+      resourceTypeName: ['', Validators.required]
 
     });
 
@@ -32,7 +32,7 @@ export class AddResourceTypeComponent {
 
   addResourceType() {
     if (this.resourceTypeForm.valid) {
-      const newResourceType = this.resourceTypeForm.value;
+      const newResourceType = { ...this.resourceTypeForm.value };
 
       this.resourceTypeService.addResourceType(newResourceType).subscribe(
         (response) => {

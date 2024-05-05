@@ -2,10 +2,11 @@
     <form [formGroup]="resourceTypeForm" (ngSubmit)="addResourceType()"> 
        <div>
          <label for="resourceName">Resource Name:</label>
-         <input type="text" id="resourceName" name="resourceName" [(ngModel)]="resourceType.resourceTypeName" required>
+         <!-- <input type="text" id="resourceTypeName"  [(ngModel)]="resourceType.resourceTypeName" required> -->
+         <input type="text" id="resourceTypeName"  formControlName="resourceTypeName" required>
        </div>
     
-       <button type="submit" class="btn btn-success">Submit</button>
+       <button type="submit" class="btn btn-success" >Submit</button>
      </form>
    </div>
    

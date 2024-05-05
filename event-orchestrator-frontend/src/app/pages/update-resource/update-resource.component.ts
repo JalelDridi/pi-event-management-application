@@ -74,9 +74,8 @@ export class UpdateResourceComponent {
 
 resourceId: number;
 resource: Resource;
-resourceTypes: ResourceType
 
-constructor(private route: ActivatedRoute, private router: Router, private resourceService: ResourceService, private resourceTypeService: ResourceTypeService) { }
+constructor(private route: ActivatedRoute, private router: Router, private resourceService: ResourceService,) { }
 
 ngOnInit(): void {
   this.resourceId = this.route.snapshot.params['id']; // Assuming you're passing resource ID in the route
