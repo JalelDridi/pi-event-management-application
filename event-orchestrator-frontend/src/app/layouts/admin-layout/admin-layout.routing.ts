@@ -25,6 +25,7 @@ import {UserListFinalComponent} from "../../pages/admin-pages/user-list-final/us
 import {RessourceListComponent} from "../../pages/admin-pages/ressource-list/ressource-list.component";
 import {ChatComponent} from "../../pages/chat/chat.component";
 
+
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
     { path: 'admindashboard',      component: AdminDashboardComponent },
@@ -48,7 +49,5 @@ export const AdminLayoutRoutes: Routes = [
     {path:"addResourceType", component:AddResourceTypeComponent},
     {path:"userlist", component:UserListComponent},
     {path:"userlistFinal", component:UserListFinalComponent},
-    {path:"RessourceList", component:RessourceListComponent},
-    { path: 'chat/:userId',           component: ChatComponent }
-
+    {path:"RessourceList", component:RessourceListComponent}
 ];

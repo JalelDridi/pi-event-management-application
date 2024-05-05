@@ -87,12 +87,6 @@ public class NotificationController {
         return notificationService.countUnreadNotifications(userId);
     }
 
-    @GetMapping("/count-unread-messages/{userId}")
-    @ResponseBody
-    public long countUnreadMessages(@PathVariable String userId) {
-        return messageService.countUnreadMessages(userId);
-    }
-
 
 
     // Chat messaging :
@@ -107,18 +101,23 @@ public class NotificationController {
     // get all messages of a specific user:
     @GetMapping("/get-user-chat-messages")
     @ResponseBody
-    public List<Message> getUserMessages() {
-        return null;
+    public List<Message> getChatMessages() {
+        return messageService.getChatMessages();
     }
 
     // Set all messages as read for a specific user:
     @PostMapping("/set-messages-read/{userId}")
     @ResponseBody
-    public void setUserMessagesAsRead(@PathVariable String userId) {
+    public void setChatMessagesAsRead(@PathVariable String userId) {
         messageService.setUserChatMessagesAsRead(userId);
     }
 
 
+    @GetMapping("/count-unread-messages")
+    @ResponseBody
+    public long countUnreadMessages() {
+        return messageService.countUnreadMessages();
+    }
 
     // A simple Notification/Msg CRUD for testing purposes :
 

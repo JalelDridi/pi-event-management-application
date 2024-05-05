@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import {Message} from "../../services/notificationservices/models/message";
 
 import {Router} from "@angular/router";
-import {getWebNotifs} from "../../services/notificationservices/fn/notification-controller/get-web-notifs";
 import {
-  setUserNotificationsAsRead,
   SetUserNotificationsAsRead$Params
 } from "../../services/notificationservices/fn/notification-controller/set-user-notifications-as-read";
 import {

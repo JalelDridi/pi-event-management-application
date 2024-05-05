@@ -7,12 +7,12 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface SetUserMessagesAsRead$Params {
+export interface SetChatMessagesAsRead$Params {
   userId: string;
 }
 
-export function setUserMessagesAsRead(http: HttpClient, rootUrl: string, params: SetUserMessagesAsRead$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, setUserMessagesAsRead.PATH, 'post');
+export function setChatMessagesAsRead(http: HttpClient, rootUrl: string, params: SetChatMessagesAsRead$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, setChatMessagesAsRead.PATH, 'post');
   if (params) {
     rb.path('userId', params.userId, {});
   }
@@ -27,4 +27,4 @@ export function setUserMessagesAsRead(http: HttpClient, rootUrl: string, params:
   );
 }
 
-setUserMessagesAsRead.PATH = '/set-messages-read/{userId}';
+setChatMessagesAsRead.PATH = '/set-messages-read/{userId}';

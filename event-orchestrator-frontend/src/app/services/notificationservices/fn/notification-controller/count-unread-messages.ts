@@ -8,13 +8,11 @@ import { RequestBuilder } from '../../request-builder';
 
 
 export interface CountUnreadMessages$Params {
-  userId: string;
 }
 
-export function countUnreadMessages(http: HttpClient, rootUrl: string, params: CountUnreadMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
+export function countUnreadMessages(http: HttpClient, rootUrl: string, params?: CountUnreadMessages$Params, context?: HttpContext): Observable<StrictHttpResponse<number>> {
   const rb = new RequestBuilder(rootUrl, countUnreadMessages.PATH, 'get');
   if (params) {
-    rb.path('userId', params.userId, {});
   }
 
   return http.request(
@@ -27,4 +25,4 @@ export function countUnreadMessages(http: HttpClient, rootUrl: string, params: C
   );
 }
 
-countUnreadMessages.PATH = '/count-unread-messages/{userId}';
+countUnreadMessages.PATH = '/count-unread-messages';

@@ -1,9 +1,10 @@
 <ul class="navbar-nav align-items-center d-none d-md-flex">
   <li class="nav-item" ngbDropdown placement="bottom-right">
-    <a class="nav-link pr-0" role="button" ngbDropdownToggle>
+    <a class="nav-link pr-0" role="button" ngbDropdownToggle (click)="setMessagesAsRead()">
       <div class="media align-items-center">
         <span class="avatar avatar-sm rounded-circle">
-          <i class="ni ni-chat-round"></i> </span>
+          <i class="ni ni-chat-round"></i>
+        </span>
         <div class="media-body ml-2 d-none d-lg-block message-count" *ngIf="unreadMessages?.length > 0">
           <span class="text-sm font-weight-bold">{{ unreadMessages?.length }}</span>
         </div>
@@ -16,19 +17,20 @@
       <div class="list-group message-scroll" *ngIf="messages?.length > 0">
         <a href="#!" class="list-group-item list-group-item-action d-flex align-items-center" *ngFor="let message of messages">
           <div class="mr-3">
-            <i [ngClass]="{'ni ni-bell-55': message.isRead, 'ni ni-sound-wave': !message.isRead}"></i>
+            <i class="ni ni-chat-round blue-bubble"></i>
           </div>
           <div class="flex-grow-1">
             <div class="font-weight-bold">{{ message.subject }}</div>
             <div class="text-muted">{{ message.content }}</div>
+            <div class="text-muted" style="text-align: right;">{{ formatMessageDate(message.sentDate) }}</div> <!-- Display sent date -->
           </div>
         </a>
       </div>
       <div *ngIf="messages?.length === 0">
-        <div class="text-center p-3">No messages yet.</div>
+        <div class="text-center p-3">No Messages yet.</div>
       </div>
       <div class="dropdown-divider" *ngIf="messages?.length > 0"></div>
-      <a href="#!" class="dropdown-item text-center" *ngIf="messages?.length > 0">See All Messages</a>
+      <a class="dropdown-item text-center " *ngIf="messages?.length > 0">See All Messages</a>
     </div>
   </li>
 </ul>

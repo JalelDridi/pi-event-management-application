@@ -24,6 +24,7 @@ public class SendMessage {
         String groupId = notificationDto.getGroupId();
 
         Message message = new Message();
+        message.setSubject(notificationDto.getSubject());
         message.setContent(notificationDto.getContent());
         message.setUserIdFrom(notificationDto.getUserIdFrom());
         message.setRead(false);

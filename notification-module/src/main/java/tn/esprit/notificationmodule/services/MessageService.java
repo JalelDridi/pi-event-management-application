@@ -9,10 +9,10 @@ import java.util.List;
 public interface MessageService {
 
 
+    List<Message> getChatMessages();
     void addMessage(Message message);
-
     Message getMessageById(Long messageId);
-    long countUnreadMessages(String userId);
+    long countUnreadMessages();
 
     List<Message> getAllMessages();
 
