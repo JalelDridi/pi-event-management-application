@@ -7,14 +7,18 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface ReclamationRepository extends JpaRepository<Reclamation, Long> {
+    Reclamation findReclamationByIdRec(Long id);
 
     List<Reclamation> getReclamationByEventId(Long eventId);
 
     List<Reclamation> getReclamationsByUserId(String userId);
 
-    List<Reclamation> findReclamationsByUserIdAndEventId(String userid,Long eventid);
+    List<Reclamation> findReclamationByUserIdAndEventId( String userId, Long eventId);
+
+
 
 //List<Reclamation> findReclamationsByDateReclamationBefore(LocalDate date);
+    
 
 
 }

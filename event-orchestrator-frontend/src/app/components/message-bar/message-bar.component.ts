@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {getAllMessages} from "../../services/notificationservices/fn/controller/get-all-messages";
 import {Message} from "../../services/notificationservices/models/message";
+import {getAllMessages} from "../../services/notificationservices/fn/notification-controller/get-all-messages";
 
 
 @Component({

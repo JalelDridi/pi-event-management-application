@@ -6,6 +6,7 @@ export interface NotificationDto {
   email?: string;
   fullName?: string;
   groupId?: string;
+  role?: string;
   subject?: string;
   userId?: string;
   userIdFrom?: string;

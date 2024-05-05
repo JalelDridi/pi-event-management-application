@@ -16,6 +16,13 @@ import {MyEventsComponent} from "../../pages/my-events/my-events.component";
 import {CreateEventRequestComponent} from "../../pages/create-event-request/create-event-request.component";
 import {SubmitAFeedbackComponent} from "../../pages/submit-a-feedback/submit-a-feedback.component";
 import {RessourcesComponent} from "../../pages/ressources/ressources.component";
+import { AddResourceComponent } from 'src/app/pages/add-resource/add-resource.component';
+import { UpdateResourceComponent } from 'src/app/pages/update-resource/update-resource.component';
+import { ResourceTypeComponent } from 'src/app/pages/resource-type/resource-type.component';
+import { AddResourceTypeComponent } from 'src/app/pages/add-resource-type/add-resource-type.component';
+import {UserListComponent} from "../../pages/admin-pages/user-list/user-list.component";
+import {UserListFinalComponent} from "../../pages/admin-pages/user-list-final/user-list-final.component";
+import {RessourceListComponent} from "../../pages/admin-pages/ressource-list/ressource-list.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
@@ -34,4 +41,12 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'reviewtest', component:ReviewpagetestComponent},
     { path: 'reclamationtest', component:ReclamationpagetestComponent},
     { path: 'maps',           component: MapsComponent },
+    {path:'addResource',component:AddResourceComponent},
+    {path:'updateResource',component:UpdateResourceComponent},
+    {path:'resourceTypesList',component:ResourceTypeComponent},
+    {path:"addResourceType", component:AddResourceTypeComponent},
+    {path:"userlist", component:UserListComponent},
+    {path:"userlistFinal", component:UserListFinalComponent},
+    {path:"RessourceList", component:RessourceListComponent}
+
 ];

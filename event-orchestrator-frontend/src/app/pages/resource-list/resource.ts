@@ -1,3 +1,4 @@
+//import { ResourceType } from "../resource-type/resource-type";
 
 
 export class Resource {
@@ -6,6 +7,8 @@ export class Resource {
          resourceName: string;
          isAvailable: boolean;
          date: Date;
+        //  resourceType:ResourceType;
+        resourceTypeID: number;
     
 
 }
