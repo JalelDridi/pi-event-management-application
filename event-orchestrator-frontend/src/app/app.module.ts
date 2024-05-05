@@ -32,6 +32,8 @@ import { RessourceListComponent } from './pages/admin-pages/ressource-list/resso
 import { UserListFinalComponent } from './pages/admin-pages/user-list-final/user-list-final.component';
 import { UserListComponent } from './pages/admin-pages/user-list/user-list.component';
 import { ChatComponent } from './pages/chat/chat.component';
+import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resource-list-by-type.component';
+import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
 
 
 
@@ -72,6 +74,9 @@ import { ChatComponent } from './pages/chat/chat.component';
     UserListFinalComponent,
     UserListComponent,
     ChatComponent
+    UserListComponent,
+    ResourceListByTypeComponent,
+    UpdateResourceTypeComponent
   ],
   providers: [
     ResourceService,

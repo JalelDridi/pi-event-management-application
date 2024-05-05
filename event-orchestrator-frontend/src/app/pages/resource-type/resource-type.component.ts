@@ -30,5 +30,20 @@ export class ResourceTypeComponent {
         }
       );
     }
+    deleteResourceType(id: number) {
+      this.resourceTypeService.deleteResourceType(id)
+        .subscribe(
+          data => {
+            console.log(data);
+            this.getResourceTypes();
+          },
+          error => console.log(error));
+    }
+    showResources(resourceTypeID: number) {
+      this.router.navigate(['/resources-by-type', resourceTypeID]);
+    }
     
+    onUpdate(resourceTypeID: number): void {
+      this.router.navigate(['/updateResourceType', resourceTypeID]);
+    }
 }

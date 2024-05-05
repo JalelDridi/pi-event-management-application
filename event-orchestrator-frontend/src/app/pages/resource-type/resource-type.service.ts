@@ -19,7 +19,21 @@ export class ResourceTypeService {
   
   }
 
+
   addResourceType(resourceType: any): Observable<Object> {
     return this.httpClient.post(`${this.baseUrl}/addResourceType`, resourceType);
+  }
+
+  deleteResourceType(resourceTypeID: number): Observable<any> {
+    return this.httpClient.delete(this.baseUrl+'/deleteResourceType/'+resourceTypeID);
+  }
+
+  updateResourceType(resourceTypeID: number, resourceType: ResourceType): Observable<ResourceType> {
+    const url = `${this.baseUrl}/updateResourceType/${resourceTypeID}`;
+    return this.httpClient.put<ResourceType>(url, resourceType);
+  }
+  
+  getResourceType(resourceTypeID: number): Observable<any> {
+    return this.httpClient.get(this.baseUrl+'/'+resourceTypeID);
   }
 }

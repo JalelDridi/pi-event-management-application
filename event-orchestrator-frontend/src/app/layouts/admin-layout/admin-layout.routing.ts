@@ -23,8 +23,9 @@ import { AddResourceTypeComponent } from 'src/app/pages/add-resource-type/add-re
 import {UserListComponent} from "../../pages/admin-pages/user-list/user-list.component";
 import {UserListFinalComponent} from "../../pages/admin-pages/user-list-final/user-list-final.component";
 import {RessourceListComponent} from "../../pages/admin-pages/ressource-list/ressource-list.component";
+import { ResourceListByTypeComponent } from 'src/app/pages/resource-list-by-type/resource-list-by-type.component';
+import { UpdateResourceTypeComponent } from 'src/app/pages/update-resource-type/update-resource-type.component';
 import {ChatComponent} from "../../pages/chat/chat.component";
-
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
@@ -49,5 +50,8 @@ export const AdminLayoutRoutes: Routes = [
     {path:"addResourceType", component:AddResourceTypeComponent},
     {path:"userlist", component:UserListComponent},
     {path:"userlistFinal", component:UserListFinalComponent},
-    {path:"RessourceList", component:RessourceListComponent}
+    {path:"RessourceList", component:RessourceListComponent},
+    {path:"resources-by-type/:resourceTypeID",component: ResourceListByTypeComponent},
+    {path:"updateResourceType/:resourceTypeID",component:UpdateResourceTypeComponent},
+
 ];
