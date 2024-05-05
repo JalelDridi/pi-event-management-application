@@ -73,8 +73,7 @@ import { UpdateResourceTypeComponent } from './pages/update-resource-type/update
     RessourceListComponent,
     UserListFinalComponent,
     UserListComponent,
-    ChatComponent
-    UserListComponent,
+    ChatComponent,
     ResourceListByTypeComponent,
     UpdateResourceTypeComponent
   ],
