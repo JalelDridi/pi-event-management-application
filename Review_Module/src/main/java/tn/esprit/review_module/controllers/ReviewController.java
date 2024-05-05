@@ -53,6 +53,12 @@ public class ReviewController {
     }
 
 
+    @GetMapping("/getreviewsbyuseridandeventid/{userid}/{eventid}")
+    @ResponseBody
+    public List<Review> findReviewbyuseridandeventid(@PathVariable String userid, @PathVariable Long eventid){
+        return reviewService.findReviewbyuseridandeventid(userid, eventid);
+    }
+
 
 
 }

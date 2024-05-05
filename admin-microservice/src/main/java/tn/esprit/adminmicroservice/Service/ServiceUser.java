@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface ServiceUser  {
+   StatusUser addUser(StatusUser user);
 
    List<UserDto> getALLUser();
    List<ConfUserDto> getAllConfirmedUsers();
