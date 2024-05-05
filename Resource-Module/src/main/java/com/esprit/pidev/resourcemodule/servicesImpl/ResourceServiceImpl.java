@@ -63,18 +63,6 @@ public class ResourceServiceImpl implements ResourceService{
     }
 
 
-//    @Override
-//public Resource updateResource(Long resourceID, Resource resource , Long resourceTypeID) {
-//    return resourceDao.findById(resourceID).map(existinResource -> {
-//        existinResource.setResourceName(resource.getResourceName());
-//        existinResource.setIsAvailable(resource.getIsAvailable());
-//        existinResource.setDate(resource.getDate());
-//
-//        ResourceType resourceType = resourceTypeDao.findById(resourceTypeID).orElse(null);
-//        existinResource.setResourceType(resourceType);
-//        return resourceDao.save(existinResource);
-//    }).orElseThrow(() -> new ResourceNotFoundException("resource not found with id " + resourceID));
-//}
 
     @Override
     public Resource updateResource(Resource updatedResource, Long resourceTypeID) {
