@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NotificationBarComponent } from './notification-bar/notification-bar.component';
 import { MessageBarComponent } from './message-bar/message-bar.component';
+import { NotificationPopupComponent } from './notification-popup/notification-popup.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { MessageBarComponent } from './message-bar/message-bar.component';
     NavbarComponent,
     SidebarComponent,
     NotificationBarComponent,
-    MessageBarComponent
+    MessageBarComponent,
+    NotificationPopupComponent
   ],
   exports: [
     FooterComponent,

@@ -8,11 +8,11 @@ import { RequestBuilder } from '../../request-builder';
 
 import { NotificationUserDto } from '../../models/notification-user-dto';
 
-export interface Testt$Params {
+export interface SendUpcomingEvents$Params {
 }
 
-export function testt(http: HttpClient, rootUrl: string, params?: Testt$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationUserDto>>> {
-  const rb = new RequestBuilder(rootUrl, testt.PATH, 'get');
+export function sendUpcomingEvents(http: HttpClient, rootUrl: string, params?: SendUpcomingEvents$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationUserDto>>> {
+  const rb = new RequestBuilder(rootUrl, sendUpcomingEvents.PATH, 'post');
   if (params) {
   }
 
@@ -26,4 +26,4 @@ export function testt(http: HttpClient, rootUrl: string, params?: Testt$Params, 
   );
 }
 
-testt.PATH = '/notification/send-upcoming-events';
+sendUpcomingEvents.PATH = '/notification/send-upcoming-events';

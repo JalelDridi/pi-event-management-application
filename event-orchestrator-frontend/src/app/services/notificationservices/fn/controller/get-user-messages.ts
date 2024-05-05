@@ -26,4 +26,4 @@ export function getUserMessages(http: HttpClient, rootUrl: string, params?: GetU
   );
 }
 
-getUserMessages.PATH = '/notification/get-user-messages';
+getUserMessages.PATH = '/notification/get-user-chat-messages';

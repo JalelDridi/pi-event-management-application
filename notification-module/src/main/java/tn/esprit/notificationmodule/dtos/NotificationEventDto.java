@@ -18,4 +18,5 @@ public class NotificationEventDto implements Serializable {
     private String type;
     private String Club ;
     private String status;
+
 }
