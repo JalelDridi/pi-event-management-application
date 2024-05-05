@@ -18,17 +18,17 @@ import {
 })
 export class MessageBarComponent implements OnInit{
   // Subject to emit signal when notifications change
-  private notificationsChanged = new Subject<void>();
+  private unreadMessagesChanged = new Subject<void>();
 
   userId : string;
-
   // Notifications are of type message because we need their content.
   messages: Message[] = [];
   // Unread notifications array, So tht we want count them
   unreadMessages: Message[] = [];
   // So that we can set an array of notification as read instantly
   unreadMessageIds: number[] = [];
-
+  // Unread messages count!
+  unreadMessagesCount: number = 0;
   // Inject HttpClient for API calls AND a Router that will be used to open the notification list popup
   constructor(private http: HttpClient,
               private router: Router,
@@ -43,12 +43,27 @@ export class MessageBarComponent implements OnInit{
 
     // Subscribe to notificationsChanged subject to call getWebNotifications() when a change occurs
     this.getChatMessages();
+
+    this.unreadMessagesChanged.subscribe(() => {
+      this.countUnreadMessages();
+
+      // Initial Api call to fetch count
+      this.countUnreadMessages();
+    });
   }
+
+
+  // When the notification component is destroyed (in the case of logout)
+  ngOnDestroy() {
+    // Clean up subscription
+    this.unreadMessagesChanged.unsubscribe();
+  }
+
 
 
   // A method that gets web notification
   getChatMessages() {
-    const userId = this.userId;
+    this.userId = localStorage.getItem('userId') || '666';
     this.notificationService.getChatMessages()
       .subscribe(
         messages => {
@@ -62,7 +77,7 @@ export class MessageBarComponent implements OnInit{
             this.unreadMessages = this.messages.filter(message => !message.read);
             // Extract message IDs from unread notifications
             this.unreadMessageIds = this.unreadMessages.map(message => message.messageId);
-
+            this.triggerUnreadMessagesUpdate();
           } else {
             console.error('Invalid notifications data received:', messages);
           }
@@ -71,14 +86,23 @@ export class MessageBarComponent implements OnInit{
   }
 
   // This is triggered when clicking on the notification icon so the notifications will be set as read.
-  countUnreadMessages() {
+  countUnreadMessages(): void {
     console.log("WORKS");
-    const userId = this.userId;
-    // Call the API to mark notifications as read
-    this.notificationService.setChatMessagesAsRead({userId}).subscribe(() => {
-      // Refresh notifications after marking them as read
-      this.getChatMessages();
-    });
+    // Call the API to count unread messages
+    this.notificationService.countUnreadMessages().subscribe(
+      (count: number) => {
+        // Update the count value
+        this.unreadMessagesCount = count;
+      },
+      (error) => {
+        console.error('Error counting unread messages:', error);
+      }
+    );
+  }
+
+  // THis method triggers unread messages count update
+  triggerUnreadMessagesUpdate(): void {
+    this.unreadMessagesChanged.next();
   }
 
   // This is triggered when clicking on the notification icon so the notifications will be set as read.
@@ -87,7 +111,7 @@ export class MessageBarComponent implements OnInit{
     const params: SetUserNotificationsAsRead$Params = {
       body: this.unreadMessageIds
     };
-    // Call the API to mark notifications as read
+    // Call the API to mark messages as read
     this.notificationService.setUserNotificationsAsRead(params).subscribe(() => {
       // Refresh notifications after marking them as read
       this.getChatMessages();
