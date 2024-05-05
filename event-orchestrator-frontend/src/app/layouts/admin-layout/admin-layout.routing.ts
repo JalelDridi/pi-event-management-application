@@ -54,4 +54,5 @@ export const AdminLayoutRoutes: Routes = [
     {path:"resources-by-type/:resourceTypeID",component: ResourceListByTypeComponent},
     {path:"updateResourceType/:resourceTypeID",component:UpdateResourceTypeComponent},
 
+
 ];
