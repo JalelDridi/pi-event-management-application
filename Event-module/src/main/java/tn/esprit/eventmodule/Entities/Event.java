@@ -6,9 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.security.PrivateKey;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -22,7 +20,7 @@ public class Event {
     private Long eventId ;
     private String  Name ;
     private String description;
-    private String Image;
+
     private Date startDate ;
     private Date endDate ;
     @Enumerated ( EnumType.STRING)
@@ -32,6 +30,14 @@ public class Event {
     @Column
     @Enumerated ( EnumType.STRING)
     private StatusType status;
+    @Column(name = "image", columnDefinition = "LONGBLOB")
+    @Lob
+    private byte[] image;
+    private Float  lng ;
+    private Float  lat ;
+
+
+
 
 
 }
