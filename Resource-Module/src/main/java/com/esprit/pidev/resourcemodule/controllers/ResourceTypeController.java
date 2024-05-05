@@ -22,7 +22,7 @@ public class ResourceTypeController {
     }
 
     @PostMapping("/addResourceType")
-    public ResourceType addResourceType(ResourceType resourceType){
+    public ResourceType addResourceType( @RequestBody ResourceType resourceType){
         return this.resourceTypeService.addResourceType(resourceType);
     }
     @PutMapping("/updateResourceType/{resourceTypeID}")
