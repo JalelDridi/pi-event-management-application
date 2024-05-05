@@ -24,8 +24,8 @@
                 <td>{{ item.resourceTypeID }}</td>
                 <td>{{ item.resourceTypeName }}</td>
                 <td><button  class="btn btn-danger" (click)="deleteResourceType(item.resourceTypeID)" >Delete</button></td>
-                <td><button class="btn btn-danger" >Update</button></td>
-                <button class="btn btn-danger" (click)="showResources(item.resourceTypeID)">view resources </button>
+                <td><button class="btn btn-danger" (click)="onUpdate(item.resourceTypeID)">update</button></td>
+               <td><button class="btn btn-danger" (click)="showResources(item.resourceTypeID)">view resources </button></td> 
               </tr>
             </tbody>
           </table>

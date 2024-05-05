@@ -43,4 +43,7 @@ export class ResourceTypeComponent {
       this.router.navigate(['/resources-by-type', resourceTypeID]);
     }
     
+    onUpdate(resourceTypeID: number): void {
+      this.router.navigate(['/updateResourceType', resourceTypeID]);
+    }
 }
