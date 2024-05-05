@@ -1,15 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {EventService} from "../../services/eventservices/eventservice/event.service";
+import {EventService} from "../../../services/eventservices/eventservice/event.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
-  selector: 'app-all-events',
-  templateUrl: './all-events.component.html',
-  styleUrls: ['./all-events.component.css']
+  selector: 'app-event-list',
+  templateUrl: './event-list.component.html',
+  styleUrls: ['./event-list.component.css']
 })
-export class AllEventsComponent implements OnInit{
-
+export class EventListComponent implements OnInit{
 
   eventList: any[] = []; // Provide an initial value
   searchTerm: string = '';
@@ -74,16 +73,16 @@ export class AllEventsComponent implements OnInit{
   }
 
   loadEventDetails(eventId: number): void {
-    this.Event.GetEventDetails(eventId).subscribe({
-      next: (data) => {
+    this.Event.GetEventDetails(eventId).subscribe(
+      (data) => {
         this.eventDetails = data;
         console.log('Event details fetched:', this.eventDetails);
         this.router.navigate(['eventdetails', eventId]);
       },
-      error: (error) => {
+      (error) => {
         console.error('Error fetching event details:', error);
       }
-    });
+    );
   }
 
   updatePagination(): void {
