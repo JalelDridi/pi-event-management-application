@@ -25,6 +25,7 @@ public class Reclamation implements Serializable {
     private Long resourceId;
     private String userId;
     private String content;
+    private String Reponse;
     @Enumerated(EnumType.STRING)
     private TypeReclamation TypeRec;
     private OffsetDateTime dateReclamation;
