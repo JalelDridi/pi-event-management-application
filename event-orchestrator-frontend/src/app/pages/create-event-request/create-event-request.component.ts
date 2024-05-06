@@ -6,7 +6,6 @@ import {MapserviceService} from "../../services/eventservices/eventservice/mapse
 import {SpringMailControllerService} from "../../services/notificationservices/services/spring-mail-controller.service";
 import {NotificationDto} from "../../services/notificationservices/models/notification-dto";
 import {UserService} from "../../userservices/services/user.service";
-import {User} from "../../userservices/models/user";
 import {EventUserDto} from "../../userservices/models/event-user-dto";
 
 
