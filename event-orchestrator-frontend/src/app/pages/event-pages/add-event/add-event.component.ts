@@ -7,7 +7,8 @@ import {MapserviceService} from "../../../services/eventservices/eventservice/ma
 
 interface EventType {
   value: string;
-  viewValue: string;}
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-add-event',
