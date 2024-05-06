@@ -105,34 +105,18 @@ public class ReservationServiceImpl implements ReservationService {
 
 
 
-//    @Override
-//    public boolean checkResourceAvailability(Resource resource, Date startDate, Date endDate) {
-//        //retrieve list of reservations of a resource
-//        List<Reservation> reservations = resource.getReservations();
-//        if (reservations != null) {
-//            //verify if the resource is available of specified dates
-//            for (Reservation reservation : reservations) {
-//                if (reservation.getStartDate().before(endDate) && reservation.getEndDate().after(startDate)) {
-//                    //if there is a confusion with an existing reservation
-//                    return false;
-//                }
+//    private List<Resource> filterAvailableResources(List<Resource> resources, Date startDate, Date endDate, Reservation reservation) {
+//        List<Resource> availableResources = new ArrayList<>();
+//
+//        for (Resource resource : resources) {
+//            // Check the availability of each resource for the given reservation
+//            if (checkResourceAvailability(resource, startDate, endDate)) {
+//                availableResources.add(resource);
 //            }
 //        }
-//        return true;//the resource is now available on specified dates
+//
+//        return availableResources;
 //    }
-
-    private List<Resource> filterAvailableResources(List<Resource> resources, Date startDate, Date endDate, Reservation reservation) {
-        List<Resource> availableResources = new ArrayList<>();
-
-        for (Resource resource : resources) {
-            // Check the availability of each resource for the given reservation
-            if (checkResourceAvailability(resource, startDate, endDate)) {
-                availableResources.add(resource);
-            }
-        }
-
-        return availableResources;
-    }
 
 
 
