@@ -3,7 +3,6 @@ import Swal from "sweetalert2";
 import {EventService} from "../../services/eventservices/eventservice/event.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {QrCodeService} from "../../services/eventservices/qr-code.service";
 import {Eventattribut} from "../../services/eventservices/models/event.model";
 
 @Component({
@@ -31,11 +30,12 @@ export class EventDetailsComponent implements OnInit{
   Participation :any;
 
 
-  constructor(private eventservice: EventService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog ,private qrCodeService: QrCodeService ) { }
+  constructor(private eventservice: EventService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.eventId = +params['id'];
+      this.eventId = 1;
       this.loadEventDetails(this.eventId);
       this.loadUserEvents();
     });
@@ -47,7 +47,7 @@ export class EventDetailsComponent implements OnInit{
         this.eventDetails = data;
         console.log('Event details loaded:', this.eventDetails);
         this.updateEditDeletePermissions();
-        this.router.navigate(['EditEvent', eventId]);
+        // this.router.navigate(['EditEvent', eventId]);
 
       },
       error: (error) => console.error('Error fetching event details:', error)
@@ -113,16 +113,7 @@ export class EventDetailsComponent implements OnInit{
 
   qrdata :string='hello' ;
 
-  updateServiceData() {
-    const newData = 'Hello, new data!';  // Example new data
-    this.qrCodeService.updateQrData(newData);
-  }
 
-
-  openQRDialog(qrdata  :string): void{
-    this.updateServiceData()
-
-  }
   Addparticipation() {
     this.eventservice.AddParticipation(this.eventId,this.UserId).subscribe(
       (data: any) => {
