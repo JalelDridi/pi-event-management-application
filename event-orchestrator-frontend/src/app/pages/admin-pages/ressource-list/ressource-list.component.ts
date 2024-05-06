@@ -46,7 +46,7 @@ export class RessourceListComponent implements OnInit{
         console.error('Table is empty or undefined.');
         return;
       }
-
+                                                                            
       try {
         (doc as any).autoTable({ html: table });
       } catch (error) {
