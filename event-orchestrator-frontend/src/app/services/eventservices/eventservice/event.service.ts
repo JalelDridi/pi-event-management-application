@@ -24,7 +24,7 @@ private baseUrl = 'http://localhost:8089' ;
     );
   }
   addEvent(formData: FormData, userId: String): Observable<any> {
-    return this.http.post(`http://localhost:8089/Event/addevent/${userId}`, formData);
+    return this.http.post(`http://localhost:8089/Event/addevent/${userId}`, formData, { responseType: 'text' });
 }
 
   editEvent(eventId: number, event: any): Observable<any> {
