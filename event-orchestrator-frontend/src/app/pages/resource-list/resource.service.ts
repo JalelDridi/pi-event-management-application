@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Resource } from './resource';
 import { Observable, map } from 'rxjs';
+import { ResourceType } from '../resource-type/resource-type';
 
 @Injectable({
   providedIn: 'root'
@@ -31,11 +32,12 @@ export class ResourceService {
 
 
   updateResource(resource: Resource, resourceTypeID: number): Observable<Resource> {
-    return this.httpClient.put<Resource>(`${this.baseUrl}/updateResource/${resourceTypeID.toString()}`, resource);
+    return this.httpClient.put<Resource>(`${this.baseUrl}/updateResource/${resourceTypeID}`, resource);
   }
 
   findResourcesByResourceType(resourceTypeID: number): Observable<Resource[]> {
     return this.httpClient.get<Resource[]>(`${this.baseUrl}/findByResourceType/${resourceTypeID.toString()}`);
   }
+
 }
 

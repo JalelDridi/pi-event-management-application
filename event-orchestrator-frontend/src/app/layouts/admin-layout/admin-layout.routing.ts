@@ -45,7 +45,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'reclamationtest', component:ReclamationpagetestComponent},
     { path: 'maps',           component: MapsComponent },
     {path:'addResource',component:AddResourceComponent},
-    {path:'updateResource',component:UpdateResourceComponent},
+    {path:'updateResource/:resourceTypeID',component:UpdateResourceComponent},
     {path:'resourceTypesList',component:ResourceTypeComponent},
     {path:"addResourceType", component:AddResourceTypeComponent},
     {path:"userlist", component:UserListComponent},
