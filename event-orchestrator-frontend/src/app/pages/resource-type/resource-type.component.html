@@ -2,11 +2,14 @@
  <!-- Dark table -->
  <div class="row mt-5">
     <div class="col">
-      <button class="add-button" type="button" [routerLink]="['/addResourceType']">Ajouter</button>
+      <div class="d-flex justify-content-end mb-2">
+      <button class="btn btn-danger mb-3" type="button" [routerLink]="['/addResourceType']">Add Resource Type</button>
+      <button class="btn btn-danger mb-3" [routerLink]="['/resources']">View Resources </button>
+      </div>
       <div class="card bg-default shadow">
-        <!-- <div class="card-header bg-transparent border-0">
-          <h3 class="text-white mb-0">Product List</h3>
-        </div> -->
+        <div class="card-header bg-transparent border-0">
+          <h3 class="text-white mb-0">Resources Types</h3>
+        </div>
 
         <div class="table-responsive">
           <table class="table align-items-center table-dark table-flush">

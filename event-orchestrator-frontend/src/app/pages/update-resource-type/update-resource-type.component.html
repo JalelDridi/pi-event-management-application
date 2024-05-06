@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
     <h2>Update Resource Type</h2>
     <form [formGroup]="resourceTypeForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
@@ -8,7 +8,28 @@
           Resource Type Name is required
         </div>
       </div>
-      <!-- Add other form fields as needed -->
+    
       <button type="submit" class="btn btn-primary">Update </button>
     </form>
-  </div>
+  </div> -->
+
+  <div class="container-fluid bg-light py-4">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+          <form [formGroup]="resourceTypeForm" (ngSubmit)="onSubmit()" class="my-4">
+            <div class="form-group">
+              <label for="resourceTypeName">Resource Type Name</label>
+        <input type="text" class="form-control" id="resourceTypeName" formControlName="resourceTypeName">
+        <div *ngIf="resourceTypeForm.get('resourceTypeName').invalid && resourceTypeForm.get('resourceTypeName').touched" class="text-danger">
+          Resource Type Name is required
+        </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+  
+  

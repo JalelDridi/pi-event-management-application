@@ -19,21 +19,6 @@ export class RessourcesComponent {
 
   constructor(private resourceService: ResourceService, private router: Router , private resourceTypeService :ResourceTypeService) { }
 
-// ngOnInit() {
-// this.getResources();
-// }
-// getResources(){
-//   this.resourceService.getResources().subscribe(
-//     res => {
-//       console.log(res); // Log the response to the console
-//       this.resources = res as Resource[]; // Assign the response to your posts array
-//     },
-//     error => {
-//       console.error(error);
-//       // Log any errors to the console
-//     }
-//   );
-// }
 
 ngOnInit(): void {
   this.loadResources();
@@ -56,6 +41,7 @@ deleteResource(id: number) {
 updateResource(resourceID:number){
   this.router.navigate(['update', resourceID]);
 }
+
 
 
 }
