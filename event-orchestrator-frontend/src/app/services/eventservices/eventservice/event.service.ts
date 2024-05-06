@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import * as MyEventModel from '../../../../../../../../../../../Desktop/AngularPi - Copie/src/app/models/event.model';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Injectable({
