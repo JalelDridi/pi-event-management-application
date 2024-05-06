@@ -1,11 +1,17 @@
 
+
 package tn.esprit.eventmodule.Services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Mono;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.ParticipationDao;
 import tn.esprit.eventmodule.Daos.ResourceReservationDao;
@@ -31,6 +37,11 @@ public class EventImpl implements EventInterface {
     private static final String ERROR_NON_PRESENT_ID = "Event with ID %s is not found.";
     private static final String ERROR_NULL_ID = "Event ID cannot be null.";
 
+    private final WebClient.Builder webClientBuilder;
+
+    public EventImpl(WebClient.Builder webClientBuilder) {
+        this.webClientBuilder = webClientBuilder;
+    }
 
 
     JavaMailSender emailSender;
@@ -50,7 +61,7 @@ public class EventImpl implements EventInterface {
 
      */
     @Override
-    public Event addEvent(Event event,String userid) {
+    public Event addEvent(@RequestParam("file")MultipartFile file, Event event, String userid) {
         LOG.info("Adding event: {}", event);
 
         Event e= eventDao.save(event);
@@ -169,19 +180,23 @@ public class EventImpl implements EventInterface {
         return users;
     }
 
-@Override
-     public UserDto getUserById(String userId) {
+    @Override
+    public UserDto getUserById(String userId) {
+        String bearerToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiI2NjMwZTNiZTMxOWFkODExZmI3ZDdjNzgiLCJzdWIiOiJhaG1lZGFtaW5lLnJvbWRuYW5pQGVzcHJpdC50biIsImlhdCI6MTcxNDg2NjI5NCwiZXhwIjoxNzE1MDM5MDk0LCJhdXRob3JpdGllcyI6WyJVU0VSIl19.7ySc_64TBrKxDNYtdfhBVbUmtrNumma_FQWma62yXsUaKBItZom8EKa_KmXC2hCp";
+
         String userMicroserviceUrl = UriComponentsBuilder
                 .fromUriString("http://localhost:8091/api/v1/users/{userId}")
                 .buildAndExpand(userId)
                 .toUriString();
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<UserDto> responseEntity = restTemplate.getForEntity(userMicroserviceUrl, UserDto.class);
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return responseEntity.getBody();
-        } else {
-            throw new RuntimeException("Failed to fetch user from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
-        }
+
+        Mono<UserDto> userDtoMono = webClientBuilder.build()
+                .get()
+                .uri(userMicroserviceUrl)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearerToken)
+                .retrieve()
+                .bodyToMono(UserDto.class);
+
+        return userDtoMono.block();
     }
 
     public List<String> findUserIdsByEventId(Long eventId) {

@@ -10,7 +10,7 @@ public interface ReclamationService {
 
     public List<Reclamation> getAllReclamations();
 
-
+    public void SendReclamationEmail(String email);
     public List<Reclamation> findByeventId(Long eventId);
 
     public List<Reclamation> findByUserId(String userId);

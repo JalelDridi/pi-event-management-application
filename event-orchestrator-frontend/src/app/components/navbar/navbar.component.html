@@ -10,7 +10,7 @@
             <span class="input-group-text"><i class="fas fa-search"></i></span>
           </div>
           <input class="form-control" placeholder="Search" type="text" (focus)="focus = true"
-                 (blur)="focus = false" >
+                 (blur)="focus = false" id="searchInput" (keyup)="filterEvent()">
         </div>
       </div>
     </form>

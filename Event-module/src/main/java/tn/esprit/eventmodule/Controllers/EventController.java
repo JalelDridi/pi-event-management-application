@@ -1,27 +1,25 @@
 package tn.esprit.eventmodule.Controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.UsersEventsDao;
 import tn.esprit.eventmodule.Dtos.EventAdminDto;
-import tn.esprit.eventmodule.Dtos.EventReviewDto;
 import tn.esprit.eventmodule.Dtos.ResourceDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
-import tn.esprit.eventmodule.Entities.EventType;
 import tn.esprit.eventmodule.Entities.StatusType;
 import tn.esprit.eventmodule.Services.EventImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/Event")
@@ -34,11 +32,45 @@ public class EventController {
     @Autowired
     UsersEventsDao usersEventsDao;
 
-    @PostMapping("/addevent/{userId}")
-    public Event addEvent (@RequestBody Event event , @PathVariable String userId) {
+    @CrossOrigin("*")
+    @PostMapping(value = "/addevent/{userid}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 
-        return eventimpl.addEvent(event, userId);
+    public ResponseEntity<String> ajouterevent (@RequestParam ("file") MultipartFile file , @ModelAttribute Event event , @PathVariable String userid){
+        if (file.isEmpty()) {
+            return ResponseEntity.badRequest().body("File is missing or empty.");
+        }
+       try {
+           byte[] imageData = file.getBytes();
+           event.setImage(imageData);
+           Event savedEvent = eventimpl.addEvent(file, event,userid);
+           return ResponseEntity.ok("succeeeded");
+
+       } catch (IOException e) {
+           e.printStackTrace();
+           return null;
+       }
+
+   }
+    @GetMapping("/{id}/image")
+    public ResponseEntity<byte[]> getImageForWorkshop(@PathVariable Long id) {
+        Optional<Event> optionalWorkshop = Optional.ofNullable(eventDao.findById(id).get());
+        if (optionalWorkshop.isPresent()) {
+            Event workshop = optionalWorkshop.get();
+            if (workshop.getImage() != null && workshop.getImage().length > 0) {
+                // Renvoyer l'image sous forme de réponse avec le type de contenu approprié
+                return ResponseEntity.ok()
+                        .contentType(MediaType.IMAGE_JPEG)
+                        .body(workshop.getImage());
+            } else {
+                // Renvoyer une réponse indiquant que l'image n'est pas disponible pour ce post
+                return ResponseEntity.notFound().build();
+            }
+        } else {
+            // Renvoyer une réponse indiquant que le post n'existe pas
+            return ResponseEntity.notFound().build();
+        }
     }
+
     @GetMapping ("/getall")
     public List<Event> getAllEvent () {
         return eventimpl.getallEvent();
@@ -66,15 +98,15 @@ public class EventController {
         return eventDao.findByStatus(status);
     }
 
-//    @GetMapping("/events/byType")
+    //    @GetMapping("/events/byType")
 //    public ResponseEntity<List<Event>> getEventsByType(@RequestParam EventType type) {
 //    List<Event> events = eventDao.findByType(type);
 //    return ResponseEntity.ok(events);
 //}
     @GetMapping("/upcoming")
     public ResponseEntity<List<Event>> getUpcomingEvents() {
-    List<Event> events = eventimpl.getUpcomingEvents();
-    return ResponseEntity.ok(events);
+        List<Event> events = eventimpl.getUpcomingEvents();
+        return ResponseEntity.ok(events);
     }
 
     @PostMapping("/add-participation")
@@ -99,8 +131,8 @@ public class EventController {
     @PostMapping("/userevents")
     public ResponseEntity<?> assignUserToEvents(@RequestParam String userId, @RequestParam Long eventIds) {
 
-            eventimpl.assignEventToUser(userId,eventIds);
-            return ResponseEntity.ok("Events assigned successfully to user with ID " + userId);
+        eventimpl.assignEventToUser(userId,eventIds);
+        return ResponseEntity.ok("Events assigned successfully to user with ID " + userId);
 
     }
     @GetMapping("/{userId}/events")
@@ -124,8 +156,8 @@ public class EventController {
         }
     }
     /***************************************
-                                             Resource
-                                                        *************************************************/
+     Resource
+     *************************************************/
 
     @PostMapping("/assign-resource")
     public ResponseEntity<String> assignResourceToEvent(@RequestParam Long resourceId, @RequestParam Long eventId) {
@@ -144,9 +176,3 @@ public class EventController {
     }
 
 }
-
-
-
-
-
-

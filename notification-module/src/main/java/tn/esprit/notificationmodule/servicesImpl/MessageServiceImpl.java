@@ -22,6 +22,11 @@ public class MessageServiceImpl implements MessageService {
 
 
     @Override
+    public List<Message> getChatMessages() {
+        return messageRepository.findMessageByMessageType(MessageType.chatMessage);
+    }
+
+    @Override
     public void addMessage(Message message) {
         message.setMessageId(sequenceGeneratorService.generateSequence(Message.SEQUENCE_NAME));
         messageRepository.save(message);
@@ -33,8 +38,8 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public long countUnreadMessages(String userId) {
-        return messageRepository.countByUserIdAndRead(userId, false);
+    public long countUnreadMessages() {
+        return messageRepository.countMessageByMessageTypeAndIsRead(MessageType.chatMessage, false);
     }
 
     @Override
@@ -44,6 +49,6 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void setUserChatMessagesAsRead(String userId) {
-        messageRepository.updateMessagesSetIsReadToTrue(userId, MessageType.webNotification);
+        messageRepository.updateMessagesSetIsReadToTrue(userId, MessageType.chatMessage);
     }
 }

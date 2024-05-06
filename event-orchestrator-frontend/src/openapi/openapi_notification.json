@@ -22,7 +22,7 @@
         "tags": [
           "notification-controller"
         ],
-        "operationId": "setUserMessagesAsRead",
+        "operationId": "setChatMessagesAsRead",
         "parameters": [
           {
             "name": "userId",
@@ -342,7 +342,7 @@
         "tags": [
           "notification-controller"
         ],
-        "operationId": "getUserMessages",
+        "operationId": "getChatMessages",
         "responses": {
           "200": {
             "description": "OK",
@@ -437,22 +437,12 @@
         }
       }
     },
-    "/count-unread-messages/{userId}": {
+    "/count-unread-messages": {
       "get": {
         "tags": [
           "notification-controller"
         ],
         "operationId": "countUnreadMessages",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -527,6 +517,7 @@
             "enum": [
               "email",
               "webNotification",
+              "chatNotification",
               "Sms"
             ]
           }
@@ -590,6 +581,7 @@
             "enum": [
               "email",
               "webNotification",
+              "chatNotification",
               "Sms"
             ]
           },
