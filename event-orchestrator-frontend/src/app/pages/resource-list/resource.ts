@@ -7,7 +7,6 @@ export class Resource {
          resourceName: string;
          isAvailable: boolean;
          date: Date;
-        //  resourceType:ResourceType;
         resourceTypeID: number;
     
 
