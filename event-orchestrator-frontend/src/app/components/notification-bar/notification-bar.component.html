@@ -24,6 +24,10 @@
             <div class="text-muted">{{ message.content }}</div>
             <div class="text-muted" style="text-align: right;">{{ formatNotificationDate(message.sentDate) }}</div> <!-- Display sent date -->
           </div>
+          <!-- Add delete button -->
+          <button (click)="deleteNotification(message.messageId)" type="button" class="btn btn-sm btn-outline-danger ml-auto">
+            <i class="fas fa-times"></i>
+          </button>
         </a>
       </div>
       <div *ngIf="notifications?.length === 0">

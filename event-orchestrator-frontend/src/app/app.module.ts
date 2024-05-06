@@ -31,6 +31,14 @@ import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource
 import { RessourceListComponent } from './pages/admin-pages/ressource-list/ressource-list.component';
 import { UserListFinalComponent } from './pages/admin-pages/user-list-final/user-list-final.component';
 import { UserListComponent } from './pages/admin-pages/user-list/user-list.component';
+import { ChatComponent } from './pages/chat/chat.component';
+import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resource-list-by-type.component';
+import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
+import { AddEventComponent } from './pages/event-pages/add-event/add-event.component';
+import { EditEventComponent } from './pages/event-pages/edit-event/edit-event.component';
+import { EventListComponent } from './pages/event-pages/event-list/event-list.component';
+import { EventDetailsComponent } from './pages/event-pages/event-details/event-details.component';
+import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue.component';
 
 
 
@@ -69,7 +77,15 @@ import { UserListComponent } from './pages/admin-pages/user-list/user-list.compo
     AddResourceTypeComponent,
     RessourceListComponent,
     UserListFinalComponent,
-    UserListComponent
+    UserListComponent,
+    ChatComponent,
+    ResourceListByTypeComponent,
+    UpdateResourceTypeComponent,
+    AddEventComponent,
+    EditEventComponent,
+    EventListComponent,
+    EventDetailsComponent,
+    QrDialogueComponent
   ],
   providers: [
     ResourceService,

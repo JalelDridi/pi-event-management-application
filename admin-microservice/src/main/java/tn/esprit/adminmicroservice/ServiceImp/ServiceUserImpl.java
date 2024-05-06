@@ -1,18 +1,14 @@
 package tn.esprit.adminmicroservice.ServiceImp;
 
 import com.google.gson.Gson;
-import com.thoughtworks.xstream.mapper.Mapper;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.annotation.Id;
 import org.springframework.mail.SimpleMailMessage;
 import tn.esprit.adminmicroservice.Dto.ConfUserDto;
 import tn.esprit.adminmicroservice.Ennum.Role;
-import tn.esprit.adminmicroservice.Repository.RepositoryRessource;
 import tn.esprit.adminmicroservice.Repository.RepositoryUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import tn.esprit.adminmicroservice.Dto.UserDto;
 import tn.esprit.adminmicroservice.Entities.StatusUser;
-import tn.esprit.adminmicroservice.Entities.StatusRessources;
 import tn.esprit.adminmicroservice.Service.ServiceUser;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
@@ -28,7 +24,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.http.HttpMethod;
@@ -46,6 +41,12 @@ public class ServiceUserImpl implements ServiceUser {
     private JavaMailSender emailSender;
 
     //ajouter l'utilisateur dans la base de donnee
+
+    @Override
+    public StatusUser addUser(StatusUser user){
+        user.setRole(Role.Admin);
+        return repositoryUser.save(user);
+    }
 
     @Override
     public StatusUser AcceptUserCnx(String id) {

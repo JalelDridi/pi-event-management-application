@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export interface Notification {
-  deliveryChannel?: 'email' | 'webNotification' | 'Sms';
+  deliveryChannel?: 'email' | 'webNotification' | 'chatNotification' | 'Sms';
   isRead?: boolean;
   isSent?: boolean;
   messageId?: number;

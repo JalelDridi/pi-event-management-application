@@ -1,10 +1,13 @@
 
+
 package tn.esprit.eventmodule.Services;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.ParticipationDao;
@@ -50,7 +53,7 @@ public class EventImpl implements EventInterface {
 
      */
     @Override
-    public Event addEvent(Event event,String userid) {
+    public Event addEvent(@RequestParam("file")MultipartFile file, Event event, String userid) {
         LOG.info("Adding event: {}", event);
 
         Event e= eventDao.save(event);
@@ -169,8 +172,8 @@ public class EventImpl implements EventInterface {
         return users;
     }
 
-@Override
-     public UserDto getUserById(String userId) {
+    @Override
+    public UserDto getUserById(String userId) {
         String userMicroserviceUrl = UriComponentsBuilder
                 .fromUriString("http://localhost:8091/api/v1/users/{userId}")
                 .buildAndExpand(userId)

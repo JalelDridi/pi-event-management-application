@@ -3,7 +3,7 @@
     <div class="col">
         <button class="add-button" type="button" [routerLink]="['/addResource']">Ajouter</button>
         <button class="add-button" type="button" [routerLink]="['/resourceTypesList']">afficher les types</button>
-      <div class="card bg-default shadow">
+        <div class="card bg-default shadow">
         <!-- <div class="card-header bg-transparent border-0">
           <h3 class="text-white mb-0">Product List</h3>
         </div> -->
@@ -28,7 +28,7 @@
                 <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
                 <td>{{ item.resourceTypeID }}</td>
                 <td><button (click)="deleteResource(item.resourceID)" class="btn btn-danger">Delete</button></td>
-                <td><button class="btn btn-danger"  [routerLink]="['/updateResource']">Update</button></td>
+                <td><button class="btn btn-danger"  [routerLink]="['/updateResource',item.resourceID]">Update</button></td>
               </tr>
             </tbody>
           </table>

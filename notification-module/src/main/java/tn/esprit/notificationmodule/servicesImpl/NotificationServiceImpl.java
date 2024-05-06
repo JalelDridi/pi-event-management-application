@@ -99,8 +99,6 @@ public class NotificationServiceImpl implements NotificationService {
         // Make a GET request to the User Microservice
         RestTemplate restTemplate = new RestTemplate();
 
-
-
         // Change the return type to List<NotificationEventDto>
         NotificationEventDto event = restTemplate.getForObject(
                 "http://localhost:8060/Event/getbyid",

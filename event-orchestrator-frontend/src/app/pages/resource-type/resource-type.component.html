@@ -1,8 +1,8 @@
 
  <!-- Dark table -->
  <div class="row mt-5">
-    <button class="add-button" type="button" [routerLink]="['/addResourceType']">Ajouter</button>
     <div class="col">
+      <button class="add-button" type="button" [routerLink]="['/addResourceType']">Ajouter</button>
       <div class="card bg-default shadow">
         <!-- <div class="card-header bg-transparent border-0">
           <h3 class="text-white mb-0">Product List</h3>
@@ -16,14 +16,16 @@
                 <th scope="col">ResourceType Name</th>
                 <th>Delete</th>
                 <th>Update</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of resourceTypes">
                 <td>{{ item.resourceTypeID }}</td>
                 <td>{{ item.resourceTypeName }}</td>
-                <td><button  class="btn btn-danger">Delete</button></td>
-                <td><button class="btn btn-danger" >Update</button></td>
+                <td><button  class="btn btn-danger" (click)="deleteResourceType(item.resourceTypeID)" >Delete</button></td>
+                <td><button class="btn btn-danger" (click)="onUpdate(item.resourceTypeID)">update</button></td>
+               <td><button class="btn btn-danger" (click)="showResources(item.resourceTypeID)">view resources </button></td> 
               </tr>
             </tbody>
           </table>
