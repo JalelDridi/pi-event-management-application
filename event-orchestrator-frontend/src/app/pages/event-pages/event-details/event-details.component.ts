@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {Eventattribut} from "../../../../../../../../../../../Desktop/AngularPi - Copie/src/app/models/event.model";
 import Swal from "sweetalert2";
 import {EventService} from "../../../services/eventservices/eventservice/event.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {QrCodeService} from "../../../services/eventservices/qr-code.service";
+import {Eventattribut} from "../../../services/eventservices/models/event.model";
 
 @Component({
   selector: 'app-event-details',
