@@ -34,10 +34,8 @@ import { UserListComponent } from './pages/admin-pages/user-list/user-list.compo
 import { ChatComponent } from './pages/chat/chat.component';
 import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resource-list-by-type.component';
 import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
-import { AddEventComponent } from './pages/event-pages/add-event/add-event.component';
-import { EditEventComponent } from './pages/event-pages/edit-event/edit-event.component';
-import { EventListComponent } from './pages/event-pages/event-list/event-list.component';
-import { EventDetailsComponent } from './pages/event-pages/event-details/event-details.component';
+import { EditEventComponent } from './pages/edit-event/edit-event.component';
+import { EventDetailsComponent } from './pages/event-details/event-details.component';
 import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue.component';
 
 
@@ -81,9 +79,7 @@ import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue
     ChatComponent,
     ResourceListByTypeComponent,
     UpdateResourceTypeComponent,
-    AddEventComponent,
     EditEventComponent,
-    EventListComponent,
     EventDetailsComponent,
     QrDialogueComponent
   ],

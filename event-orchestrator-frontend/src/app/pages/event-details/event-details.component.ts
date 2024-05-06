@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import Swal from "sweetalert2";
-import {EventService} from "../../../services/eventservices/eventservice/event.service";
+import {EventService} from "../../services/eventservices/eventservice/event.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
-import {QrCodeService} from "../../../services/eventservices/qr-code.service";
-import {Eventattribut} from "../../../services/eventservices/models/event.model";
+import {QrCodeService} from "../../services/eventservices/qr-code.service";
+import {Eventattribut} from "../../services/eventservices/models/event.model";
 
 @Component({
   selector: 'app-event-details',
@@ -16,7 +16,7 @@ export class EventDetailsComponent implements OnInit{
 
   eventId: number;
   eventDetails: any;
-  UserId: string = '6631182424b2edcedeb7478d';
+  UserId: string = localStorage.getItem("userId");
   userevents: any[] = [];
   isUserEvent: boolean = false;
   mytext :string

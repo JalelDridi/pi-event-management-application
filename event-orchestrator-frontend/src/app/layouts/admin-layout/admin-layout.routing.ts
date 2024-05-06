@@ -25,8 +25,7 @@ import {UserListFinalComponent} from "../../pages/admin-pages/user-list-final/us
 import {RessourceListComponent} from "../../pages/admin-pages/ressource-list/ressource-list.component";
 import { ResourceListByTypeComponent } from 'src/app/pages/resource-list-by-type/resource-list-by-type.component';
 import { UpdateResourceTypeComponent } from 'src/app/pages/update-resource-type/update-resource-type.component';
-import {ChatComponent} from "../../pages/chat/chat.component";
-import {EventDetailsComponent} from "../../pages/event-pages/event-details/event-details.component";
+import {EventDetailsComponent} from "../../pages/event-details/event-details.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
