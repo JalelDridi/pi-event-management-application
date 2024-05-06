@@ -29,7 +29,7 @@ public class ReclamationController {
 
     @PostMapping("/addreclamation")
     public Reclamation addReclamation( @RequestBody Reclamation reclamation ){
-        /*String userId = reclamation.getUserId() ;
+        String userId = reclamation.getUserId() ;
         String userMicroserviceUrl = UriComponentsBuilder
                 .fromUriString("http://localhost:8091/api/v1/users/{userId}")
                 .buildAndExpand(userId)
@@ -46,7 +46,7 @@ public class ReclamationController {
             }
         } else {
             throw new RuntimeException("Failed to fetch user from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
-        }*/
+        }
         return reclamationService.addReclamation(reclamation);
     }
     @GetMapping("/getreclamations")

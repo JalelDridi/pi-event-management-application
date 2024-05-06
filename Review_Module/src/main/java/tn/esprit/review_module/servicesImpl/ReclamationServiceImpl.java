@@ -17,12 +17,12 @@ public class ReclamationServiceImpl implements ReclamationService {
 
 
     private final ReclamationRepository reclamationRepository;
-    //private final JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
 
     @Autowired
-    public ReclamationServiceImpl(ReclamationRepository reclamationRepository  /*JavaMailSender javaMailSender*/ ) {
+    public ReclamationServiceImpl(ReclamationRepository reclamationRepository,  JavaMailSender javaMailSender ) {
         this.reclamationRepository = reclamationRepository;
-        //this.javaMailSender = javaMailSender;
+        this.javaMailSender = javaMailSender;
 
 
     }
@@ -48,7 +48,7 @@ public class ReclamationServiceImpl implements ReclamationService {
         return reclamationRepository.findAll();
     }
 
-   /* @Override
+    @Override
     public void SendReclamationEmail(String email) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(email);
@@ -56,7 +56,7 @@ public class ReclamationServiceImpl implements ReclamationService {
         message.setText("Your reclamation has been submitted successfully.");
         javaMailSender.send(message);
 
-    } */
+    }
 
 
     @Override
