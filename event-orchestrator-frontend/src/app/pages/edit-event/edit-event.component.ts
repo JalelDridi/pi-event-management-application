@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {EventService} from "../../../services/eventservices/eventservice/event.service";
+import {EventService} from "../../services/eventservices/eventservice/event.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Eventattribut} from "../../../services/eventservices/models/event.model";
+import {Eventattribut} from "../../services/eventservices/models/event.model";
 
 interface EventType {
   value: string;
