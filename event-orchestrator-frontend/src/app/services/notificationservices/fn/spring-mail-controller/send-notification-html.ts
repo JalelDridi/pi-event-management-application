@@ -9,13 +9,13 @@ import { RequestBuilder } from '../../request-builder';
 import { NotificationDto } from '../../models/notification-dto';
 
 export interface SendNotificationHtml$Params {
-  notificationDto: NotificationDto;
+      body: NotificationDto
 }
 
 export function sendNotificationHtml(http: HttpClient, rootUrl: string, params: SendNotificationHtml$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, sendNotificationHtml.PATH, 'post');
   if (params) {
-    rb.query('notificationDto', params.notificationDto, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(

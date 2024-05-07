@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -25,6 +26,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
+
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +68,7 @@ public class EmailServiceImpl implements EmailService {
 
 
         // Create a WebClient instance
-        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8091/api/v1").build();
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8060/api/v1/auth/authenticate").build();
 
         // Prepare the dto for the kafka consumer:
         NotificationDto notificationDto = new NotificationDto();
@@ -76,6 +79,7 @@ public class EmailServiceImpl implements EmailService {
 
         // Create the request body
         Map<String, String> requestBody = new HashMap<>();
+        // This allows the notification service to log in and be able to fetch the users list
         requestBody.put("email", "ahmedamine.romdnani@esprit.tn");
         requestBody.put("password", "11111111");
 
@@ -84,7 +88,7 @@ public class EmailServiceImpl implements EmailService {
 
         // Make a POST request to authenticate and obtain the bearer token
         ResponseEntity<Map> responseEntity = restTemplate.postForEntity(
-                "http://localhost:8091/api/v1/auth/authenticate",
+                "http://localhost:8060/api/v1/auth/authenticate",
                 requestEntity,
                 Map.class);
 
@@ -102,7 +106,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             // Change the return type to List<NotificationEventDto>
             List<NotificationEventDto> eventsList = restTemplate.getForObject(
-                    "http://localhost:8060/Event/getall",
+                    "http://localhost:8060/Event/upcoming",
                     List.class); // This expects a List
 
             Mono<ResponseEntity<List<NotificationUserDto>>> responseMono = webClient.get()
@@ -119,9 +123,11 @@ public class EmailServiceImpl implements EmailService {
 
             System.out.println(usersList);
             notificationDto.setContent(loadUpcomingEventsTemplate(eventsList));
-            notificationDto.setEmail("ahmedamine.romdnani@esprit.tn");
-            notificationDto.setSubject("Upcoming Events Newsletter");
-            kafkaTemplate.send(UPCOMING_EVENTS_TOPIC, notificationDto);
+            for(NotificationUserDto user : usersList) {
+                notificationDto.setEmail(user.getEmail());
+                notificationDto.setSubject("Upcoming Events Newsletter");
+                kafkaTemplate.send(UPCOMING_EVENTS_TOPIC, notificationDto);
+            }
         } catch (RestClientResponseException e) {
             // Handle the exception here
             System.out.println("Failed to fetch users " + e.getMessage());
@@ -176,6 +182,11 @@ public class EmailServiceImpl implements EmailService {
         // Create a Thymeleaf context
         Context context = new Context();
 
+
+//        notificationEventDtos.forEach(eventDto -> {
+//            String base64Image = Base64.getEncoder().encodeToString(eventDto.getImage1());
+//            eventDto.setBase64(base64Image); // Assuming you have a setter for the base64 image
+//        });
         // Set the list of events in the context
         context.setVariable("events", notificationEventDtos);
 
@@ -183,5 +194,17 @@ public class EmailServiceImpl implements EmailService {
         return templateEngine.process("upcoming_events_template", context);
     }
 
+    @Override
+    public String convertImageToBase64(byte[] image) {
+        return Base64.getEncoder().encodeToString(image);
+    }
+
+
+
+    // Scheduled method to send upcoming events to users every weekend:
+    @Scheduled(cron = "0 0 8 * * ?") // Will be executed every day at 8 AM
+    public void sendUpcomingEventsScheduled() {
+        sendUpcomingEvents();
+    }
 
 }
