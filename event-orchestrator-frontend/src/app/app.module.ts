@@ -43,6 +43,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
 import {CommonModule} from "@angular/common";
 import {EventService} from "./services/eventservices/eventservice/event.service";
+import { UserFeedbacksComponent } from './pages/user-feedbacks/user-feedbacks.component';
 
 
 
@@ -92,7 +93,8 @@ import {EventService} from "./services/eventservices/eventservice/event.service"
     UpdateResourceTypeComponent,
     EditEventComponent,
     EventDetailsComponent,
-    QrDialogueComponent
+    QrDialogueComponent,
+    UserFeedbacksComponent
   ],
   providers: [
     ResourceService,

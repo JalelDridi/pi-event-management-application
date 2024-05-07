@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,6 +21,8 @@ public class Event {
     private Long eventId ;
     private String  Name ;
     private String description;
+    private String etat; // Accepté | En cours - refusé
+
 
     private Date startDate ;
     private Date endDate ;
@@ -36,6 +39,9 @@ public class Event {
     private Float  lng ;
     private Float  lat ;
 
+
+    @OneToMany(mappedBy = "event")
+    private List<SelectedResources> selectedResources;
 
 
 
