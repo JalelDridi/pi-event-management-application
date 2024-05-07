@@ -55,7 +55,7 @@ public class EventImpl implements EventInterface {
     UsersEventsDao usersEventsDao;
 
     @Override
-    public Event addEvent(@RequestParam("file")MultipartFile file,@RequestParam("file1")MultipartFile file1, Event event, String userid) {
+    public Event addEvent(Event event, String userid) {
         LOG.info("Adding event: {}", event);
 
         Event e= eventDao.save(event);
@@ -176,7 +176,7 @@ public class EventImpl implements EventInterface {
 
     @Override
     public UserDto getUserById(String userId) {
-        String bearerToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiI2NjMwZTNiZTMxOWFkODExZmI3ZDdjNzgiLCJzdWIiOiJhaG1lZGFtaW5lLnJvbWRuYW5pQGVzcHJpdC50biIsImlhdCI6MTcxNDg2NjI5NCwiZXhwIjoxNzE1MDM5MDk0LCJhdXRob3JpdGllcyI6WyJVU0VSIl19.7ySc_64TBrKxDNYtdfhBVbUmtrNumma_FQWma62yXsUaKBItZom8EKa_KmXC2hCp";
+        String bearerToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiI2NjMwZTNiZTMxOWFkODExZmI3ZDdjNzgiLCJzdWIiOiJhaG1lZGFtaW5lLnJvbWRuYW5pQGVzcHJpdC50biIsImlhdCI6MTcxNTA0MTY1MSwiZXhwIjoxNzE1MjE0NDUxLCJhdXRob3JpdGllcyI6WyJVU0VSIl19.ZqBQLgzDq8lxF4WFsl1n2CFtJEekhekK2dJLJi8EkBz3U8XXlkmvqQ9pWeMqEzYB";
 
         String userMicroserviceUrl = UriComponentsBuilder
                 .fromUriString("http://localhost:8091/api/v1/users/{userId}")

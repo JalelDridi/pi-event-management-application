@@ -34,15 +34,14 @@ public class EventController {
     @PostMapping(value = "/addevent/{userid}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 
     public ResponseEntity<String> ajouterevent (@RequestParam ("file") MultipartFile file , @RequestParam("file1") MultipartFile file1, @ModelAttribute Event event , @PathVariable String userid){
-        if (file.isEmpty() || file1.isEmpty()){
-            return ResponseEntity.badRequest().body("File is missing or empty.");
-        }
        try {
-           byte[] imageData = file.getBytes();
-           event.setImage(imageData);
-           byte[] imageData1 = file.getBytes();
-           event.setImage(imageData1);
-           Event savedEvent = eventimpl.addEvent(file,file1,event,userid);
+           if( file != null && file1 != null) {
+               byte[] imageData = file.getBytes();
+               event.setImage(imageData);
+               byte[] imageData1 = file1.getBytes();
+               event.setImage1(imageData1);
+           }
+           Event savedEvent = eventimpl.addEvent(event,userid);
            return ResponseEntity.ok("succeeeded");
 
        } catch (IOException e) {
