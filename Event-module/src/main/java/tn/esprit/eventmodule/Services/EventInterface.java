@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface EventInterface {
-    public Event addEvent(@RequestParam("file") MultipartFile file, Event event, String userid) ;
+    public Event addEvent(@RequestParam("file")MultipartFile file,@RequestParam("file1")MultipartFile file1, Event event, String userid);
 
         List<Event> getallEvent ();
     EventAdminDto findEventById(Long eventId);
@@ -25,25 +25,7 @@ public interface EventInterface {
 //    void sendEmail(String toEmail, String subject, String body);
 //    void envoyerEmailParticipant(Participation participant, Event event) ;
 
-    /********************************** Resource
-     public Resource addResource (Resource resource);
-     public List<Resource> getResource();
-     public Resource editResource (Long resourceID , Resource resource);
-     public void deleteResource ( Long resourceID);
-     *************************************/
-    /************************************* ResourceType
-     public ResourceType addResourceType (ResourceType resourceType);
-     public List<ResourceType> getResourceType();
-     public ResourceType editResourceType (Long id , ResourceType resourceType);
-     public void deleteResourceType ( Long id);
-     ****************************************/
-    /****************************************
-     *                                  Reclamation
-     *                                              ************************************/
-    //public void displayReclamationsForEvent(long eventId);
-    /****************************************
-     *                                  Statistiques
-     *                                              ************************************/
+
     Map<String, Map<String, Double>> calculateEventPercentageByTypeAndStatus();
 
 

@@ -1,10 +1,9 @@
 package tn.esprit.eventmodule.Controllers;
 
-import jakarta.annotation.Resource;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.eventmodule.Services.IServiceMapbox;
+import tn.esprit.eventmodule.ServiceImpl.IServiceMapbox;
 
 import java.io.IOException;
 import java.util.Map;

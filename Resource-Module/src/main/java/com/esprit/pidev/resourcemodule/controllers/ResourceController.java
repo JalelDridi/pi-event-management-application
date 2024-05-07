@@ -48,7 +48,7 @@ public ResponseEntity<Resource> updateResource(@RequestBody Resource updatedReso
       resourceService.deleteById(resourceID);
   }
 
-  @GetMapping("/getAllAvailableResources")
+    @GetMapping("/getAllAvailableResources")
     public List<Resource> getAllAvailableResources(){
       return this.resourceService.getAllAvailableResources();
     }

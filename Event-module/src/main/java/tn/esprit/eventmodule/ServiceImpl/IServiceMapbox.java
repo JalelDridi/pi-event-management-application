@@ -1,4 +1,4 @@
-package tn.esprit.eventmodule.Services;
+package tn.esprit.eventmodule.ServiceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

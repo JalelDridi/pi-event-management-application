@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -13,8 +14,8 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
-public class Event {
+@Table(name="EVENTS")
+public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId ;
@@ -33,6 +34,9 @@ public class Event {
     @Column(name = "image", columnDefinition = "LONGBLOB")
     @Lob
     private byte[] image;
+    @Column(name = "image1", columnDefinition = "LONGBLOB")
+    @Lob
+    private byte[] image1;
     private Float  lng ;
     private Float  lat ;
 

@@ -1,4 +1,4 @@
-package tn.esprit.eventmodule.Services;
+package tn.esprit.eventmodule.ServiceImpl;
 
 import java.io.IOException;
 import java.util.Map;
