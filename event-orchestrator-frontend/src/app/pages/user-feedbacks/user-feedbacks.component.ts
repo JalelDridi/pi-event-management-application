@@ -1,39 +1,28 @@
 import {Component, OnInit} from '@angular/core';
 import {UserFinalService} from "../../services/adminservices/ServiceUserFinal/user-final.service";
+import {ReclamationService} from "../../reviewservices/reclamation.service";
+import {Reclamation} from "../../ReviewModels/Reclamation.Model";
 
 @Component({
   selector: 'app-user-feedbacks',
   templateUrl: './user-feedbacks.component.html',
   styleUrls: ['./user-feedbacks.component.css']
 })
-export class UserFeedbacksComponent implements OnInit{
+export class UserFeedbacksComponent implements OnInit {
 
   UserList: any[] = [];
+  reclamationList: Reclamation[] = [];
 
-  constructor(private user: UserFinalService) { }
+  constructor(private reclamationService: ReclamationService) { }
 
   ngOnInit(): void {
-    this.user.findAllconfUsers().subscribe((users: any[]) => {
-      this.UserList = users;
+    this.reclamationService.getAllReclamations().subscribe(reclamations => {
+      this.reclamationList = reclamations;
     });
-  }
 
-  toggleEmailInput(user: any): void {
-    user.showEmailInput = !user.showEmailInput;
-  }
-
-  sendUpdateEmail(recipientEmail: string, mail: string): void {
-    console.log(recipientEmail, mail);
-    this.user.sendUpdateEmail(recipientEmail, mail).subscribe(
-      response => {
-        // Handle success response
-        console.log('Mail sent successfully', response);
-      },
-      error => {
-        // Handle error response
-        console.error('Error sending mail:', error);
-      }
-    );
+    console.log("Hello");
+    console.log(this.reclamationList);
+    console.log("Hello");
   }
 
 }

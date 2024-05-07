@@ -26,6 +26,7 @@ import {RessourceListComponent} from "../../pages/admin-pages/ressource-list/res
 import { ResourceListByTypeComponent } from 'src/app/pages/resource-list-by-type/resource-list-by-type.component';
 import { UpdateResourceTypeComponent } from 'src/app/pages/update-resource-type/update-resource-type.component';
 import {EventDetailsComponent} from "../../pages/event-details/event-details.component";
+import {UserFeedbacksComponent} from "../../pages/user-feedbacks/user-feedbacks.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
@@ -54,4 +55,5 @@ export const AdminLayoutRoutes: Routes = [
     {path:"resources-by-type/:resourceTypeID",component: ResourceListByTypeComponent},
     {path:"updateResourceType/:resourceTypeID",component:UpdateResourceTypeComponent},
     { path: 'eventdetails/:id', component: EventDetailsComponent },
+    { path: 'userfeedbacks', component: UserFeedbacksComponent}
 ];

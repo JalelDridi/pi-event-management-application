@@ -4,8 +4,8 @@
       <div class="header-body text-center mb-7">
         <div class="row justify-content-center">
           <div class="col-lg-5 col-md-6">
-            <h1 class="text-white">Welcome!</h1>
-            <p class="text-lead text-light">Use these awesome forms to login or create new account in your project for free.</p>
+            <h1 class="text-white">Welcome admin!</h1>
+            <p class="text-lead text-light">This is a list of the user's submitted feedbacks, please respond precisely.</p>
           </div>
         </div>
       </div>
@@ -23,35 +23,38 @@
       <div class="col">
         <div class="card shadow">
           <div class="card-header border-0">
-            <h3 class="mb-0">User List Final </h3>
+            <h3 class="mb-0">All user feedbacks </h3>
           </div>
           <div class="table-responsive">
             <table class="table align-items-center table-flush">
               <thead class="thead-light">
               <tr>
-                <th scope="col">Feedback Id </th>
+                <th scope="col">Feedback Id</th>
                 <th scope="col">Username</th>
-                <th scope="col">email</th>
+                <th scope="col">Email</th>
                 <th scope="col">Feedback type</th>
                 <th scope="col">Content</th>
-                <th scope="col">Status</th>
+                <th scope="col">Response</th>
                 <th scope="col">Feedback Date</th>
+                <th scope="col">Actions</th>
               </tr>
               </thead>
-              <!-- affichage du tableau a l'aide du back end database  -->
               <tbody>
-              <tr *ngFor="let i of UserList">
-                <td>{{i.id}}</td>
-                <td>{{i.firstName}}</td>
-                <td>{{i.email}}</td>
-                <td>{{i.fonction}}</td>
+              <tr *ngFor="let i of reclamationList">
+                <td>{{ i.idRec }}</td>
+                <td>{{ i.userId }}</td>
+                <td>{{ i.userId }}</td>
+                <td>{{ i.typeRec }}</td>
+                <td>{{ i.content }}</td>
+                <td>{{ i.reponse }}</td>
+                <td>{{ i.dateReclamation }}</td>
                 <td>
-                  <button class="btn btn-primary" (click)="toggleEmailInput(i)">Send Mail</button>
-                  <div *ngIf="i.showEmailInput">
-                    <input type="text" [(ngModel)]="i.mailContent" placeholder="Enter email content">
-                    <button class="btn btn-success" (click)="sendUpdateEmail(i.email, i.mailContent)">Send</button>
+                  <div>
+                    <input type="text" placeholder="Enter email content">
+                    <button class="btn btn-success">Respond</button>
                   </div>
                 </td>
+              </tr>
               </tbody>
             </table>
           </div>

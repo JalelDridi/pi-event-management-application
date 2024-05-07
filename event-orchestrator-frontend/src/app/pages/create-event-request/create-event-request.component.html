@@ -60,7 +60,7 @@
               <div class="col-lg-6">
                 <div class="form-group">
                   <label>End Date</label>
-                  <input type="date" class="form-control" >
+                  <input  type="date" class="form-control" >
                 </div>
               </div>
             </div>
@@ -68,7 +68,12 @@
           <div class="mb-3">
             <label for="image" class="form-label">Image</label>
             <input type="file" (change)="onFileSelected($event)" />
-            <small>Ajoutez l'image de couverture de votre atelier</small>
+            <small>Choose a card image (Portrait)</small>
+          </div>
+          <div class="mb-3">
+            <label for="image1" class="form-label">Image</label>
+            <input type="file" (change)="onFileSelected1($event)" />
+            <small>Choose a promotional landscape/wide image</small>
           </div>
 
 
