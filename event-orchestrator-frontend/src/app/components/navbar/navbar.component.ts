@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import {EventUserDto} from "../../userservices/models/event-user-dto";
 import {UserService} from "../../userservices/services/user.service";
-import {KeycloakService} from "../../userservices/keycloak/keycloak.service";
 
 @Component({
   selector: 'app-navbar',
@@ -21,7 +20,7 @@ export class NavbarComponent implements OnInit {
               private element: ElementRef,
               private router: Router,
               private userService: UserService,
-              private keycloakService: KeycloakService) {
+              ) {
     this.location = location;
   }
 
@@ -68,16 +67,13 @@ export class NavbarComponent implements OnInit {
     return 'Dashboard';
   }
 
-  /*logout(): void {
+  logout(): void {
     // Remove userId and token from cookies
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
 
     // Redirect to login page
     this.router.navigate(['/login']);
-  }*/
-  async logout() {
-    await this.keycloakService.logout();
   }
 
   ////// Event search

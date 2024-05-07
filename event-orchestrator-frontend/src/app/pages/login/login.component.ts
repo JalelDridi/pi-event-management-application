@@ -1,36 +1,33 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import {Router} from "@angular/router";
+import {AuthenticationService} from "../../userservices/services/authentication.service";
+import {TokenService} from "../../userservices/token/token.service";
 import {AuthenticationRequest} from "../../userservices/models/authentication-request";
-import {KeycloakService} from "../../userservices/keycloak/keycloak.service";
-
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
-
+export class LoginComponent implements OnInit, OnDestroy {
   authRequest: AuthenticationRequest = {email: '', password: ''};
   errorMsg: Array<string> = [];
 
-  constructor(
-    private ss: KeycloakService
-  ) {
+  constructor(private router: Router,
+              private authService: AuthenticationService,
+              private tokenService: TokenService) {
+
   }
 
-  async ngOnInit(): Promise<void> {
-    await this.ss.init();
-    await this.ss.login();
-  }
-
-  /*login() {
+  login() {
     this.errorMsg = [];
     this.authService.authenticate({
       body: this.authRequest
     }).subscribe({
       next: (res) => {
         this.tokenService.token = res.token as string;
-        this.router.navigate(['books']);
+        localStorage.setItem('userId', res.userId); // Store user ID in local storage
+        this.router.navigate(['user-profile']);
       },
       error: (err) => {
         console.log(err);
@@ -45,5 +42,11 @@ export class LoginComponent implements OnInit {
 
   register() {
     this.router.navigate(['register']);
-  }*/
+  }
+
+  ngOnInit() {
+  }
+  ngOnDestroy() {
+  }
+
 }

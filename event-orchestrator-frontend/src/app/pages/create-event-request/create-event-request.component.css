@@ -1,0 +1,215 @@
+@charset "UTF-8";
+.col-xl-8 {
+  flex: 0 0 66.66666667%;
+  max-width: 100%;
+}
+
+/* General Styles */
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Typography */
+h1, h3, label {
+  color: #b83227;
+}
+
+/* Form and Card Styling */
+.card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+/* Input Fields */
+input[type=text], input[type=date], select, textarea {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+input[type=text]:focus, input[type=date]:focus, select:focus, textarea:focus {
+  border-color: #b83227;
+}
+
+/* Buttons */
+.btn-info {
+  background-color: #b83227;
+  border-color: #b83227;
+  color: white;
+  border-radius: 4px;
+  padding: 10px 15px;
+  transition: background-color 0.3s;
+}
+
+.btn-info:hover {
+  background-color: #d04a41;
+  border-color: #d04a41;
+}
+
+/* Form Sections */
+.heading-small {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .pl-lg-4 {
+    padding-left: 0;
+  }
+}
+/* Styles for the input[type="date"] */
+input[type=date] {
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 16px;
+  line-height: 1;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type=date]:focus {
+  border-color: #495057;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Styles for the select field */
+.select-custom {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.select-custom select {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 30px; /* Make space for the custom arrow */
+  background: right 10px center no-repeat;
+  background-size: 20px; /* Size of the background image */
+}
+
+/* Remove the inner border in Firefox */
+select::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+  margin-top: -2px;
+  margin-bottom: -2px;
+}
+
+/* Remove the default arrow in Internet Explorer 10 and 11 */
+select::-ms-expand {
+  display: none;
+}
+
+/* For the custom arrow to work on Firefox */
+@-moz-document url-prefix() {
+  .select-custom select {
+    padding-right: 10px;
+    text-indent: 0.01px; /* required for text to be centered in Firefox */
+    text-overflow: ""; /* required for text to be centered in Firefox */
+    background: transparent;
+  }
+  .select-custom:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #000; /* Arrow color */
+  }
+  /* Styling for the select element */
+  select {
+    width: 100%; /* Adjust width as needed */
+    padding: 8px 16px;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    background-color: white;
+    -webkit-appearance: none; /* Removes default styling on WebKit browsers */
+    -moz-appearance: none; /* Removes default styling on Firefox */
+    appearance: none; /* Removes default styling */
+    position: relative;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  /* Styling for the select element on focus */
+  select:focus {
+    outline: none;
+    border-color: #FF4136;
+    box-shadow: 0 0 0 2px rgba(255, 65, 54, 0.5);
+  }
+  /* Custom arrow using background image - replace 'your-arrow-image.svg' with your actual image file */
+  select {
+    background: no-repeat right 8px center;
+    background-size: 12px 12px; /* Adjust size as needed */
+    padding-right: 32px; /* Adjust padding to prevent text overlap with the arrow image */
+  }
+  /* Custom arrow fallback using pure CSS for browsers that do not support custom images */
+  .select-wrapper {
+    position: relative;
+  }
+  .select-wrapper::after {
+    content: "▼"; /* Unicode for down arrow */
+    position: absolute;
+    top: 50%;
+    right: 25px;
+    transform: translateY(-50%);
+    pointer-events: none; /* Ensures the click event will happen on select element */
+    font-size: 12px;
+    color: #333; /* Arrow color */
+  }
+  .custum-file-upload {
+    height: 200px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: space-between;
+    gap: 20px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #cacaca;
+    background-color: rgb(255, 255, 255);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
+  }
+  .custum-file-upload .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .custum-file-upload .icon svg {
+    height: 80px;
+    fill: rgb(75, 85, 99);
+  }
+  .custum-file-upload .text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .custum-file-upload .text span {
+    font-weight: 400;
+    color: rgb(75, 85, 99);
+  }
+  .custum-file-upload input {
+    display: none;
+  }
+}

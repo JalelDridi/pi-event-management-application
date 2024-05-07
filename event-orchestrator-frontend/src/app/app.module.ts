@@ -14,7 +14,6 @@ import { ResourceTypeComponent } from './pages/resource-type/resource-type.compo
 import { ResourceService } from './pages/resource-list/resource.service';
 import { AddResourceComponent } from './pages/add-resource/add-resource.component';
 import { UpdateResourceComponent } from './pages/update-resource/update-resource.component';
-
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interceptor";
 import {CodeInputModule} from "angular-code-input";
@@ -31,7 +30,6 @@ import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource
 import { RessourceListComponent } from './pages/admin-pages/ressource-list/ressource-list.component';
 import { UserListFinalComponent } from './pages/admin-pages/user-list-final/user-list-final.component';
 import { UserListComponent } from './pages/admin-pages/user-list/user-list.component';
-import { ChatComponent } from './pages/chat/chat.component';
 import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resource-list-by-type.component';
 import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
 import { EditEventComponent } from './pages/edit-event/edit-event.component';
@@ -44,14 +42,16 @@ import {MatButtonModule} from "@angular/material/button";
 import {CommonModule} from "@angular/common";
 import {EventService} from "./services/eventservices/eventservice/event.service";
 import { UserFeedbacksComponent } from './pages/user-feedbacks/user-feedbacks.component';
-import {KeycloakService} from "./userservices/keycloak/keycloak.service";
+import { AdminEventListComponent } from './pages/admin-pages/admin-event-list/admin-event-list.component';
 
 
-export function kcFactory(kcService: KeycloakService) {
-  return () => kcService.init();
-}
 @NgModule({
   imports: [
+    MatDialogModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    CommonModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
@@ -82,7 +82,18 @@ export function kcFactory(kcService: KeycloakService) {
     CreateEventRequestComponent,
     SubmitAFeedbackComponent,
     RessourcesComponent,
-    AddResourceTypeComponent
+    AddResourceTypeComponent,
+    RessourceListComponent,
+    UserListFinalComponent,
+    UserListComponent,
+    UserFeedbacksComponent,
+    ResourceListByTypeComponent,
+    UpdateResourceTypeComponent,
+    EditEventComponent,
+    EventDetailsComponent,
+    QrDialogueComponent,
+    AddResourceTypeComponent,
+    AdminEventListComponent
   ],
   providers: [
     ResourceService,
@@ -91,12 +102,6 @@ export function kcFactory(kcService: KeycloakService) {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      deps: [KeycloakService],
-      useFactory: kcFactory,
       multi: true
     },
     // Add other core services here

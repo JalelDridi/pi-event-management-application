@@ -16,7 +16,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> findReviewsByRating(Integer rating);
 
 
-    //int countReviewByEventID(Long eventid);
+    ////////////////int countReviewByEventID(Long eventid);
 
     List<Review>findReviewsByDateSubmittedBetween(LocalDate a , LocalDate b);
     List<Review> findReviewsByRatingLessThanEqual(Integer rating);
