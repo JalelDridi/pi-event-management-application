@@ -302,4 +302,6 @@ public class EventImpl implements EventInterface {
             System.out.println("  Planifié: " + typePercentages.getOrDefault("Planifié", 0.0) + "%");
             System.out.println("  En cours: " + typePercentages.getOrDefault("En_Cours", 0.0) + "%");
             System.out.println("  Terminé: " + typePercentages.getOrDefault("Terminé", 0.0) + "%");
-        }}}
+        }
+    }
+}

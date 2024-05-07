@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -160,10 +161,19 @@ public class EventController {
         }
     }
     /***************************************
-     Resource
+     STATISTIQUES
      *************************************************/
 
+    @GetMapping("/percentages")
+    public Map<String, Map<String, Double>> getEventPercentages() {
+        return eventimpl.calculateEventPercentageByTypeAndStatus();
+    }
 
+    // Optional: Endpoint to display percentages in a more readable format
+    @GetMapping("/display-percentages")
+    public void displayEventPercentages() {
+        eventimpl.displayEventPercentages();
+    }
 
 
 

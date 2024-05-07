@@ -15,7 +15,7 @@ import java.util.List;
 public class ReviewsImpl implements ReviewsInterface {
 
     private  RestTemplate restTemplate;
-    private final String reviewServiceUrl = "http://localhost:8094/api/reviews"; // Adjust the port and path as needed
+    private final String reviewServiceUrl = "http://localhost:8090/api/reviews"; // Adjust the port and path as needed
 
     @Autowired
     public void ReviewService(RestTemplate restTemplate) {
@@ -23,7 +23,7 @@ public class ReviewsImpl implements ReviewsInterface {
     }
 
     public List<ReviewDto> findReviewsByUserIdAndEventId(String userId, Long eventId) {
-        String url = reviewServiceUrl + "/getreviewsbyevent/{id}";
+        String url = reviewServiceUrl + "/getreviewsbyuseridandeventid/{userId}/{eventId}";
         try {
             ResponseEntity<List<ReviewDto>> response = restTemplate.exchange(
                     url,
