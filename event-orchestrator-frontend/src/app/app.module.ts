@@ -30,7 +30,6 @@ import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource
 import { RessourceListComponent } from './pages/admin-pages/ressource-list/ressource-list.component';
 import { UserListFinalComponent } from './pages/admin-pages/user-list-final/user-list-final.component';
 import { UserListComponent } from './pages/admin-pages/user-list/user-list.component';
-import { ChatComponent } from './pages/chat/chat.component';
 import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resource-list-by-type.component';
 import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
 import { EditEventComponent } from './pages/edit-event/edit-event.component';
@@ -51,6 +50,11 @@ export function kcFactory(kcService: KeycloakService) {
 }
 @NgModule({
   imports: [
+    MatDialogModule,
+    MatSelectModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    CommonModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
@@ -85,7 +89,7 @@ export function kcFactory(kcService: KeycloakService) {
     RessourceListComponent,
     UserListFinalComponent,
     UserListComponent,
-    ChatComponent,
+    UserFeedbacksComponent,
     ResourceListByTypeComponent,
     UpdateResourceTypeComponent,
     EditEventComponent,
