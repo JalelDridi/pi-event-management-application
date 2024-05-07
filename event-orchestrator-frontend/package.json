@@ -38,6 +38,7 @@
     "echarts": "^5.5.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
+    "keycloak-js": "^24.0.2",
     "ng-openapi-gen": "^0.51.0",
     "ngx-clipboard": "15.0.1",
     "ngx-echarts": "^15.0.3",

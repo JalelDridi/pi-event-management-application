@@ -28,7 +28,7 @@ export class AddResourceComponent {
       date: [null, Validators.required],
       isAvailable:[false] ,
       resourceTypeID: 1,
-   
+  
       // Vous pouvez ajouter d'autres validations selon vos besoins
     });
     this.resourceTypeID = 1;
@@ -55,7 +55,7 @@ export class AddResourceComponent {
     if (this.resourceForm.valid) {
      // const newResource = this.resourceForm.value;
      const newResource = { ...this.resourceForm.value };
-    
+    console.log("resourceTypeID",this.resourceTypeID);
       this.resourceService.addResource(newResource,this.resourceTypeID).subscribe(
         (response) => {
           // Afficher une alerte de succès avec SweetAlert

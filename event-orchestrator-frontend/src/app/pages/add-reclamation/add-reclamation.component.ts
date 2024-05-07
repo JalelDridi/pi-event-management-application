@@ -6,6 +6,11 @@ import { TypeReclamation } from '../../ReviewModels/type-reclamation.enum';
 import { ReclamationService } from '../../reviewservices/reclamation.service';
 import { BadWordsFilterService } from '../../reviewservices/badwordsfilter.service';
 import Swal from 'sweetalert2';
+import {SpringMailControllerService} from "../../services/notificationservices/services/spring-mail-controller.service";
+import {UserService} from "../../userservices/services/user.service";
+import {
+  NotificationControllerService
+} from "../../services/notificationservices/services/notification-controller.service";
 
 @Component({
   selector: 'app-add-reclamation',
@@ -15,16 +20,19 @@ import Swal from 'sweetalert2';
 export class AddReclamationsComponent {
   reclamationForm: FormGroup;
   typesReclamation = Object.values(TypeReclamation);
-  events: any[] = []; 
-  resources: any[] = []; 
-  userId = '2';
+  events: any[] = [];
+  resources: any[] = [];
+  userId = localStorage.getItem('userId');
   date = new Date();
 
   constructor(
     private formBuilder: FormBuilder,
     private reclamationService: ReclamationService,
     private filterService: BadWordsFilterService,
-    private http: HttpClient
+    private http: HttpClient,
+    private userService: UserService,
+    private emailService: SpringMailControllerService,
+    private notificationService: NotificationControllerService
   ) {
     this.reclamationForm = this.formBuilder.group({
       eventId: [''],
@@ -46,9 +54,10 @@ export class AddReclamationsComponent {
     this.http.get<any[]>(`http://localhost:8089/Event/getall`).subscribe(events => {
       this.events = events.map(event => ({ id: event.eventId, name: event.name }));
       console.log(this.events);
-    }); 
+    });
+
   }
-  
+
   fetchResources() {
     this.http.get<any[]>(`http://localhost:8093/api/resources/all-resources`).subscribe(resources => {
       this.resources = resources.map(resource => ({ id: resource.resourceID, name: resource.resourceName }));
@@ -69,6 +78,7 @@ export class AddReclamationsComponent {
         userId: this.userId,
         typeRec: this.reclamationForm.value.typeRec,
         content: content,
+        reponse: null,
         dateReclamation: this.date
       };
 
@@ -110,6 +120,7 @@ export class AddReclamationsComponent {
             console.log('Reclamation added successfully:', response);
             this.showSuccessAlert();
             this.resetForm();
+            this.notifyUser(reclamation.content);
           },
           (error: HttpErrorResponse) => {
             console.error('Error adding reclamation:', error);
@@ -139,6 +150,38 @@ export class AddReclamationsComponent {
       text: 'Error adding reclamation. Please try again later.'
     });
   }
+
+
+
+
+
+  notifyUser(content: string) {
+    var email;
+    this.userService.getUserById({ userId: this.userId }).subscribe(user => {
+      email = user.email;
+    });
+
+    this.emailService.sendNotificationHtml({
+      body: {
+        userId: this.userId,
+        email: email,
+        subject: "Your feedback has been sent successfully!",
+        content: content
+      }
+    }).subscribe(() => {
+      console.log("Reclamation sent successfully!");
+    });
+
+    this.notificationService.sendWebNotification({
+      body: {
+        userId: this.userId,
+        email: email,
+        subject: "Your feedback has been sent successfully!",
+        content: content
+      }
+    }).subscribe();
+  }
+
 
   showNetworkErrorToast(title: string, message: string) {
     Swal.fire({

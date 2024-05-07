@@ -9,6 +9,8 @@ public interface ReclamationService {
 
     public Reclamation addReclamation(Reclamation reclamation);
 
+    public void respondToReclamation(Reclamation reclamation);
+
     public List<Reclamation> getAllReclamations();
 
     public void SendReclamationEmail(String email);

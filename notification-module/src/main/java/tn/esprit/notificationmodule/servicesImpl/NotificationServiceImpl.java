@@ -3,9 +3,12 @@ package tn.esprit.notificationmodule.servicesImpl;
 import jakarta.annotation.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.dtos.NotificationEventDto;
 import tn.esprit.notificationmodule.dtos.NotificationUserDto;
@@ -15,6 +18,7 @@ import tn.esprit.notificationmodule.enums.DeliveryChannel;
 import tn.esprit.notificationmodule.enums.MessageType;
 import tn.esprit.notificationmodule.repositories.MessageRepository;
 import tn.esprit.notificationmodule.repositories.NotificationRepository;
+import tn.esprit.notificationmodule.services.EmailService;
 import tn.esprit.notificationmodule.services.NotificationService;
 import tn.esprit.notificationmodule.services.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +40,17 @@ public class NotificationServiceImpl implements NotificationService {
     @Autowired
     private KafkaTemplate<String, NotificationDto> kafkaTemplate;
 
+
     // Inject mongo repositories:
     @Resource
     private NotificationRepository notificationRepository;
     @Resource
     private MessageRepository messageRepository;
 
+
+
     // Kafka topics to send participation mail:
-    private static final String PARTICIPATION_TOPIC = "participation";
+    private static final String SEND_HTML_EMAIL_TOPIC = "send-html-email";
 
 
 
@@ -96,34 +103,37 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void confirmEventParticipation(String userId, Long eventId, HttpHeaders headers) {
 
+
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8060/api/v1").build();
         // Make a GET request to the User Microservice
         RestTemplate restTemplate = new RestTemplate();
 
         // Change the return type to List<NotificationEventDto>
         NotificationEventDto event = restTemplate.getForObject(
-                "http://localhost:8060/Event/getbyid",
-                NotificationEventDto.class); // This expects a List
-
-        // Create HttpEntity with headers
-        HttpEntity<String> entity = new HttpEntity<>(headers);
+                "http://localhost:8060/Event/getAnEvent/"+ eventId,
+                NotificationEventDto.class); // This expects an entity
 
 
-        NotificationUserDto user = restTemplate.getForObject(
-                "http://localhost:8060/api/v1/users/"+userId,
-                NotificationUserDto.class,
-                entity);
+        Mono<ResponseEntity<NotificationUserDto>> responseMono = webClient.get()
+                .uri("/users/" + userId)
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .retrieve()
+                .toEntity(NotificationUserDto.class);
 
-        NotificationDto notificationDto = new NotificationDto();
-        assert user != null;
-        assert event != null;
-        notificationDto.setEmail(user.getEmail());
-        notificationDto.setFullName(user.getFullName());
+
+        // Block and retrieve the response
+        ResponseEntity<NotificationUserDto> responseEntity = responseMono.block();
+
+        // Extract the user
+        NotificationUserDto user = responseEntity.getBody();
+        System.out.println(user);
+
 
 
         Message message = new Message();
         message.setSubject("Confirmation of you participation");
-        message.setContent("Hello" + user.getFullName() + ", thank you for your participation in the event : " + event.getName());
-        message.setUserId(user.getUserId());
+        message.setContent("Hello ," + user.getFirstName() + " "+ user.getLastName() + ", thank you for your participation in the event : " + event.getName());
+        message.setUserId(user.getUserID());
         message.setSentDate(new Date());
         message.setMessageType(MessageType.webNotification);
         // the notification is sent will be set to true since it will be sent instantly
@@ -133,6 +143,7 @@ public class NotificationServiceImpl implements NotificationService {
         Notification notification = new Notification();
         notification.setDeliveryChannel(DeliveryChannel.webNotification);
         notification.setIsSent(true);
+        notification.setUserId(user.getUserID());
         // Saves the web notification along with its message (content).
         addNotification(notification, message);
 
@@ -141,8 +152,11 @@ public class NotificationServiceImpl implements NotificationService {
         message.setMessageType(MessageType.email);
         // Saves the mail notification along with its message (content).
         addNotification(notification, message);
+        NotificationDto notificationDto = new NotificationDto();
+        notificationDto.setEmail(user.getEmail());
+        notificationDto.setFullName(user.getFullName());
         notificationDto.setNotificationAndMessage(notification, message);
-        kafkaTemplate.send(PARTICIPATION_TOPIC, notificationDto);
+        kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, notificationDto);
 
         // the is sent will be set to false, so it can be sent later on .
         Notification reminderNotification = new Notification();
@@ -232,7 +246,7 @@ public class NotificationServiceImpl implements NotificationService {
 
                 // if the delivery channel is
                 if(notification.getDeliveryChannel() == DeliveryChannel.email) {
-                    kafkaTemplate.send(PARTICIPATION_TOPIC, notificationDto);
+                    kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, notificationDto);
                 }
 
             } else {
@@ -241,6 +255,11 @@ public class NotificationServiceImpl implements NotificationService {
             }
         }
     }
+
+
+
+
+
 
 
 }

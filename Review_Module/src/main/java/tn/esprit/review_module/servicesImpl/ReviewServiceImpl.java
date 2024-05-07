@@ -1,5 +1,6 @@
 package tn.esprit.review_module.servicesImpl;
 
+import tn.esprit.review_module.Dtos.ReviewEventDto;
 import tn.esprit.review_module.entities.Review;
 import tn.esprit.review_module.repositories.ReviewRepository;
 import tn.esprit.review_module.services.ReviewService;
@@ -17,7 +18,21 @@ public class ReviewServiceImpl implements ReviewService {
     public Review addReview(Review review) {
         return reviewRepository.save(review);
     }
+    @Override
+    public Review createReview(ReviewEventDto reviewDto) {
+        Review review = convertToEntity(reviewDto);
+        return reviewRepository.save(review);
+    }
 
+    private Review convertToEntity(ReviewEventDto reviewDto) {
+        Review review = new Review();
+        review.setUserID(reviewDto.getUserID());
+        review.setEventID(reviewDto.getEventID());
+        review.setRating(reviewDto.getRating());
+        review.setContent(reviewDto.getContent());
+        review.setDateSubmitted(reviewDto.getDateSubmitted());
+        return review;
+    }
     @Override
     public Review findreviewByreviewid(Long id) {
         return reviewRepository.findReviewByReviewID(id);

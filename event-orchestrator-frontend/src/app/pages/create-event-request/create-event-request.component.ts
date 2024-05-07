@@ -23,11 +23,13 @@ export class CreateEventRequestComponent implements OnInit{
   event: any = {
     name: '',
     description: '',
+    status: "en_cours",
     startDate: null,
     endDate: null,
     eventType: '',
     Club: '',
     image: File,
+    image1: File,
     lng:Float64Array,
     lat:Float64Array
   };
@@ -68,10 +70,12 @@ export class CreateEventRequestComponent implements OnInit{
       return;
     }
     formData.append('file', this.event.image);
+    formData.append('file1', this.event.image1);
     formData.append('name', this.event.name);
     formData.append('description', this.event.description);
     formData.append('eventType', this.event.eventType);
     formData.append('Club', this.event.Club);
+
 
     this.Event.addEvent(formData, this.userid).subscribe(
       () => {
@@ -111,6 +115,13 @@ export class CreateEventRequestComponent implements OnInit{
     if (event.target.files.length > 0) {
       this.event.image = event.target.files[0];
       console.log(this.event.image)
+    }
+  }
+
+  onFileSelected1(event: any) {
+    if (event.target.files.length > 0) {
+      this.event.image1 = event.target.files[0];
+      console.log(this.event.image1)
     }
   }
   getPlaceName(latitude: number, longitude: number): void {

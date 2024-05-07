@@ -4,19 +4,24 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.UsersEventsDao;
 import tn.esprit.eventmodule.Dtos.EventAdminDto;
+import tn.esprit.eventmodule.Dtos.ReviewDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
 import tn.esprit.eventmodule.Entities.StatusType;
 import tn.esprit.eventmodule.ServiceImpl.EventImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.eventmodule.ServiceImpl.ReviewsImpl;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -29,20 +34,21 @@ public class EventController {
     EventDao eventDao;
     @Autowired
     UsersEventsDao usersEventsDao;
+    @Autowired
+    ReviewsImpl reviewsImpl;
 
     @CrossOrigin("*")
     @PostMapping(value = "/addevent/{userid}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 
     public ResponseEntity<String> ajouterevent (@RequestParam ("file") MultipartFile file , @RequestParam("file1") MultipartFile file1, @ModelAttribute Event event , @PathVariable String userid){
-        if (file.isEmpty() || file1.isEmpty()){
-            return ResponseEntity.badRequest().body("File is missing or empty.");
-        }
        try {
-           byte[] imageData = file.getBytes();
-           event.setImage(imageData);
-           byte[] imageData1 = file.getBytes();
-           event.setImage(imageData1);
-           Event savedEvent = eventimpl.addEvent(file,file1,event,userid);
+           if( file != null && file1 != null) {
+               byte[] imageData = file.getBytes();
+               event.setImage(imageData);
+               byte[] imageData1 = file1.getBytes();
+               event.setImage1(imageData1);
+           }
+           Event savedEvent = eventimpl.addEvent(event,userid);
            return ResponseEntity.ok("succeeeded");
 
        } catch (IOException e) {
@@ -84,6 +90,8 @@ public class EventController {
         }
     }
 
+    @GetMapping ("/getEventById/{eventId}")
+    public Optional<Event> getEventById(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
 
     @GetMapping ("/getall")
     public List<Event> getAllEvent () {
@@ -91,6 +99,8 @@ public class EventController {
     }
     @GetMapping("getAnEvent/{eventId}")
     public Event getAnEvent(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
+
+
     @PutMapping("/edited/{eventId}")
     public Event editedEvent (@PathVariable Long eventId, @RequestBody Event event){
         return eventimpl.editEvent(eventId, event) ;
@@ -161,10 +171,19 @@ public class EventController {
         }
     }
     /***************************************
-     Resource
+     STATISTIQUES
      *************************************************/
 
+    @GetMapping("/percentages")
+    public Map<String, Map<String, Double>> getEventPercentages() {
+        return eventimpl.calculateEventPercentageByTypeAndStatus();
+    }
 
+    // Optional: Endpoint to display percentages in a more readable format
+    @GetMapping("/display-percentages")
+    public void displayEventPercentages() {
+        eventimpl.displayEventPercentages();
+    }
 
 
 

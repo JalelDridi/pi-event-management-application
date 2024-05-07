@@ -18,5 +18,7 @@ public class NotificationEventDto implements Serializable {
     private String type;
     private String Club ;
     private String status;
+    private byte[] image1;
+    private String base64;
 
 }

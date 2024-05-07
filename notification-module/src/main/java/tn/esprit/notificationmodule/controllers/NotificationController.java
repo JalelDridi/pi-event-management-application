@@ -41,6 +41,7 @@ public class NotificationController {
                                      @RequestParam Long eventId,
                                      @RequestHeader("Authorization") String authorizationHeader) {
         HttpHeaders headers = new HttpHeaders();
+        System.out.println(authorizationHeader);
         headers.set("Authorization", authorizationHeader);
         notificationService.confirmEventParticipation(userId, eventId, headers);
     }

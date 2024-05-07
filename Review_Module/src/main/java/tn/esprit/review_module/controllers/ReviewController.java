@@ -1,6 +1,7 @@
 package tn.esprit.review_module.controllers;
 
 import org.springframework.http.ResponseEntity;
+import tn.esprit.review_module.Dtos.ReviewEventDto;
 import tn.esprit.review_module.entities.Review;
 import tn.esprit.review_module.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,11 @@ public class ReviewController {
     public Review addReview(@RequestBody Review review ){
         return reviewService.addReview(review);
     }
-
+    @PostMapping("/reviews")
+    public ResponseEntity<Review> createReview(@RequestBody ReviewEventDto reviewDto) {
+        Review review = reviewService.createReview(reviewDto);
+        return ResponseEntity.ok(review);
+    }
     @GetMapping("/findreview/{id}")
     @ResponseBody
     public Review findReviewbyID(@PathVariable Long id){
@@ -60,11 +65,7 @@ public class ReviewController {
         return reviewService.findReviewbyuseridandeventid(userid, eventid);
     }
 
-   /* @GetMapping("/event/{eventId}")
-    public ResponseEntity<Long> getStatistiquesParEvent(@PathVariable Long eventId) {
-        long statistiquesParEvent = reviewService.getStatistiquesParEvent(eventId);
-        return ResponseEntity.ok(statistiquesParEvent);
-    }*/
+ 
 
 
 

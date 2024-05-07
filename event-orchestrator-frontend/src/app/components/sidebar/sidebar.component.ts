@@ -16,6 +16,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/requestevent', title: 'Create event request',  icon: 'ni-fat-add text-primary', class: '' },
   { path: '/submitfeedback', title: 'Submit a feedback',  icon: 'ni-chat-round text-primary', class: '' },
   { path: '/resources', title: 'All resources',  icon: 'ni-collection text-primary', class: '' },
+  { path: '/userfeedbacks', title: 'User feedbacks',  icon: 'ni-collection text-primary', class: '' },
   { path: '/dashboard', title: 'Dashboard',  icon: 'ni-chart-bar-32 text-primary', class: '' },
   { path: '/icons', title: 'Icons',  icon:'ni-diamond text-blue', class: '' },
   { path: '/maps', title: 'Maps',  icon:'ni-map-big text-orange', class: '' },

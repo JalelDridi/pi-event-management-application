@@ -48,4 +48,6 @@ public interface EmailService {
      * @return The HTML template content with the upcoming events.
      */
     String loadUpcomingEventsTemplate(List<NotificationEventDto> notificationEventDtos);
+
+    String convertImageToBase64(byte[] image);
 }
