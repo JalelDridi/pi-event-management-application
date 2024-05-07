@@ -40,21 +40,27 @@
               </tr>
               </thead>
               <tbody>
-              <tr *ngFor="let i of reclamationList">
-                <td>{{ i.idRec }}</td>
-                <td>{{ i.userId }}</td>
-                <td>{{ i.userId }}</td>
-                <td>{{ i.typeRec }}</td>
-                <td>{{ i.content }}</td>
-                <td>{{ i.reponse }}</td>
-                <td>{{ i.dateReclamation }}</td>
-                <td>
+              <tr *ngFor="let reclamation of reclamationList; let i = index">
+                <td>{{ reclamationList[i].idRec }}</td>
+                <td>{{ usernames[i] }}</td>
+                <td>{{ emails[i] }}</td>
+                <td>{{ reclamationList[i].typeRec }}</td>
+                <td>{{ reclamationList[i].content }}</td>
+                <td>{{ reclamationList[i].reponse }}</td>
+                <td>{{ reclamationList[i].dateReclamation }}</td>
+                <td *ngIf="reclamationList[i].reponse === null; else alreadyResponded">
                   <div>
-                    <input type="text" placeholder="Enter email content">
-                    <button class="btn btn-success">Respond</button>
+                    <input type="text" #responseInput placeholder="Enter your response">
+                    <button class="btn btn-success" (click)="respondToReclamation(i, responseInput.value)">Respond</button>
                   </div>
                 </td>
+                <ng-template #alreadyResponded>
+                  <td>
+                    Already responded
+                  </td>
+                </ng-template>
               </tr>
+
               </tbody>
             </table>
           </div>

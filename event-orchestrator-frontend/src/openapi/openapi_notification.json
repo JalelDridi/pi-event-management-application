@@ -82,16 +82,16 @@
           "spring-mail-controller"
         ],
         "operationId": "sendNotificationHtml",
-        "parameters": [
-          {
-            "name": "notificationDto",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "$ref": "#/components/schemas/NotificationDto"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationDto"
+              }
             }
-          }
-        ],
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "OK"

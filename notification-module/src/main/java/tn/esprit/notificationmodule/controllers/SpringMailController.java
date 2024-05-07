@@ -56,7 +56,7 @@ public class SpringMailController {
     // this will send notification in HTML format (for general purpose)
     @PostMapping("/send-notification-html")
     @ResponseBody
-    public void sendNotificationHtml(NotificationDto notificationDto) {
+    public void sendNotificationHtml(@RequestBody NotificationDto notificationDto) {
         kafkaTemplate.send(SEND_HTML_EMAIL_TOPIC, notificationDto);
     }
 
