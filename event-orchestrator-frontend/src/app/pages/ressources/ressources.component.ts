@@ -13,7 +13,7 @@ import { ResourceStatistics } from './resource-statistics';
   styleUrls: ['./ressources.component.css']
 })
 export class RessourcesComponent {
-
+  searchResults: Resource[] = [];
   resources: Resource[] =[];
   resourceTypeID: number;
   resourceStatistics: ResourceStatistics[];
@@ -66,6 +66,17 @@ updateResource(resourceID:number){
   this.router.navigate(['update', resourceID]);
 }
 
+searchResources(resourceName: string): void {
+  this.resourceService.searchResources(resourceName)
+    .subscribe(
+      (data: Resource[]) => {
+        this.searchResults = data;
+      },
+      (error: any) => {
+        console.error('Error fetching search results:', error);
+      }
+    );
+}
 
 
 }
