@@ -29,6 +29,7 @@ import {EventDetailsComponent} from "../../pages/event-details/event-details.com
 import { ReclamationsStatisticsComponent } from 'src/app/pages/reclamations-statistics/reclamations-statistics.component';
 import { ReviewStatisticsComponent } from 'src/app/pages/reviews-statistics/reviews-statistics.component';
 import {UserFeedbacksComponent} from "../../pages/user-feedbacks/user-feedbacks.component";
+import {AdminEventListComponent} from "../../pages/admin-pages/admin-event-list/admin-event-list.component";
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
@@ -57,5 +58,6 @@ export const AdminLayoutRoutes: Routes = [
     {path:"resources-by-type/:resourceTypeID",component: ResourceListByTypeComponent},
     {path:"updateResourceType/:resourceTypeID",component:UpdateResourceTypeComponent},
     { path: 'eventdetails/:id', component: EventDetailsComponent },
-    { path: 'userfeedbacks', component: UserFeedbacksComponent}
+    { path: 'userfeedbacks', component: UserFeedbacksComponent},
+    { path: 'admineventlist', component: AdminEventListComponent}
 ];
