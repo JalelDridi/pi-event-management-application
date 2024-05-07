@@ -23,6 +23,7 @@ public class Event implements Serializable {
     private String  Name ;
     private String description;
     private String etat; // Accepté | En cours - refusé
+    private int capacity;
 
 
     private Date startDate ;
