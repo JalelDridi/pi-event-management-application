@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Resource } from './resource';
 import { Observable, map } from 'rxjs';
 import { ResourceType } from '../resource-type/resource-type';
+import { ResourceStatistics } from '../ressources/resource-statistics';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +38,10 @@ export class ResourceService {
 
   findResourcesByResourceType(resourceTypeID: number): Observable<Resource[]> {
     return this.httpClient.get<Resource[]>(`${this.baseUrl}/findByResourceType/${resourceTypeID.toString()}`);
+  }
+
+  getStatistics(): Observable<ResourceStatistics[]> {
+    return this.httpClient.get<ResourceStatistics[]>(this.baseUrl+'/statistics/resource-types');
   }
 
 }
