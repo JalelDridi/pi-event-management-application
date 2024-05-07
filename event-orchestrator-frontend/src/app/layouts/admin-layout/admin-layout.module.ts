@@ -28,6 +28,10 @@ import { AddReclamationsComponent } from 'src/app/pages/add-reclamation/add-recl
 import { ReclamationpagetestComponent } from 'src/app/pages/reclamationpagetest/reclamationpagetest.component';
 import {ResourceListComponent} from "../../pages/resource-list/resource-list.component";
 import {ResourceService} from "../../pages/resource-list/resource.service";
+import { ReclamationStatisticsService } from 'src/app/reviewservices/reclamationstatistics.service';
+import { ReclamationsStatisticsComponent } from '../../pages/reclamations-statistics/reclamations-statistics.component';
+import { NgxEchartsModule } from 'ngx-echarts'; 
+import { ReviewStatisticsComponent } from 'src/app/pages/reviews-statistics/reviews-statistics.component';
 
 
 
@@ -41,6 +45,9 @@ import {ResourceService} from "../../pages/resource-list/resource.service";
     NgbModule,
     ClipboardModule,
     MatButtonModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'), 
+    }),
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -63,12 +70,15 @@ import {ResourceService} from "../../pages/resource-list/resource.service";
     CustomDatePipe,
     AddReclamationsComponent,
     ReclamationpagetestComponent,
+    ReclamationsStatisticsComponent,
+    ReviewStatisticsComponent,
     CustomDatePipe
   ],
   providers: [
     ReviewService,
     ResourceService,
     BadWordsFilterService,
+    ReclamationStatisticsService,
     DatePipe
   ]
 })

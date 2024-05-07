@@ -14,7 +14,6 @@ import { ResourceTypeComponent } from './pages/resource-type/resource-type.compo
 import { ResourceService } from './pages/resource-list/resource.service';
 import { AddResourceComponent } from './pages/add-resource/add-resource.component';
 import { UpdateResourceComponent } from './pages/update-resource/update-resource.component';
-
 import {ActivateAccountComponent} from "./pages/activate-account/activate-account.component";
 import {HttpTokenInterceptor} from "./userservices/interceptor/http-token.interceptor";
 import {CodeInputModule} from "angular-code-input";
@@ -82,6 +81,16 @@ export function kcFactory(kcService: KeycloakService) {
     CreateEventRequestComponent,
     SubmitAFeedbackComponent,
     RessourcesComponent,
+    AddResourceTypeComponent,
+    RessourceListComponent,
+    UserListFinalComponent,
+    UserListComponent,
+    ChatComponent,
+    ResourceListByTypeComponent,
+    UpdateResourceTypeComponent,
+    EditEventComponent,
+    EventDetailsComponent,
+    QrDialogueComponent,
     AddResourceTypeComponent
   ],
   providers: [

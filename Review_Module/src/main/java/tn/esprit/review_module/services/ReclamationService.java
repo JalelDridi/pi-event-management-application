@@ -3,6 +3,7 @@ package tn.esprit.review_module.services;
 import tn.esprit.review_module.entities.Reclamation;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ReclamationService {
 
@@ -20,4 +21,6 @@ public interface ReclamationService {
     public List<Reclamation> findreclamationbyeventidanduserid(String userid, Long eventid);
 
     public void deletereclamation(Long IdRec);
+   //////////////////: public Map<String, Long> getStatistiquesParTypeRec();
+
 }

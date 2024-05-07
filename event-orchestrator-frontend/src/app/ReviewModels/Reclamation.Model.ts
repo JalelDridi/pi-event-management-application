@@ -6,7 +6,7 @@ export class Reclamation {
   ressourceId?:number;
   userId: string;
   content : string;
-  reponse : string;
+  reponse? : string;
   typeRec: TypeReclamation;
   dateReclamation: Date;
 
