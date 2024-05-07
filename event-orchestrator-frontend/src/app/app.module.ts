@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -28,9 +28,12 @@ import { CreateEventRequestComponent } from './pages/create-event-request/create
 import { SubmitAFeedbackComponent } from './pages/submit-a-feedback/submit-a-feedback.component';
 import { RessourcesComponent } from './pages/ressources/ressources.component';
 import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource-type.component';
+import {KeycloakService} from "./userservices/keycloak/keycloak.service";
 
 
-
+export function kcFactory(kcService: KeycloakService) {
+  return () => kcService.init();
+}
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -71,6 +74,12 @@ import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      deps: [KeycloakService],
+      useFactory: kcFactory,
       multi: true
     },
     // Add other core services here
