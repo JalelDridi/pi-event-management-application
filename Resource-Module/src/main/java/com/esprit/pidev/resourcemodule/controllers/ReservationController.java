@@ -4,6 +4,7 @@ import com.esprit.pidev.resourcemodule.entities.Reservation;
 import com.esprit.pidev.resourcemodule.entities.Resource;
 import com.esprit.pidev.resourcemodule.services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
@@ -31,10 +32,19 @@ public class ReservationController {
         return this.reservationService.addReservation(reservation,resourceID);
     }
 
-    @PostMapping("/updateReservation")
-    public Reservation updateReservation(@RequestBody Reservation reservation){
-        return this.reservationService.updateReservation(reservation);
+//    @PostMapping("/updateReservation")
+//    public Reservation updateReservation(@RequestBody Reservation reservation){
+//        return this.reservationService.updateReservation(reservation);
+//    }
+@PutMapping("/updateReservation/{resourceID}")
+public ResponseEntity<Reservation> updateReservation(@RequestBody Reservation updatedReservation, @PathVariable Long resourceID) {
+    Reservation reservation = reservationService.updateReservation(updatedReservation,resourceID);
+    if (reservation != null) {
+        return ResponseEntity.ok(reservation);
+    } else {
+        return ResponseEntity.notFound().build();
     }
+}
 
     @DeleteMapping("/deleteReservation/{reservationID}")
     public void deleteReservation(@PathVariable Long reservationID){

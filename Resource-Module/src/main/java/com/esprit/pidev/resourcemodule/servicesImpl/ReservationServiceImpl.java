@@ -4,15 +4,11 @@ import com.esprit.pidev.resourcemodule.daos.ReservationDao;
 import com.esprit.pidev.resourcemodule.daos.ResourceDao;
 import com.esprit.pidev.resourcemodule.entities.Reservation;
 import com.esprit.pidev.resourcemodule.entities.Resource;
-import com.esprit.pidev.resourcemodule.entities.ResourceType;
 import com.esprit.pidev.resourcemodule.services.ReservationService;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
-import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -43,11 +39,21 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
+@Override
+public Reservation updateReservation(Reservation updatedReservation, Long resourceID) {
 
-    @Override
-    public Reservation updateReservation(Reservation reservation) {
-        return this.reservationDao.save(reservation);
+    Reservation existingReservation= reservationDao.findById(updatedReservation.getReservationID()).orElse(null);
+    if (existingReservation != null) {
+        existingReservation.setStartDate(updatedReservation.getStartDate());
+        existingReservation.setEndDate(updatedReservation.getEndDate());
+        existingReservation.setIsValid(updatedReservation.getIsValid());
+        Resource resource = resourceDao.findById(resourceID).orElse(null);
+        if (resource!= null) {
+            existingReservation.setResource(resource);
+        }
     }
+    return reservationDao.save(existingReservation);
+}
 
     @Override
     public void deleteById(Long reservationID) {

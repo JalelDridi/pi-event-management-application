@@ -15,7 +15,8 @@ public interface ReservationService {
 
   Reservation createReservation(Reservation reservation, Long resourceId);
 
-    Reservation updateReservation(Reservation reservation);
+
+    Reservation updateReservation(Reservation updatedReservation, Long resourceID);
 
     void deleteById(Long reservationID);
 
