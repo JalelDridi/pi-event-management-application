@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import {EventUserDto} from "../../userservices/models/event-user-dto";
 import {UserService} from "../../userservices/services/user.service";
+import {KeycloakService} from "../../userservices/keycloak/keycloak.service";
 
 @Component({
   selector: 'app-navbar',
@@ -19,7 +20,8 @@ export class NavbarComponent implements OnInit {
   constructor(location: Location,
               private element: ElementRef,
               private router: Router,
-              private userService: UserService) {
+              private userService: UserService,
+              private keycloakService: KeycloakService) {
     this.location = location;
   }
 
@@ -66,13 +68,34 @@ export class NavbarComponent implements OnInit {
     return 'Dashboard';
   }
 
-  logout(): void {
+  /*logout(): void {
     // Remove userId and token from cookies
     localStorage.removeItem('userId');
     localStorage.removeItem('token');
 
     // Redirect to login page
     this.router.navigate(['/login']);
+  }*/
+  async logout() {
+    await this.keycloakService.logout();
+  }
+
+  ////// Event search
+  filterEvent() {
+    const filter = (document.getElementById('searchInput') as HTMLInputElement).value.toUpperCase();
+    const events = document.querySelectorAll('.carousel-item');
+
+    events.forEach(event => {
+      const title = (event.querySelector('.carousel-item__details--title') as HTMLElement).innerText.toUpperCase();
+      const subtitle = (event.querySelector('.carousel-item__details--subtitle') as HTMLElement).innerText.toUpperCase();
+      const combinedText = title + subtitle;
+
+      if (combinedText.includes(filter)) {
+        (event as HTMLElement).style.display = ''; // Show the event
+      } else {
+        (event as HTMLElement).style.display = 'none'; // Hide the event
+      }
+    });
   }
 
 

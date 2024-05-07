@@ -13,22 +13,31 @@ import org.springframework.stereotype.Service;
 
 import tn.esprit.notificationmodule.entities.DatabaseSequence;
 
+/**
+ * Service class for generating sequence numbers.
+ */
 @Service
 public class SequenceGeneratorService {
 
     private final MongoOperations mongoOperations;
 
-    @Autowired
+    /**
+     * Constructs a SequenceGeneratorService with the specified MongoOperations.
+     * @param mongoOperations The MongoOperations instance.
+     */
     public SequenceGeneratorService(MongoOperations mongoOperations) {
         this.mongoOperations = mongoOperations;
     }
 
+    /**
+     * Generates a sequence number for the given sequence name.
+     * @param seqName The name of the sequence.
+     * @return The generated sequence number.
+     */
     public long generateSequence(String seqName) {
-
         DatabaseSequence counter = mongoOperations.findAndModify(query(where("_id").is(seqName)),
-                new Update().inc("seq",1), options().returnNew(true).upsert(true),
+                new Update().inc("seq", 1), options().returnNew(true).upsert(true),
                 DatabaseSequence.class);
-        return !Objects.isNull(counter) ? counter.getSeq() : 1;
-
+        return (counter != null) ? counter.getSeq() : 1;
     }
 }

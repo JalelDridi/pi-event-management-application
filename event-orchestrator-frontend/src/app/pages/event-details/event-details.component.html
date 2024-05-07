@@ -1,0 +1,172 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+     style="min-height: 300px; background-image: url(https://i.ibb.co/C0pQvTm/pablo-heimplatz-ZODc-Bk-Eohk8-unsplash.jpg); background-size: cover; background-position: center top;">
+  <!-- Mask -->.
+
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-lg-7 col-md-10">
+        <h1 class="display-2 text-white">{{eventDetails.name}}</h1>
+        <h1 class="display-2 text-white">{{eventDetails.type}}</h1>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+      <div class="card card-profile shadow">
+        <div class="row justify-content-center">
+          <div class="col-lg-3 order-lg-2">
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-card-front">
+              <p class="title">Event Details</p>
+              <p>Hover Me</p>
+            </div>
+            <div class="flip-card-back">
+              <div class="card-body pt-0 pt-md-4">
+                <h6 class="heading-small text-muted mb-4">Event Details</h6>
+                <div class="pl-lg-4">
+                  <div class="row">
+                    <div class="card-body pt-0 pt-md-4">
+
+                      <h6 class="heading-small text-muted mb-4">Event Details</h6>
+                      <div class="pl-lg-4">
+                        <div class="row">
+                          <div class="col-lg-12">
+                            <div class="form-group">
+                              <div class="row">
+                                <label class="form-control-label" for="input-username"><i
+                                  class="fas fa-user"></i>Name:</label>
+
+                                <label class="form-control-label" for="input-username"><span
+                                  class="attribut">{{eventDetails.name}}</span></label>
+                              </div>
+
+                              <div class="row">
+                                <label class="form-control-label" for="input-username"> <i
+                                  class="fas fa-tag"></i>Type:</label>
+
+                                <label class="form-control-label" for="input-username"><span
+                                  class="attribut">{{eventDetails.type}}</span></label>
+                              </div>
+
+                              <div class="row">
+                                <label class="form-control-label" for="input-username"><i
+                                  class="fas fa-users"></i>Club:</label>
+
+                                <label class="form-control-label" for="input-username"><span
+                                  class="attribut">{{eventDetails.club}}</span></label>
+
+                              </div>
+                              <div class="row">
+                                <label class="form-control-label" for="input-username"><i
+                                  class="fas fa-info-circle"></i>Status:</label>
+
+                                <label class="form-control-label" for="input-username"><span
+                                  class="attribut">{{eventDetails.status}}</span></label>
+                              </div>
+                              <div class="row">
+                                <label class="form-control-label" for="input-username"><i
+                                  class="far fa-calendar-alt"></i>Start Date:</label>
+
+                                <label class="form-control-label" for="input-username"><span
+                                  class="attribut">{{ReformDate(eventDetails.startDate)}}</span></label>
+                              </div>
+                              <div class="row">
+                                <label class="form-control-label" for="input-username"><i
+                                  class="far fa-calendar-alt"></i>End Date:</label>
+
+                                <label class="form-control-label" for="input-username"><span
+                                  class="attribut">{{ReformDate(eventDetails.endDate)}}</span></label>
+                              </div>
+                              <button class="btn btn-outline-success" *ngIf="isUserEvent"
+                                      (click)="editEvent(eventDetails.eventId)">Edit Event</button>
+                              <button class="btn btn-outline-danger" (click)="DeleteEvent(eventDetails.eventId)"
+                                      *ngIf="isUserEvent">Delete</button>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- <button (click)="openQRDialog(qrdata)">participate</button> -->
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-8 order-xl-1">
+      <img [src]="eventDetails.image" class="event-img">
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-12 order-xl-1">
+      <div class="card bg-secondary shadow">
+        <div class="card-header bg-white border-0">
+          <div class="row align-items-center">
+            <div class="col-8">
+              <h3 class="mb-0">My account</h3>
+            </div>
+            <div class="col-4 text-right">
+              <a href="#!" class="btn btn-sm btn-primary">Settings</a>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <!-- Contenedor Principal -->
+          <div class="comments-container">
+            <ul id="comments-list" class="comments-list">
+              <li>
+                <div class="comment-main-level">
+                  <!-- Avatar -->
+                  <div class="comment-avatar"><img
+                    src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                  <!-- Contenedor del Comentario -->
+                  <div class="comment-box">
+                    <div class="comment-head">
+                      <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a></h6>
+                    </div>
+                    <div class="comment-content">
+                      i et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+                    </div>
+                  </div>
+                </div>
+                <!-- Respuestas de los comentarios -->
+
+              </li>
+
+              <li>
+                <div class="comment-main-level">
+                  <!-- Avatar -->
+                  <div class="comment-avatar"><img
+                    src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
+                  <!-- Contenedor del Comentario -->
+                  <div class="comment-box">
+                    <div class="comment-head">
+                      <h6 class="comment-name"><a href="http://creaticode.com/blog">Lorena Rojero</a></h6>
+
+                    </div>
+                    <div class="comment-content">
+                      imi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

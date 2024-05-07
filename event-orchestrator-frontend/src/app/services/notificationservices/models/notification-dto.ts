@@ -2,7 +2,7 @@
 /* eslint-disable */
 export interface NotificationDto {
   content?: string;
-  deliveryChannel?: 'email' | 'webNotification' | 'Sms';
+  deliveryChannel?: 'email' | 'webNotification' | 'chatNotification' | 'Sms';
   email?: string;
   fullName?: string;
   groupId?: string;

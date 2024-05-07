@@ -1,12 +1,15 @@
 
  <!-- Dark table -->
  <div class="row mt-5">
-    <button class="add-button" type="button" [routerLink]="['/addResourceType']">Ajouter</button>
     <div class="col">
+      <div class="d-flex justify-content-end mb-2">
+      <button class="btn btn-danger mb-3" type="button" [routerLink]="['/addResourceType']">Add Resource Type</button>
+      <button class="btn btn-danger mb-3" [routerLink]="['/resources']">View Resources </button>
+      </div>
       <div class="card bg-default shadow">
-        <!-- <div class="card-header bg-transparent border-0">
-          <h3 class="text-white mb-0">Product List</h3>
-        </div> -->
+        <div class="card-header bg-transparent border-0">
+          <h3 class="text-white mb-0">Resources Types</h3>
+        </div>
 
         <div class="table-responsive">
           <table class="table align-items-center table-dark table-flush">
@@ -16,14 +19,16 @@
                 <th scope="col">ResourceType Name</th>
                 <th>Delete</th>
                 <th>Update</th>
+                <th>Details</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let item of resourceTypes">
                 <td>{{ item.resourceTypeID }}</td>
                 <td>{{ item.resourceTypeName }}</td>
-                <td><button  class="btn btn-danger">Delete</button></td>
-                <td><button class="btn btn-danger" >Update</button></td>
+                <td><button  class="btn btn-danger" (click)="deleteResourceType(item.resourceTypeID)" >Delete</button></td>
+                <td><button class="btn btn-danger" (click)="onUpdate(item.resourceTypeID)">update</button></td>
+               <td><button class="btn btn-danger" (click)="showResources(item.resourceTypeID)">view resources </button></td> 
               </tr>
             </tbody>
           </table>

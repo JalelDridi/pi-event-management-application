@@ -4,6 +4,7 @@ import com.esprit.pidev.resourcemodule.daos.ResourceDao;
 import com.esprit.pidev.resourcemodule.daos.ResourceTypeDao;
 import com.esprit.pidev.resourcemodule.entities.Resource;
 import com.esprit.pidev.resourcemodule.entities.ResourceType;
+import com.esprit.pidev.resourcemodule.services.ReservationService;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
 import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +28,7 @@ public class ResourceServiceImpl implements ResourceService{
 
     @Autowired
     private ResourceTypeDao resourceTypeDao;
+
 
     @Override
     public List<Resource> getAllResources() {
@@ -64,18 +67,28 @@ public class ResourceServiceImpl implements ResourceService{
     }
 
 
+
     @Override
-public Resource updateResource(Long resourceID, Resource resource) {
-    return resourceDao.findById(resourceID).map(existinResource -> {
-        existinResource.setResourceName(resource.getResourceName());
-        existinResource.setIsAvailable(resource.getIsAvailable());
-        existinResource.setDate(resource.getDate());
-        // Set other properties as needed
+    public Resource updateResource(Resource updatedResource, Long resourceTypeID) {
+        // Récupérer la ressource existante à mettre à jour
+        Resource existingResource = resourceDao.findById(updatedResource.getResourceID()).orElse(null);
+        if (existingResource != null) {
+            // Mettre à jour les champs de la ressource existante avec les valeurs de la ressource mise à jour
+            existingResource.setResourceName(updatedResource.getResourceName());
+            existingResource.setIsAvailable(updatedResource.getIsAvailable());
+            existingResource.setDate(updatedResource.getDate());
 
-        return resourceDao.save(existinResource);
-    }).orElseThrow(() -> new ResourceNotFoundException("resource not found with id " + resourceID));
-}
+            // Récupérer et définir le type de ressource
+            ResourceType resourceType = resourceTypeDao.findById(resourceTypeID).orElse(null);
+            if (resourceType != null) {
+                existingResource.setResourceType(resourceType);
+            }
 
+            // Enregistrer la ressource mise à jour
+
+        }
+        return resourceDao.save(existingResource);
+    }
 
 
 
@@ -90,6 +103,22 @@ public Resource updateResource(Long resourceID, Resource resource) {
     // Utilisation d'une requête personnalisée pour récupérer les ressources disponibles
     return resourceDao.findByIsAvailableTrue();
 }
+
+@Override
+    public List<Resource> findResourcesByResourceType(Long resourceTypeID) {
+        return resourceDao.findResourcesByResourceType(resourceTypeID);
+    }
+
+    @Override
+    public boolean isResourceAvailableForReservation(Long resourceID, Date StartDate) {
+        Resource resource = resourceDao.findById(resourceID)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+        return resource.Available() && resource.getDate().compareTo(StartDate) <= 0;
+    }
+
+
+
+
 }
 
 

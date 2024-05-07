@@ -19,40 +19,47 @@ import java.util.Date;
 @Component
 public class ConfirmUserRegistration {
 
-    @Autowired
-    private EmailService emailService;
-    @Autowired
-    private NotificationService notificationService;
+    private final EmailService emailService;
+    private final NotificationService notificationService;
     private static final Logger LOG = LoggerFactory.getLogger(ConfirmUserRegistration.class);
     private static final String ERR_MSG_NOT_SENT = "Confirmation message not sent. Please verify your information.";
 
-
-
-    @KafkaListener(topics = "confirm-user-registration", groupId = "aaa")
-    public void listenGroupAaa(NotificationDto notificationDto) throws IOException {
-        if (notificationDto.getEmail() != null && notificationDto.getSubject() != null && notificationDto.getContent() != null) {
-            // Instantiate objects:
-            Message message = new Message();
-            Notification notification = new Notification();
-
-            // Send Confirmation message:
-            String htmlBody = emailService.loadActivateAccountTemplate(notificationDto.getFullName(), notificationDto.getContent());
-            emailService.sendHtmlEmail(notificationDto.getEmail(), notificationDto.getSubject(), htmlBody);
-            // Set notification properties:
-            notification.setDeliveryChannel(DeliveryChannel.email);
-            notification.setIsRead(true);
-            notification.setIsSent(true);
-            // Set message properties:
-            message.setSentDate(new Date());
-            message.setContent(notificationDto.getContent());
-            message.setSubject(notificationDto.getSubject());
-
-            // Store the notification and the message in the database ( for 2 purposes : 1. data collection | 2. Schedule unsent mails for later ...
-            notificationService.addNotification(notification, message);
-        } else {
-            LOG.error(ERR_MSG_NOT_SENT);
-        }
+    @Autowired
+    public ConfirmUserRegistration(EmailService emailService, NotificationService notificationService) {
+        this.emailService = emailService;
+        this.notificationService = notificationService;
     }
 
+    @KafkaListener(topics = "confirm-user-registration", groupId = "aaa")
+    public void listenGroupAaa(NotificationDto notificationDto) {
+        try {
+            // Check if the required fields are not null
+            if (notificationDto.getEmail() != null && notificationDto.getSubject() != null && notificationDto.getContent() != null) {
+                // Instantiate objects
+                Message message = new Message();
+                Notification notification = new Notification();
 
+                // Send confirmation email
+                String htmlBody = emailService.loadActivateAccountTemplate(notificationDto.getFullName(), notificationDto.getContent());
+                emailService.sendHtmlEmail(notificationDto.getEmail(), notificationDto.getSubject(), htmlBody);
+
+                // Set notification properties
+                notification.setDeliveryChannel(DeliveryChannel.email);
+                notification.setIsRead(true);
+                notification.setIsSent(true);
+
+                // Set message properties
+                message.setSentDate(new Date());
+                message.setContent(notificationDto.getContent());
+                message.setSubject(notificationDto.getSubject());
+
+                // Store the notification and message in the database
+                notificationService.addNotification(notification, message);
+            } else {
+                LOG.error(ERR_MSG_NOT_SENT);
+            }
+        } catch (Exception e) {
+            LOG.error("Error processing confirmation notification: {}", e.getMessage());
+        }
+    }
 }

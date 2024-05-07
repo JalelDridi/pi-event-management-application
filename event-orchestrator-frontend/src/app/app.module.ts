@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -31,9 +31,25 @@ import { AddResourceTypeComponent } from './pages/add-resource-type/add-resource
 import { RessourceListComponent } from './pages/admin-pages/ressource-list/ressource-list.component';
 import { UserListFinalComponent } from './pages/admin-pages/user-list-final/user-list-final.component';
 import { UserListComponent } from './pages/admin-pages/user-list/user-list.component';
+import { ChatComponent } from './pages/chat/chat.component';
+import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resource-list-by-type.component';
+import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
+import { EditEventComponent } from './pages/edit-event/edit-event.component';
+import { EventDetailsComponent } from './pages/event-details/event-details.component';
+import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {MatButtonModule} from "@angular/material/button";
+import {CommonModule} from "@angular/common";
+import {EventService} from "./services/eventservices/eventservice/event.service";
+import { UserFeedbacksComponent } from './pages/user-feedbacks/user-feedbacks.component';
+import {KeycloakService} from "./userservices/keycloak/keycloak.service";
 
 
-
+export function kcFactory(kcService: KeycloakService) {
+  return () => kcService.init();
+}
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -66,17 +82,21 @@ import { UserListComponent } from './pages/admin-pages/user-list/user-list.compo
     CreateEventRequestComponent,
     SubmitAFeedbackComponent,
     RessourcesComponent,
-    AddResourceTypeComponent,
-    RessourceListComponent,
-    UserListFinalComponent,
-    UserListComponent
+    AddResourceTypeComponent
   ],
   providers: [
     ResourceService,
+    EventService,
     HttpClient,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      deps: [KeycloakService],
+      useFactory: kcFactory,
       multi: true
     },
     // Add other core services here

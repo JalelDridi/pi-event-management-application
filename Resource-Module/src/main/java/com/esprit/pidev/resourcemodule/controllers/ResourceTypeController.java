@@ -1,12 +1,11 @@
 package com.esprit.pidev.resourcemodule.controllers;
 
+
 import com.esprit.pidev.resourcemodule.entities.Resource;
 import com.esprit.pidev.resourcemodule.entities.ResourceType;
 import com.esprit.pidev.resourcemodule.services.ResourceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -22,9 +21,12 @@ public class ResourceTypeController {
     public List<ResourceType> getAllResourceTypes(){
         return this.resourceTypeService.getAllResourceTypes();
     }
-
+    @GetMapping("/{resourceTypeID}")
+    public ResourceType getResourceById(@PathVariable Long resourceTypeID){
+        return resourceTypeID != null ? this.resourceTypeService.findResourceTypeById(resourceTypeID) : null;
+    }
     @PostMapping("/addResourceType")
-    public ResourceType addResourceType(ResourceType resourceType){
+    public ResourceType addResourceType( @RequestBody ResourceType resourceType){
         return this.resourceTypeService.addResourceType(resourceType);
     }
     @PutMapping("/updateResourceType/{resourceTypeID}")

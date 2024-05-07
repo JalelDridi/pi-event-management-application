@@ -1,0 +1,33 @@
+
+<div class="row mt-5">
+  <div class="col">
+    <div class="card bg-default shadow">
+      <div class="card-header bg-transparent border-0">
+        <h3 class="text-white mb-0">Resources By Type</h3>
+      </div>
+      <div class="table-responsive">
+        <table class="table align-items-center table-dark table-flush">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Resource Name</th>
+              <th scope="col">Is Available</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of resources">
+              <td>{{ item.resourceName }}</td>
+              <td>{{ item.isAvailable }}</td>
+              <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="d-flex justify-content-end mb-2">
+        <button class="btn btn-danger" [routerLink]="['/resourceTypesList']">view resource Types </button>
+        </div>
+      </div>
+    </div>
+
+   
+  </div>
+</div>

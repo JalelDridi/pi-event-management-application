@@ -19,20 +19,13 @@ export class RessourcesComponent {
 
   constructor(private resourceService: ResourceService, private router: Router , private resourceTypeService :ResourceTypeService) { }
 
-ngOnInit() {
-this.getResources();
+
+ngOnInit(): void {
+  this.loadResources();
 }
-getResources(){
-  this.resourceService.getResources().subscribe(
-    res => {
-      console.log(res); // Log the response to the console
-      this.resources = res as Resource[]; // Assign the response to your posts array
-    },
-    error => {
-      console.error(error);
-      // Log any errors to the console
-    }
-  );
+
+loadResources(): void {
+  this.resourceService.getResources().subscribe(resources => this.resources = resources);
 }
 
 deleteResource(id: number) {
@@ -40,14 +33,15 @@ deleteResource(id: number) {
     .subscribe(
       data => {
         console.log(data);
-        this.getResources();
+        this.loadResources();
       },
       error => console.log(error));
 }
 
-updateResource(resource:Resource){
-  this.router.navigate(['update', resource]);
+updateResource(resourceID:number){
+  this.router.navigate(['update', resourceID]);
 }
+
 
 
 }
