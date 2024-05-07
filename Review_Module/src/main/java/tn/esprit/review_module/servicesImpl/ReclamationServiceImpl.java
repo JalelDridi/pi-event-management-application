@@ -11,7 +11,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class ReclamationServiceImpl implements ReclamationService {
 
@@ -86,4 +89,20 @@ public class ReclamationServiceImpl implements ReclamationService {
            reclamationRepository.delete(rec);
         }
     }
+
+   /* @Override
+    public Map<String, Long> getStatistiquesParTypeRec() {
+        Map<String, Long> statistiquesParType = new HashMap<>();
+        long countEvent = reclamationRepository.countByTypeRec(TypeReclamation.EVENT.toString());
+        long countSite = reclamationRepository.countByTypeRec(TypeReclamation.SITE.toString());
+        long countRessources = reclamationRepository.countByTypeRec(TypeReclamation.RESOURCES.toString());
+
+        // Ajouter les statistiques dans le map
+        statistiquesParType.put(TypeReclamation.EVENT.toString(), countEvent);
+        statistiquesParType.put(TypeReclamation.SITE.toString(), countSite);
+        statistiquesParType.put(TypeReclamation.RESOURCES.toString(), countRessources);
+
+        return statistiquesParType;
+
+    }*/
 }
