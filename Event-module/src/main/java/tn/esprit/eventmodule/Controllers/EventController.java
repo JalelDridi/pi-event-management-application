@@ -90,7 +90,7 @@ public class EventController {
         return eventimpl.getallEvent();
     }
     @GetMapping("getAnEvent/{eventId}")
-    public EventAdminDto getAnEvent(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
+    public Event getAnEvent(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
     @PutMapping("/edited/{eventId}")
     public Event editedEvent (@PathVariable Long eventId, @RequestBody Event event){
         return eventimpl.editEvent(eventId, event) ;
