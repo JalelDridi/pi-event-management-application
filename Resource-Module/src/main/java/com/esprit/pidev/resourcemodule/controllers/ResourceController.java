@@ -1,14 +1,20 @@
 package com.esprit.pidev.resourcemodule.controllers;
 
+import com.esprit.pidev.resourcemodule.daos.ResourceTypeDao;
+//import com.esprit.pidev.resourcemodule.dto.StatisticDto;
+import com.esprit.pidev.resourcemodule.dto.StatisticDto;
 import com.esprit.pidev.resourcemodule.entities.Resource;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
 
+//import com.esprit.pidev.resourcemodule.servicesImpl.StatisticServiceImpl;
+import com.esprit.pidev.resourcemodule.servicesImpl.StatisticServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,6 +24,13 @@ public class ResourceController {
 
   @Autowired
   private ResourceService resourceService;
+
+
+  @Autowired
+  private ResourceTypeDao resourceTypeDao;
+
+  @Autowired
+  private StatisticServiceImpl statisticService;
 
   @GetMapping("/all-resources")
   public List<Resource> getAll(){return this.resourceService.getAllResources();}
@@ -58,4 +71,10 @@ public ResponseEntity<Resource> updateResource(@RequestBody Resource updatedReso
         List<Resource> resources = resourceService.findResourcesByResourceType(resourceTypeID);
         return ResponseEntity.ok(resources);
     }
+    @GetMapping("/statistics/resource-types")
+    public ResponseEntity<List<StatisticDto>> getResourceTypeStatistics() {
+        List<StatisticDto> statistics = statisticService.getResourceTypeStatistics();
+        return ResponseEntity.ok(statistics);
+    }
+
 }
