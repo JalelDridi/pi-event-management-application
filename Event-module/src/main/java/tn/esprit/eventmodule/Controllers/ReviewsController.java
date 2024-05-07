@@ -24,5 +24,13 @@ public class ReviewsController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(reviews);
-    }
+   }
+//    @GetMapping("/by-event/{eventId}")
+//    public ResponseEntity<List<ReviewDto>> getReviewsByEventId(@PathVariable Long eventId) {
+//        List<ReviewDto> reviews = reviewsImpl.getReviewsByEventId(eventId);
+//        if (reviews.isEmpty()) {
+//            return ResponseEntity.noContent().build();  // Return 204 No Content if there are no reviews
+//        }
+//        return ResponseEntity.ok(reviews);  // Return 200 OK with the list of reviews
+//    }
 }
