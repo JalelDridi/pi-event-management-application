@@ -20,4 +20,5 @@ public class Participation {
 
     private long eventId;
     private String userID;
+    private long reviewID;
 }

@@ -17,7 +17,7 @@ public class ReviewsController {
     @Autowired
     ReviewsImpl reviewsImpl;
 
-    @GetMapping("/{eventId}")
+    @GetMapping("/{userId}/{eventId}")
     public ResponseEntity<List<ReviewDto>> getReviewsByUserIdAndEventId(@PathVariable String userId, @PathVariable Long eventId) {
         List<ReviewDto> reviews = reviewsImpl.findReviewsByUserIdAndEventId(userId, eventId);
         if (reviews.isEmpty()) {

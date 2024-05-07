@@ -3,6 +3,8 @@ package tn.esprit.review_module.Dtos;
 
 import lombok.*;
 
+import java.time.OffsetDateTime;
+
 @Data
 @Getter
 @Setter
@@ -11,6 +13,9 @@ import lombok.*;
 @NoArgsConstructor
 public class ReviewEventDto {
 
-    private Long eventId ;
-    private String  Name ;
+    private String userID;
+    private Long eventID;
+    private Integer rating;
+    private String content;
+    private OffsetDateTime dateSubmitted;
 }
