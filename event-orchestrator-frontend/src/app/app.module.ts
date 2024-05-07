@@ -1,5 +1,5 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -42,15 +42,18 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
 import {CommonModule} from "@angular/common";
 import {EventService} from "./services/eventservices/eventservice/event.service";
+import { UserFeedbacksComponent } from './pages/user-feedbacks/user-feedbacks.component';
+import {KeycloakService} from "./userservices/keycloak/keycloak.service";
 
 
-
+export function kcFactory(kcService: KeycloakService) {
+  return () => kcService.init();
+}
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
-    CommonModule,
     ComponentsModule,
     NgbModule,
     RouterModule,
@@ -59,10 +62,6 @@ import {EventService} from "./services/eventservices/eventservice/event.service"
     CodeInputModule,
     ReactiveFormsModule ,
     AppRoutingModule,
-    MatDialogModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatButtonModule
   ],
   declarations: [
     AppComponent,
@@ -92,6 +91,7 @@ import {EventService} from "./services/eventservices/eventservice/event.service"
     EditEventComponent,
     EventDetailsComponent,
     QrDialogueComponent,
+    AddResourceTypeComponent
   ],
   providers: [
     ResourceService,
@@ -100,6 +100,12 @@ import {EventService} from "./services/eventservices/eventservice/event.service"
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER,
+      deps: [KeycloakService],
+      useFactory: kcFactory,
       multi: true
     },
     // Add other core services here

@@ -8,19 +8,22 @@ import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="EVENTS")
+@Table(name="EVENT")
 public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId ;
     private String  Name ;
     private String description;
+    private String etat; // Accepté | En cours - refusé
+
 
     private Date startDate ;
     private Date endDate ;
@@ -40,6 +43,9 @@ public class Event implements Serializable {
     private Float  lng ;
     private Float  lat ;
 
+
+    @OneToMany(mappedBy = "event")
+    private List<SelectedResources> selectedResources;
 
 
 

@@ -79,4 +79,5 @@ public interface NotificationService {
      * @param notificationDto The notification DTO.
      */
     void sendWebNotifications(NotificationDto notificationDto);
+
 }

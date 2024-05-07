@@ -4,13 +4,8 @@ package tn.esprit.eventmodule.ServiceImpl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
@@ -18,16 +13,12 @@ import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.ParticipationDao;
 //import tn.esprit.eventmodule.Daos.ResourceReservationDao;
 import tn.esprit.eventmodule.Daos.UsersEventsDao;
-import tn.esprit.eventmodule.Dtos.EventAdminDto;
-import tn.esprit.eventmodule.Dtos.ResourceDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.*;
 import jakarta.annotation.Resource;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import tn.esprit.eventmodule.Services.EventInterface;
 
 import java.util.*;
@@ -55,7 +46,7 @@ public class EventImpl implements EventInterface {
     UsersEventsDao usersEventsDao;
 
     @Override
-    public Event addEvent(@RequestParam("file")MultipartFile file,@RequestParam("file1")MultipartFile file1, Event event, String userid) {
+    public Event addEvent(Event event, String userid) {
         LOG.info("Adding event: {}", event);
 
         Event e= eventDao.save(event);
@@ -70,24 +61,8 @@ public class EventImpl implements EventInterface {
     }
 
     @Override
-    public EventAdminDto findEventById(Long eventId) {
-        LOG.info("Finding event by ID: {}", eventId);
-        EventAdminDto eventAdminDto = null;
-        if (eventId != null) {
-            Optional<Event> optionalEvent = eventDao.findById(eventId);
-            if (optionalEvent.isPresent()) {
-                Event event = optionalEvent.get();
-                eventAdminDto = new EventAdminDto();
-                // Copy event properties to eventAdminDto
-                BeanUtils.copyProperties(event, eventAdminDto);
-            } else {
-                LOG.info(ERROR_NON_PRESENT_ID, eventId);
-            }
-        } else {
-            LOG.error(ERROR_NULL_ID);
-        }
-        return eventAdminDto;
-    }
+    public Optional<Event> findEventById(Long eventId) {
+      return eventDao.findById(eventId);}
 
 
 
@@ -176,7 +151,7 @@ public class EventImpl implements EventInterface {
 
     @Override
     public UserDto getUserById(String userId) {
-        String bearerToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiI2NjMwZTNiZTMxOWFkODExZmI3ZDdjNzgiLCJzdWIiOiJhaG1lZGFtaW5lLnJvbWRuYW5pQGVzcHJpdC50biIsImlhdCI6MTcxNDg2NjI5NCwiZXhwIjoxNzE1MDM5MDk0LCJhdXRob3JpdGllcyI6WyJVU0VSIl19.7ySc_64TBrKxDNYtdfhBVbUmtrNumma_FQWma62yXsUaKBItZom8EKa_KmXC2hCp";
+        String bearerToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiI2NjMwZTNiZTMxOWFkODExZmI3ZDdjNzgiLCJzdWIiOiJhaG1lZGFtaW5lLnJvbWRuYW5pQGVzcHJpdC50biIsImlhdCI6MTcxNTA0MTY1MSwiZXhwIjoxNzE1MjE0NDUxLCJhdXRob3JpdGllcyI6WyJVU0VSIl19.ZqBQLgzDq8lxF4WFsl1n2CFtJEekhekK2dJLJi8EkBz3U8XXlkmvqQ9pWeMqEzYB";
 
         String userMicroserviceUrl = UriComponentsBuilder
                 .fromUriString("http://localhost:8091/api/v1/users/{userId}")
@@ -302,4 +277,6 @@ public class EventImpl implements EventInterface {
             System.out.println("  Planifié: " + typePercentages.getOrDefault("Planifié", 0.0) + "%");
             System.out.println("  En cours: " + typePercentages.getOrDefault("En_Cours", 0.0) + "%");
             System.out.println("  Terminé: " + typePercentages.getOrDefault("Terminé", 0.0) + "%");
-        }}}
+        }
+    }
+}

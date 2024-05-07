@@ -2,6 +2,7 @@ package com.esprit.pidev.resourcemodule.services;
 
 import com.esprit.pidev.resourcemodule.entities.Resource;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ResourceService {
@@ -12,7 +13,7 @@ public interface ResourceService {
 
     Resource addResource(Resource resource, Long resourceTypeID);
 
- //   Resource updateResource(Long resourceID, Resource resource , Long resourceTypeID);
+
 
     void deleteById(Long resourceID);
 
@@ -22,5 +23,8 @@ public interface ResourceService {
 
     List<Resource> findResourcesByResourceType(Long resourceTypeID);
 
-//    Resource findById(Long id);
+
+   // boolean isResourceAvailableForReservation(Long resourceId, Date startDate, Date endDate);
+
+    boolean isResourceAvailableForReservation(Long resourceID, Date reservationStartDate);
 }

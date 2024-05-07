@@ -22,7 +22,7 @@ public class Resource implements Serializable {
     private Long resourceID;
 
     private String resourceName;
-
+    @Column(name = "isAvailable")
     private Boolean isAvailable;
     @Temporal(TemporalType.DATE)
     private Date date;
@@ -34,4 +34,8 @@ public class Resource implements Serializable {
     @OneToMany(mappedBy = "resource", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Reservation> reservations;
+
+    public boolean Available() {
+        return isAvailable != null && isAvailable;
+    }
 }

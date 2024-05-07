@@ -26,6 +26,8 @@ import { UpdateResourceTypeComponent } from 'src/app/pages/update-resource-type/
 import {EventDetailsComponent} from "../../pages/event-details/event-details.component";
 import { ReclamationsStatisticsComponent } from 'src/app/pages/reclamations-statistics/reclamations-statistics.component';
 import { ReviewStatisticsComponent } from 'src/app/pages/reviews-statistics/reviews-statistics.component';
+import {UserFeedbacksComponent} from "../../pages/user-feedbacks/user-feedbacks.component";
+
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
@@ -56,4 +58,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'eventdetails/:id', component: EventDetailsComponent },
     { path: "reviewstatstics", component:  ReviewStatisticsComponent},
     { path: "reclamationstatstics", component: ReclamationsStatisticsComponent },
+    { path: 'userfeedbacks', component: UserFeedbacksComponent}
+
 ];

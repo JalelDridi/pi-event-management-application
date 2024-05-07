@@ -9,5 +9,7 @@ public class NotificationUserDto implements Serializable {
 
     private String fullName;
     private String email;
-    private String userId;
+    private String userID;
+    private String firstName;
+    private String lastName;
 }

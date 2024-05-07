@@ -43,6 +43,9 @@ export class AddResourceTypeComponent {
             showConfirmButton: false,
             timer: 1500 // Fermer automatiquement l'alerte après 1.5 seconde
           });
+          setTimeout(() => {
+            this.router.navigate(['/resourceTypesList']);
+          }, 1500);
         },
         (error) => {
           console.error('Erreur lors de l\'ajout du type de ressource : ', error);

@@ -30,24 +30,6 @@ public class ReclamationController {
 
     @PostMapping("/addreclamation")
     public Reclamation addReclamation( @RequestBody Reclamation reclamation ){
-        String userId = reclamation.getUserId() ;
-        String userMicroserviceUrl = UriComponentsBuilder
-                .fromUriString("http://localhost:8091/api/v1/users/{userId}")
-                .buildAndExpand(userId)
-                .toUriString();
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<ReviewUserDto> responseEntity = restTemplate.getForEntity(userMicroserviceUrl, ReviewUserDto.class);
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            ReviewUserDto userDto = responseEntity.getBody();
-            if (userDto != null) {
-                String userEmail = userDto.getEmail();
-                reclamationService.SendReclamationEmail(userEmail);
-            } else {
-                throw new RuntimeException("User DTO is null.");
-            }
-        } else {
-            throw new RuntimeException("Failed to fetch user from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
-        }
         return reclamationService.addReclamation(reclamation);
     }
     @GetMapping("/getreclamations")
@@ -61,6 +43,12 @@ public class ReclamationController {
     public List<Reclamation> findByeventId(@PathVariable Long eventid){
         return reclamationService.findByeventId(eventid);
 
+    }
+
+    @PutMapping("/respond-reclamation")
+    @ResponseBody
+    public void respondToReclamation(@RequestBody Reclamation reclamation) {
+        reclamationService.respondToReclamation(reclamation);
     }
 
     @GetMapping("/getreclamationsbyuserid/{userid}")
