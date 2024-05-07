@@ -42,12 +42,8 @@ import {MatButtonModule} from "@angular/material/button";
 import {CommonModule} from "@angular/common";
 import {EventService} from "./services/eventservices/eventservice/event.service";
 import { UserFeedbacksComponent } from './pages/user-feedbacks/user-feedbacks.component';
-import {KeycloakService} from "./userservices/keycloak/keycloak.service";
 
 
-export function kcFactory(kcService: KeycloakService) {
-  return () => kcService.init();
-}
 @NgModule({
   imports: [
     MatDialogModule,
@@ -104,12 +100,6 @@ export function kcFactory(kcService: KeycloakService) {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpTokenInterceptor,
-      multi: true
-    },
-    {
-      provide: APP_INITIALIZER,
-      deps: [KeycloakService],
-      useFactory: kcFactory,
       multi: true
     },
     // Add other core services here
