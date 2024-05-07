@@ -1,12 +1,14 @@
 
 
-package tn.esprit.eventmodule.Services;
+package tn.esprit.eventmodule.ServiceImpl;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,19 +16,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.ParticipationDao;
-import tn.esprit.eventmodule.Daos.ResourceReservationDao;
+//import tn.esprit.eventmodule.Daos.ResourceReservationDao;
 import tn.esprit.eventmodule.Daos.UsersEventsDao;
 import tn.esprit.eventmodule.Dtos.EventAdminDto;
 import tn.esprit.eventmodule.Dtos.ResourceDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.*;
 import jakarta.annotation.Resource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import tn.esprit.eventmodule.Services.EventInterface;
 
 import java.util.*;
 
@@ -43,25 +45,17 @@ public class EventImpl implements EventInterface {
         this.webClientBuilder = webClientBuilder;
     }
 
-
     JavaMailSender emailSender;
     @Resource
     EventDao eventDao;
     @Resource
     ParticipationDao participationDao;
-    @Resource
-    ResourceReservationDao resourceReservationDao;
+
     @Autowired
     UsersEventsDao usersEventsDao;
 
-    /* @Autowired
-     ResourceDao resourceDao;
-     @Autowired
-     ResourceTypeDao resourceTypeDao;
-
-     */
     @Override
-    public Event addEvent(@RequestParam("file")MultipartFile file, Event event, String userid) {
+    public Event addEvent(@RequestParam("file")MultipartFile file,@RequestParam("file1")MultipartFile file1, Event event, String userid) {
         LOG.info("Adding event: {}", event);
 
         Event e= eventDao.save(event);
@@ -203,44 +197,22 @@ public class EventImpl implements EventInterface {
 
         return participationDao.findUserIdsByEventId(eventId);
     }
-    /**************************************
-     *                                    Resource
-     *                                             ***********************************************/
-    public void assignResourceToEvent(Long resourceId, Long eventId) {
-        ResourceReservation reservation = new ResourceReservation();
-        reservation.setResourceID(resourceId);
-        reservation.setEventId(eventId);
-        resourceReservationDao.save(reservation);
-    }
 
-    public Map<String, List<ResourceDto>> displayResourceOfEvent(Long eventId) {
-        Map<String, List<ResourceDto>> resourcesByType = new HashMap<>();
+//    public void assignResourceToEvent(Long resourceId, Long eventId) {
+//        ReservationDto reservation = new ReservationDto();
+//        reservation.setResourceID(resourceId);
+//        reservation.setEventId(eventId);
+//        resourceReservationDao.save(reservation);
+//    }
+//
+//    public Map<String, List<ResourceDto>> displayResourceOfEvent(Long eventId) {
+//        Map<String, List<ResourceDto>> resourcesByType = new HashMap<>();
+//        List<ResourceReservation> resourceReservations = resourceReservationDao.findByEventId(eventId);
+//
+//        if (resourceReservations == null) {
+//            throw new IllegalStateException("Resource reservations list is null for event ID: " + eventId);
+//        }
 
-        List<ResourceReservation> resourceReservations = resourceReservationDao.findByEventId(eventId);
-        for (ResourceReservation reservation : resourceReservations) {
-            String resourceType = reservation.getResourceName();
-            ResourceDto resource = getResourceById(reservation.getResourceID());
-
-            List<ResourceDto> resources = resourcesByType.getOrDefault(resourceType, new ArrayList<>());
-            resources.add(resource);
-            resourcesByType.put(resourceType, resources);
-        }
-
-        return resourcesByType;
-    }
-
-    private ResourceDto getResourceById(Long resourceId) {
-        RestTemplate restTemplate = new RestTemplate();
-        String resourceMicroserviceUrl = "http://localhost:8093/api/reservations/filteredResources/" + resourceId;
-
-        ResponseEntity<ResourceDto> responseEntity = restTemplate.getForEntity(resourceMicroserviceUrl, ResourceDto.class);
-
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return responseEntity.getBody();
-        } else {
-            throw new RuntimeException("Failed to fetch resource from Resource Microservice. Status code: " + responseEntity.getStatusCodeValue());
-        }
-    }
 
 
 //    public void sendEmail(String toEmail, String subject, String body) {
@@ -330,6 +302,4 @@ public class EventImpl implements EventInterface {
             System.out.println("  Planifié: " + typePercentages.getOrDefault("Planifié", 0.0) + "%");
             System.out.println("  En cours: " + typePercentages.getOrDefault("En_Cours", 0.0) + "%");
             System.out.println("  Terminé: " + typePercentages.getOrDefault("Terminé", 0.0) + "%");
-        }
-    }
-}
+        }}}
