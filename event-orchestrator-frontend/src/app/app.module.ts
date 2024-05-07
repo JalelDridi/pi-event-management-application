@@ -42,6 +42,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {CommonModule} from "@angular/common";
 import {EventService} from "./services/eventservices/eventservice/event.service";
 import { UserFeedbacksComponent } from './pages/user-feedbacks/user-feedbacks.component';
+import { AdminEventListComponent } from './pages/admin-pages/admin-event-list/admin-event-list.component';
 
 
 @NgModule({
@@ -91,7 +92,8 @@ import { UserFeedbacksComponent } from './pages/user-feedbacks/user-feedbacks.co
     EditEventComponent,
     EventDetailsComponent,
     QrDialogueComponent,
-    AddResourceTypeComponent
+    AddResourceTypeComponent,
+    AdminEventListComponent
   ],
   providers: [
     ResourceService,
