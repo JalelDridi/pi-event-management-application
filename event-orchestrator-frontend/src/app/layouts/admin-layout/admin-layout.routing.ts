@@ -1,9 +1,11 @@
 import { Routes } from '@angular/router';
+
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
+
 import { ReviewpagetestComponent } from 'src/app/pages/reviewpagetest/reviewpagetest.component';
 import { ReclamationpagetestComponent } from 'src/app/pages/reclamationpagetest/reclamationpagetest.component';
 import {HomeComponent} from "../../pages/home/home.component";
@@ -27,7 +29,6 @@ import {EventDetailsComponent} from "../../pages/event-details/event-details.com
 import { ReclamationsStatisticsComponent } from 'src/app/pages/reclamations-statistics/reclamations-statistics.component';
 import { ReviewStatisticsComponent } from 'src/app/pages/reviews-statistics/reviews-statistics.component';
 import {UserFeedbacksComponent} from "../../pages/user-feedbacks/user-feedbacks.component";
-
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
@@ -56,8 +57,5 @@ export const AdminLayoutRoutes: Routes = [
     {path:"resources-by-type/:resourceTypeID",component: ResourceListByTypeComponent},
     {path:"updateResourceType/:resourceTypeID",component:UpdateResourceTypeComponent},
     { path: 'eventdetails/:id', component: EventDetailsComponent },
-    { path: "reviewstatstics", component:  ReviewStatisticsComponent},
-    { path: "reclamationstatstics", component: ReclamationsStatisticsComponent },
     { path: 'userfeedbacks', component: UserFeedbacksComponent}
-
 ];
