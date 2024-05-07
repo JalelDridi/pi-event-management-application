@@ -1,11 +1,9 @@
 import { Routes } from '@angular/router';
-
 import { DashboardComponent } from '../../pages/dashboard/dashboard.component';
 import { IconsComponent } from '../../pages/icons/icons.component';
 import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
-
 import { ReviewpagetestComponent } from 'src/app/pages/reviewpagetest/reviewpagetest.component';
 import { ReclamationpagetestComponent } from 'src/app/pages/reclamationpagetest/reclamationpagetest.component';
 import {HomeComponent} from "../../pages/home/home.component";
@@ -26,6 +24,8 @@ import {RessourceListComponent} from "../../pages/admin-pages/ressource-list/res
 import { ResourceListByTypeComponent } from 'src/app/pages/resource-list-by-type/resource-list-by-type.component';
 import { UpdateResourceTypeComponent } from 'src/app/pages/update-resource-type/update-resource-type.component';
 import {EventDetailsComponent} from "../../pages/event-details/event-details.component";
+import { ReclamationsStatisticsComponent } from 'src/app/pages/reclamations-statistics/reclamations-statistics.component';
+import { ReviewStatisticsComponent } from 'src/app/pages/reviews-statistics/reviews-statistics.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'home',      component: HomeComponent },
@@ -54,4 +54,6 @@ export const AdminLayoutRoutes: Routes = [
     {path:"resources-by-type/:resourceTypeID",component: ResourceListByTypeComponent},
     {path:"updateResourceType/:resourceTypeID",component:UpdateResourceTypeComponent},
     { path: 'eventdetails/:id', component: EventDetailsComponent },
+    { path: "reviewstatstics", component:  ReviewStatisticsComponent},
+    { path: "reclamationstatstics", component: ReclamationsStatisticsComponent },
 ];

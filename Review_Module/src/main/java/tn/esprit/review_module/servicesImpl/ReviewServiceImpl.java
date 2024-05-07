@@ -58,19 +58,6 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.findReviewsByUserIDAndEventID(userId, eventId);
     }
 
-   /* @Override
-    public int getStatistiquesParEvent(Long eventId) {
-        return reviewRepository.countReviewByEventID(eventId);
-    }*/
-
-   /* @Override
-    public void affecterReviewToUser(Long UserId, Long reviewId) {
-        Review review = reviewRepository.findById(UserId).orElse(null);
-        Participation participation = new Participation();
-        participation.setUserID(userID);
-        participation.setEventId(eventId);
-        participationDao.save(participation);
-    }*/
 
 
 }

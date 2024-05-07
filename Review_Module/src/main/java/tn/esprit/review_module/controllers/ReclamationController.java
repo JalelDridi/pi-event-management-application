@@ -82,11 +82,7 @@ public class ReclamationController {
         reclamationService.deletereclamation(idrec);
     }
 
-   /* @GetMapping("/types")
-    public ResponseEntity<Map<String, Long>> getStatistiquesParType() {
-        Map<String, Long> statistiquesParType = reclamationService.getStatistiquesParType();
-        return ResponseEntity.ok(statistiquesParType);
-    }*/
+
 
 
 

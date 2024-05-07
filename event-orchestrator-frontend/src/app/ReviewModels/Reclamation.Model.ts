@@ -1,26 +1,31 @@
 import { TypeReclamation } from './type-reclamation.enum';
- 
+
 export class Reclamation {
-  IdRec?: number;
+  idRec?: number;
   eventId?: number;
-  ressourceID?:number;
+  ressourceId?:number;
   userId: string;
   content : string;
+  reponse? : string;
   typeRec: TypeReclamation;
   dateReclamation: Date;
- 
+
   constructor(
+    idRec: number,
     eventId: number,
     userId: string,
-    ressoruceID: number,
+    ressoruceId: number,
     content : string,
+    reponse : string,
     typeRec: TypeReclamation,
     dateReclamation: Date
   ) {
+    this.idRec = idRec;
     this.eventId = eventId;
     this.userId = userId;
-    this.ressourceID = ressoruceID;
+    this.ressourceId = ressoruceId;
     this.content = content;
+    this.reponse = reponse;
     this.typeRec = typeRec;
     this.dateReclamation = dateReclamation;
   }

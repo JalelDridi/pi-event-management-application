@@ -36,7 +36,7 @@ export class AddReclamationsComponent {
     this.reclamationForm.get('typeRec').valueChanges.subscribe(value => {
       if (value === 'EVENT') {
         this.fetchEvents();
-      } else if (value === 'RESOURCE') {
+      } else if (value === 'RESOURCES') {
         this.fetchResources();
       }
     });
@@ -50,7 +50,7 @@ export class AddReclamationsComponent {
   }
   
   fetchResources() {
-    this.http.get<any[]>(`http://localhost:8080/api/resources/all-resources`).subscribe(resources => {
+    this.http.get<any[]>(`http://localhost:8093/api/resources/all-resources`).subscribe(resources => {
       this.resources = resources.map(resource => ({ id: resource.resourceID, name: resource.resourceName }));
       console.log(this.resources);
     });
@@ -64,7 +64,7 @@ export class AddReclamationsComponent {
         return;
       }
       const reclamation: Reclamation = {
-        IdRec: 1,
+        idRec: 1,
         eventId: this.reclamationForm.value.eventId,
         userId: this.userId,
         typeRec: this.reclamationForm.value.typeRec,
