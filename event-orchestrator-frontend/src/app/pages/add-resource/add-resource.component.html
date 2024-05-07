@@ -1,4 +1,4 @@
-<div [hidden]="submitted" style="width: 400px;">
+<!-- <div [hidden]="submitted" style="width: 400px;">
  <form [formGroup]="resourceForm" (ngSubmit)="addResource()"> 
     <div>
       <label for="resourceName">Resource Name:</label>
@@ -21,4 +21,38 @@
     
     <button type="submit" class="btn btn-success">Submit</button>
   </form>
+</div> -->
+<div class="container-fluid bg-light py-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div [hidden]="submitted" class="border border-primary rounded p-4">
+        <form [formGroup]="resourceForm" (ngSubmit)="addResource()" class="my-4">
+          <div class="form-group">
+            <label for="resourceName">Resource Name:</label>
+            <input type="text" id="resourceName" name="resourceName" [(ngModel)]="resource.resourceName" class="form-control border border-primary" required>
+          </div>
+          <div class="form-group">
+            <label for="isAvailable" class="mb-2">Is Available:</label>
+            <div class="form-check">
+              <input type="checkbox" id="isAvailable" name="isAvailable" [(ngModel)]="resource.isAvailable" class="form-check-input">
+             <label class="form-check-label" for="isAvailable">Yes</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date" [(ngModel)]="resource.date" class="form-control border border-primary" required>
+          </div>
+          <div class="form-group">
+            <label for="resourceType">Resource Type:</label>
+            <select id="resourceType" name="resourceType" formControlName="resourceType" class="form-control border border-primary">
+              <option *ngFor="let type of resourceTypes" [value]="type.resourceTypeID">{{ type.resourceTypeName }}</option>
+            </select>
+          </div>
+          
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
+

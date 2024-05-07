@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
+//import * as MyEventModel from '../../../../../../../../../../../Desktop/AngularPi - Copie/src/app/models/event.model';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Injectable({
@@ -23,7 +24,7 @@ private baseUrl = 'http://localhost:8089' ;
     );
   }
   addEvent(formData: FormData, userId: String): Observable<any> {
-    return this.http.post(`http://localhost:8089/Event/addevent/${userId}`, formData, { responseType: 'text' });
+    return this.http.post(`http://localhost:8089/Event/addevent/${userId}`, formData);
 }
 
   editEvent(eventId: number, event: any): Observable<any> {

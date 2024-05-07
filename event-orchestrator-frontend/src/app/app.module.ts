@@ -34,11 +34,15 @@ import { UserListComponent } from './pages/admin-pages/user-list/user-list.compo
 import { ChatComponent } from './pages/chat/chat.component';
 import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resource-list-by-type.component';
 import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
-import { AddEventComponent } from './pages/event-pages/add-event/add-event.component';
-import { EditEventComponent } from './pages/event-pages/edit-event/edit-event.component';
-import { EventListComponent } from './pages/event-pages/event-list/event-list.component';
-import { EventDetailsComponent } from './pages/event-pages/event-details/event-details.component';
+import { EditEventComponent } from './pages/edit-event/edit-event.component';
+import { EventDetailsComponent } from './pages/event-details/event-details.component';
 import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue.component';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatSelectModule} from "@angular/material/select";
+import {MatButtonModule} from "@angular/material/button";
+import {CommonModule} from "@angular/common";
+import {EventService} from "./services/eventservices/eventservice/event.service";
 
 
 
@@ -47,6 +51,7 @@ import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    CommonModule,
     ComponentsModule,
     NgbModule,
     RouterModule,
@@ -55,6 +60,10 @@ import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue
     CodeInputModule,
     ReactiveFormsModule ,
     AppRoutingModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatButtonModule
   ],
   declarations: [
     AppComponent,
@@ -81,14 +90,13 @@ import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue
     ChatComponent,
     ResourceListByTypeComponent,
     UpdateResourceTypeComponent,
-    AddEventComponent,
     EditEventComponent,
-    EventListComponent,
     EventDetailsComponent,
     QrDialogueComponent
   ],
   providers: [
     ResourceService,
+    EventService,
     HttpClient,
     {
       provide: HTTP_INTERCEPTORS,

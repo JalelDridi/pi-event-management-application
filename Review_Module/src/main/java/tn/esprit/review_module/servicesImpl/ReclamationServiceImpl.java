@@ -32,7 +32,7 @@ public class ReclamationServiceImpl implements ReclamationService {
         if (reclamation.getTypeRec() == TypeReclamation.EVENT) {
             reclamation.setEventId(reclamation.getEventId());
             reclamation.setResourceId(null);
-        } else if (reclamation.getTypeRec() == TypeReclamation.RESOURCE) {
+        } else if (reclamation.getTypeRec() == TypeReclamation.RESOURCES) {
                     reclamation.setEventId(null);
                     reclamation.setResourceId(reclamation.getResourceId());
         } else if (reclamation.getTypeRec()== TypeReclamation.SITE) {

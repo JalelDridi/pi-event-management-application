@@ -1,26 +1,48 @@
-<div *ngIf="resource">
+<!-- <div class="container mt-5">
   <h2>Update Resource</h2>
-  <form (submit)="updateResource()">
-    <div>
+  <form (ngSubmit)="updateResource()">
+    <div class="form-group">
       <label for="resourceName">Resource Name:</label>
-      <input type="text" id="resourceName" name="resourceName" [(ngModel)]="resource.resourceName">
+      <input type="text" id="resourceName" class="form-control" [(ngModel)]="updatedResource.resourceName" name="resourceName" required>
     </div>
-    <div>
+    <div class="form-group">
       <label for="isAvailable">Is Available:</label>
-      <input type="checkbox" id="isAvailable" name="isAvailable" [(ngModel)]="resource.isAvailable">
+      <input type="checkbox" id="isAvailable" class="form-check-input" [(ngModel)]="updatedResource.isAvailable" name="isAvailable">
     </div>
-    <div>
+    <div class="form-group">
       <label for="date">Date:</label>
-      <input type="date" id="date" name="date" [(ngModel)]="resource.date">
+      <input type="date" id="date" class="form-control" [(ngModel)]="updatedResource.date" name="date" required>
     </div>
-    <div>
-      <label for="resourceType">Resource Type:</label>
-      <select id="resourceType" name="resourceType" [(ngModel)]="resource.resourceType">
-        <option *ngFor="let type of resourceTypes" [ngValue]="type">{{ type.resourceTypeName }}</option>
-      </select>
-    </div>
-    <button type="submit">Update Resource</button>
+   
+  
+   <button class="btn btn-danger"  [routerLink]="['/resources']">Update</button>
   </form>
 </div>
 
+   -->
+   <div class="container mt-5">
+    <h2>Update Resource</h2>
+    <form (ngSubmit)="updateResource()">
+      <div class="form-group">
+        <label for="resourceName">Resource Name:</label>
+        <input type="text" id="resourceName" class="form-control" [(ngModel)]="updatedResource.resourceName" name="resourceName" required>
+      </div>
+      <div class="form-group">
+        <label for="isAvailable">Is Available:</label>
+        <input type="checkbox" id="isAvailable" class="form-check-input" [(ngModel)]="updatedResource.isAvailable" name="isAvailable">
+      </div>
+      <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="date" id="date" class="form-control" [(ngModel)]="updatedResource.date" name="date" required>
+      </div>
+      <div class="form-group">
+        <label for="resourceType">Resource Type:</label>
+        <select id="resourceType" class="form-control" [(ngModel)]="updatedResource.resourceTypeID" name="resourceType">
+          <option *ngFor="let type of resourceTypes" [value]="type.resourceTypeID">{{ type.resourceTypeName }}</option>
+        </select>
+      </div>
+      <!-- You may add more form fields for updating other resource properties -->
+      <button type="submit" class="btn btn-primary">Update Resource</button>
+    </form>
+  </div>
   

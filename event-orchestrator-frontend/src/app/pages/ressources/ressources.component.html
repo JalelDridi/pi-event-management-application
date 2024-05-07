@@ -1,13 +1,14 @@
 <!-- Dark table -->
 <div class="row mt-5">
     <div class="col">
-        <button class="add-button" type="button" [routerLink]="['/addResource']">Ajouter</button>
-        <button class="add-button" type="button" [routerLink]="['/resourceTypesList']">afficher les types</button>
+      <div class="d-flex justify-content-end mb-3">
+        <button class="btn btn-danger mb-3" type="button" [routerLink]="['/addResource']">Add Resource</button>
+        <button class="btn btn-danger mb-3" type="button" [routerLink]="['/resourceTypesList']">Display Resource Types</button>
+      </div>  
         <div class="card bg-default shadow">
-        <!-- <div class="card-header bg-transparent border-0">
-          <h3 class="text-white mb-0">Product List</h3>
-        </div> -->
-
+        <div class="card-header bg-transparent border-0">
+          <h3 class="text-white mb-0">Resources List</h3>
+        </div>
         <div class="table-responsive">
           <table class="table align-items-center table-dark table-flush">
             <thead class="thead-dark">
@@ -26,7 +27,7 @@
                 <td>{{ item.resourceName }}</td>
                 <td>{{ item.isAvailable }}</td>
                 <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
-                <td>{{ item.resourceTypeID }}</td>
+                <td>{{ item.resourceType.resourceTypeName }}</td>
                 <td><button (click)="deleteResource(item.resourceID)" class="btn btn-danger">Delete</button></td>
                 <td><button class="btn btn-danger"  [routerLink]="['/updateResource',item.resourceID]">Update</button></td>
               </tr>
