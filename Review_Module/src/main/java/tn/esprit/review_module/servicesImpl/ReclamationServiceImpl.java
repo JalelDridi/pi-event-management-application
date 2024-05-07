@@ -42,6 +42,11 @@ public class ReclamationServiceImpl implements ReclamationService {
         return reclamationRepository.save(reclamation);
     }
 
+    @Override
+    public void respondToReclamation(Reclamation reclamation) {
+        reclamationRepository.save(reclamation);
+    }
+
 
     @Override
     public List<Reclamation> getAllReclamations() {
