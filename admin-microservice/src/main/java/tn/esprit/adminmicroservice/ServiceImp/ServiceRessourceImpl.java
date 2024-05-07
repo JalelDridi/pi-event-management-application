@@ -6,7 +6,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import tn.esprit.adminmicroservice.Dto.EventDto;
 import tn.esprit.adminmicroservice.Dto.RessourceDto;
+import tn.esprit.adminmicroservice.Dto.UserDto;
+import tn.esprit.adminmicroservice.Ennum.Role;
+import tn.esprit.adminmicroservice.Entities.StatusEvent;
+import tn.esprit.adminmicroservice.Entities.StatusUser;
 import tn.esprit.adminmicroservice.Service.ServiceRessource;
 
 import java.util.List;
@@ -52,6 +57,9 @@ public class ServiceRessourceImpl implements ServiceRessource {
             throw new RuntimeException("Failed to fetch users from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
         }
     }
+
+
+
 
 
 }
