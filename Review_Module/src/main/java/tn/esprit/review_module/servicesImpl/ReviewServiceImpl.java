@@ -59,6 +59,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
    /* @Override
+    public int getStatistiquesParEvent(Long eventId) {
+        return reviewRepository.countReviewByEventID(eventId);
+    }*/
+
+   /* @Override
     public void affecterReviewToUser(Long UserId, Long reviewId) {
         Review review = reviewRepository.findById(UserId).orElse(null);
         Participation participation = new Participation();

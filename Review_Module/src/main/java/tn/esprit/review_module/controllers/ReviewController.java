@@ -1,5 +1,6 @@
 package tn.esprit.review_module.controllers;
 
+import org.springframework.http.ResponseEntity;
 import tn.esprit.review_module.entities.Review;
 import tn.esprit.review_module.services.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,12 @@ public class ReviewController {
     public List<Review> findReviewbyuseridandeventid(@PathVariable String userid, @PathVariable Long eventid){
         return reviewService.findReviewbyuseridandeventid(userid, eventid);
     }
+
+   /* @GetMapping("/event/{eventId}")
+    public ResponseEntity<Long> getStatistiquesParEvent(@PathVariable Long eventId) {
+        long statistiquesParEvent = reviewService.getStatistiquesParEvent(eventId);
+        return ResponseEntity.ok(statistiquesParEvent);
+    }*/
 
 
 

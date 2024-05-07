@@ -17,6 +17,9 @@ public interface ReviewService {
 
     public List<Review> findReviewbyuseridandeventid(String userId, Long eventId);
 
-   // public void affecterReviewToUser(Long UserId, Long reviewId);
+   ////////////////: public int getStatistiquesParEvent(Long eventId);
+
+
+    // public void affecterReviewToUser(Long UserId, Long reviewId);
 
 }

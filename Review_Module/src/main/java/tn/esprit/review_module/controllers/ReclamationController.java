@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -80,6 +81,12 @@ public class ReclamationController {
     public void deletereclamation(@PathVariable Long idrec){
         reclamationService.deletereclamation(idrec);
     }
+
+   /* @GetMapping("/types")
+    public ResponseEntity<Map<String, Long>> getStatistiquesParType() {
+        Map<String, Long> statistiquesParType = reclamationService.getStatistiquesParType();
+        return ResponseEntity.ok(statistiquesParType);
+    }*/
 
 
 

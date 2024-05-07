@@ -45,12 +45,14 @@ export class AddReclamationsComponent {
   fetchEvents() {
     this.http.get<any[]>(`http://localhost:8089/Event/getall`).subscribe(events => {
       this.events = events.map(event => ({ id: event.eventId, name: event.name }));
+      console.log(this.events);
     }); 
   }
   
   fetchResources() {
     this.http.get<any[]>(`http://localhost:8080/api/resources/all-resources`).subscribe(resources => {
       this.resources = resources.map(resource => ({ id: resource.resourceID, name: resource.resourceName }));
+      console.log(this.resources);
     });
   }
 
@@ -89,7 +91,6 @@ export class AddReclamationsComponent {
 
   showConfirmationModal(reclamation: Reclamation) {
     const message = `<div class="message">
-      <p>Event ID: ${reclamation.eventId}</p>
       <p>Type: ${reclamation.typeRec}</p>
       <p>Content: ${reclamation.content}</p>
     </div>`;
