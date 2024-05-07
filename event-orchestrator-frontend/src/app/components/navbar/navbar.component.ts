@@ -80,5 +80,23 @@ export class NavbarComponent implements OnInit {
     await this.keycloakService.logout();
   }
 
+  ////// Event search
+  filterEvent() {
+    const filter = (document.getElementById('searchInput') as HTMLInputElement).value.toUpperCase();
+    const events = document.querySelectorAll('.carousel-item');
+
+    events.forEach(event => {
+      const title = (event.querySelector('.carousel-item__details--title') as HTMLElement).innerText.toUpperCase();
+      const subtitle = (event.querySelector('.carousel-item__details--subtitle') as HTMLElement).innerText.toUpperCase();
+      const combinedText = title + subtitle;
+
+      if (combinedText.includes(filter)) {
+        (event as HTMLElement).style.display = ''; // Show the event
+      } else {
+        (event as HTMLElement).style.display = 'none'; // Hide the event
+      }
+    });
+  }
+
 
 }

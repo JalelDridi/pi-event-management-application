@@ -15,8 +15,8 @@ import Swal from 'sweetalert2';
 export class AddReclamationsComponent {
   reclamationForm: FormGroup;
   typesReclamation = Object.values(TypeReclamation);
-  events: any[] = []; 
-  resources: any[] = []; 
+  events: any[] = [];
+  resources: any[] = [];
   userId = '2';
   date = new Date();
 
@@ -47,7 +47,7 @@ export class AddReclamationsComponent {
       this.events = events.map(event => ({ id: event.eventId, name: event.name }));
     });
   }
-  
+
   fetchResources() {
     this.http.get<any[]>(`http://localhost:8080/api/resources/all-resources`).subscribe(resources => {
       this.resources = resources.map(resource => ({ id: resource.resourceID, name: resource.resourceName }));
@@ -62,11 +62,12 @@ export class AddReclamationsComponent {
         return;
       }
       const reclamation: Reclamation = {
-        IdRec: 1,
+        idRec: 1,
         eventId: this.reclamationForm.value.eventId,
         userId: this.userId,
         typeRec: this.reclamationForm.value.typeRec,
         content: content,
+        reponse: null,
         dateReclamation: this.date
       };
 

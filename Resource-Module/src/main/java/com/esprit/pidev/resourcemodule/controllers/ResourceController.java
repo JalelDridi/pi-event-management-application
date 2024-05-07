@@ -5,6 +5,7 @@ import com.esprit.pidev.resourcemodule.services.ResourceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -31,10 +32,15 @@ public class ResourceController {
     return this.resourceService.addResource(resource,resourceTypeID);
   }
 
-  @PutMapping("/updateResource/{resourceID}")
-  public Resource updateResource(@PathVariable Long resourceID ,@RequestBody Resource resource){
-    return resource != null ? this.resourceService.updateResource(resourceID,resource) : null;
-  }
+@PutMapping("/updateResource/{resourceTypeID}")
+public ResponseEntity<Resource> updateResource(@RequestBody Resource updatedResource, @PathVariable Long resourceTypeID) {
+    Resource resource = resourceService.updateResource(updatedResource, resourceTypeID);
+    if (resource != null) {
+        return ResponseEntity.ok(resource);
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
 
  @DeleteMapping("/deleteResource/{resourceID}")
   public void deleteResource(@PathVariable Long resourceID){
@@ -42,13 +48,14 @@ public class ResourceController {
       resourceService.deleteById(resourceID);
   }
 
-  @GetMapping("/getAllAvailableResources")
+    @GetMapping("/getAllAvailableResources")
     public List<Resource> getAllAvailableResources(){
       return this.resourceService.getAllAvailableResources();
     }
 
-//    @GetMapping("/recherche/{date}")
-//    public List<Resource>findResourcesByAvailabilityAndDate(@PathVariable Date date){
-//      return this.searchService.findResourcesByAvailabilityAndDate(date);
-//    }
+    @GetMapping("/findByResourceType/{resourceTypeID}")
+    public ResponseEntity<List<Resource>> findResourcesByResourceType(@PathVariable Long resourceTypeID) {
+        List<Resource> resources = resourceService.findResourcesByResourceType(resourceTypeID);
+        return ResponseEntity.ok(resources);
+    }
 }

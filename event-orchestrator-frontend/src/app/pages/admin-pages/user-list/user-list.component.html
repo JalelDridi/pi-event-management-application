@@ -1,0 +1,72 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+
+      <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">% of authenticated users  </h5>
+                  <span class="h2 font-weight-bold mb-0" id="user-percentage"></span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                    <i class="fas fa-percent"></i>
+                  </div>
+                </div>
+              </div>
+              <p class="mt-3 mb-0 text-muted text-sm">
+                <span class="text-nowrap">Since last connection </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Card stats -->
+    </div>
+  </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">User List</h3>
+        </div>
+        <div class="table-responsive">
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col">Id </th>
+              <th scope="col">firstName</th>
+              <th scope="col">email</th>
+
+            </tr>
+            </thead>
+            <!-- affichage du tableau a l'aide du back end database  -->
+            <tbody>
+            <tr *ngFor="let i of UserList">
+
+              <td>{{i.userID}}</td>
+              <td>{{i.firstName}}</td>
+              <td>{{i.email}}</td>
+
+              <td>
+                <button class="btn btn-primary"     (click)="AcceptUserCnx(i.userID) ">accept</button>
+                <button class="btn btn-secondary"   (click)="deleteUser(i.userID) ">reject</button>
+
+              </td>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,67 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-xl-3 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <h5 class="card-title text-uppercase text-muted mb-0">disponibilité des Ressources</h5>
+                  <span class="h2 font-weight-bold mb-0" id="Resource-percentage"></span>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                    <i class="fas fa-chart-bar"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Page content -->
+<div class="container-fluid mt--7">
+
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Ressource List</h3>
+        </div>
+        <div class="table-responsive" #table>
+          <table class="table align-items-center table-flush">
+            <thead class="thead-light">
+            <tr>
+              <th scope="col"  >Id </th>
+              <th scope="col">type</th>
+              <th scope="col">quntite</th>
+              <th scope="col">nbrReservation</th>
+
+            </tr>
+            </thead>
+            <!-- affichage du tableau a l'aide du back end database  -->
+            <tbody>
+            <tr *ngFor="let i of UserRessource">
+
+              <td>{{i.id_Ressource}}</td>
+              <td>{{i.type}}</td>
+              <td>{{i.quntite}}</td>
+              <td>{{i.nbrReservation}}</td>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-primary" (click)="downloadPDF()">Télécharger PDF</button>
+
+</div>

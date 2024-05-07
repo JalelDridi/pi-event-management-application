@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import {HttpClient} from "@angular/common/http";
 import {Message} from "../../services/notificationservices/models/message";
 import {getWebNotifs} from "../../services/notificationservices/fn/notification-controller/get-web-notifs";

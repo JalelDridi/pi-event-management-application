@@ -1,13 +1,13 @@
 package tn.esprit.eventmodule.Dtos;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public class ResourceTypeDto {
-    private Long id;
-    private String resouceTypeName;
+    private String resourceTypeName;
+
 }

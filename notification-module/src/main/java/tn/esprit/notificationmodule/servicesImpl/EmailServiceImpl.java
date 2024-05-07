@@ -13,10 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import reactor.core.publisher.Mono;
 import tn.esprit.notificationmodule.dtos.NotificationDto;
 import tn.esprit.notificationmodule.dtos.NotificationEventDto;
+import tn.esprit.notificationmodule.dtos.NotificationUserDto;
 import tn.esprit.notificationmodule.services.EmailService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -59,6 +62,11 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendUpcomingEvents() {
+
+
+        // Create a WebClient instance
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8091/api/v1").build();
+
         // Prepare the dto for the kafka consumer:
         NotificationDto notificationDto = new NotificationDto();
 
@@ -66,28 +74,30 @@ public class EmailServiceImpl implements EmailService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-// Create the request body
+        // Create the request body
         Map<String, String> requestBody = new HashMap<>();
         requestBody.put("email", "ahmedamine.romdnani@esprit.tn");
         requestBody.put("password", "11111111");
 
-// Create the request entity with headers and body
+        // Create the request entity with headers and body
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
 
-// Make a POST request to authenticate and obtain the bearer token
+        // Make a POST request to authenticate and obtain the bearer token
         ResponseEntity<Map> responseEntity = restTemplate.postForEntity(
-                "http://localhost:8060/api/v1/auth/authenticate",
+                "http://localhost:8091/api/v1/auth/authenticate",
                 requestEntity,
                 Map.class);
 
-// Get the response body containing the token
+        // Get the response body containing the token
         Map responseBody = responseEntity.getBody();
 
-// Extract the token from the response body
+        // Extract the token from the response body
         assert responseBody != null;
         String bearerToken = (String) responseBody.get("token");
-        headers.set("Authorization", "Bearer Token " + bearerToken);
+        headers.set("Authorization", "Bearer " + bearerToken);
+//        headers.setBearerAuth(bearerToken);
 
+        System.out.println(responseBody.get("token"));
         // Make a GET request to the User and Event Microservice
         try {
             // Change the return type to List<NotificationEventDto>
@@ -95,13 +105,19 @@ public class EmailServiceImpl implements EmailService {
                     "http://localhost:8060/Event/getall",
                     List.class); // This expects a List
 
-            // Create HttpEntity with headers
-//            HttpEntity<String> entity = new HttpEntity<>(headers);
-//            List<NotificationUserDto> usersList = restTemplate.getForObject(
-//                    "http://localhost:8060/api/v1/users/all",
-//                    List.class,
-//                    entity);
+            Mono<ResponseEntity<List<NotificationUserDto>>> responseMono = webClient.get()
+                    .uri("/users/all")
+                    .headers(httpHeaders -> httpHeaders.addAll(headers))
+                    .retrieve()
+                    .toEntityList(NotificationUserDto.class);
 
+            // Block and retrieve the response
+            ResponseEntity<List<NotificationUserDto>> responseEntity2 = responseMono.block();
+
+            // Extract the list of users
+            List<NotificationUserDto> usersList = responseEntity2.getBody();
+
+            System.out.println(usersList);
             notificationDto.setContent(loadUpcomingEventsTemplate(eventsList));
             notificationDto.setEmail("ahmedamine.romdnani@esprit.tn");
             notificationDto.setSubject("Upcoming Events Newsletter");
