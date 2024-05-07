@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface EventInterface {
-    public Event addEvent(@RequestParam("file")MultipartFile file,@RequestParam("file1")MultipartFile file1, Event event, String userid);
+    public Event addEvent(Event event, String userid);
 
         List<Event> getallEvent ();
     EventAdminDto findEventById(Long eventId);
