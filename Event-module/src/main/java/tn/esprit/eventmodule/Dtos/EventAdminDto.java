@@ -3,6 +3,7 @@ package tn.esprit.eventmodule.Dtos;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Lob;
 import lombok.*;
 import tn.esprit.eventmodule.Entities.EventType;
 import tn.esprit.eventmodule.Entities.StatusType;
@@ -18,12 +19,16 @@ public class EventAdminDto {
     private String  Name ;
     private Date startDate ;
     private Date endDate ;
-    @Enumerated( EnumType.STRING)
-    @Column
-    private EventType type;
+    private String type;
     private String club ;
-    @Column
-    private StatusType status;
-    private String Image;
+    private String status;
+    @Column(name = "image", columnDefinition = "LONGBLOB")
+    @Lob
+    private byte[] image;
+    @Column(name = "image1", columnDefinition = "LONGBLOB")
+    @Lob
+    private byte[] image1;
 
 }
+
+
