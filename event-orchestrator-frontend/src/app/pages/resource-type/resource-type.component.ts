@@ -21,12 +21,12 @@ export class ResourceTypeComponent {
     getResourceTypes(){
       this.resourceTypeService.getResourceTypes().subscribe(
         res => {
-          console.log(res); // Log the response to the console
-          this.resourceTypes = res as ResourceType[]; // Assign the response to your posts array
+          console.log(res); 
+          this.resourceTypes = res as ResourceType[]; 
         },
         error => {
           console.error(error);
-          // Log any errors to the console
+          
         }
       );
     }

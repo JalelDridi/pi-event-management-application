@@ -76,15 +76,6 @@ public ResponseEntity<Resource> updateResource(@RequestBody Resource updatedReso
         List<StatisticDto> statistics = statisticService.getResourceTypeStatistics();
         return ResponseEntity.ok(statistics);
     }
-//    @GetMapping("/search")
-//    public List<Resource> searchResourcesByResourceName(@RequestParam String resourceName) {
-//        return resourceService.searchResourcesByResourceName(resourceName);
-//    }
-//@GetMapping("/search")
-//public ResponseEntity<List<Resource>> searchResources(@RequestParam String query) {
-//    List<Resource> searchResults = resourceService.searchResourcesByResourceName(query);
-//    return ResponseEntity.ok().body(searchResults);
-//}
 
     @GetMapping("/search")
     public ResponseEntity<List<Resource>> searchResources(@RequestParam String query) {
