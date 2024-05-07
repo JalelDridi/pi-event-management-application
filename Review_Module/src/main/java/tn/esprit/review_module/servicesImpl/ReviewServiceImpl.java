@@ -18,6 +18,7 @@ public class ReviewServiceImpl implements ReviewService {
     public Review addReview(Review review) {
         return reviewRepository.save(review);
     }
+    @Override
     public Review createReview(ReviewEventDto reviewDto) {
         Review review = convertToEntity(reviewDto);
         return reviewRepository.save(review);

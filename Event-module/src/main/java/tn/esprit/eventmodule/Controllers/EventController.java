@@ -4,15 +4,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import tn.esprit.eventmodule.Daos.EventDao;
 import tn.esprit.eventmodule.Daos.UsersEventsDao;
 import tn.esprit.eventmodule.Dtos.EventAdminDto;
+import tn.esprit.eventmodule.Dtos.ReviewDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
 import tn.esprit.eventmodule.Entities.StatusType;
 import tn.esprit.eventmodule.ServiceImpl.EventImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.eventmodule.ServiceImpl.ReviewsImpl;
 
 import java.io.IOException;
 import java.util.Date;
@@ -30,6 +34,8 @@ public class EventController {
     EventDao eventDao;
     @Autowired
     UsersEventsDao usersEventsDao;
+    @Autowired
+    ReviewsImpl reviewsImpl;
 
     @CrossOrigin("*")
     @PostMapping(value = "/addevent/{userid}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -84,13 +90,30 @@ public class EventController {
         }
     }
 
+    @GetMapping ("/getEventById/{eventId}")
+    public Optional<Event> getEventById(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
 
     @GetMapping ("/getall")
     public List<Event> getAllEvent () {
         return eventimpl.getallEvent();
     }
-    @GetMapping("getAnEvent/{eventId}")
-    public EventAdminDto getAnEvent(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
+
+//    @GetMapping("/events/{eventId}")
+//
+//    public Mono<tn.esprit.eventmodule.dtos.EventDetailsDto> getEventDetailsWithReviews(Long eventId) {
+//        Mono<Event> eventDtoMono = eventimpl.findEventById(eventId);
+//        Flux<ReviewDto> reviewsFlux = reviewsImpl.getReviewsByEventId(eventId);
+//
+//        return eventDtoMono.zipWith(reviewsFlux.collectList(), (eventDto, reviews) -> {
+//            tn.esprit.eventmodule.dtos.EventDetailsDto eventDetails = new tn.esprit.eventmodule.dtos.EventDetailsDto();  // Assume constructor or setters to set properties from EventAdminDto
+//            eventDetails.setEventId(eventDto.getEventId());
+//            eventDetails.setName(eventDto.getName());
+//            // set other properties...
+//            eventDetails.setReviews(reviews);
+//            return eventDetails;
+//        });
+//    }
+
     @PutMapping("/edited/{eventId}")
     public Event editedEvent (@PathVariable Long eventId, @RequestBody Event event){
         return eventimpl.editEvent(eventId, event) ;
