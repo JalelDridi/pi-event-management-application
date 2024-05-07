@@ -1,33 +1,36 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {Router} from "@angular/router";
-import {AuthenticationService} from "../../userservices/services/authentication.service";
-import {TokenService} from "../../userservices/token/token.service";
+import {Component, OnInit} from '@angular/core';
 import {AuthenticationRequest} from "../../userservices/models/authentication-request";
+import {KeycloakService} from "../../userservices/keycloak/keycloak.service";
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
+
   authRequest: AuthenticationRequest = {email: '', password: ''};
   errorMsg: Array<string> = [];
 
-  constructor(private router: Router,
-              private authService: AuthenticationService,
-              private tokenService: TokenService) {
-
+  constructor(
+    private ss: KeycloakService
+  ) {
   }
 
-  login() {
+  async ngOnInit(): Promise<void> {
+    await this.ss.init();
+    await this.ss.login();
+  }
+
+  /*login() {
     this.errorMsg = [];
     this.authService.authenticate({
       body: this.authRequest
     }).subscribe({
       next: (res) => {
         this.tokenService.token = res.token as string;
-        localStorage.setItem('userId', res.userId); // Store user ID in local storage
-        this.router.navigate(['user-profile']);
+        this.router.navigate(['books']);
       },
       error: (err) => {
         console.log(err);
@@ -42,11 +45,5 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   register() {
     this.router.navigate(['register']);
-  }
-
-  ngOnInit() {
-  }
-  ngOnDestroy() {
-  }
-
+  }*/
 }
