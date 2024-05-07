@@ -4,8 +4,10 @@ import com.esprit.pidev.resourcemodule.daos.ReservationDao;
 import com.esprit.pidev.resourcemodule.daos.ResourceDao;
 import com.esprit.pidev.resourcemodule.entities.Reservation;
 import com.esprit.pidev.resourcemodule.entities.Resource;
+import com.esprit.pidev.resourcemodule.entities.ResourceType;
 import com.esprit.pidev.resourcemodule.services.ReservationService;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
+import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +24,9 @@ public class ReservationServiceImpl implements ReservationService {
     @jakarta.annotation.Resource
     private ResourceDao resourceDao;
 
-//    @Autowired
-//    ReservationService reservationService;
-
     @Autowired
-    ResourceService resourceService;
+    private ResourceService resourceService;
+
 
     @Override
     public List<Reservation> getAllReservations() {
@@ -35,11 +35,10 @@ public class ReservationServiceImpl implements ReservationService {
 
 
     @Override
-    public Reservation addReservation() {
-        final Reservation reservation = new Reservation();
-        reservation.setStartDate(new Date());
-        reservation.setEndDate(new Date());
-        reservation.setIsValid(Boolean.TRUE);
+    public Reservation addReservation(Reservation reservation,Long resourceID) {
+
+        Resource resource= resourceDao.findById(resourceID).get();
+        reservation.setResource(resource);
         return this.reservationDao.save(reservation);
     }
 
@@ -56,67 +55,42 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
 
-    @Override
-    public Reservation createReservation(Resource resource, Date startDate, Date endDate , Long resourceTypeId) {
-        Reservation reservation = null;
-        if (resource != null && startDate != null && endDate != null) {
-            //verify if the resource is available of specified dates
-            boolean isAvailable = checkResourceAvailability(resource, startDate, endDate);
-            if (isAvailable) {
-                //create a new reservation
-                reservation = this.addReservation();
-                reservation.setResource(resource);
 
-                //add reservation to the list of reservations of a resource
-                List<Reservation> reservations = resource.getReservations();
-                if (reservations == null) {
-                    reservations = new ArrayList<>();
-                }
-                reservations.add(reservation);
-                resource.setReservations(reservations);
 
-                //update informations of the resource
-                resource.setIsAvailable(false);//mark resource not available in this period of reservation
-                resource.setDate(new Date());//update the date of last reservation
-                this.resourceService.addResource(resource,resourceTypeId);
-            }
+    public Reservation createReservation(Reservation reservation, Long resourceID) {
+        if (resourceService.isResourceAvailableForReservation(resourceID, reservation.getStartDate()) ) {
+            Resource resource = resourceService.findResourceById(resourceID);
+            resource.setIsAvailable(false);
+            resource.setDate(reservation.getStartDate());
+            reservation.setResource(resource);
+            return reservationDao.save(reservation);
+        } else {
+//            throw new ResourceNotAvailableException("Resource is not available for the specified date range.");
+            return null;
+
         }
-        return reservation;
     }
-    @Override
-    public boolean checkResourceAvailability(Resource resource, Date startDate, Date endDate) {
-        // Retrieve list of reservations of a resource
-        List<Reservation> reservations = resource.getReservations();
-        if (reservations != null) {
-            // Verify if the resource is available for the specified dates
-            for (Reservation reservation : reservations) {
-                Date resStartDate = reservation.getStartDate();
-                Date resEndDate = reservation.getEndDate();
-                if (resStartDate != null && resEndDate != null) {
-                    if (resStartDate.before(endDate) && resEndDate.after(startDate)) {
-                        // If there is a conflict with an existing reservation
-                        return false;
-                    }
-                }
-            }
-        }
-        return true; // The resource is available for the specified dates
-    }
-
-
-
-//    private List<Resource> filterAvailableResources(List<Resource> resources, Date startDate, Date endDate, Reservation reservation) {
-//        List<Resource> availableResources = new ArrayList<>();
-//
-//        for (Resource resource : resources) {
-//            // Check the availability of each resource for the given reservation
-//            if (checkResourceAvailability(resource, startDate, endDate)) {
-//                availableResources.add(resource);
+//    @Override
+//    public boolean checkResourceAvailability(Resource resource, Date startDate, Date endDate) {
+//        // Retrieve list of reservations of a resource
+//        List<Reservation> reservations = resource.getReservations();
+//        if (reservations != null) {
+//            // Verify if the resource is available for the specified dates
+//            for (Reservation reservation : reservations) {
+//                Date resStartDate = reservation.getStartDate();
+//                Date resEndDate = reservation.getEndDate();
+//                if (resStartDate != null && resEndDate != null) {
+//                    if (resStartDate.before(endDate) && resEndDate.after(startDate)) {
+//                        // If there is a conflict with an existing reservation
+//                        return false;
+//                    }
+//                }
 //            }
 //        }
-//
-//        return availableResources;
+//        return true; // The resource is available for the specified dates
 //    }
+
+
 
 
 

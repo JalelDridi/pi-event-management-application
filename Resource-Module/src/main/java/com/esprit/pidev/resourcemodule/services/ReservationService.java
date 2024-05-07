@@ -11,20 +11,14 @@ public interface ReservationService {
     List<Reservation> getAllReservations();
 
 
-    Reservation addReservation();
-//
-//    Resource findById(Long resourceID);
-//
-//    Reservation createReservation(Resource resource);
+    Reservation addReservation(Reservation reservation,Long resourceID);
 
-
-    Reservation createReservation(Resource resource, Date startDate, Date endDate , Long resourceTypeId);
-
-    boolean checkResourceAvailability(Resource resource, Date startDate, Date endDate);
+  Reservation createReservation(Reservation reservation, Long resourceId);
 
     Reservation updateReservation(Reservation reservation);
 
     void deleteById(Long reservationID);
+
 
 
 }

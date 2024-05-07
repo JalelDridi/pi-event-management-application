@@ -4,12 +4,15 @@ import com.esprit.pidev.resourcemodule.daos.ResourceDao;
 import com.esprit.pidev.resourcemodule.daos.ResourceTypeDao;
 import com.esprit.pidev.resourcemodule.entities.Resource;
 import com.esprit.pidev.resourcemodule.entities.ResourceType;
+import com.esprit.pidev.resourcemodule.services.ReservationService;
 import com.esprit.pidev.resourcemodule.services.ResourceService;
+import org.apache.kafka.common.errors.ResourceNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +28,7 @@ public class ResourceServiceImpl implements ResourceService{
 
     @Autowired
     private ResourceTypeDao resourceTypeDao;
+
 
     @Override
     public List<Resource> getAllResources() {
@@ -104,6 +108,17 @@ public class ResourceServiceImpl implements ResourceService{
     public List<Resource> findResourcesByResourceType(Long resourceTypeID) {
         return resourceDao.findResourcesByResourceType(resourceTypeID);
     }
+
+    @Override
+    public boolean isResourceAvailableForReservation(Long resourceID, Date StartDate) {
+        Resource resource = resourceDao.findById(resourceID)
+                .orElseThrow(() -> new ResourceNotFoundException("Resource not found"));
+        return resource.Available() && resource.getDate().compareTo(StartDate) <= 0;
+    }
+
+
+
+
 }
 
 

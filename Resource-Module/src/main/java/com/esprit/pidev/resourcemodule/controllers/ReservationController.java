@@ -26,9 +26,9 @@ public class ReservationController {
         return  this.reservationService.getAllReservations();
     }
 
-    @PostMapping("/addReservation")
-    public Reservation  addReservation(){
-        return this.reservationService.addReservation();
+    @PostMapping("/addReservation/{resourceID}")
+    public Reservation  addReservation(@RequestBody Reservation reservation,@PathVariable Long resourceID){
+        return this.reservationService.addReservation(reservation,resourceID);
     }
 
     @PostMapping("/updateReservation")
@@ -42,10 +42,10 @@ public class ReservationController {
         reservationService.deleteById(reservationID);
     }
 
-    @PostMapping("/createReservation")
-    public Reservation createReservation(Resource resource, Date startDate, Date endDate , Long resourceTypeId){
-        return this.reservationService.createReservation(resource,startDate,endDate , resourceTypeId);
-    }
+@PostMapping("/createReservation/{resourceID}")
+public Reservation createReservation(@RequestBody Reservation reservation, @PathVariable Long resourceID) {
+    return reservationService.createReservation(reservation, resourceID);
+}
 
 
 
