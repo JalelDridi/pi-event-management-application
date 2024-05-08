@@ -21,7 +21,10 @@ export class ReviewStatisticsComponent implements OnInit {
   chartOptions: EChartsOption;
   chartOptions2: EChartsOption;
   chartOptions3: EChartsOption;
+
   reviews : Review[] = [];
+
+
   constructor(private reviewStatsService: ReviewStatisticsService , private reviewService: ReviewService) {}
 
   ngOnInit(): void {
@@ -67,7 +70,8 @@ export class ReviewStatisticsComponent implements OnInit {
           type: 'line',
           markPoint: { 
             data: avgReviewScores.map((score, index) => ({ name: eventIDs[index], value: score }))
-          }
+          },
+          
         }
       ]
     };
@@ -94,7 +98,8 @@ export class ReviewStatisticsComponent implements OnInit {
       series: [
         {
           data: counts,
-          type: 'bar'
+          type: 'bar',
+          barWidth: '20%' 
         }
       ]
     };

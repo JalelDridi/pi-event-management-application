@@ -73,7 +73,7 @@ export class AddReclamationsComponent {
         return;
       }
       const reclamation: Reclamation = {
-        idRec: 1,
+        
         eventId: this.reclamationForm.value.eventId,
         userId: this.userId,
         typeRec: this.reclamationForm.value.typeRec,

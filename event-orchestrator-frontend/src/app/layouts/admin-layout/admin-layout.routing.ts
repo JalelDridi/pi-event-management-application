@@ -60,4 +60,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'eventdetails/:id', component: EventDetailsComponent },
     { path: 'userfeedbacks', component: UserFeedbacksComponent},
     { path: 'admineventlist', component: AdminEventListComponent},
+    {path: 'reviewstatistics', component:ReviewStatisticsComponent},
+    {path: 'reclamationstatistics',component:ReclamationsStatisticsComponent},
+
 ];
