@@ -23,7 +23,9 @@ export class EditEventComponent implements OnInit{
     startDate: null,
     endDate: null,
     eventType: '',
-    Club: ''
+    Club: '',
+    image: null,
+    image1: null
   };
   eventDetails:[]=[]
 

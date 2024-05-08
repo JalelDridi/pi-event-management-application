@@ -4,7 +4,8 @@ import { ReviewService } from '../../reviewservices/review.service';
 import { BadWordsFilterService } from '../../reviewservices/badwordsfilter.service';
 import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient } from '@angular/common/http';
+import {UserService} from "../../userservices/services/user.service";
 
 
 @Component({
@@ -18,7 +19,7 @@ export class ReviewlistComponent implements OnInit {
     reviews: Review[] = [];
     averageRating: number = 0;
     totalReviews: number = 0;
-    userId: string = '268';
+    userId: string = localStorage.getItem("userId");
     editingReviewId?: number | null;
     private _updatedReview: Review | null = null;
 
@@ -26,7 +27,8 @@ export class ReviewlistComponent implements OnInit {
         private reviewService: ReviewService,
         private filterService: BadWordsFilterService,
         private datePipe: DatePipe,
-        private http: HttpClient 
+        private http: HttpClient ,
+        private userService: UserService
     ) { }
 
     ngOnInit(): void {
@@ -86,7 +88,7 @@ export class ReviewlistComponent implements OnInit {
     editReview(review: Review): void {
         this.currentDate = new Date();
         this.formattedDate = this.datePipe.transform(this.currentDate, 'yyyy-MM-ddTHH:mm:ss.SSSZ');
-    
+
         if (this.editingReviewId === review.reviewID) {
             this.editingReviewId = null;
         } else {
@@ -98,7 +100,7 @@ export class ReviewlistComponent implements OnInit {
             this._updatedReview.rating = review.rating ?? 0;
         }
     }
-    
+
 
     cancelEdit(): void {
         this.editingReviewId = null;
@@ -148,19 +150,20 @@ export class ReviewlistComponent implements OnInit {
     }
     getUserInfo(userId: string): { firstName: string, lastName: string } {
         let userInfo = { firstName: "", lastName: "" };
-    
-        this.http.get<{ firstName: string, lastName: string }>(`localhost:8081/api/v1/users/${userId}`)
-            .subscribe(
-                userInfoData => {
-                    userInfo.firstName = userInfoData.firstName;
-                    userInfo.lastName = userInfoData.lastName;
-                },
-                error => {
-                    console.error('Error fetching user info:', error);
-                }
-            );
-    
+
+
+        this.userService.getUserById({userId})
+          .subscribe(
+            userInfoData => {
+              userInfo.firstName = userInfoData.firstName;
+              userInfo.lastName = userInfoData.lastName;
+            },
+            error => {
+              console.error('Error fetching user info:', error);
+            }
+          );
+
         return userInfo;
     }
-    
+
 }

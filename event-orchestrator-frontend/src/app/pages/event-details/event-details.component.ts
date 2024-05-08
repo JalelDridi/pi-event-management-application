@@ -25,7 +25,9 @@ export class EventDetailsComponent implements OnInit{
     startDate: null,
     endDate: null,
     eventType: '',
-    Club: ''
+    Club: '',
+    image: null,
+    image1: null
   };
   Participation :any;
 
@@ -35,7 +37,6 @@ export class EventDetailsComponent implements OnInit{
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.eventId = +params['id'];
-      this.eventId = 1;
       this.loadEventDetails(this.eventId);
       this.loadUserEvents();
     });

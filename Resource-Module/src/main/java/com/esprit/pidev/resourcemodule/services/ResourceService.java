@@ -27,4 +27,5 @@ public interface ResourceService {
    // boolean isResourceAvailableForReservation(Long resourceId, Date startDate, Date endDate);
 
     boolean isResourceAvailableForReservation(Long resourceID, Date reservationStartDate);
+    List<Resource> searchResourcesByResourceName(String resourceName);
 }

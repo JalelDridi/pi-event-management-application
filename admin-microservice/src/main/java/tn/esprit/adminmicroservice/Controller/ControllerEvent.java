@@ -25,7 +25,7 @@ public class ControllerEvent {
         return serviceEvent.findAllconfEvents();
     }
 
-    @PostMapping("/acceptEvent/{id]")
+    @PostMapping("/acceptEvent/{id}")
     public StatusEvent AcceptEvent(@PathVariable Long id){
         return serviceEvent.AcceptEvent(id);
     }

@@ -35,7 +35,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
-    /*private final UserRepository userRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -135,7 +135,6 @@ public class AuthenticationService {
         userNotifDto.setSubject("Acccount activation code");
         userNotifDto.setFullName(user.getFullName());
         userNotifDto.setEmail(user.getEmail());
-        // Set headers for the request (if needed)
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<UserNotifDto> requestEntity = new HttpEntity<>(userNotifDto, headers);
@@ -178,5 +177,5 @@ public class AuthenticationService {
         System.out.println("Generated activation token: " + codeBuilder.toString());
 
         return codeBuilder.toString();
-    }*/
+    }
 }

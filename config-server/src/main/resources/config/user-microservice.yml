@@ -6,11 +6,6 @@ spring:
       max-file-size: 50MB
   application:
     name: user-microservice
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: "http://localhost:9090/realms/myrealm"
   data:
     mongodb:
       uri: mongodb://localhost:27017/user_microservice_db
@@ -35,6 +30,17 @@ logging:
     org:
       springframework:
         web: DEBUG
+
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 604800000 # 7 days
+      refresh-token:
+        expiration: 2592000000 # refresh-token expiration time (30 days)
+  mailing:
+    frontend:
+      activation-url: "http://localhost:4200/activate-account"
 
 springdoc:
   default-produces-media-type: application/json

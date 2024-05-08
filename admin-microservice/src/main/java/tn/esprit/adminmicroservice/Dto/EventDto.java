@@ -5,6 +5,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
@@ -12,7 +13,7 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventDto {
+public class EventDto implements Serializable {
 
         private Long eventId ;
         private String  Name ;
@@ -22,5 +23,7 @@ public class EventDto {
         private String club ;
         private String status;
         private String Image;
+        private String etat; // pending | accepted | rejected
+        private String eventRepresentativeId;
 
 }

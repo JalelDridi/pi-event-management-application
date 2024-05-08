@@ -1,6 +1,7 @@
 package com.esprit.pidev.resourcemodule.daos;
 
 import com.esprit.pidev.resourcemodule.entities.Resource;
+import com.esprit.pidev.resourcemodule.entities.ResourceType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,4 +13,9 @@ public interface ResourceDao extends JpaRepository<Resource , Long> {
     List<Resource> findByIsAvailableTrue();
     @Query("SELECT r FROM Resource r WHERE r.resourceType.resourceTypeID = ?1")
     List<Resource> findResourcesByResourceType(Long resourceTypeID);
+
+    Long countByResourceType(ResourceType resourceType);
+
+
+    List<Resource> findByResourceNameContainingIgnoreCase(String resourceName);
 }

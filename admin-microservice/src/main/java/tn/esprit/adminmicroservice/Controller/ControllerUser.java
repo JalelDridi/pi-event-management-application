@@ -1,5 +1,6 @@
 package tn.esprit.adminmicroservice.Controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.adminmicroservice.Dto.ConfUserDto;
 import tn.esprit.adminmicroservice.Dto.UserDto;
@@ -25,8 +26,11 @@ public class ControllerUser {
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<UserDto> users = serviceUser.getALLUser();
+    public ResponseEntity<List<UserDto>> getAllUsers(@RequestHeader("Authorization") String authorizationHeader) {
+        HttpHeaders headers = new HttpHeaders();
+        System.out.println(authorizationHeader);
+        headers.set("Authorization", authorizationHeader);
+        List<UserDto> users = serviceUser.getALLUser(headers);
         return ResponseEntity.ok(users);
     }
     @GetMapping("/send-database")
@@ -36,19 +40,30 @@ public class ControllerUser {
 
 
     @PostMapping ("/DeleteUser/{id}")
-    public  StatusUser RefusUserCnx(@PathVariable String id){
+    public  StatusUser RefusUserCnx(@PathVariable String id,
+                                    @RequestHeader("Authorization") String authorizationHeader) {
+        HttpHeaders headers = new HttpHeaders();
+        System.out.println(authorizationHeader);
+        headers.set("Authorization", authorizationHeader);
 
-           return serviceUser.RefusUserCnx(id);
+           return serviceUser.RefusUserCnx(id, headers);
     }
 
     @GetMapping ("/ListFinal")
-    public  List<UserDto> getUsers(){
-        return serviceUser.getUsers();
+    public  List<UserDto> getUsers(@RequestHeader("Authorization") String authorizationHeader) {
+        HttpHeaders headers = new HttpHeaders();
+        System.out.println(authorizationHeader);
+        headers.set("Authorization", authorizationHeader);
+        return serviceUser.getUsers(headers);
     }
 
     @PostMapping("/accept/{id}")
-    public StatusUser AcceptUserCnx(@PathVariable String id) {
-            return serviceUser.AcceptUserCnx(id);
+    public StatusUser AcceptUserCnx(@PathVariable String id,
+                                    @RequestHeader("Authorization") String authorizationHeader) {
+        HttpHeaders headers = new HttpHeaders();
+        System.out.println(authorizationHeader);
+        headers.set("Authorization", authorizationHeader);
+            return serviceUser.AcceptUserCnx(id, headers);
         }
 
         @GetMapping("/UsersConfirmer")
@@ -63,8 +78,11 @@ public class ControllerUser {
 
 
         @GetMapping("/satistique")
-    public double pourcentageUsersAuth(){
-        return serviceUser.pourcentageUsersAuth();
+    public double pourcentageUsersAuth(@RequestHeader("Authorization") String authorizationHeader) {
+            HttpHeaders headers = new HttpHeaders();
+            System.out.println(authorizationHeader);
+            headers.set("Authorization", authorizationHeader);
+        return serviceUser.pourcentageUsersAuth(headers);
         }
 
 

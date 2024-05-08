@@ -1,39 +1,75 @@
-<!-- Dark table -->
 <div class="row mt-5">
-    <div class="col">
-      <div class="d-flex justify-content-end mb-3">
-        <button class="btn btn-danger mb-3" type="button" [routerLink]="['/addResource']">Add Resource</button>
-        <button class="btn btn-danger mb-3" type="button" [routerLink]="['/resourceTypesList']">Display Resource Types</button>
-      </div>  
-        <div class="card bg-default shadow">
-        <div class="card-header bg-transparent border-0">
-          <h3 class="text-white mb-0">Resources List</h3>
-        </div>
-        <div class="table-responsive">
-          <table class="table align-items-center table-dark table-flush">
-            <thead class="thead-dark">
+  <div class="col">
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-danger mb-3" type="button" [routerLink]="['/addResource']">Add Resource</button>
+      <button class="btn btn-danger mb-3" type="button" [routerLink]="['/resourceTypesList']">Display Resource Types</button>
+    </div>
 
+    <!-- Search Input Field -->
+    <input type="text" class="form-control mb-3" placeholder="Search Resources" (input)="searchResources($event.target.value)">
+
+    <div class="card bg-default shadow">
+      <div class="card-header bg-transparent border-0">
+        <h3 class="text-white mb-0">Resources List</h3>
+      </div>
+      <div class="table-responsive">
+        <table class="table align-items-center table-dark table-flush">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Resource Name</th>
+              <th scope="col">Is Available</th>
+              <th scope="col">Date</th>
+              <th scope="col">ResourceType</th>
+              <th scope="col">Delete</th>
+              <th scope="col">Update</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Loop through resources or search results -->
+            <ng-container *ngFor="let item of (searchResults.length ? searchResults : resources)">
               <tr>
-                <th scope="col">Resource Name</th>
-                <th scope="col">Is Available</th>
-                <th scope="col">Date</th>
-                <th scope="col">ResourceType</th>
-                <th scope="col">Delete</th>
-                <th scope="col">Update</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let item of resources">
                 <td>{{ item.resourceName }}</td>
                 <td>{{ item.isAvailable }}</td>
                 <td>{{ item.date | date: 'yyyy-MM-dd' }}</td>
                 <td>{{ item.resourceType.resourceTypeName }}</td>
                 <td><button (click)="deleteResource(item.resourceID)" class="btn btn-danger">Delete</button></td>
-                <td><button class="btn btn-danger"  [routerLink]="['/updateResource',item.resourceID]">Update</button></td>
+                <td><button class="btn btn-danger" [routerLink]="['/updateResource',item.resourceID]">Update</button></td>
               </tr>
-            </tbody>
-          </table>
-        </div>
+            </ng-container>
+            <!-- Display message if no search results -->
+            <ng-container *ngIf="!searchResults.length && !resources.length">
+              <tr>
+                <td colspan="6" class="text-center">No resources found.</td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
+</div>
+
+
+
+<div class="col-xl-3 col-lg-6">
+  <div class="card card-stats mb-4 mb-xl-0">
+    <div class="card-body">
+      <div class="row">
+        <div class="col">
+          <h5 class="card-title text-uppercase text-muted mb-0">ResourceType Statistics</h5>
+          <li *ngFor="let stat of statisticsData">
+            {{ stat.resourceTypeName }}: {{ stat.percentage }}%
+          </li>
+        </div>
+        <div class="col-auto">
+          <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+        </div>
+      </div>
+      <p class="mt-3 mb-0 text-muted text-sm">
+        <span class="text-nowrap">Since last month</span>
+      </p>
+    </div>
+  </div>
+</div>

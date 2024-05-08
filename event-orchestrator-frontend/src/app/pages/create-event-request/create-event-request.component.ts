@@ -76,6 +76,9 @@ export class CreateEventRequestComponent implements OnInit{
     formData.append('eventType', this.event.eventType);
     formData.append('Club', this.event.Club);
 
+    formData.append('etat', "pending");
+    formData.append('eventRepresentativeId', this.userid);
+
 
     this.Event.addEvent(formData, this.userid).subscribe(
       () => {
@@ -95,7 +98,15 @@ export class CreateEventRequestComponent implements OnInit{
             }).subscribe(() => console.log('Successfully notified club representative'));
 
             // Notify admin
-            const adminContent = `A new event request has been sent, please review it as soon as possible mr admin`;
+            const adminContent = `A new event request has been sent, please review it as soon as possible.`;
+            this.emailService.notifyAdmin({
+              body: {
+                userId: this.userid,
+                email: user.email,
+                subject: "New event request has been sent",
+                content: adminContent
+              }
+            }).subscribe(() => console.log('Successfully notified club representative'));
           },
           (error) => {
             console.error('Error fetching user information:', error);

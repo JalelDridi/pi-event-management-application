@@ -30,7 +30,7 @@ import {ResourceListComponent} from "../../pages/resource-list/resource-list.com
 import {ResourceService} from "../../pages/resource-list/resource.service";
 import { ReclamationStatisticsService } from 'src/app/reviewservices/reclamationstatistics.service';
 import { ReclamationsStatisticsComponent } from '../../pages/reclamations-statistics/reclamations-statistics.component';
-import { NgxEchartsModule } from 'ngx-echarts'; 
+import { NgxEchartsModule } from 'ngx-echarts';
 import { ReviewStatisticsComponent } from 'src/app/pages/reviews-statistics/reviews-statistics.component';
 
 
@@ -46,7 +46,7 @@ import { ReviewStatisticsComponent } from 'src/app/pages/reviews-statistics/revi
     ClipboardModule,
     MatButtonModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'), 
+      echarts: () => import('echarts'),
     }),
     ReactiveFormsModule,
     MatCardModule,

@@ -16,7 +16,7 @@ private baseUrl = 'http://localhost:8089' ;
   }
 
   GetEventDetails(eventId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/Event/getAnEvent/${eventId}`).pipe(
+    return this.http.get(`${this.baseUrl}/Event/getEventById/${eventId}`).pipe(
       catchError((error) => {
         console.error('Error fetching event details:', error);
         return throwError('Failed to fetch user profile');
@@ -39,8 +39,9 @@ private baseUrl = 'http://localhost:8089' ;
   GetUserevent(UserId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/Event/${UserId}/events`);
   }
-  getUpcomingEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.baseUrl}/Event/upcoming`);
+
+  getUpcomingEvents(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/Event/upcoming`);
   }
 
 

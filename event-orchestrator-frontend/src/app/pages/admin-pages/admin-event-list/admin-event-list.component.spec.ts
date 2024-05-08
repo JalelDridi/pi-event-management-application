@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChatComponent } from './chat.component';
+import { AdminEventListComponent } from './admin-event-list.component';
 
-describe('ChatComponent', () => {
-  let component: ChatComponent;
-  let fixture: ComponentFixture<ChatComponent>;
+describe('AdminEventListComponent', () => {
+  let component: AdminEventListComponent;
+  let fixture: ComponentFixture<AdminEventListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChatComponent ]
+      declarations: [ AdminEventListComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ChatComponent);
+    fixture = TestBed.createComponent(AdminEventListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,7 +2,10 @@ package tn.esprit.adminmicroservice.ServiceImp;
 
 import com.google.gson.Gson;
 import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 import tn.esprit.adminmicroservice.Dto.ConfUserDto;
 import tn.esprit.adminmicroservice.Ennum.Role;
 import tn.esprit.adminmicroservice.Repository.RepositoryUser;
@@ -49,8 +52,8 @@ public class ServiceUserImpl implements ServiceUser {
     }
 
     @Override
-    public StatusUser AcceptUserCnx(String id) {
-        List<UserDto> users = getALLUser();
+    public StatusUser AcceptUserCnx(String id, HttpHeaders headers) {
+        List<UserDto> users = getALLUser(headers);
 
         for (UserDto user : users) {
             StatusUser userSaved=new StatusUser();
@@ -74,8 +77,8 @@ public class ServiceUserImpl implements ServiceUser {
 
 //mazelet
 @Override
-public StatusUser RefusUserCnx(String id) {
-    List<UserDto> users = getALLUser();
+public StatusUser RefusUserCnx(String id, HttpHeaders headers) {
+    List<UserDto> users = getALLUser(headers);
 
     for (UserDto user : users) {
         StatusUser userSaved=new StatusUser();
@@ -95,9 +98,9 @@ public StatusUser RefusUserCnx(String id) {
     return null;
 }
     @Override
-    public List<UserDto> getUsers() {
+    public List<UserDto> getUsers(HttpHeaders headers) {
         // Retrieve all users and statuses
-        List<UserDto> users = getALLUser();
+        List<UserDto> users = getALLUser(headers);
         List<UserDto> test = new ArrayList<>();
 
         // Retrieve all statuses
@@ -115,19 +118,24 @@ public StatusUser RefusUserCnx(String id) {
 
 
     @Override
-    public List<UserDto> getALLUser() {
+    public List<UserDto> getALLUser(HttpHeaders headers) {
         // Remplacer "user-service-url" par l'URL réelle du microservice utilisateur
         // Construire l'URL sans paramètres
-        String userMicroserviceUrl = "http://localhost:8091/api/v1/users/all";
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8060/api/v1").build();
 
         // Faire une requête GET au microservice utilisateur pour récupérer la liste des utilisateurs
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<List<UserDto>> responseEntity = restTemplate.exchange(
-                userMicroserviceUrl,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<UserDto>>() {}
-        );
+        Mono<ResponseEntity<List<UserDto>>> responseMono = webClient.get()
+                .uri("/users/all")
+                .headers(httpHeaders -> httpHeaders.addAll(headers))
+                .retrieve()
+                .toEntityList(UserDto.class);
+
+        // Block and retrieve the response
+        ResponseEntity<List<UserDto>> responseEntity = responseMono.block();
+
+        // Extract the list of users
+        assert responseEntity != null;
+        List<UserDto> usersList = responseEntity.getBody();
         // Vérifier si la requête a réussi (code de statut HTTP 200)
         if (responseEntity.getStatusCode() == HttpStatus.OK) {
             return responseEntity.getBody(); // Retourner la liste des utilisateurs
@@ -197,9 +205,9 @@ public StatusUser RefusUserCnx(String id) {
 
  /////fonction de statistique
 @Override
-public double pourcentageUsersAuth() {
+public double pourcentageUsersAuth(HttpHeaders headers) {
     List<StatusUser> users = repositoryUser.findAll();
-    List<UserDto> usersAuth = getUsers();
+    List<UserDto> usersAuth = getUsers(headers);
     int totalUsers = users.size();
     int authenticatedUsers = usersAuth.size();
     if (authenticatedUsers == 0) {

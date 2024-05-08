@@ -23,6 +23,7 @@ public class Event implements Serializable {
     private String  Name ;
     private String description;
     private String etat; // Accepté | En cours - refusé
+    private int capacity;
 
 
     private Date startDate ;
@@ -43,6 +44,7 @@ public class Event implements Serializable {
     private Float  lng ;
     private Float  lat ;
 
+    private String eventRepresentativeId;
 
     @OneToMany(mappedBy = "event")
     private List<SelectedResources> selectedResources;
