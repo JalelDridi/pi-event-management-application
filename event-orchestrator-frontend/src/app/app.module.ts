@@ -34,7 +34,6 @@ import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resou
 import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
 import { EditEventComponent } from './pages/edit-event/edit-event.component';
 import { EventDetailsComponent } from './pages/event-details/event-details.component';
-import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
@@ -94,7 +93,6 @@ import {MatInputModule} from "@angular/material/input";
     UpdateResourceTypeComponent,
     EditEventComponent,
     EventDetailsComponent,
-    QrDialogueComponent,
     AddResourceTypeComponent,
     AdminEventListComponent
   ],

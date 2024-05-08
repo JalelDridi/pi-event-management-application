@@ -17,6 +17,7 @@ export class EventDetailsComponent implements OnInit{
   eventDetails: any;
   UserId: string = localStorage.getItem("userId");
   userevents: any[] = [];
+  
   isUserEvent: boolean = false;
   mytext :string
   event: Eventattribut = {
@@ -30,7 +31,7 @@ export class EventDetailsComponent implements OnInit{
     image1: null
   };
   Participation :any;
-
+userId:string='.'//this.userId = localStorage.getItem('userId');
 
   constructor(private eventservice: EventService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog  ) { }
 
@@ -40,6 +41,9 @@ export class EventDetailsComponent implements OnInit{
       this.loadEventDetails(this.eventId);
       this.loadUserEvents();
     });
+
+      
+
   }
 
   loadEventDetails(eventId: number): void {
@@ -112,7 +116,7 @@ export class EventDetailsComponent implements OnInit{
     }
   }
 
-  qrdata :string='hello' ;
+
 
 
   Addparticipation() {
@@ -126,4 +130,14 @@ export class EventDetailsComponent implements OnInit{
       }
     );
   }
+
+
+
+  
+
+
+
+
+
+  
 }
