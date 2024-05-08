@@ -59,5 +59,5 @@ export const AdminLayoutRoutes: Routes = [
     {path:"updateResourceType/:resourceTypeID",component:UpdateResourceTypeComponent},
     { path: 'eventdetails/:id', component: EventDetailsComponent },
     { path: 'userfeedbacks', component: UserFeedbacksComponent},
-    { path: 'admineventlist', component: AdminEventListComponent}
+    { path: 'admineventlist', component: AdminEventListComponent},
 ];
