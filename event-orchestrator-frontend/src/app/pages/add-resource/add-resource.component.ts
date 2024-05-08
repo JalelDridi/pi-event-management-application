@@ -17,46 +17,30 @@ export class AddResourceComponent {
   submitted = false;
   resourceTypes: ResourceType[];
   resource: Resource= new Resource();
- resourceForm : FormGroup;
+  resourceForm : FormGroup;
   resourceTypeID: number;
-  
 
-
-  constructor(private resourceService : ResourceService , private router : Router , private fb: FormBuilder , private resourceTypeService: ResourceTypeService) { 
+  constructor(private resourceService : ResourceService , private router : Router , private fb: FormBuilder , private resourceTypeService: ResourceTypeService) {
     this.resourceForm = this.fb.group({
       resourceName: ['', Validators.required],
       date: [null, Validators.required],
       isAvailable:[false] ,
-       resourceTypeID: 1,
-     
-      
+      resourceTypeID: 1,
     });
-    this.resourceTypeID = 1;
+
+    // Update resourceTypeID when the form value changes
+    this.resourceForm.get('resourceTypeID').valueChanges.subscribe(value => {
+      this.resourceTypeID = value;
+    });
   }
 
- ngOnInit() {
-  this.getResourceTypes();
-  }
-  getResourceTypes(){
-    this.resourceTypeService.getResourceTypes().subscribe(
-      res => {
-        console.log(res); 
-        this.resourceTypes = res as ResourceType[]; 
-      },
-      error => {
-        console.error(error);
-        
-      }
-    );
-  }
-  
+  // ...
 
   addResource() {
     if (this.resourceForm.valid) {
-     // const newResource = this.resourceForm.value;
-     const newResource = { ...this.resourceForm.value };
-    console.log("resourceTypeID",this.resourceTypeID);
-      this.resourceService.addResource(newResource,this.resourceTypeID).subscribe(
+      const newResource = { ...this.resourceForm.value };
+      console.log("resourceTypeID", this.resourceTypeID);
+      this.resourceService.addResource(newResource, this.resourceTypeID).subscribe(
         (response) => {
           // Afficher une alerte de succès avec SweetAlert
           Swal.fire({

@@ -1,1 +1,66 @@
-<p>submit-a-feedback works!</p>
+<!-- feedback.component.html -->
+<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh; background-image: url('/assets/ESB-1024x683.jpg'); background-size: cover; backdrop-filter: blur(5px);">
+  <section class="mat-elevation-z2" style="background-image: linear-gradient(to bottom, #E5E5EA, #F7F7F9); padding: 20px; margin-top: 100px; min-width: 700px; min-height: 500px;">
+    <!-- Page content -->
+    <div class="container">
+      <div class="mat-card">
+        <div class="mat-card-content">
+          <form [formGroup]="reclamationForm" class="reclamation-form">
+            <!-- Reclamation information -->
+            <h2 class="heading">Reclamation Details</h2>
+            <div class="form-group">
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Reclamation Type</mat-label>
+                <mat-select id="typeRec" formControlName="typeRec" placeholder="Select Reclamation Type">
+                  <mat-option *ngFor="let type of typesReclamation" [value]="type">{{ type | lowercase }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="reclamationForm.get('typeRec')?.invalid && (reclamationForm.get('typeRec')?.dirty || reclamationForm.get('typeRec')?.touched)">
+                  Reclamation type is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-group" *ngIf="reclamationForm.get('typeRec')?.value === 'EVENT'">
+              <!-- Selector for event names -->
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Event Name</mat-label>
+                <mat-select id="eventId" formControlName="eventId" placeholder="Select Event">
+                  <mat-option *ngFor="let event of events" [value]="event.id">{{ event.name }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="reclamationForm.get('eventId')?.invalid && (reclamationForm.get('eventId')?.dirty || reclamationForm.get('eventId')?.touched)">
+                  Event is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-group" *ngIf="reclamationForm.get('typeRec')?.value === 'RESOURCES'">
+              <!-- Selector for resource names -->
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Resource Name</mat-label>
+                <mat-select id="resourceId" formControlName="resourceId" placeholder="Select Resource" (selectionChange)="updateResourceId($event.value)">
+                  <mat-option *ngFor="let resource of resources" [value]="resource.id">{{ resource.name }}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="reclamationForm.get('resourceId')?.invalid && (reclamationForm.get('resourceId')?.dirty || reclamationForm.get('resourceId')?.touched)">
+                  Resource is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-group">
+              <!-- Content input -->
+              <mat-form-field appearance="fill" class="full-width" *ngIf="reclamationForm.get('typeRec')?.value !== 'Site'">
+                <mat-label>Reclamation Content</mat-label>
+                <textarea matInput id="content" formControlName="content" placeholder="Enter Reclamation Content"></textarea>
+                <mat-error *ngIf="reclamationForm.get('content')?.invalid && (reclamationForm.get('content')?.dirty || reclamationForm.get('content')?.touched)">
+                  Content is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-group btn-group">
+              <button mat-raised-button color="warn" (click)="resetForm()">Cancel</button>
+              <button mat-raised-button color="primary" (click)="addReclamation()" [disabled]="!reclamationForm.valid">Add Reclamation</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
