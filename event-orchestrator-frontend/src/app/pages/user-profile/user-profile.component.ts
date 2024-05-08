@@ -3,6 +3,8 @@ import { EventUserDto } from "../../userservices/models/event-user-dto";
 import { UserService } from "../../userservices/services/user.service";
 import {User} from "../../userservices/models/user";
 import {UpdateUser$Params} from "../../userservices/fn/user/update-user";
+import {th} from "date-fns/locale";
+import {Role} from "../../userservices/models/role";
 
 @Component({
   selector: 'app-user-profile',
@@ -39,7 +41,13 @@ export class UserProfileComponent implements OnInit {
       userId: this.user.userID,
       body: this.user
     };
-
+    let role: Role = {
+      createdDate: '2022-01-01',
+      id: '1',
+      lastModifiedDate: '2022-01-02',
+      name: 'User'
+    };
+    this.user.roles.push()
     // Call the updateUser function
     this.userService.updateUser(params).subscribe(
       (updatedUser: User) => {

@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
 //import * as MyEventModel from '../../../../../../../../../../../Desktop/AngularPi - Copie/src/app/models/event.model';
@@ -56,8 +56,9 @@ private baseUrl = 'http://localhost:8089' ;
     return this.http.get('http://localhost:8089/Event/eventtypes')
   }
 
-  AddParticipation(eventId: number, userid : String ) : Observable<any>{
-    return this.http.post(`${this.baseUrl}/Event/add-participation/${userid}/${eventId}`,null)
+  AddParticipation(eventId: number, userId : String ) : Observable<any>{
+    let params = new HttpParams().set('userId', userId.toString()).set('eventId', eventId.toString());
+    return this.http.post(`${this.baseUrl}/Event/add-participation`, null, {params: params});
   }
 
   getImage(eventId: number): Observable<SafeUrl> {
