@@ -2,9 +2,7 @@ package tn.esprit.adminmicroservice.ServiceImp;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tn.esprit.adminmicroservice.Dto.ConfUserDto;
@@ -29,23 +27,21 @@ public class ServiceEventImpl implements ServiceEvent {
     public List<EventDto> getALLEvents() {
         // Remplacer "event-service-url" par l'URL réelle du microservice event
         // Construire l'URL sans paramètres
-        String ressourceMicroserviceUrl = "http://localhost:8088/api/Event/getall";
 
         // Faire une requête GET au microservice event pour récupérer la liste des events
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<List<EventDto>> responseEntity = restTemplate.exchange(
-                ressourceMicroserviceUrl,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<EventDto>>() {}
-        );
+        List<EventDto> eventsList = restTemplate.getForObject(
+                "http://localhost:8060/Event/getall",
+                List.class);
+
+
         // Vérifier si la requête a réussi (code de statut HTTP 200)
-        if (responseEntity.getStatusCode() == HttpStatus.OK) {
-            return responseEntity.getBody(); // Retourner la liste des events
+        if (eventsList != null) {
+            return eventsList; // Retourner la liste des events
         } else {
             // Gérer le cas où la requête n'a pas réussi
             // Vous pouvez lancer une exception ou le gérer en fonction des besoins de votre application
-            throw new RuntimeException("Failed to fetch users from User Microservice. Status code: " + responseEntity.getStatusCodeValue());
+            throw new RuntimeException("Failed to fetch users from User Microservice. Status code: 500");
         }
     }
 
@@ -58,13 +54,36 @@ public class ServiceEventImpl implements ServiceEvent {
             StatusEvent eventSaved=new StatusEvent();
 
             if (event.getEventId().equals(id)) {
+
+                // This sets the "etat" attribute to rejected and saves it to the event database:
+                event.setEtat("accepted");
+                String eventUrl = "http://localhost:8060/Event/addevent/"+event.getEventId();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<EventDto> requestEntity = new HttpEntity<>(event, headers);
+
+                RestTemplate restTemplate = new RestTemplate();
+                ResponseEntity<String> responseEntity = restTemplate.postForEntity(
+                        eventUrl,
+                        requestEntity,
+                        String.class
+                );
+
+                if (responseEntity.getStatusCode().is2xxSuccessful()) {
+                    // Email sent successfully
+                    System.out.println("Event has been accepted !");
+                }
+
+
+                // store rejected event for tracing purposes
                 eventSaved.setName(event.getName());
                 eventSaved.setStartDate(event.getStartDate());
                 eventSaved.setEndDate(event.getEndDate());
                 eventSaved.setClub(event.getClub());
                 eventSaved.setStatus(true);
                 repositoryEvent.save(eventSaved);
-               //notif de event confirmé
+                //notif de event refusé
                 return eventSaved;
             }
 
@@ -79,6 +98,29 @@ public class ServiceEventImpl implements ServiceEvent {
             StatusEvent eventSaved=new StatusEvent();
 
             if (event.getEventId().equals(id)) {
+
+                // This sets the "etat" attribute to rejected and saves it to the event database:
+                event.setEtat("rejected");
+                String eventUrl = "http://localhost:8060/Event/addevent/"+event.getEventId();
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                HttpEntity<EventDto> requestEntity = new HttpEntity<>(event, headers);
+
+                RestTemplate restTemplate = new RestTemplate();
+                ResponseEntity<String> responseEntity = restTemplate.postForEntity(
+                        eventUrl,
+                        requestEntity,
+                        String.class
+                );
+
+                if (responseEntity.getStatusCode().is2xxSuccessful()) {
+                    // Email sent successfully
+                    System.out.println("Event has been rejected !");
+                }
+
+
+                // store rejected event for tracing purposes
                 eventSaved.setName(event.getName());
                 eventSaved.setStartDate(event.getStartDate());
                 eventSaved.setEndDate(event.getEndDate());

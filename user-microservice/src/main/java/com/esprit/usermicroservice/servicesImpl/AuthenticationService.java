@@ -135,7 +135,6 @@ public class AuthenticationService {
         userNotifDto.setSubject("Acccount activation code");
         userNotifDto.setFullName(user.getFullName());
         userNotifDto.setEmail(user.getEmail());
-        // Set headers for the request (if needed)
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<UserNotifDto> requestEntity = new HttpEntity<>(userNotifDto, headers);

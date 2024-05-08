@@ -7,7 +7,7 @@
 }
 
 .background-image {
-  background-image: url('/assets/50_Top_2018_Index_Bangkok_CountdownCentral_World_0.jpg');
+  /*background-image: url('/assets/50_Top_2018_Index_Bangkok_CountdownCentral_World_0.jpg');*/
   background-size: cover;
   background-position: center;
   position: absolute;
@@ -25,7 +25,7 @@
 }
 
 
-.main-content {
+.main-contentt {
   position: relative;
   background-color: white;
   padding-top: 50px; /* Adjust the padding to control the intersection */
@@ -90,3 +90,14 @@
   margin-bottom: 0.5em;
 }
 
+
+.gradient-button {
+  background: linear-gradient(to right, #FF416C, #FF4B2B);
+  border: none;
+}
+
+.gradient-button:hover {
+  background: linear-gradient(to right, #FF4B2B, #FF416C);
+  box-shadow: 0 0 10px #FF416C, 0 0 40px #FF4B2B, 0 0 80px #FF4B2B;
+  transition: 0.5s;
+}

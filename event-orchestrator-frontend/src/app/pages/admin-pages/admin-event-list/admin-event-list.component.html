@@ -43,11 +43,11 @@
             <thead class="thead-light">
             <tr>
               <th scope="col"> Name  </th>
+              <th scope="col"> Description  </th>
               <th scope="col"> startDate  </th>
               <th scope="col"> endDate  </th>
-              <th scope="col"> type  </th>
               <th scope="col">club</th>
-              <th scope="col">Image</th>
+              <th scope="col">etat</th>
 
             </tr>
             </thead>
@@ -55,12 +55,12 @@
             <tbody>
             <tr *ngFor="let i of EventList">
 
-              <td>{{i.Name}}</td>
+              <td>{{i.name}}</td>
+              <td>{{i.description}}</td>
               <td>{{i.startDate}}</td>
               <td>{{i.endDate}}</td>
-              <td>{{i.type}}</td>
-              <td>{{i.club}}</td>
-              <td>{{i.Image}}</td>
+              <td>{{i.status}}</td>
+              <td>{{i.etat}}</td>
               <td>
                 <button class="btn btn-primary"     (click)="AcceptEvent(i.eventId) ">accept</button>
                 <button class="btn btn-secondary"   (click)="deleteEvent(i.eventId) ">reject</button>

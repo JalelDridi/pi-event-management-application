@@ -44,6 +44,7 @@ public class Event implements Serializable {
     private Float  lng ;
     private Float  lat ;
 
+    private String eventRepresentativeId;
 
     @OneToMany(mappedBy = "event")
     private List<SelectedResources> selectedResources;
