@@ -273,6 +273,17 @@ body {
   perspective: 1000px;
   font-family: sans-serif;
 }
+.col-xl-12{
+  margin-top: 50px;
+}
+.bg-secondary{
+  border-radius: 15px;
+
+}
+.mb-xl-0, .my-xl-0 {
+  margin-bottom: 0 !important;
+  height: 373px;
+}
 
 .title {
   font-size: 1.5em;
@@ -291,7 +302,7 @@ body {
 }
 
 .flip-card:hover .flip-card-inner {
-  transform: rotateY(180deg);
+  transform: rotateY(200deg);
 }
 
 .flip-card-front, .flip-card-back {

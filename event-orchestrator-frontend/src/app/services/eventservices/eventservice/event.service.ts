@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
 //import * as MyEventModel from '../../../../../../../../../../../Desktop/AngularPi - Copie/src/app/models/event.model';
@@ -19,7 +19,7 @@ private baseUrl = 'http://localhost:8089' ;
     return this.http.get(`${this.baseUrl}/Event/getEventById/${eventId}`).pipe(
       catchError((error) => {
         console.error('Error fetching event details:', error);
-        return throwError('Failed to fetch user profile');
+        return throwError('Failed to fetch event profile');
       })
     );
   }
@@ -44,6 +44,10 @@ private baseUrl = 'http://localhost:8089' ;
     return this.http.get<any[]>(`${this.baseUrl}/Event/upcoming`);
   }
 
+  exporteventsToExcel(): Observable<Blob> {
+    return this.http.get('http://localhost:8089/Event/export-events', { responseType: 'blob' });
+  }
+
 
   getEventsByType(type: string): Observable<any[]> {
    return this.http.get<any[]>(`${this.baseUrl}/Event/events/${type}`);
@@ -65,6 +69,8 @@ private baseUrl = 'http://localhost:8089' ;
         })
     );
 }
+
+
 
   }
 

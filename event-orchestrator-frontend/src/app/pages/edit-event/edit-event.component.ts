@@ -15,6 +15,7 @@ interface EventType {
   styleUrls: ['./edit-event.component.scss']
 })
 export class EditEventComponent implements OnInit{
+  translatedEvents: any[] = [];
 
   eventId: number; // This will hold the ID of the event to edit
   event: Eventattribut = { // Initialize event object
@@ -62,6 +63,8 @@ export class EditEventComponent implements OnInit{
     {value: '3-2', viewValue: 'emphie'},
   ];
 
+
+  
 
   loadEventDetails(eventId: number): void {
     this.eventService.GetEventDetails(eventId).subscribe({

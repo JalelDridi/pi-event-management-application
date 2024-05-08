@@ -23,10 +23,10 @@ export class AllEventsComponent implements OnInit{
   filteredAnnonces: any[] = [];
   alltypes:any[]=[]
   currentPage: number = 1;
-  itemsPerPage: number = 8;
+  itemsPerPage: number = 4;
   totalPages: number = 1;
   loading:boolean=false
-
+  type:string=''
   eventId:number
   eventDetails: any;
 
@@ -49,6 +49,7 @@ export class AllEventsComponent implements OnInit{
     this.Event.GetEventList().subscribe(
       (events) => {
         this.eventList = events;
+        
         this.loading=false
         this.filteredAnnonces = events;
         this.showUpcomingOnly = false;
@@ -128,17 +129,40 @@ export class AllEventsComponent implements OnInit{
       this.loadAllEvents()
     }
     else{
-      this.getproductbytype(value)}
+      this.geteventbytype(value)}
   }
-  getproductbytype(type: string){
-    this.Event.getEventsByType(type).subscribe((data : any )=>{
-        this.paginatedAnnonces= data;
+  geteventbytype(type: string): void {
+    this.Event.getEventsByType(type).subscribe((data: any) => {
+        this.filteredAnnonces = data;
+        this.currentPage = 1; // Reset to first page
+        this.updatePagination(); // Update pagination based on the new filtered list
+    }, (error) => {
+        console.error('No Events found by this type:', error);
+        this.filteredAnnonces = []; // Clear the list if no data found
+        this.updatePagination(); // Update pagination
+    });
+}
 
-      },
-      (error) => {
-        console.error('No Events found by this type :', error);
-      })
-  }
+exportEvents(): void {
+  this.Event.exporteventsToExcel().subscribe(
+    (data: Blob) => {
+      const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      document.body.appendChild(a);
+      a.style.display = 'none';
+      a.href = url;
+      a.download = 'Events.xlsx';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    },
+    error => {
+      console.error('Une erreur est survenue lors du téléchargement du fichier Excel : ', error);
+    }
+  );
+}
+
+
 
   getalltype(): void {
     this.Event.getAllCategories().subscribe(
