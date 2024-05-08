@@ -43,29 +43,31 @@ import {EventService} from "./services/eventservices/eventservice/event.service"
 import { UserFeedbacksComponent } from './pages/user-feedbacks/user-feedbacks.component';
 import { AdminEventListComponent } from './pages/admin-pages/admin-event-list/admin-event-list.component';
 import {MatInputModule} from "@angular/material/input";
+import {AdminLayoutModule} from "./layouts/admin-layout/admin-layout.module";
 
 
 @NgModule({
-  imports: [
-    MatDialogModule,
-    MatSelectModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    CommonModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    HttpClientModule,
-    ComponentsModule,
-    NgbModule,
-    RouterModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    CodeInputModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    NgOptimizedImage,
-    MatInputModule,
-  ],
+    imports: [
+        MatDialogModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        CommonModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        HttpClientModule,
+        ComponentsModule,
+        NgbModule,
+        RouterModule,
+        ReactiveFormsModule,
+        AppRoutingModule,
+        CodeInputModule,
+        ReactiveFormsModule,
+        AppRoutingModule,
+        NgOptimizedImage,
+        MatInputModule,
+        AdminLayoutModule,
+    ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,

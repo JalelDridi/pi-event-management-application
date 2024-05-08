@@ -13,21 +13,16 @@ import {AuthGuard} from "./AuthGuard";
 
 const routes: Routes =[
   {
-    path : "login",
-    component: LoginComponent
-  },
-  {
-    path : "user-profile",
-    component: UserProfileComponent,
-    canActivate: [AuthGuard] // Apply the guard here
-  },
-  {
     path : "register",
     component: RegisterComponent
   },
   {
     path: 'activate-account',
     component: ActivateAccountComponent
+  },
+  {
+    path : "login",
+    component: LoginComponent
   },
   {
     path: '',
@@ -57,6 +52,11 @@ const routes: Routes =[
   }, {
     path: '**',
     redirectTo: 'login'
+  },
+  {
+    path : "user-profile",
+    component: UserProfileComponent,
+    canActivate: [AuthGuard]
   }
 ];
 

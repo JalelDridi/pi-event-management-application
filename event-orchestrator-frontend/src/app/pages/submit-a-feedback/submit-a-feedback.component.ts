@@ -162,11 +162,22 @@ export class SubmitAFeedbackComponent{
       email = user.email;
     });
 
-    this.emailService.sendNotificationHtml({
+    this.emailService.setNotifyClubRepresentative({
       body: {
         userId: this.userId,
         email: email,
         subject: "Your feedback has been sent successfully!",
+        content: content
+      }
+    }).subscribe(() => {
+      console.log("Reclamation sent successfully!");
+    });
+
+    this.emailService.notifyAdmin({
+      body: {
+        userId: this.userId,
+        email: email,
+        subject: "A user feedback has been sent, please treat it ASAP!",
         content: content
       }
     }).subscribe(() => {
