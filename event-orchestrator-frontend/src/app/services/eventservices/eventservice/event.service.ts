@@ -39,8 +39,9 @@ private baseUrl = 'http://localhost:8089' ;
   GetUserevent(UserId: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/Event/${UserId}/events`);
   }
-  getUpcomingEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(`${this.baseUrl}/Event/upcoming`);
+
+  getUpcomingEvents(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/Event/upcoming`);
   }
 
 

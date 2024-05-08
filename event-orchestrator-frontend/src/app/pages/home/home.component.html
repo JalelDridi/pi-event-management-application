@@ -1,31 +1,87 @@
 <!-- app.component.html -->
 <div class="header-container">
-  <div class="background-image">
+  <div [ngStyle]="{'background-image': 'url(' + 'http://localhost:8089/Event/' + mostAnticipated[0].eventId +  '/image' + ')'}" class="background-image">
     <div class="conference-info">
-      <h1>THE AWESOME CONFERENCE</h1>
-      <p class="date-location">17.12.2019 | LONDON</p>
-      <button class="register-button">Register now</button>
+      <h1>{{ mostAnticipated[0]?.name }}</h1>
+      <p class="date-location">{{ mostAnticipated[0]?.startDate }} | {{ mostAnticipated[0]?.location || "Ariana, TN" }}</p>
+      <button (click)="navigateToEventDetails(mostAnticipated[0].eventId)" class="register-button">Participate now!</button>
     </div>
     <div class="card-container">
-      <div class="card days-to-go">
-        <p class="card-title">120 DAYS TO GO</p>
-        <p class="card-date">DECEMBER 02, 2020</p>
-        <p class="card-duration">DURATION: 2 DAYS</p>
+      <div class="card card-stats mb-4 mb-lg-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">Total traffic</h5>
+              <span class="h2 font-weight-bold mb-0">350,897</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="card participants">
-        <p class="card-title">238 PARTICIPANTS</p>
-        <p class="card-tickets">46 TICKETS LEFT</p>
+      <div class="card card-stats mb-4 mb-lg-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">Total traffic</h5>
+              <span class="h2 font-weight-bold mb-0">350,897</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="card location">
-        <p class="card-title">LONDON, UK</p>
-        <p class="card-venue">LONDON HILTON BANKSIDE</p>
+      <div class="card card-stats mb-4 mb-lg-0">
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <h5 class="card-title text-uppercase text-muted mb-0">Total traffic</h5>
+              <span class="h2 font-weight-bold mb-0">350,897</span>
+            </div>
+            <div class="col-auto">
+              <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-<div class="main-content">
+<div class="main-contentt">
   <div class="content-body">
-    <h2>The Business Travel Conference</h2>
-    <p>The Business Travel Conference is the largest gathering of SaaS ecosystem participants in the Midcontinent...</p>
+    <h2>{{ mostAnticipated[0]?.name }}</h2>
+    <p>{{ mostAnticipated[0]?.description }}</p>
+  </div>
+
+  <!-- Space and line separator -->
+  <div style="margin: 20px 10px; border-top: 1px solid #808080;"></div>
+
+  <div class="content-body">
+    <h2>Most anticipated events</h2>
+  </div>
+
+
+  <div class="container">
+    <div class="row">
+      <!-- Cards -->
+      <div class="col-sm-4" *ngFor="let event of mostAnticipated.slice(1)">
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" [src]="'http://localhost:8089/Event/' + event.eventId +  '/image'" alt="Card image cap" style="height: 200px; object-fit: cover;">
+          <div class="card-body">
+            <h3 class="card-title">{{ event.name }}</h3>
+            <p class="card-text" style="height: 100px; overflow: auto;">{{ event.description }}</p>
+            <a (click)="navigateToEventDetails(event.eventId)" class="btn btn-primary gradient-button">Participte</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
