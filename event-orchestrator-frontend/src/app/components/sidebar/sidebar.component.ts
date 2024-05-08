@@ -29,8 +29,8 @@ export const ROUTES: RouteInfo[] = [
   { path: '/userlist', title: 'accept new Users',  icon:'ni-single-copy-04 text-primary', class: '' },
   { path: '/userlistFinal', title: 'Users List',  icon:'ni-single-copy-04 text-primary', class: '' },
   { path: '/RessourceList', title: 'Ressources List',  icon:'ni-single-copy-04 text-primary', class: '' },
-  { path: '/reviewstatstics', title: 'Review Statistics',  icon:'ni-single-copy-04 text-primary', class: '' },
-  { path: '/reclamationstatstics', title: 'Reclamation Statistics',  icon:'ni-single-copy-04 text-primary', class: '' },
+  { path: '/reviewstatistics', title: 'Review Statistics',  icon:'ni-single-copy-04 text-primary', class: '' },
+  { path: '/reclamationstatistics', title: 'Reclamation Statistics',  icon:'ni-single-copy-04 text-primary', class: '' },
   { path: '/admineventlist', title: 'Event Requests',  icon:'ni-single-copy-04 text-primary', class: '' }
 ];
 

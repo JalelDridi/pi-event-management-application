@@ -1,5 +1,4 @@
 package tn.esprit.review_module.servicesImpl;
-import com.mysql.cj.protocol.MessageSender;
 import org.springframework.mail.SimpleMailMessage;
 import tn.esprit.review_module.entities.TypeReclamation;
 import tn.esprit.review_module.entities.Reclamation;

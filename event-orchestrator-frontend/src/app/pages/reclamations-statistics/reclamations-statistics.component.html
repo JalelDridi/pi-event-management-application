@@ -9,12 +9,6 @@
   </mat-card>
 </div>
 
-<div *ngIf="reclamations.length > 0" style="display: flex ; flex-direction: row;  column-gap: 10px;">
-  <mat-card style="word-wrap: break-word;"><p>Most Reclamations By Resource ID: {{ mostReclamationsByRessourceID }}</p></mat-card>
-  <mat-card style="word-wrap: break-word;"><p>Most Reclamations By Event ID: {{ mostReclamationsByEventID }}</p></mat-card>
-  <mat-card style="word-wrap: break-word;"><p>Most User with Reclamations: {{ mostuserwithReclamations }}</p></mat-card>
-</div>
-
 <div *ngIf="reclamations.length === 0">
   <p>No reclamations found.</p>
 </div>

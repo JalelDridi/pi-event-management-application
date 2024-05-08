@@ -6,6 +6,7 @@ import { Review } from '../ReviewModels/Review.Model';
 })
 export class ReviewStatisticsService {
 
+  
 
 public getEventIDWithHighestAvgRating(reviews: Review[]): number | null {
     if (reviews.length === 0) return null;
