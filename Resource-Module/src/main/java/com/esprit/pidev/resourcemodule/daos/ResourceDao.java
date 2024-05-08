@@ -17,5 +17,5 @@ public interface ResourceDao extends JpaRepository<Resource , Long> {
     Long countByResourceType(ResourceType resourceType);
 
 
-
+    List<Resource> findByResourceNameContainingIgnoreCase(String resourceName);
 }

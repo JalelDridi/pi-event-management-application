@@ -77,4 +77,15 @@ public ResponseEntity<Resource> updateResource(@RequestBody Resource updatedReso
         return ResponseEntity.ok(statistics);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Resource>> searchResources(@RequestParam String query) {
+      //The query parameter is expected to contain the search term (resource name) that the user inputs in the frontend.
+        // This parameter is then passed to the searchResourcesByResourceName method of the resourceService
+        // , which performs the actual search operation based on the resource name.
+        List<Resource> searchResults = resourceService.searchResourcesByResourceName(query);
+        if (searchResults.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().body(searchResults);
+    }
 }

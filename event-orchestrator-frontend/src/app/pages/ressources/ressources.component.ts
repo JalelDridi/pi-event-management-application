@@ -4,6 +4,7 @@ import { Resource } from '../resource-list/resource';
 import { Router } from '@angular/router';
 import { ResourceTypeService } from '../resource-type/resource-type.service';
 import { ResourceType } from '../resource-type/resource-type';
+import { ResourceStatistics } from './resource-statistics';
 
 
 @Component({
@@ -12,16 +13,39 @@ import { ResourceType } from '../resource-type/resource-type';
   styleUrls: ['./ressources.component.css']
 })
 export class RessourcesComponent {
-
+  searchResults: Resource[] = [];
   resources: Resource[] =[];
   resourceTypeID: number;
-
-
+  resourceStatistics: ResourceStatistics[];
+  error: string;
+  statisticsData: any;
   constructor(private resourceService: ResourceService, private router: Router , private resourceTypeService :ResourceTypeService) { }
 
 
 ngOnInit(): void {
   this.loadResources();
+  this.fetchStatistics();
+}
+fetchStatistics() {
+  this.resourceService.getStatistics().subscribe(
+    (data) => {
+      this.statisticsData = data;
+      // Calculate percentages
+      this.calculatePercentages();
+    },
+    (error) => {
+      this.error = error;
+    }
+  );
+}
+
+calculatePercentages() {
+  if (this.statisticsData) {
+    const totalCount = this.statisticsData.reduce((total: number, stat: any) => total + stat.resourceCount, 0);
+    this.statisticsData.forEach((stat: any) => {
+      stat.percentage = (stat.resourceCount / totalCount) * 100;
+    });
+  }
 }
 
 loadResources(): void {
@@ -42,6 +66,17 @@ updateResource(resourceID:number){
   this.router.navigate(['update', resourceID]);
 }
 
+searchResources(resourceName: string): void {
+  this.resourceService.searchResources(resourceName)
+    .subscribe(
+      (data: Resource[]) => {
+        this.searchResults = data;
+      },
+      (error: any) => {
+        console.error('Error fetching search results:', error);
+      }
+    );
+}
 
 
 }

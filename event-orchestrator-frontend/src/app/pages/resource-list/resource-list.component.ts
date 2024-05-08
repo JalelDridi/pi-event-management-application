@@ -20,12 +20,12 @@ this.getResources();
 getResources(){
   this.resourceService.getResources().subscribe(
     res => {
-      console.log(res); // Log the response to the console
-      this.resources = res as Resource[]; // Assign the response to your posts array
+      console.log(res); 
+      this.resources = res as Resource[]; 
     },
     error => {
       console.error(error);
-      // Log any errors to the console
+    
     }
   );
 }

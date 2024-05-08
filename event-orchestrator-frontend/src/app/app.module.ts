@@ -34,18 +34,16 @@ import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resou
 import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
 import { EditEventComponent } from './pages/edit-event/edit-event.component';
 import { EventDetailsComponent } from './pages/event-details/event-details.component';
-
+import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
-import {CommonModule} from "@angular/common";
+import {CommonModule, NgOptimizedImage} from "@angular/common";
 import {EventService} from "./services/eventservices/eventservice/event.service";
 import { UserFeedbacksComponent } from './pages/user-feedbacks/user-feedbacks.component';
 import { AdminEventListComponent } from './pages/admin-pages/admin-event-list/admin-event-list.component';
-import { DialogComponent } from './dialog/dialog.component';
-
-import { NgxQRCodeModule } from 'ngx-qrcode2';
+import {MatInputModule} from "@angular/material/input";
 
 
 @NgModule({
@@ -61,14 +59,13 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
     ComponentsModule,
     NgbModule,
     RouterModule,
-    ReactiveFormsModule ,
+    ReactiveFormsModule,
     AppRoutingModule,
     CodeInputModule,
-    ReactiveFormsModule ,
+    ReactiveFormsModule,
     AppRoutingModule,
-    NgxQRCodeModule ,
-    MatDialogModule,
- 
+    NgOptimizedImage,
+    MatInputModule,
   ],
   declarations: [
     AppComponent,
@@ -97,10 +94,9 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
     UpdateResourceTypeComponent,
     EditEventComponent,
     EventDetailsComponent,
-
+    QrDialogueComponent,
     AddResourceTypeComponent,
-    AdminEventListComponent,
-    DialogComponent
+    AdminEventListComponent
   ],
   providers: [
     ResourceService,
