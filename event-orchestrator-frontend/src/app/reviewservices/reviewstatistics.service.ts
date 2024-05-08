@@ -77,5 +77,18 @@ public getEventIDWithHighestAvgRating(reviews: Review[]): number | null {
     eventAverageRatingsArray.sort((a, b) => b.avgRating - a.avgRating);
     return eventAverageRatingsArray;
   }
+  public calculateRatingDistribution(reviews: Review[]): { rating: number; count: number }[] {
+    const ratingCounts = {};
+    reviews.forEach(review => {
+      ratingCounts[review.rating] = (ratingCounts[review.rating] || 0) + 1;
+    });
+  
+    const distribution = [];
+    for (let rating = 1; rating <= 5; rating++) {
+      distribution.push({ rating: rating, count: ratingCounts[rating] || 0 });
+    }
+    return distribution;
+  }
+  
   
 }

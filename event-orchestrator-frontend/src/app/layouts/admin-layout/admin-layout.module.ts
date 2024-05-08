@@ -55,7 +55,7 @@ import { ReviewStatisticsComponent } from 'src/app/pages/reviews-statistics/revi
     MatInputModule,
     MatListModule,
     MatSelectModule,
-    NgxStarRatingModule
+    NgxStarRatingModule,
 
   ],
   declarations: [

@@ -2,6 +2,7 @@ package tn.esprit.eventmodule.Services;
 
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
+import tn.esprit.eventmodule.Entities.EventType;
 
 import java.util.List;
 import java.util.Map;
@@ -9,8 +10,9 @@ import java.util.Optional;
 
 public interface EventInterface {
     public Event addEvent(Event event, String userid);
-
+     List<EventType> getAllEventTypes();
         List<Event> getallEvent ();
+
     public Optional<Event> findEventById(Long eventId);
     Event editEvent( Long eventId , Event event) ;
     void deleteEvent (Long eventId)    ;

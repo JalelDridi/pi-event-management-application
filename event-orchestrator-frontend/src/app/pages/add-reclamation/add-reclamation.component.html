@@ -15,7 +15,7 @@
                             <mat-error *ngIf="reclamationForm.get('typeRec')?.invalid && (reclamationForm.get('typeRec')?.dirty || reclamationForm.get('typeRec')?.touched)">
                                 Reclamation type is required
                             </mat-error>
-                        </mat-form-field>                        
+                        </mat-form-field>
                     </div>
                     <div class="form-group" *ngIf="reclamationForm.get('typeRec')?.value === 'EVENT'">
                         <!-- Selector for event names -->
@@ -29,7 +29,7 @@
                             </mat-error>
                         </mat-form-field>
                     </div>
-                    
+
                     <div class="form-group" *ngIf="reclamationForm.get('typeRec')?.value === 'RESOURCES'">
                         <!-- Selector for resource names -->
                         <mat-form-field appearance="fill" class="full-width">
