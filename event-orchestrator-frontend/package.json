@@ -43,7 +43,6 @@
     "ngx-clipboard": "15.0.1",
     "ngx-echarts": "^15.0.3",
     "ngx-star-rating": "^2.1.0",
-    "ngx-toastr": "^14.3.0",
     "nouislider": "15.5.1",
     "profane-words": "^1.5.11",
     "rxjs": "~7.5.0",

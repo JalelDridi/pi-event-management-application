@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EventService} from "../../services/eventservices/eventservice/event.service";
 import {Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
+//import {ToastrService} from "ngx-toastr";
 import {MapserviceService} from "../../services/eventservices/eventservice/mapservice.service";
 import {SpringMailControllerService} from "../../services/notificationservices/services/spring-mail-controller.service";
 import {NotificationDto} from "../../services/notificationservices/models/notification-dto";
@@ -39,7 +39,7 @@ export class CreateEventRequestComponent implements OnInit{
   notificationDto: NotificationDto;
   constructor(private Event : EventService,
               private route:Router,
-              private toastr: ToastrService,
+              //private toastr: ToastrService,
               private geocodingService:MapserviceService,
               private emailService: SpringMailControllerService,
               private userService: UserService) { }

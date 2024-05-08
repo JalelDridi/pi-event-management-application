@@ -97,22 +97,9 @@ public class EventController {
     public List<Event> getAllEvent () {
         return eventimpl.getallEvent();
     }
+    @GetMapping("getAnEvent/{eventId}")
+    public  Optional<Event> getAnEvent(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
 
-//    @GetMapping("/events/{eventId}")
-//
-//    public Mono<tn.esprit.eventmodule.dtos.EventDetailsDto> getEventDetailsWithReviews(Long eventId) {
-//        Mono<Event> eventDtoMono = eventimpl.findEventById(eventId);
-//        Flux<ReviewDto> reviewsFlux = reviewsImpl.getReviewsByEventId(eventId);
-//
-//        return eventDtoMono.zipWith(reviewsFlux.collectList(), (eventDto, reviews) -> {
-//            tn.esprit.eventmodule.dtos.EventDetailsDto eventDetails = new tn.esprit.eventmodule.dtos.EventDetailsDto();  // Assume constructor or setters to set properties from EventAdminDto
-//            eventDetails.setEventId(eventDto.getEventId());
-//            eventDetails.setName(eventDto.getName());
-//            // set other properties...
-//            eventDetails.setReviews(reviews);
-//            return eventDetails;
-//        });
-//    }
 
     @PutMapping("/edited/{eventId}")
     public Event editedEvent (@PathVariable Long eventId, @RequestBody Event event){
