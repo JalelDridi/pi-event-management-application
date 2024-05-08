@@ -54,4 +54,22 @@ export class HomeComponent implements OnInit{
   navigateToEventDetails(eventId: string): void {
     this.router.navigate(['/eventdetails', eventId]);
   }
+
+
+  daysToGo(): number {
+    const currentDate = new Date();
+    const eventDate = new Date(this.mostAnticipated[0].startDate);
+    const differenceInTime = eventDate.getTime() - currentDate.getTime();
+    const differenceInDays = Math.ceil(differenceInTime / (1000 * 60 * 60 * 24));
+    return differenceInDays;
+  }
+
+  eventDuration() {
+    const startDate = new Date(this.mostAnticipated[0].startDate);
+    const endDate = new Date(this.mostAnticipated[0].endDate);
+    const differenceInTime = endDate.getTime() - startDate.getTime();
+    const differenceInDays = Math.ceil(differenceInTime / (1000 * 60 * 60 * 24));
+    return differenceInDays;
+  }
+
 }

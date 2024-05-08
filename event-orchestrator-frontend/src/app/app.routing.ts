@@ -9,6 +9,7 @@ import {ActivateAccountComponent} from "./pages/activate-account/activate-accoun
 import {RegisterComponent} from "./pages/register/register.component";
 import {LoginComponent} from "./pages/login/login.component";
 import {UserProfileComponent} from "./pages/user-profile/user-profile.component";
+import {AuthGuard} from "./AuthGuard";
 
 const routes: Routes =[
   {
@@ -17,7 +18,8 @@ const routes: Routes =[
   },
   {
     path : "user-profile",
-    component: UserProfileComponent
+    component: UserProfileComponent,
+    canActivate: [AuthGuard] // Apply the guard here
   },
   {
     path : "register",
@@ -29,12 +31,13 @@ const routes: Routes =[
   },
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
   {
     path: '',
     component: AdminLayoutComponent,
+    canActivate: [AuthGuard], // Apply the guard here
     children: [
       {
         path: '',
@@ -44,6 +47,7 @@ const routes: Routes =[
   }, {
     path: '',
     component: AuthLayoutComponent,
+    canActivate: [AuthGuard], // Apply the guard here
     children: [
       {
         path: '',
@@ -52,7 +56,7 @@ const routes: Routes =[
     ]
   }, {
     path: '**',
-    redirectTo: 'dashboard'
+    redirectTo: 'login'
   }
 ];
 
@@ -67,5 +71,7 @@ const routes: Routes =[
   exports: [
     RouterModule
   ],
+  providers: [AuthGuard] // Add the AuthGuard to providers
 })
 export class AppRoutingModule { }
+
