@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EventUserDto } from "../../userservices/models/event-user-dto";
 import { UserService } from "../../userservices/services/user.service";
+import {User} from "../../userservices/models/user";
+import {UpdateUser$Params} from "../../userservices/fn/user/update-user";
 
 @Component({
   selector: 'app-user-profile',
@@ -29,5 +31,24 @@ export class UserProfileComponent implements OnInit {
     } else {
       console.error('User ID not found');
     }
+  }
+
+  editProfile(): void {
+    // Define the parameters for the updateUser function
+    const params: UpdateUser$Params = {
+      userId: this.user.userID,
+      body: this.user
+    };
+
+    // Call the updateUser function
+    this.userService.updateUser(params).subscribe(
+      (updatedUser: User) => {
+        // Handle the updated user information
+        this.user = updatedUser;
+      },
+      (error) => {
+        console.error('Error updating user information:', error);
+      }
+    );
   }
 }
