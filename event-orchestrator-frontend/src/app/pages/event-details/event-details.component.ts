@@ -4,7 +4,6 @@ import {EventService} from "../../services/eventservices/eventservice/event.serv
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {Eventattribut} from "../../services/eventservices/models/event.model";
-import { DialogComponent } from 'src/app/dialog/dialog.component';
 
 @Component({
   selector: 'app-event-details',
@@ -130,20 +129,6 @@ userId:string='.'//this.userId = localStorage.getItem('userId');
         console.error('An error occurred while adding the event:', error);
       }
     );
-  }
-  openDialog(stationData: string): void {
-    const dialogRef = this.dialog.open(DialogComponent, {
-      width: '600px',
-      height: '400px',
-      data: stationData+this.userId // Correctly pass the stationData
-      
-    });
-  
-    dialogRef.afterClosed().subscribe((result: any) => { // Specify the type of result
-      console.log('The dialog was closed');
-    });
-  
-    console.log(stationData +"fil open"); // Log stationData, not this.data
   }
 
 

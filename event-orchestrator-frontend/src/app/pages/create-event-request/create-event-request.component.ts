@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {EventService} from "../../services/eventservices/eventservice/event.service";
 import {Router} from "@angular/router";
 //import {ToastrService} from "ngx-toastr";
-import {MapserviceService} from "../../services/eventservices/eventservice/mapservice.service";
 import {SpringMailControllerService} from "../../services/notificationservices/services/spring-mail-controller.service";
 import {NotificationDto} from "../../services/notificationservices/models/notification-dto";
 import {UserService} from "../../userservices/services/user.service";
@@ -40,7 +39,6 @@ export class CreateEventRequestComponent implements OnInit{
   constructor(private Event : EventService,
               private route:Router,
               //private toastr: ToastrService,
-              private geocodingService:MapserviceService,
               private emailService: SpringMailControllerService,
               private userService: UserService) { }
 
@@ -136,21 +134,6 @@ export class CreateEventRequestComponent implements OnInit{
       this.event.image1 = event.target.files[0];
       console.log(this.event.image1)
     }
-  }
-  getPlaceName(latitude: number, longitude: number): void {
-    this.geocodingService.getPlaceName(latitude, longitude).subscribe(
-      (data: any) => {
-        if (data && data.display_name) {
-          this.placeName = data.display_name;
-        } else {
-          this.placeName = 'Nom de la place non disponible';
-        }
-      },
-      err => {
-        console.log('Erreur lors de la récupération du nom de la place:', err);
-        this.placeName = 'Erreur lors de la récupération du nom de la place';
-      }
-    );
   }
 
 }
