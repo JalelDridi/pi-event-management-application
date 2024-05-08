@@ -98,7 +98,7 @@ public class EventController {
         return eventimpl.getallEvent();
     }
     @GetMapping("getAnEvent/{eventId}")
-    public Event getAnEvent(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
+    public  Optional<Event> getAnEvent(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
 
 
     @PutMapping("/edited/{eventId}")
