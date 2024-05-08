@@ -1,3 +1,4 @@
+
 <div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
      style="min-height: 300px; background-image: url(https://i.ibb.co/C0pQvTm/pablo-heimplatz-ZODc-Bk-Eohk8-unsplash.jpg); background-size: cover; background-position: center top;">
   <!-- Mask -->.
@@ -34,8 +35,6 @@
                 <div class="pl-lg-4">
                   <div class="row">
                     <div class="card-body pt-0 pt-md-4">
-
-                      <h6 class="heading-small text-muted mb-4">Event Details</h6>
                       <div class="pl-lg-4">
                         <div class="row">
                           <div class="col-lg-12">
@@ -71,6 +70,8 @@
                                 <label class="form-control-label" ><span
                                   class="attribut">{{eventDetails.status}}</span></label>
                               </div>
+
+
                               <div class="row">
                                 <label class="form-control-label" ><i
                                   class="far fa-calendar-alt"></i>Start Date:</label>
@@ -89,12 +90,13 @@
                                       (click)="editEvent(eventDetails.eventId)">Edit Event</button>
                               <button class="btn btn-outline-danger" (click)="DeleteEvent(eventDetails.eventId)"
                                       *ngIf="isUserEvent">Delete</button>
+                                      <button (click)="Addparticipation()" (click)="openDialog(eventDetails.name)" type="button" class="btn btn-outline-danger">particiâte</button>
 
                             </div>
                           </div>
                         </div>
                       </div>
-                      <!-- <button (click)="openQRDialog(qrdata)">participate</button> -->
+                      
                     </div>
                   </div>
                 </div>

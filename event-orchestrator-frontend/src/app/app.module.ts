@@ -34,7 +34,7 @@ import { ResourceListByTypeComponent } from './pages/resource-list-by-type/resou
 import { UpdateResourceTypeComponent } from './pages/update-resource-type/update-resource-type.component';
 import { EditEventComponent } from './pages/edit-event/edit-event.component';
 import { EventDetailsComponent } from './pages/event-details/event-details.component';
-import { QrDialogueComponent } from './pages/event-pages/qr-dialogue/qr-dialogue.component';
+
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatSelectModule} from "@angular/material/select";
@@ -43,6 +43,9 @@ import {CommonModule} from "@angular/common";
 import {EventService} from "./services/eventservices/eventservice/event.service";
 import { UserFeedbacksComponent } from './pages/user-feedbacks/user-feedbacks.component';
 import { AdminEventListComponent } from './pages/admin-pages/admin-event-list/admin-event-list.component';
+import { DialogComponent } from './dialog/dialog.component';
+
+import { NgxQRCodeModule } from 'ngx-qrcode2';
 
 
 @NgModule({
@@ -63,6 +66,9 @@ import { AdminEventListComponent } from './pages/admin-pages/admin-event-list/ad
     CodeInputModule,
     ReactiveFormsModule ,
     AppRoutingModule,
+    NgxQRCodeModule ,
+    MatDialogModule,
+ 
   ],
   declarations: [
     AppComponent,
@@ -91,9 +97,10 @@ import { AdminEventListComponent } from './pages/admin-pages/admin-event-list/ad
     UpdateResourceTypeComponent,
     EditEventComponent,
     EventDetailsComponent,
-    QrDialogueComponent,
+
     AddResourceTypeComponent,
-    AdminEventListComponent
+    AdminEventListComponent,
+    DialogComponent
   ],
   providers: [
     ResourceService,

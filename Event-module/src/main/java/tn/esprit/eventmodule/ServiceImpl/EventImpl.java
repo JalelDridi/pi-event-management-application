@@ -53,6 +53,10 @@ public class EventImpl implements EventInterface {
         assignEventToUser(userid, event.getEventId());
         return e;
     }
+@Override
+    public List<EventType> getAllEventTypes() {
+        return Arrays.asList(EventType.values());
+    }
 
     @Override
     public List<Event> getallEvent() {

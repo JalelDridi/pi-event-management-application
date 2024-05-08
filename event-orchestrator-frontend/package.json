@@ -42,6 +42,7 @@
     "ng-openapi-gen": "^0.51.0",
     "ngx-clipboard": "15.0.1",
     "ngx-echarts": "^15.0.3",
+    "ngx-qrcode2": "^9.0.0",
     "ngx-star-rating": "^2.1.0",
     "ngx-toastr": "^14.3.0",
     "nouislider": "15.5.1",

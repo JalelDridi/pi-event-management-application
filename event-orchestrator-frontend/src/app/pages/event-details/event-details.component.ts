@@ -4,6 +4,7 @@ import {EventService} from "../../services/eventservices/eventservice/event.serv
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {Eventattribut} from "../../services/eventservices/models/event.model";
+import { DialogComponent } from 'src/app/dialog/dialog.component';
 
 @Component({
   selector: 'app-event-details',
@@ -17,6 +18,7 @@ export class EventDetailsComponent implements OnInit{
   eventDetails: any;
   UserId: string = localStorage.getItem("userId");
   userevents: any[] = [];
+  
   isUserEvent: boolean = false;
   mytext :string
   event: Eventattribut = {
@@ -30,7 +32,7 @@ export class EventDetailsComponent implements OnInit{
     image1: null
   };
   Participation :any;
-
+userId:string='.'//this.userId = localStorage.getItem('userId');
 
   constructor(private eventservice: EventService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog  ) { }
 
@@ -40,6 +42,9 @@ export class EventDetailsComponent implements OnInit{
       this.loadEventDetails(this.eventId);
       this.loadUserEvents();
     });
+
+      
+
   }
 
   loadEventDetails(eventId: number): void {
@@ -112,7 +117,7 @@ export class EventDetailsComponent implements OnInit{
     }
   }
 
-  qrdata :string='hello' ;
+
 
 
   Addparticipation() {
@@ -126,4 +131,28 @@ export class EventDetailsComponent implements OnInit{
       }
     );
   }
+  openDialog(stationData: string): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '600px',
+      height: '400px',
+      data: stationData+this.userId // Correctly pass the stationData
+      
+    });
+  
+    dialogRef.afterClosed().subscribe((result: any) => { // Specify the type of result
+      console.log('The dialog was closed');
+    });
+  
+    console.log(stationData +"fil open"); // Log stationData, not this.data
+  }
+
+
+
+  
+
+
+
+
+
+  
 }

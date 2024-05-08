@@ -1,5 +1,10 @@
 package tn.esprit.eventmodule.Controllers;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -12,17 +17,16 @@ import tn.esprit.eventmodule.Dtos.EventAdminDto;
 import tn.esprit.eventmodule.Dtos.ReviewDto;
 import tn.esprit.eventmodule.Dtos.UserDto;
 import tn.esprit.eventmodule.Entities.Event;
+import tn.esprit.eventmodule.Entities.EventType;
 import tn.esprit.eventmodule.Entities.StatusType;
 import tn.esprit.eventmodule.ServiceImpl.EventImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.eventmodule.ServiceImpl.ReviewsImpl;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/Event")
@@ -89,7 +93,10 @@ public class EventController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @GetMapping("/eventtypes")
+    public List<EventType> getAllEventTypes() {
+        return Arrays.asList(EventType.values());
+    }
     @GetMapping ("/getEventById/{eventId}")
     public Optional<Event> getEventById(@PathVariable Long eventId){return eventimpl.findEventById(eventId);}
 
@@ -98,21 +105,7 @@ public class EventController {
         return eventimpl.getallEvent();
     }
 
-//    @GetMapping("/events/{eventId}")
-//
-//    public Mono<tn.esprit.eventmodule.dtos.EventDetailsDto> getEventDetailsWithReviews(Long eventId) {
-//        Mono<Event> eventDtoMono = eventimpl.findEventById(eventId);
-//        Flux<ReviewDto> reviewsFlux = reviewsImpl.getReviewsByEventId(eventId);
-//
-//        return eventDtoMono.zipWith(reviewsFlux.collectList(), (eventDto, reviews) -> {
-//            tn.esprit.eventmodule.dtos.EventDetailsDto eventDetails = new tn.esprit.eventmodule.dtos.EventDetailsDto();  // Assume constructor or setters to set properties from EventAdminDto
-//            eventDetails.setEventId(eventDto.getEventId());
-//            eventDetails.setName(eventDto.getName());
-//            // set other properties...
-//            eventDetails.setReviews(reviews);
-//            return eventDetails;
-//        });
-//    }
+
 
     @PutMapping("/edited/{eventId}")
     public Event editedEvent (@PathVariable Long eventId, @RequestBody Event event){
@@ -156,6 +149,11 @@ public class EventController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    @GetMapping("/events/{type}")
+    public List<Event> findeventbytype(EventType type){
+        return eventDao.findByType(type);
+    }
+
     @PostMapping("/userevents")
     public ResponseEntity<?> assignUserToEvents(@RequestParam String userId, @RequestParam Long eventIds) {
 
@@ -163,6 +161,46 @@ public class EventController {
         return ResponseEntity.ok("Events assigned successfully to user with ID " + userId);
 
     }
+
+    @GetMapping("/export-events")
+    public ResponseEntity<byte[]> exportUsersToExcel() throws IOException {
+        List<Event> event = eventDao.findAll(); // Obtenez la liste des utilisateurs depuis votre service
+
+        // Créez un classeur Excel
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Utilisateurs");
+
+        // En-têtes
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("ID");
+        headerRow.createCell(1).setCellValue("Name");
+        headerRow.createCell(4).setCellValue("capacity");
+
+        // Remplissez les données des utilisateurs
+        int rowNum = 1;
+        for (Event eventt : event) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(eventt.getEventId());
+            row.createCell(1).setCellValue(eventt.getName());
+            row.createCell(2).setCellValue(eventt.getCapacity());
+        }
+
+        // Convertissez le classeur en un tableau d'octets
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        workbook.write(outputStream);
+
+        // Préparez la réponse HTTP avec le contenu Excel
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "utilisateurs.xlsx");
+
+        // Retournez la réponse avec le fichier Excel
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(outputStream.toByteArray());
+    }
+
     @GetMapping("/{userId}/events")
     public ResponseEntity<List<Event>> getUserEvents(@PathVariable String userId) {
         try {
