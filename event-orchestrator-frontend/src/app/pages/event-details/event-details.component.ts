@@ -4,6 +4,11 @@ import {EventService} from "../../services/eventservices/eventservice/event.serv
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {Eventattribut} from "../../services/eventservices/models/event.model";
+import {SpringMailControllerService} from "../../services/notificationservices/services/spring-mail-controller.service";
+import {UserService} from "../../userservices/services/user.service";
+import {
+  NotificationControllerService
+} from "../../services/notificationservices/services/notification-controller.service";
 
 @Component({
   selector: 'app-event-details',
@@ -17,7 +22,7 @@ export class EventDetailsComponent implements OnInit{
   eventDetails: any;
   UserId: string = localStorage.getItem("userId");
   userevents: any[] = [];
-  
+
   isUserEvent: boolean = false;
   mytext :string
   event: Eventattribut = {
@@ -33,7 +38,7 @@ export class EventDetailsComponent implements OnInit{
   Participation :any;
 userId:string='.'//this.userId = localStorage.getItem('userId');
 
-  constructor(private eventservice: EventService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog  ) { }
+  constructor(private eventservice: EventService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private notificationService: NotificationControllerService, private userService: UserService ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -42,7 +47,7 @@ userId:string='.'//this.userId = localStorage.getItem('userId');
       this.loadUserEvents();
     });
 
-      
+
 
   }
 
@@ -120,8 +125,34 @@ userId:string='.'//this.userId = localStorage.getItem('userId');
 
 
   Addparticipation() {
-    this.eventservice.AddParticipation(this.eventId,this.UserId).subscribe(
+    this.eventservice.AddParticipation(this.eventId, this.UserId).subscribe(
       (data: any) => {
+
+        console.log(this.userId);
+        this.notificationService.sendWebNotification({
+          body: {
+            userId: this.userId,
+            email: email,
+            subject: "Participation confirmation message",
+            content: "Thank you for your participation to the event " + this.eventDetails.name + ". Don't miss out !"
+          }
+        }).subscribe(() => {
+          console.log("Notification sent successfully!");
+      }
+        );
+
+
+        var email;
+        this.userService.getUserById({userId : this.userId }).subscribe(user => {
+          email = user.email;
+
+        });
+
+        this.notificationService.confirmParticipation({
+          userId: this.userId,
+          eventId: this.eventId,
+          Authorization: localStorage.getItem("token")
+        });
         this.Participation = data;
         console.log('Event added successfully:', data);
       },
@@ -129,15 +160,16 @@ userId:string='.'//this.userId = localStorage.getItem('userId');
         console.error('An error occurred while adding the event:', error);
       }
     );
+
   }
 
 
 
-  
 
 
 
 
 
-  
+
+
 }

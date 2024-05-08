@@ -48,7 +48,7 @@ public class ServiceEventImpl implements ServiceEvent {
     @Override
 
     public StatusEvent AcceptEvent(Long id) {
-        List<EventDto> events = getALLEvents();
+        List<EventDto> events = getALLEvents().stream().toList();
 
         for (EventDto event : events) {
             StatusEvent eventSaved=new StatusEvent();
