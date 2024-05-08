@@ -43,6 +43,9 @@ export class ResourceService {
   getStatistics(): Observable<ResourceStatistics[]> {
     return this.httpClient.get<ResourceStatistics[]>(this.baseUrl+'/statistics/resource-types');
   }
+  searchResources(resourceName: string): Observable<Resource[]> {
+    return this.httpClient.get<Resource[]>(`${this.baseUrl}/search?query=${resourceName}`);
+  }
 
 }
 

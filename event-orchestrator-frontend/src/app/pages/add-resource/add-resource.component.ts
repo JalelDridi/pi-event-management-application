@@ -27,9 +27,9 @@ export class AddResourceComponent {
       resourceName: ['', Validators.required],
       date: [null, Validators.required],
       isAvailable:[false] ,
-      resourceTypeID: 1,
-  
-      // Vous pouvez ajouter d'autres validations selon vos besoins
+       resourceTypeID: 1,
+     
+      
     });
     this.resourceTypeID = 1;
   }
@@ -40,12 +40,12 @@ export class AddResourceComponent {
   getResourceTypes(){
     this.resourceTypeService.getResourceTypes().subscribe(
       res => {
-        console.log(res); // Log the response to the console
-        this.resourceTypes = res as ResourceType[]; // Assign the response to your posts array
+        console.log(res); 
+        this.resourceTypes = res as ResourceType[]; 
       },
       error => {
         console.error(error);
-        // Log any errors to the console
+        
       }
     );
   }

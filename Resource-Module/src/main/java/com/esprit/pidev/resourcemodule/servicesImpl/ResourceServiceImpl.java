@@ -116,8 +116,13 @@ public class ResourceServiceImpl implements ResourceService{
         return resource.Available() && resource.getDate().compareTo(StartDate) <= 0;
     }
 
-
-
+    @Override
+//    public List<Resource> searchResourcesByResourceName(String resourceName) {
+//        return resourceDao.findByResourceNameContainingIgnoreCase(resourceName);
+//    }
+    public List<Resource> searchResourcesByResourceName(String resourceName) {
+        return resourceDao.findByResourceNameContainingIgnoreCase(resourceName);
+    }
 
 }
 
