@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class UserService {
- 
-  private baseUrl = 'http://localhost:8092';
+
+  private baseUrl = 'http://adminservice:8092';
 
 
   constructor(private http:HttpClient) { }
@@ -25,7 +25,7 @@ export class UserService {
     const url = `${this.baseUrl}/admin/UsersConfirmer`;
     return this.http.get<any>(url);
   }
- 
+
 
 
   deleteUser(id: string): Observable<any> {
@@ -35,7 +35,7 @@ export class UserService {
 
   AcceptUserCnx(id:String): Observable<any> {
     return this.http.post(`${this.baseUrl}/admin/accept/${id}`, null);  ///PathVairable
-  
+
   }
 
 

@@ -16,7 +16,7 @@ import java.util.List;
 public class ReviewsImpl implements ReviewsInterface {
 
     private  RestTemplate restTemplate;
-    private final String reviewServiceUrl = "http://localhost:8090/api/review";
+    private final String reviewServiceUrl = "http://reviewservice:8090/api/review";
 
     @Autowired
     public void ReviewService(RestTemplate restTemplate) {

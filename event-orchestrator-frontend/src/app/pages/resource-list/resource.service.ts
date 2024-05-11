@@ -10,9 +10,9 @@ import { ResourceStatistics } from '../ressources/resource-statistics';
 })
 export class ResourceService {
 
-  
-  private baseUrl='http://localhost:8093/api/resources';
- 
+
+  private baseUrl='http://resourceservice:8093/api/resources';
+
 
   constructor(private httpClient: HttpClient) { }
 
@@ -21,7 +21,7 @@ export class ResourceService {
   }
   getResources(): Observable<Resource[]> {
     return this.httpClient.get<Resource[]>(this.baseUrl + '/all-resources');
-  
+
   }
 
   addResource(resource: any, resourceTypeID:number): Observable<Object> {

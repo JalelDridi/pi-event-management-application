@@ -38,7 +38,7 @@ public class ServiceRessourceImpl implements ServiceRessource {
     public List<RessourceDto> getALLRessources() {
         // Remplacer "user-service-url" par l'URL réelle du microservice utilisateur
         // Construire l'URL sans paramètres
-        String ressourceMicroserviceUrl = "http://localhost:8093/api/resources/all-resources";
+        String ressourceMicroserviceUrl = "http://resourceservice:8093/api/resources/all-resources";
 
         // Faire une requête GET au microservice utilisateur pour récupérer la liste des utilisateurs
         RestTemplate restTemplate = new RestTemplate();

@@ -114,14 +114,15 @@ export class NotificationBarComponent implements OnInit {
 
 
   // navigate
-  navigateToNotificationPopup() {
-    this.router.navigate(['/notification-popup']);
+  navigateToHome() {
+    this.router.navigate(['/home']);
   }
 
   deleteNotification(id: number): void {
     this.notificationService.deleteNotification({ id })
       .subscribe(() => {
-        this.getWebNotifications();
+        // this.getWebNotifications();
+        this.navigateToHome();
     });
   }
 

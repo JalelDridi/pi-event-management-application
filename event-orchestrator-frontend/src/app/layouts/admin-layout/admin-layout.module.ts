@@ -37,50 +37,53 @@ import { ReviewStatisticsComponent } from 'src/app/pages/reviews-statistics/revi
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
-    FormsModule,
-    HttpClientModule,
-    NgbModule,
-    ClipboardModule,
-    MatButtonModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
-    }),
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatSelectModule,
-    NgxStarRatingModule,
+    imports: [
+        CommonModule,
+        RouterModule.forChild(AdminLayoutRoutes),
+        FormsModule,
+        HttpClientModule,
+        NgbModule,
+        ClipboardModule,
+        MatButtonModule,
+        NgxEchartsModule.forRoot({
+            echarts: () => import('echarts'),
+        }),
+        ReactiveFormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatListModule,
+        MatSelectModule,
+        NgxStarRatingModule,
 
-  ],
-  declarations: [
-    DashboardComponent,
-    UserProfileComponent,
-    AddReviewComponent,
-    ReviewpagetestComponent,
-    ReviewlistComponent,
-    TablesComponent,
-    IconsComponent,
-    MapsComponent,
-    CustomDatePipe,
-    AddReclamationsComponent,
-    ReclamationpagetestComponent,
-    ReclamationsStatisticsComponent,
-    ReviewStatisticsComponent,
-    CustomDatePipe
-  ],
-  providers: [
-    ReviewService,
-    ResourceService,
-    BadWordsFilterService,
-    ReclamationStatisticsService,
-    DatePipe
-  ]
+    ],
+    declarations: [
+        DashboardComponent,
+        UserProfileComponent,
+        AddReviewComponent,
+        ReviewpagetestComponent,
+        ReviewlistComponent,
+        TablesComponent,
+        IconsComponent,
+        MapsComponent,
+        CustomDatePipe,
+        AddReclamationsComponent,
+        ReclamationpagetestComponent,
+        ReclamationsStatisticsComponent,
+        ReviewStatisticsComponent,
+        CustomDatePipe
+    ],
+    exports: [
+        ReviewlistComponent
+    ],
+    providers: [
+        ReviewService,
+        ResourceService,
+        BadWordsFilterService,
+        ReclamationStatisticsService,
+        DatePipe
+    ]
 })
 
 export class AdminLayoutModule {}

@@ -6,21 +6,21 @@ import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root' 
+  providedIn: 'root'
 })
 export class ReviewService {
-  private baseUrl = 'http://localhost:8090/review';
-  private readonly eventServiceUrl = 'http:/localhost:8089/events';
+  private baseUrl = 'http://reviewservice:8090/review';
+  private readonly eventServiceUrl = 'http:/eventservice:8089/events';
 
   constructor(private http: HttpClient) { }
 
 
 
   getEventTypeForReview(review: Review): Observable<string> {
-    const url = `http://localhost:8089/Event/getEventById/${review.eventID}`;
+    const url = `http://eventservice/Event/getEventById/${review.eventID}`;
     return this.http.get<Event>(url).pipe(
         map((event: Event) => event.type),
-        catchError((error: any) => { 
+        catchError((error: any) => {
             console.error('Error fetching event type for review:', error);
             return throwError(error);
         })

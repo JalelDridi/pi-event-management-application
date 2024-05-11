@@ -9,7 +9,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 
 export class EventService {
-private baseUrl = 'http://localhost:8089' ;
+private baseUrl = 'http://apigateway:8060' ;
   constructor(private http:HttpClient,private sanitizer: DomSanitizer) { }
   GetEventList(): Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/Event/getall`);
@@ -24,7 +24,7 @@ private baseUrl = 'http://localhost:8089' ;
     );
   }
   addEvent(formData: FormData, userId: String): Observable<any> {
-    return this.http.post(`http://localhost:8089/Event/addevent/${userId}`, formData);
+    return this.http.post(`http://apigateway:8060/Event/addevent/${userId}`, formData);
 }
 
   editEvent(eventId: number, event: any): Observable<any> {
@@ -45,7 +45,7 @@ private baseUrl = 'http://localhost:8089' ;
   }
 
   exporteventsToExcel(): Observable<Blob> {
-    return this.http.get('http://localhost:8089/Event/export-events', { responseType: 'blob' });
+    return this.http.get('http://apigateway:8060/Event/export-events', { responseType: 'blob' });
   }
 
 
@@ -53,7 +53,7 @@ private baseUrl = 'http://localhost:8089' ;
    return this.http.get<any[]>(`${this.baseUrl}/Event/events/${type}`);
   }
   getAllCategories():Observable<any>{
-    return this.http.get('http://localhost:8089/Event/eventtypes')
+    return this.http.get('http://apigateway:8060/Event/eventtypes')
   }
 
   AddParticipation(eventId: number, userId : String ) : Observable<any>{
@@ -62,7 +62,7 @@ private baseUrl = 'http://localhost:8089' ;
   }
 
   getImage(eventId: number): Observable<SafeUrl> {
-    const url = `http://localhost:8089/events/image/${eventId}`; // Use your actual backend URL
+    const url = `http://apigateway:8060/events/image/${eventId}`; // Use your actual backend URL
     return this.http.get(url, { responseType: 'blob' }).pipe(
         map(blob => {
             var urlToBlob = window.URL.createObjectURL(blob); // create URL from blob

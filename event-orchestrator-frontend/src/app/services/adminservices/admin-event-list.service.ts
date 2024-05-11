@@ -8,7 +8,7 @@ import { LoginComponent } from 'src/app/pages/login/login.component';
 })
 export class AdminEventListService {
 
-  private baseUrl = 'http://localhost:8092';
+  private baseUrl = 'http://adminservice:8092';
 
 
   constructor(private http:HttpClient) { }
@@ -23,9 +23,9 @@ export class AdminEventListService {
       // Make sure to pass the id as part of the URL
       return this.http.post(`${this.baseUrl}/admin/refuserEvent/${id}`, null); ////PathVairable
     }
-  
+
     AcceptEvent(id:number): Observable<any> {
       return this.http.post(`${this.baseUrl}/admin/acceptEvent/${id}`, null);  ///PathVairable
-    
+
     }
 }
