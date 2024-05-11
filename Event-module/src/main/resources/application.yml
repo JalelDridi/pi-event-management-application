@@ -2,4 +2,4 @@ spring:
   application:
     name: Event-module
   config:
-    import: "optional:configserver:http://configserver"
+    import: "optional:configserver:http://configserver:8088"

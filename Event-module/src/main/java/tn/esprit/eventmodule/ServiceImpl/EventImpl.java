@@ -158,7 +158,7 @@ public class EventImpl implements EventInterface {
         String bearerToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiI2NjMwZTNiZTMxOWFkODExZmI3ZDdjNzgiLCJzdWIiOiJhaG1lZGFtaW5lLnJvbWRuYW5pQGVzcHJpdC50biIsImlhdCI6MTcxNTA0MTY1MSwiZXhwIjoxNzE1MjE0NDUxLCJhdXRob3JpdGllcyI6WyJVU0VSIl19.ZqBQLgzDq8lxF4WFsl1n2CFtJEekhekK2dJLJi8EkBz3U8XXlkmvqQ9pWeMqEzYB";
 
         String userMicroserviceUrl = UriComponentsBuilder
-                .fromUriString("http://apigateway/api/v1/users/{userId}")
+                .fromUriString("http://apigateway:8060/api/v1/users/{userId}")
                 .buildAndExpand(userId)
                 .toUriString();
 

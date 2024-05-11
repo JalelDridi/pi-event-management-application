@@ -20,7 +20,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/chat-socket")//cnx avec angular
-                .setAllowedOrigins("http://localhost:4200")
+                .setAllowedOrigins("http://frontend:4200")
                 .withSockJS();
     }
 

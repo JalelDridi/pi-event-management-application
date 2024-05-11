@@ -2,4 +2,4 @@ spring:
   application:
     name: Review_Module
   config:
-    import: "optional:configserver:http://configserver"
+    import: "optional:configserver:http://configserver:8088"

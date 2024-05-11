@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Configuration;
         servers = {
                 @Server(
                         description = "Local Dev evnironment url",
-                        url = "http://apigateway/notification"
+                        url = "http://apigateway:8060/notification"
                 )
         }
 )

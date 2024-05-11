@@ -121,7 +121,7 @@ public StatusUser RefusUserCnx(String id, HttpHeaders headers) {
     public List<UserDto> getALLUser(HttpHeaders headers) {
         // Remplacer "user-service-url" par l'URL réelle du microservice utilisateur
         // Construire l'URL sans paramètres
-        WebClient webClient = WebClient.builder().baseUrl("http://userservice/api/v1").build();
+        WebClient webClient = WebClient.builder().baseUrl("http://apigateway:8060/api/v1").build();
 
         // Faire une requête GET au microservice utilisateur pour récupérer la liste des utilisateurs
         Mono<ResponseEntity<List<UserDto>>> responseMono = webClient.get()
