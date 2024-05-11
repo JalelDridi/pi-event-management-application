@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 })
 export class ServiceRessourceService {
 
-  private baseUrl = 'http://localhost:8092';
+  private baseUrl = 'http://adminservice';
 
 
   constructor(private http:HttpClient) { }
