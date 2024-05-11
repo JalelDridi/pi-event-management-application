@@ -9,8 +9,8 @@ import { throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class ReviewService {
-  private baseUrl = 'http://reviewservice/review';
-  private readonly eventServiceUrl = 'http:/eventservice/events';
+  private baseUrl = 'http://reviewservice:8090/review';
+  private readonly eventServiceUrl = 'http:/eventservice:8089/events';
 
   constructor(private http: HttpClient) { }
 

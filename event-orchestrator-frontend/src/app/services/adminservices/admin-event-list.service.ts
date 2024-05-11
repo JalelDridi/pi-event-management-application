@@ -8,7 +8,7 @@ import { LoginComponent } from 'src/app/pages/login/login.component';
 })
 export class AdminEventListService {
 
-  private baseUrl = 'http://adminservice';
+  private baseUrl = 'http://adminservice:8092';
 
 
   constructor(private http:HttpClient) { }

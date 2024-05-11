@@ -11,7 +11,7 @@ import { ResourceStatistics } from '../ressources/resource-statistics';
 export class ResourceService {
 
 
-  private baseUrl='http://resourceservice/api/resources';
+  private baseUrl='http://resourceservice:8093/api/resources';
 
 
   constructor(private httpClient: HttpClient) { }

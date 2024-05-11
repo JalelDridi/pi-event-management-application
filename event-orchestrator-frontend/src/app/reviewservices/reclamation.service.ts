@@ -8,7 +8,7 @@ import { Reclamation } from '../ReviewModels/Reclamation.Model';
 })
 export class ReclamationService {
 
-  private apiUrl = 'http://reviewservice/reclamations';
+  private apiUrl = 'http://reviewservice:8090/reclamations';
 
   constructor(private http: HttpClient) { }
 
