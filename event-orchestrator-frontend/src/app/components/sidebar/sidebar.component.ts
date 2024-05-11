@@ -23,6 +23,9 @@ export const ROUTES: RouteInfo[] = [
   { path: '/reviewstatistics', title: 'Review Statistics',  icon:'ni-single-copy-04 text-primary', class: '' },
   { path: '/reclamationstatistics', title: 'Reclamation Statistics',  icon:'ni-single-copy-04 text-primary', class: '' },
 
+ //// { path: '/admineventlist', title: 'Event Requests',  icon:'ni-single-copy-04 text-primary', class: '' },
+ // { path: '/userfeedbacks', title: 'User feedbacks',  icon: 'ni-satisfied text-primary', class: '' },
+  { path: '/reclamationtest', title: 'Reclamation',  icon:'ni-support-16 text-black', class: '' },
 
 ];
 

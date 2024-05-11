@@ -1,27 +1,3 @@
-<!-- <div [hidden]="submitted" style="width: 400px;">
- <form [formGroup]="resourceForm" (ngSubmit)="addResource()"> 
-    <div>
-      <label for="resourceName">Resource Name:</label>
-      <input type="text" id="resourceName" name="resourceName" [(ngModel)]="resource.resourceName" required>
-    </div>
-    <div>
-      <label for="isAvailable">Is Available:</label>
-      <input type="checkbox" id="isAvailable" name="isAvailable" [(ngModel)]="resource.isAvailable">
-    </div>
-    <div>
-      <label for="date">Date:</label>
-      <input type="date" id="date" name="date" [(ngModel)]="resource.date" required>
-    </div>
-    <div>
-      <label for="resourceType">Resource Type:</label>
-      <select id="resourceType" name="resourceType" formControlName="resourceType">
-        <option *ngFor="let type of resourceTypes" [value]="type.resourceTypeID">{{ type.resourceTypeName }}</option>
-      </select>
-    </div>
-    
-    <button type="submit" class="btn btn-success">Submit</button>
-  </form>
-</div> -->
 <div class="container-fluid bg-light py-4">
   <div class="row justify-content-center">
     <div class="col-md-6">

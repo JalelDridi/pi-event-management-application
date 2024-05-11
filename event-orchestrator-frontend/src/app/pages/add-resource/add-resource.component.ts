@@ -20,21 +20,33 @@ export class AddResourceComponent {
   resourceForm : FormGroup;
   resourceTypeID: number;
 
-  constructor(private resourceService : ResourceService , private router : Router , private fb: FormBuilder , private resourceTypeService: ResourceTypeService) {
+  
+  constructor(private resourceService : ResourceService , private router : Router , private fb: FormBuilder , private resourceTypeService: ResourceTypeService) { 
     this.resourceForm = this.fb.group({
       resourceName: ['', Validators.required],
       date: [null, Validators.required],
       isAvailable:[false] ,
       resourceTypeID: 1,
+  
     });
-
-    // Update resourceTypeID when the form value changes
-    this.resourceForm.get('resourceTypeID').valueChanges.subscribe(value => {
-      this.resourceTypeID = value;
-    });
+    this.resourceTypeID = 1;
   }
-
-  // ...
+  ngOnInit() {
+    this.getResourceTypes();
+    }
+    getResourceTypes(){
+      this.resourceTypeService.getResourceTypes().subscribe(
+        res => {
+          console.log(res); // Log the response to the console
+          this.resourceTypes = res as ResourceType[]; 
+        },
+        error => {
+          console.error(error);
+          // Log any errors to the console
+        }
+      );
+    }
+  
 
   addResource() {
     if (this.resourceForm.valid) {
