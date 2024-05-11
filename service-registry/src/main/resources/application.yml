@@ -1,11 +1,13 @@
 server:
-  port: 8761
+  port: ${PORT:8761} # Use PORT environment variable, default to 8761
+
 spring:
   application:
     name: service-registry
+
 eureka:
   instance:
-    hostname: localhost
+    hostname: ${HOSTNAME:eurekaserver} # Use HOSTNAME environment variable, default to eurekaserver
   client:
     register-with-eureka: false
     fetch-registry: false

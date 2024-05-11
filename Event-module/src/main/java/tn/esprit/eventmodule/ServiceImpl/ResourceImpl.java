@@ -15,7 +15,7 @@ import java.util.List;
 public class ResourceImpl implements ResourceInterface {
     private final RestTemplate restTemplate;
     // Updated base URL to include the API path up to the endpoint
-    private final String resourceServiceUrl = "http://localhost:8093/api/resources";
+    private final String resourceServiceUrl = "http://resourceservice/api/resources";
 
     public ResourceImpl(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;

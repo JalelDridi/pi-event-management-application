@@ -128,7 +128,7 @@ public class AuthenticationService {
 
     private void sendValidationEmail(User user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
-        String notificationServiceUrl = "http://localhost:8060/notification/confirm-user";
+        String notificationServiceUrl = "http://apigateway/notification/confirm-user";
         UserNotifDto userNotifDto = new UserNotifDto();
         // Set:
         userNotifDto.setContent(newToken);

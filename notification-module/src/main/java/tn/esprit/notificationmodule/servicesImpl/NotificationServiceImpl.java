@@ -104,13 +104,13 @@ public class NotificationServiceImpl implements NotificationService {
     public void confirmEventParticipation(String userId, Long eventId, HttpHeaders headers) {
 
 
-        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8060/api/v1").build();
+        WebClient webClient = WebClient.builder().baseUrl("http://apigateway/api/v1").build();
         // Make a GET request to the User Microservice
         RestTemplate restTemplate = new RestTemplate();
 
         // Change the return type to List<NotificationEventDto>
         NotificationEventDto event = restTemplate.getForObject(
-                "http://localhost:8060/Event/getAnEvent/"+ eventId,
+                "http://apigateway/Event/getAnEvent/"+ eventId,
                 NotificationEventDto.class); // This expects an entity
 
 

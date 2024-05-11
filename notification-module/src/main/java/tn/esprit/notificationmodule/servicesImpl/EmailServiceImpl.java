@@ -68,7 +68,7 @@ public class EmailServiceImpl implements EmailService {
 
 
         // Create a WebClient instance
-        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8060/api/v1/auth/authenticate").build();
+        WebClient webClient = WebClient.builder().baseUrl("http://apigateway/api/v1/auth/authenticate").build();
 
         // Prepare the dto for the kafka consumer:
         NotificationDto notificationDto = new NotificationDto();
@@ -88,7 +88,7 @@ public class EmailServiceImpl implements EmailService {
 
         // Make a POST request to authenticate and obtain the bearer token
         ResponseEntity<Map> responseEntity = restTemplate.postForEntity(
-                "http://localhost:8060/api/v1/auth/authenticate",
+                "http://apigateway/api/v1/auth/authenticate",
                 requestEntity,
                 Map.class);
 
@@ -106,7 +106,7 @@ public class EmailServiceImpl implements EmailService {
         try {
             // Change the return type to List<NotificationEventDto>
             List<NotificationEventDto> eventsList = restTemplate.getForObject(
-                    "http://localhost:8060/Event/upcoming",
+                    "http://apigateway/Event/upcoming",
                     List.class); // This expects a List
 
             Mono<ResponseEntity<List<NotificationUserDto>>> responseMono = webClient.get()

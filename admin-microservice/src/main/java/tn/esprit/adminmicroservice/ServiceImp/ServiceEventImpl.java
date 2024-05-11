@@ -31,7 +31,7 @@ public class ServiceEventImpl implements ServiceEvent {
         // Faire une requête GET au microservice event pour récupérer la liste des events
         RestTemplate restTemplate = new RestTemplate();
         List<EventDto> eventsList = restTemplate.getForObject(
-                "http://localhost:8060/Event/getall",
+                "http://apigateway/Event/getall",
                 List.class);
 
 
@@ -57,7 +57,7 @@ public class ServiceEventImpl implements ServiceEvent {
 
                 // This sets the "etat" attribute to rejected and saves it to the event database:
                 event.setEtat("accepted");
-                String eventUrl = "http://localhost:8060/Event/addevent/"+event.getEventId();
+                String eventUrl = "http://apigateway/Event/addevent/"+event.getEventId();
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
@@ -101,7 +101,7 @@ public class ServiceEventImpl implements ServiceEvent {
 
                 // This sets the "etat" attribute to rejected and saves it to the event database:
                 event.setEtat("rejected");
-                String eventUrl = "http://localhost:8060/Event/addevent/"+event.getEventId();
+                String eventUrl = "http://apigateway/Event/addevent/"+event.getEventId();
 
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
