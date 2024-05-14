@@ -5,7 +5,11 @@ package tn.esprit.eventmodule.ServiceImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
@@ -155,7 +159,34 @@ public class EventImpl implements EventInterface {
 
     @Override
     public UserDto getUserById(String userId) {
-        String bearerToken = "eyJhbGciOiJIUzM4NCJ9.eyJ1c2VySWQiOiI2NjMwZTNiZTMxOWFkODExZmI3ZDdjNzgiLCJzdWIiOiJhaG1lZGFtaW5lLnJvbWRuYW5pQGVzcHJpdC50biIsImlhdCI6MTcxNTA0MTY1MSwiZXhwIjoxNzE1MjE0NDUxLCJhdXRob3JpdGllcyI6WyJVU0VSIl19.ZqBQLgzDq8lxF4WFsl1n2CFtJEekhekK2dJLJi8EkBz3U8XXlkmvqQ9pWeMqEzYB";
+        // Create a WebClient instance
+        WebClient webClient = WebClient.builder().baseUrl("http://localhost:8060/api/v1/auth/authenticate").build();
+
+        RestTemplate restTemplate = new RestTemplate();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Create the request body
+        Map<String, String> requestBody = new HashMap<>();
+        // This allows the notification service to log in and be able to fetch the users list
+        requestBody.put("email", "xrecruiter513@gmail.com");
+        requestBody.put("password", "aaaaaaaa");
+
+        // Create the request entity with headers and body
+        HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        // Make a POST request to authenticate and obtain the bearer token
+        ResponseEntity<Map> responseEntity = restTemplate.postForEntity(
+                "http://localhost:8060/api/v1/auth/authenticate",
+                requestEntity,
+                Map.class);
+
+        // Get the response body containing the token
+        Map responseBody = responseEntity.getBody();
+
+        assert responseBody != null;
+        String bearerToken = (String) responseBody.get("token");
+        headers.set("Authorization", "Bearer " + bearerToken);
 
         String userMicroserviceUrl = UriComponentsBuilder
                 .fromUriString("http://localhost:8091/api/v1/users/{userId}")
