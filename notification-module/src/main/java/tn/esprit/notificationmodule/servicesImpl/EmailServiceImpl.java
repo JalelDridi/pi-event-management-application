@@ -80,8 +80,8 @@ public class EmailServiceImpl implements EmailService {
         // Create the request body
         Map<String, String> requestBody = new HashMap<>();
         // This allows the notification service to log in and be able to fetch the users list
-        requestBody.put("email", "ahmedamine.romdnani@esprit.tn");
-        requestBody.put("password", "11111111");
+        requestBody.put("email", "xrecruiter513@gmail.com");
+        requestBody.put("password", "aaaaaaaa");
 
         // Create the request entity with headers and body
         HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
