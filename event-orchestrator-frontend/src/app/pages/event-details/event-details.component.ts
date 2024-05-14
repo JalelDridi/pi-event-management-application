@@ -36,7 +36,7 @@ export class EventDetailsComponent implements OnInit{
     image1: null
   };
   Participation :any;
-userId:string='.'//this.userId = localStorage.getItem('userId');
+ userId = localStorage.getItem('userId');
 
   constructor(private eventservice: EventService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog, private notificationService: NotificationControllerService, private userService: UserService ) { }
 
