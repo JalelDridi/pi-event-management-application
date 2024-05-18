@@ -1,0 +1,58 @@
+# This file defines a Kubernetes Deployment and Service for Zookeeper.
+
+# Deployment for Zookeeper
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper             # Name of the Deployment
+spec:
+  replicas: 1                 # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: zookeeper          # Selector to match pods with the label 'app: zookeeper'
+
+  template:
+    metadata:
+      labels:
+        app: zookeeper        # Labels assigned to the pods created by this Deployment
+
+    spec:
+      containers:
+      - name: zookeeper                            # Name of the container within the pod
+        image: confluentinc/cp-zookeeper:7.3.2     # Container image to use
+        ports:
+        - containerPort: 2181                       # Port for Zookeeper clients
+          name: client
+        - containerPort: 2888                       # Port for Zookeeper followers
+          name: follower
+        - containerPort: 3888                       # Port for Zookeeper leader election
+          name: leader
+        env:                                       # Environment variables for Zookeeper
+        - name: ZOOKEEPER_CLIENT_PORT
+          value: "2181"
+        - name: ZOOKEEPER_SERVER_ID
+          value: "1"
+        - name: ZOOKEEPER_SERVERS
+          value: "zoo1:2888:3888"
+---
+# Service for Zookeeper
+apiVersion: v1
+kind: Service
+metadata:
+  name: zookeeper            # Name of the Service
+spec:
+  selector:
+    app: zookeeper          # Selector to match pods with the label 'app: zookeeper'
+
+  ports:
+  - name: client             # Port configuration for Zookeeper client connections
+    port: 2181               # Port exposed by the Service for client connections
+    targetPort: 2181         # Port on which the Zookeeper client is listening
+
+  - name: follower           # Port configuration for Zookeeper follower connections
+    port: 2888               # Port exposed by the Service for follower connections
+    targetPort: 2888         # Port on which the Zookeeper follower is listening
+
+  - name: leader             # Port configuration for Zookeeper leader election connections
+    port: 3888               # Port exposed by the Service for leader election connections
+    targetPort: 3888         # Port on which the Zookeeper leader election is listening

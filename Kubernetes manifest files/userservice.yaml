@@ -1,0 +1,43 @@
+# This file defines a Kubernetes Deployment and Service for the userservice microservice.
+
+# The Deployment object ensures that a specified number of pod replicas are running at any given time.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userservice        # Name of the Deployment
+  labels:
+    app: userservice       # Labels used to identify the Deployment
+
+spec:
+  replicas: 1              # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: userservice     # Selector to match pods with the label 'app: userservice'
+
+  template:
+    metadata:
+      labels:
+        app: userservice   # Labels assigned to the pods created by this Deployment
+
+    spec:
+      containers:
+      - name: userservice                    # Name of the container within the pod
+        image: amineromdhani/userservice:1.0 # Container image to use
+        imagePullPolicy: Always              # Pull policy to always pull the latest image
+        ports:
+        - containerPort: 8091               # Port on which the container listens
+
+---
+# The Service object defines how to access the userservice application within the Kubernetes cluster.
+apiVersion: v1
+kind: Service
+metadata:
+  name: userservice        # Name of the Service
+spec:
+  selector:
+    app: userservice       # Selector to match pods with the label 'app: userservice'
+
+  ports:
+    - protocol: TCP        # Protocol used by the service (TCP)
+      port: 8091           # Port exposed by the Service
+      targetPort: 8091     # Port on which the container is listening (should match the containerPort in the Deployment)

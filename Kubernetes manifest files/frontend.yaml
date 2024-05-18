@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend                  # Name of the Deployment
+  labels:
+    app: frontend                # Label to identify the Deployment
+spec:
+  replicas: 1                    # Number of replicas (pods) to create
+  selector:
+    matchLabels:
+      app: frontend             # Select pods with the app label set to frontend
+  template:
+    metadata:
+      labels:
+        app: frontend           # Labels for pods created by this template
+    spec:
+      containers:
+      - name: frontend           # Container name
+        image: amineromdhani/frontend:1.0  # Docker image for the Angular frontend application
+        ports:
+        - containerPort: 80     # Port on which the frontend application listens
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend                # Name of the Service
+spec:
+  selector:
+    app: frontend              # Select pods with the app label set to frontend
+  ports:
+    - protocol: TCP
+      port: 4200               # Port exposed by the Service
+      targetPort: 80           # Port to forward traffic to in the pods
+  type: NodePort               # Exposes the Service on a port on the host machine

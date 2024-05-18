@@ -1,0 +1,43 @@
+# This file defines a Kubernetes Deployment and Service for the eventservice microservice.
+
+# The Deployment object ensures that a specified number of pod replicas are running at any given time.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eventservice          # Name of the Deployment
+  labels:
+    app: eventservice         # Labels used to identify the Deployment
+
+spec:
+  replicas: 3                 # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: eventservice       # Selector to match pods with the label 'app: eventservice'
+
+  template:
+    metadata:
+      labels:
+        app: eventservice     # Labels assigned to the pods created by this Deployment
+
+    spec:
+      containers:
+      - name: eventservice                    # Name of the container within the pod
+        image: amineromdhani/eventservice:1.0 # Container image to use
+        imagePullPolicy: Always               # Always pull the latest image version
+        ports:
+        - containerPort: 8089                 # Port on which the container listens
+
+---
+# The Service object defines how to access the eventservice application within the Kubernetes cluster.
+apiVersion: v1
+kind: Service
+metadata:
+  name: eventservice          # Name of the Service
+spec:
+  selector:
+    app: eventservice         # Selector to match pods with the label 'app: eventservice'
+
+  ports:
+    - protocol: TCP           # Protocol used by the service (TCP)
+      port: 8089              # Port exposed by the Service
+      targetPort: 8089        # Port on which the container is listening (should match the containerPort in the Deployment)

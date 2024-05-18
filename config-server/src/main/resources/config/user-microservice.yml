@@ -40,7 +40,7 @@ application:
         expiration: 2592000000 # refresh-token expiration time (30 days)
   mailing:
     frontend:
-      activation-url: "http://localhost:4200/activate-account"
+      activation-url: "http://frontend:4200/activate-account"
 
 springdoc:
   default-produces-media-type: application/json

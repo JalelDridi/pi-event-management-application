@@ -6,7 +6,7 @@
     mail:
       host: smtp.gmail.com
       port: 587
-      username: ilef.chammem@esprit.tn
+      username: email@example.com # Replace it with your email
       password: your-password
       properties:
         mail:
