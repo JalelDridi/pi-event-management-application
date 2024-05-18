@@ -1,0 +1,46 @@
+# This file defines a Kubernetes Deployment and Service for the eureka-server microservice.
+
+# The Deployment object ensures that a specified number of pod replicas are running at any given time.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka-server          # Name of the Deployment
+  labels:
+    app: eureka-server         # Labels used to identify the Deployment
+
+spec:
+  replicas: 1                  # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: eureka-server       # Selector to match pods with the label 'app: eureka-server'
+
+  template:
+    metadata:
+      labels:
+        app: eureka-server     # Labels assigned to the pods created by this Deployment
+
+    spec:
+      containers:
+      - name: eureka-server                   # Name of the container within the pod
+        image: amineromdhani/eureka-server:1.0 # Container image to use
+        imagePullPolicy: Always               # Always pull the latest image version
+        ports:
+        - containerPort: 8761                 # Port on which the container listens
+
+---
+# The Service object defines how to access the eureka-server application within the Kubernetes cluster.
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-server          # Name of the Service
+spec:
+  selector:
+    app: eureka-server         # Selector to match pods with the label 'app: eureka-server'
+
+  ports:
+    - protocol: TCP            # Protocol used by the service (TCP)
+      port: 8761               # Port exposed by the Service
+      targetPort: 8761         # Port on which the container is listening (should match the containerPort in the Deployment)
+      nodePort: 32222          # The port on each node on which this service is exposed when type is NodePort 
+
+  type: NodePort               # Service type that exposes the service on each Node's IP at a static port (NodePort) | NOTE: this service is exposed as a nodeport so that it can be accessible from outside the cluster

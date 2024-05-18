@@ -1,0 +1,42 @@
+# This file defines a Kubernetes Deployment and Service for the notificationservice microservice.
+
+# The Deployment object ensures that a specified number of pod replicas are running at any given time.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notificationservice        # Name of the Deployment
+  labels:
+    app: notificationservice       # Labels used to identify the Deployment
+
+spec:
+  replicas: 3                      # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: notificationservice     # Selector to match pods with the label 'app: notificationservice'
+
+  template:
+    metadata:
+      labels:
+        app: notificationservice   # Labels assigned to the pods created by this Deployment
+
+    spec:
+      containers:
+      - name: notificationservice                    # Name of the container within the pod
+        image: amineromdhani/notificationservice:1.0 # Container image to use
+        ports:
+        - containerPort: 8094                       # Port on which the container listens
+
+---
+# The Service object defines how to access the notificationservice application within the Kubernetes cluster.
+apiVersion: v1
+kind: Service
+metadata:
+  name: notificationservice        # Name of the Service
+spec:
+  selector:
+    app: notificationservice       # Selector to match pods with the label 'app: notificationservice'
+
+  ports:
+    - protocol: TCP                # Protocol used by the service (TCP)
+      port: 8094                   # Port exposed by the Service
+      targetPort: 8094             # Port on which the container is listening (should match the containerPort in the Deployment)

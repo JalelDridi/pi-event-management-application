@@ -1,0 +1,43 @@
+# This file defines a Kubernetes Deployment and Service for the adminservice microservice.
+
+# The Deployment object ensures that a specified number of pod replicas are running at any given time.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adminservice        # Name of the Deployment
+  labels:
+    app: adminservice       # Labels used to identify the Deployment
+
+spec:
+  replicas: 2               # Number of pod replicas to run (Adjust as needed :) )
+  selector:
+    matchLabels:
+      app: adminservice     # Selector to match pods with the label 'app: adminservice'
+
+  template:
+    metadata:
+      labels:
+        app: adminservice   # Labels assigned to the pods created by this Deployment
+
+    spec:
+      containers:
+      - name: adminservice                  # Name of the container within the pod
+        image: amineromdhani/adminservice:1.0  # Container image to use
+        imagePullPolicy: Always             # Always pull the latest image version
+        ports:
+        - containerPort: 8092               # Port on which the container listens
+
+---
+# The Service object defines how to access the adminservice application within the Kubernetes cluster.
+apiVersion: v1
+kind: Service
+metadata:
+  name: adminservice        # Name of the Service
+spec:
+  selector:
+    app: adminservice       # Selector to match pods with the label 'app: adminservice'
+
+  ports:
+    - protocol: TCP         # Protocol used by the service (TCP)
+      port: 8092            # Port exposed by the Service
+      targetPort: 8092      # Port on which the container is listening (should match the containerPort in the Deployment)

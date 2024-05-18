@@ -1,0 +1,43 @@
+# This file defines a Kubernetes Deployment and Service for the resourceservice microservice.
+
+# The Deployment object ensures that a specified number of pod replicas are running at any given time.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resourceservice        # Name of the Deployment
+  labels:
+    app: resourceservice       # Labels used to identify the Deployment
+
+spec:
+  replicas: 3                  # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: resourceservice     # Selector to match pods with the label 'app: resourceservice'
+
+  template:
+    metadata:
+      labels:
+        app: resourceservice   # Labels assigned to the pods created by this Deployment
+
+    spec:
+      containers:
+      - name: resourceservice                    # Name of the container within the pod
+        image: amineromdhani/resourceservice:1.0 # Container image to use
+        imagePullPolicy: Always                  # Pull policy to always pull the latest image
+        ports:
+        - containerPort: 8093                   # Port on which the container listens
+
+---
+# The Service object defines how to access the resourceservice application within the Kubernetes cluster.
+apiVersion: v1
+kind: Service
+metadata:
+  name: resourceservice        # Name of the Service
+spec:
+  selector:
+    app: resourceservice       # Selector to match pods with the label 'app: resourceservice'
+
+  ports:
+    - protocol: TCP            # Protocol used by the service (TCP)
+      port: 8093               # Port exposed by the Service
+      targetPort: 8093         # Port on which the container is listening (should match the containerPort in the Deployment)

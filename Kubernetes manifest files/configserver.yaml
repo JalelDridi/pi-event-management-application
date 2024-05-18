@@ -1,0 +1,43 @@
+# This file defines a Kubernetes Deployment and Service for the configserver microservice.
+
+# The Deployment object ensures that a specified number of pod replicas are running at any given time.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configserver         # Name of the Deployment
+  labels:
+    app: configserver        # Labels used to identify the Deployment
+
+spec:
+  replicas: 1                # Number of pod replicas to run
+  selector:
+    matchLabels:
+      app: configserver      # Selector to match pods with the label 'app: configserver'
+
+  template:
+    metadata:
+      labels:
+        app: configserver    # Labels assigned to the pods created by this Deployment
+
+    spec:
+      containers:
+      - name: configserver                   # Name of the container within the pod
+        image: amineromdhani/configserver:1.0 # Container image to use
+        imagePullPolicy: Always              # Always pull the latest image version
+        ports:
+        - containerPort: 8088                # Port on which the container listens
+
+---
+# The Service object defines how to access the configserver application within the Kubernetes cluster.
+apiVersion: v1
+kind: Service
+metadata:
+  name: configserver         # Name of the Service
+spec:
+  selector:
+    app: configserver        # Selector to match pods with the label 'app: configserver'
+
+  ports:
+    - protocol: TCP          # Protocol used by the service (TCP)
+      port: 8088             # Port exposed by the Service
+      targetPort: 8088       # Port on which the container is listening (should match the containerPort in the Deployment)
