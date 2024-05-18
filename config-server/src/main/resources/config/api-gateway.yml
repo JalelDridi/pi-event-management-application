@@ -16,7 +16,7 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://frontend:4200"
+            allowedOrigins: "*"
             allowedMethods:
               - PATCH
               - GET
@@ -24,7 +24,6 @@ spring:
               - PUT
               - DELETE
             allowedHeaders: "*"  # Allow all headers
-            allowCredentials: true
             maxAge: 3600
       routes:
         - id: notification-module
